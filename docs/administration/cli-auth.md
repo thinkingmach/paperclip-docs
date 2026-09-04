@@ -5,10 +5,10 @@ seo_description: Two identity flows for the command line, both built so token ma
 
 # CLI Auth & Board Claim
 
-Paperclip has two separate identity flows for humans on the command line and browser:
+ThinkingMach has two separate identity flows for humans on the command line and browser:
 
 - **Board claim** — a one-time bootstrap step that promotes your browser-authenticated user to the owner of a freshly started authenticated instance. It migrates the trusted "local board" placeholder into a real, named human account.
-- **CLI auth** — the everyday flow that pairs a local `paperclipai` CLI process with a signed-in board user, so the CLI can call `/api` endpoints on your behalf without you typing credentials into your shell.
+- **CLI auth** — the everyday flow that pairs a local `thinkingmach` CLI process with a signed-in board user, so the CLI can call `/api` endpoints on your behalf without you typing credentials into your shell.
 
 Both flows use a short-lived, server-minted challenge and a browser approval page. Both are designed so the secret material (the board API token, the ownership migration) never leaves the browser or the CLI process that asked for it.
 
@@ -18,8 +18,8 @@ This guide walks through both, shows the approval pages, and explains how to use
 
 ## When you need each flow
 
-- You just installed Paperclip in **authenticated** deployment mode on a server, and the loopback trust is still active → run **Board claim** once.
-- You want to run `paperclipai` commands against that instance from your laptop → run **CLI auth** (`paperclipai auth login`).
+- You just installed ThinkingMach in **authenticated** deployment mode on a server, and the loopback trust is still active → run **Board claim** once.
+- You want to run `thinkingmach` commands against that instance from your laptop → run **CLI auth** (`thinkingmach auth login`).
 - You're using **trusted** deployment mode (loopback-only local dev) → neither flow is required; the CLI and browser already trust the loopback.
 
 ---
@@ -56,7 +56,7 @@ If the challenge expired, or the URL is malformed, the page shows **Claim challe
 
 ---
 
-## Device-code flow: `paperclipai auth login`
+## Device-code flow: `thinkingmach auth login`
 
 For day-to-day CLI use, the flow is a device-code-style pairing. The CLI creates a challenge, opens your browser, you approve it, and the CLI finishes with a stored token.
 
@@ -65,7 +65,7 @@ For day-to-day CLI use, the flow is a device-code-style pairing. The CLI creates
 From the machine you want to use the CLI on:
 
 ```sh
-paperclipai auth login
+thinkingmach auth login
 ```
 
 The CLI:
@@ -79,23 +79,23 @@ Common flags:
 
 ```sh
 # Request instance-admin approval (only instance admins can approve this)
-paperclipai auth login --instance-admin
+thinkingmach auth login --instance-admin
 
 # Scope to a specific company
-paperclipai auth login --company-id <company-id>
+thinkingmach auth login --company-id <company-id>
 
 # Target a non-default server
-paperclipai auth login --api-base https://paperclip.example.com
+thinkingmach auth login --api-base https://paperclip.example.com
 ```
 
 ### Approving the challenge in the browser
 
-Your browser lands on a page titled **Approve Paperclip CLI access**:
+Your browser lands on a page titled **Approve ThinkingMach CLI access**:
 
 The panel shows what the CLI is asking for:
 
-- **Command** — the CLI command that initiated the login (e.g. `paperclipai auth login`).
-- **Client** — the `clientName` the CLI sent, default `paperclipai cli`.
+- **Command** — the CLI command that initiated the login (e.g. `thinkingmach auth login`).
+- **Client** — the `clientName` the CLI sent, default `thinkingmach cli`.
 - **Requested access** — either `Board` or `Instance admin`.
 - **Requested company** — only shown if the CLI asked to be scoped to a company.
 
@@ -119,7 +119,7 @@ Once you click **Approve**, the CLI's next poll sees status `approved`, calls `/
 }
 ```
 
-If you cancel or let the challenge expire, the CLI errors out with `CLI auth challenge was cancelled.` or `CLI auth challenge expired before approval.` — re-run `paperclipai auth login` to try again.
+If you cancel or let the challenge expire, the CLI errors out with `CLI auth challenge was cancelled.` or `CLI auth challenge expired before approval.` — re-run `thinkingmach auth login` to try again.
 
 ---
 
@@ -134,7 +134,7 @@ The CLI stores the board API token (and the user id it resolves to) in the platf
 Once logged in, the CLI sends `Authorization: Bearer <stored-token>` on every request. You can verify by running:
 
 ```sh
-paperclipai auth whoami
+thinkingmach auth whoami
 ```
 
 which calls `/api/cli-auth/me` and prints:
@@ -150,23 +150,23 @@ which calls `/api/cli-auth/me` and prints:
 }
 ```
 
-All other CLI commands — the ones documented in [Setup Commands](../reference/cli/setup-commands.md) and Control-Plane Commands — reuse this credential unless you pass an explicit `--token` or override `PAPERCLIP_API_KEY`.
+All other CLI commands — the ones documented in [Setup Commands](../reference/cli/setup-commands.md) and Control-Plane Commands — reuse this credential unless you pass an explicit `--token` or override `THINKINGMACH_API_KEY`.
 
 ### Rotating and revoking
 
 When you want to rotate the credential, log out and log back in:
 
 ```sh
-paperclipai auth logout
-paperclipai auth login
+thinkingmach auth logout
+thinkingmach auth login
 ```
 
-`paperclipai auth logout`:
+`thinkingmach auth logout`:
 
 1. POSTs to `/api/cli-auth/revoke-current` with the stored token to revoke it server-side.
 2. Deletes the local credential entry for this `apiBase`.
 
-If the server-side revoke fails (network error, token already invalid) the local credential is still removed — you won't be stuck with a stale entry. A new `paperclipai auth login` mints a fresh challenge and a fresh token with no relationship to the old one.
+If the server-side revoke fails (network error, token already invalid) the local credential is still removed — you won't be stuck with a stale entry. A new `thinkingmach auth login` mints a fresh challenge and a fresh token with no relationship to the old one.
 
 ### Multiple servers and users
 
@@ -176,15 +176,15 @@ The credential store is keyed by normalised `apiBase`, so one machine can hold s
 
 ## Troubleshooting
 
-- **"Invalid CLI auth URL."** — You opened the approval page with a missing `id` or `token` query param. Re-run `paperclipai auth login` to get a fresh link.
+- **"Invalid CLI auth URL."** — You opened the approval page with a missing `id` or `token` query param. Re-run `thinkingmach auth login` to get a fresh link.
 - **"CLI auth challenge unavailable"** — The token is valid but the server no longer has a matching challenge (it expired, or the server restarted). Start the login again.
 - **"This challenge requires instance-admin access."** — You're approving an `--instance-admin` challenge but your signed-in user isn't an instance admin. Sign in with an admin account and retry.
-- **"CLI auth challenge expired before approval."** on the CLI — You let the browser tab sit too long. Just rerun `paperclipai auth login`.
+- **"CLI auth challenge expired before approval."** on the CLI — You let the browser tab sit too long. Just rerun `thinkingmach auth login`.
 - **Board claim page shows "Claim challenge unavailable."** — The one-time ownership challenge has already been consumed, or it expired. If the instance has no real admins yet, restart the server — it mints a new challenge and reprints the URL in the logs.
 
 ---
 
 ## Where to go next
 
-- [Setup Commands](../reference/cli/setup-commands.md) — installing, onboarding, and configuring a Paperclip instance from the CLI.
+- [Setup Commands](../reference/cli/setup-commands.md) — installing, onboarding, and configuring a ThinkingMach instance from the CLI.
 - [Authentication (API)](../reference/api/authentication.md) — the underlying authentication model for board users, agents, and runs.

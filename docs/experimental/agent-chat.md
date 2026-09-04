@@ -15,7 +15,7 @@ Not every conversation with an agent starts as a well-formed task. Sometimes you
 1. Go to **Settings → Instance settings → Experimental**.
 2. Turn on **Agent Chat**. It is experimental and off by default; enabling it adds persistent conversations with your agents.
 
-Like every flag on that page, it's instance-wide. On Paperclip Cloud this one may be managed for you, in which case it shows the **Managed by Paperclip Cloud** lock — see [If a toggle is locked](overview.md#if-a-toggle-is-locked).
+Like every flag on that page, it's instance-wide. On ThinkingMach Cloud this one may be managed for you, in which case it shows the **Managed by ThinkingMach Cloud** lock — see [If a toggle is locked](overview.md#if-a-toggle-is-locked).
 
 ## Opening a chat
 
@@ -72,7 +72,7 @@ Turning **Agent Chat** off removes the **Chat** entry and stops new messages, bu
 - How well an agent breaks a conversation into tasks depends on the agent and its model. Read the tasks it creates before relying on them.
 - Results come back only for tasks a chat hands off after your instance is on a release with this behaviour. Tasks handed off earlier aren’t reported retroactively.
 
-Implementation reference: [session reset and handoff instructions](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/agent-conversations.ts), [completion reports](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/chat-completion-delivery.ts), [Chat navigation](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/components/Sidebar.tsx), and [agent rail](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/components/AgentConversationsSidebar.tsx).
+Implementation reference: [session reset and handoff instructions](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/agent-conversations.ts), [completion reports](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/chat-completion-delivery.ts), [Chat navigation](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/components/Sidebar.tsx), and [agent rail](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/components/AgentConversationsSidebar.tsx).
 
 ## Where to go next
 

@@ -48,7 +48,7 @@ The response is an `AttentionFeed` with these top-level fields:
 | Field | What you get |
 |---|---|
 | `companyId` | The company that owns the feed. |
-| `generatedAt` | When Paperclip generated this view. |
+| `generatedAt` | When ThinkingMach generated this view. |
 | `totalCount` | The number of items in the whole filtered feed, before paging. |
 | `decideNowCount` | How many of those are due today, by their decide-by deadline. This is the number behind the sidebar badge. |
 | `nextCursor` | Pass this back as `cursor` for the next page, or `null` when you have reached the end. |
@@ -90,7 +90,7 @@ Items also carry their sidecar state and a little provenance:
 
 `severity` is one of `critical`, `high`, `medium`, or `low`.
 
-Paperclip deduplicates the underlying signals, then ranks the feed. With the default `sort=activity` that means recent activity first, then severity, then source priority, then a stable deduplication key. With `sort=decide` the feed leads with items that have a real deadline — soonest first — then items marked `whenever`, then everything untriaged, breaking ties on `expiresAt`, severity, and the activity order above.
+ThinkingMach deduplicates the underlying signals, then ranks the feed. With the default `sort=activity` that means recent activity first, then severity, then source priority, then a stable deduplication key. With `sort=decide` the feed leads with items that have a real deadline — soonest first — then items marked `whenever`, then everything untriaged, breaking ties on `expiresAt`, severity, and the activity order above.
 
 Treat it as a decision queue, not as a complete history of every event in your company.
 

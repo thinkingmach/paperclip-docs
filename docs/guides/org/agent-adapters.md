@@ -6,9 +6,9 @@ seo_description: Compare the adapters that run your agents — Claude Code, Code
 
 # Agent Adapters
 
-When you create an agent in Paperclip, one of the first things you configure is its adapter. The adapter is the bridge between Paperclip and the AI system that actually runs your agent — it tells Paperclip how to launch the agent, how to pass it work, and how to receive results back.
+When you create an agent in ThinkingMach, one of the first things you configure is its adapter. The adapter is the bridge between ThinkingMach and the AI system that actually runs your agent — it tells ThinkingMach how to launch the agent, how to pass it work, and how to receive results back.
 
-Think of it like a power adapter for different countries. The electricity (Paperclip's task system and org chart) is the same everywhere, but the plug you need depends on the socket (the AI runtime you're connecting to). Claude Code needs one configuration, OpenAI Codex needs another, and a custom cloud-based agent needs a third.
+Think of it like a power adapter for different countries. The electricity (ThinkingMach's task system and org chart) is the same everywhere, but the plug you need depends on the socket (the AI runtime you're connecting to). Claude Code needs one configuration, OpenAI Codex needs another, and a custom cloud-based agent needs a third.
 
 Without an adapter, an agent is just a record in a database. With one, it's a working member of your team.
 
@@ -23,7 +23,7 @@ Without an adapter, an agent is just a record in a database. With one, it's a wo
 | `gemini_local` | Gemini users — runs Gemini CLI on your Mac | Gemini CLI installed, Google credentials |
 | `opencode_local` | Multi-provider flexibility, switchable models | OpenCode CLI installed, relevant API keys |
 | `cursor` | Cursor Agent CLI with resumable local runs | Cursor Agent CLI installed and authenticated |
-| `paperclip_runner` | Native sessions and Paperclip task tools | Runner enabled, prepared execution environment, compatible provider credential |
+| `paperclip_runner` | Native sessions and ThinkingMach task tools | Runner enabled, prepared execution environment, compatible provider credential |
 | `pi_local` | Pi users wanting Pi's built-in tool set | Pi CLI installed, relevant API keys |
 | `grok_local` | xAI users — runs the Grok Build CLI | Grok CLI installed, xAI API key or SuperGrok login |
 | `hermes_local` | Persistent memory, 30+ tools, 80+ skills | Hermes Agent installed (Python 3.10+) |
@@ -32,15 +32,15 @@ For most people getting started, **`claude_local`** is the right choice. It runs
 
 ![Adapter type dropdown showing all available options](../../user-guides/screenshots/light/agents/adapter-type-dropdown.png)
 
-> **Note:** On Paperclip Cloud, the new-agent picker offers Claude, Codex, OpenCode, and Grok. Grok agents connect with an xAI subscription or API key during setup.
+> **Note:** On ThinkingMach Cloud, the new-agent picker offers Claude, Codex, OpenCode, and Grok. Grok agents connect with an xAI subscription or API key during setup.
 
-> **Tip:** Grok Build can also run on the experimental **Paperclip Runner** adapter (`paperclip_runner`) — choose **Grok Build** as the provider. It needs Grok Build installed at a fixed path in the execution environment. See [Grok Build on Paperclip Runner](../../reference/adapters/grok-local.md#grok-build-on-paperclip-runner).
+> **Tip:** Grok Build can also run on the experimental **ThinkingMach Runner** adapter (`paperclip_runner`) — choose **Grok Build** as the provider. It needs Grok Build installed at a fixed path in the execution environment. See [Grok Build on ThinkingMach Runner](../../reference/adapters/grok-local.md#grok-build-on-paperclip-runner).
 
-### Choose Paperclip Runner explicitly
+### Choose ThinkingMach Runner explicitly
 
-For the native lifecycle, choose **Paperclip Runner** and then select the provider: **Codex**, **OpenCode**, **Claude Managed**, **AWS AgentCore**, **ACP agents**, or **Grok Build**. Under **ACP agents**, Claude is the qualified choice; Cursor, GitHub Copilot, and Pi are listed as awaiting qualification. Existing direct-adapter agents keep their current runtime until you change the adapter.
+For the native lifecycle, choose **ThinkingMach Runner** and then select the provider: **Codex**, **OpenCode**, **Claude Managed**, **AWS AgentCore**, **ACP agents**, or **Grok Build**. Under **ACP agents**, Claude is the qualified choice; Cursor, GitHub Copilot, and Pi are listed as awaiting qualification. Existing direct-adapter agents keep their current runtime until you change the adapter.
 
-This feature is experimental: `enableNativeRunner` defaults to on for self-hosted instances and off for Cloud-managed instances. See [Paperclip Runner](../../reference/adapters/paperclip-runner.md).
+This feature is experimental: `enableNativeRunner` defaults to on for self-hosted instances and off for Cloud-managed instances. See [ThinkingMach Runner](../../reference/adapters/paperclip-runner.md).
 
 ### Agents run in full auto by default
 
@@ -58,7 +58,7 @@ You can dial this back per agent in the adapter's configuration. Each adapter re
 
 ## Claude Code (`claude_local`)
 
-The `claude_local` adapter runs your agent using Claude Code — Anthropic's command-line AI tool — directly on your Mac. When Paperclip triggers a heartbeat, it launches Claude Code with the agent's context and task, waits for the run to complete, and reads back what Claude did.
+The `claude_local` adapter runs your agent using Claude Code — Anthropic's command-line AI tool — directly on your Mac. When ThinkingMach triggers a heartbeat, it launches Claude Code with the agent's context and task, waits for the run to complete, and reads back what Claude did.
 
 **What it means in practice:** Your agent thinks like Claude, can read and write files on your computer, browse the web, and run terminal commands — all within the working directory you specify. It's capable of doing real coding work, writing documents, doing research, and more.
 
@@ -75,7 +75,7 @@ The folder on your Mac where the agent does its work — reads files, writes out
 > **Tip:** Give each agent its own working directory if they're doing different kinds of work. Shared directories can lead to agents accidentally overwriting each other's files.
 
 **Model**
-Which Claude model to use. If you leave it blank, Paperclip uses `claude-opus-5`. Some common choices:
+Which Claude model to use. If you leave it blank, ThinkingMach uses `claude-opus-5`. Some common choices:
 - `claude-opus-5-5` or `claude-opus-5` — most capable, best reasoning, highest cost. Good for your CEO or complex strategic agents.
 - `claude-sonnet-5` — fast, capable, lower cost. Good for worker agents doing routine tasks.
 
@@ -85,13 +85,13 @@ When in doubt, start with Sonnet for workers and Opus for the CEO. The **effort*
 The agent form includes an **Environment variables** section. Add `ANTHROPIC_API_KEY` there, either as a plain value or as a secret reference. If you're not sure what key name to use, `ANTHROPIC_API_KEY` is the standard one.
 
 **Timeout (seconds)**
-How long a single heartbeat run is allowed to take before Paperclip cuts it off. 300 seconds (5 minutes) is a safe default for most tasks. Complex coding tasks may need longer — you can increase it to 600 or more. Setting it too low will cause agents to time out mid-task.
+How long a single heartbeat run is allowed to take before ThinkingMach cuts it off. 300 seconds (5 minutes) is a safe default for most tasks. Complex coding tasks may need longer — you can increase it to 600 or more. Setting it too low will cause agents to time out mid-task.
 
 ![Claude local adapter configuration form with all fields filled in](../../user-guides/screenshots/light/agents/claude-local-config-filled.png)
 
 ### Common errors
 
-**"Claude Code not found"** — Claude Code isn't installed, or isn't on the system PATH. Install it from [claude.ai/code](https://claude.ai/code) and then use the Test Environment button to verify Paperclip can find it.
+**"Claude Code not found"** — Claude Code isn't installed, or isn't on the system PATH. Install it from [claude.ai/code](https://claude.ai/code) and then use the Test Environment button to verify ThinkingMach can find it.
 
 **"API key invalid"** — Check that the environment variable name matches exactly what you've configured, and that the key itself starts with `sk-ant-`. Anthropic keys are case-sensitive.
 
@@ -149,20 +149,20 @@ External adapter plugins can also be installed — they appear in the dropdown o
 
 > **Info:** The `http` adapter is currently not selectable from the agent-config dropdown. Configure it via the API or an imported company export for now.
 
-The `http` adapter connects to a web server or cloud function that you control. When a heartbeat fires, Paperclip sends an HTTP request to your endpoint with the agent's context and tasks. Your endpoint processes the work and sends results back.
+The `http` adapter connects to a web server or cloud function that you control. When a heartbeat fires, ThinkingMach sends an HTTP request to your endpoint with the agent's context and tasks. Your endpoint processes the work and sends results back.
 
 **When to use this:** When your agent lives in the cloud, runs on a different machine, or is built on a platform that accepts webhook calls.
 
 ### Configuration fields
 
 **Endpoint URL**
-The full URL Paperclip will POST to when a heartbeat fires. This must be publicly accessible or reachable from your Paperclip instance.
+The full URL ThinkingMach will POST to when a heartbeat fires. This must be publicly accessible or reachable from your ThinkingMach instance.
 
 **Authentication**
-A secret token that Paperclip includes in the request header, so your server can verify the call came from Paperclip and not someone else.
+A secret token that ThinkingMach includes in the request header, so your server can verify the call came from ThinkingMach and not someone else.
 
 **Timeout**
-How long Paperclip waits for a response before treating the heartbeat as failed.
+How long ThinkingMach waits for a response before treating the heartbeat as failed.
 
 ![HTTP adapter configuration form](../../user-guides/screenshots/light/agents/http-adapter-config.png)
 
@@ -174,14 +174,14 @@ How long Paperclip waits for a response before treating the heartbeat as failed.
 
 > **Info:** The `process` adapter is currently not selectable from the agent-config dropdown. Configure it via the API or an imported company export for now.
 
-The `process` adapter runs a command on the same machine as Paperclip. When a heartbeat fires, Paperclip executes the command you specify, passing the agent's context as stdin or environment variables.
+The `process` adapter runs a command on the same machine as ThinkingMach. When a heartbeat fires, ThinkingMach executes the command you specify, passing the agent's context as stdin or environment variables.
 
 **When to use this:** For custom scripts, local automation, or agents built on tools that don't have their own dedicated adapter.
 
 ### Configuration fields
 
 **Command**
-The executable command and any arguments. The command must be accessible from the machine running Paperclip.
+The executable command and any arguments. The command must be accessible from the machine running ThinkingMach.
 
 **Working directory**
 Where to run the command.
@@ -202,7 +202,7 @@ If you haven't set up an API key yet, here's how:
 1. Go to [console.anthropic.com](https://console.anthropic.com) and sign in or create an account
 2. In the left sidebar, click **API Keys**
 3. Click **Create Key**
-4. Give it a name you'll recognise (e.g. "Paperclip")
+4. Give it a name you'll recognise (e.g. "ThinkingMach")
 5. Copy the key immediately — it starts with `sk-ant-` and is only shown once
 
 Store it somewhere safe (a password manager works well). You'll use the environment variable name `ANTHROPIC_API_KEY` when configuring the adapter.
@@ -214,7 +214,7 @@ Store it somewhere safe (a password manager works well). You'll use the environm
 1. Go to [platform.openai.com](https://platform.openai.com) and sign in or create an account
 2. Click your profile icon in the top right, then click **API keys**
 3. Click **Create new secret key**
-4. Give it a name (e.g. "Paperclip") and click **Create secret key**
+4. Give it a name (e.g. "ThinkingMach") and click **Create secret key**
 5. Copy the key immediately — it starts with `sk-` and is only shown once
 
 Store it somewhere safe. You'll use the environment variable name `OPENAI_API_KEY` when configuring the adapter.

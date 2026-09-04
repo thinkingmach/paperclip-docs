@@ -24,7 +24,7 @@ That is genuinely all for public content. Connect with an account that belongs t
 2. Read the access line above the main button. It says who the connection signs in as and which agents can use it. To pick a different identity, narrow the agents, or use another sign-in method, select **Change**.
 3. Select **Sign in with Hugging Face** and complete browser sign-in.
 
-Paperclip registers its client automatically, so there is nothing to configure in a developer console.
+ThinkingMach registers its client automatically, so there is nothing to configure in a developer console.
 
 ## Choose access
 
@@ -37,9 +37,9 @@ Two tiers of content, and the difference is worth stating:
 
 Because most of the value here is public content, this is one of the lower-risk connectors to give an agent once its writes are switched off. The exception is an account with access to private organization repositories — that account's reach becomes the agent's.
 
-Paperclip asks Hugging Face for the `read-mcp`, `read-repos`, `contribute-repos`, and `jobs` scopes. That covers reading, but also contributing to repositories and running jobs, so this is not a read-only connection by default. Read the action list on the **Permissions** tab and set anything that is not a read to **Ask first** or **Off** until you need it. See [Set action permissions](action-permissions.md).
+ThinkingMach asks Hugging Face for the `read-mcp`, `read-repos`, `contribute-repos`, and `jobs` scopes. That covers reading, but also contributing to repositories and running jobs, so this is not a read-only connection by default. Read the action list on the **Permissions** tab and set anything that is not a read to **Ask first** or **Off** until you need it. See [Set action permissions](action-permissions.md).
 
-> **Note:** The connection targets the Hub's own tools, and Paperclip requests the endpoint with Gradio tooling switched off — so the interactive applications hosted on Spaces are not part of this connection's surface.
+> **Note:** The connection targets the Hub's own tools, and ThinkingMach requests the endpoint with Gradio tooling switched off — so the interactive applications hosted on Spaces are not part of this connection's surface.
 
 ## Try it
 
@@ -65,7 +65,7 @@ Limitations: discovery and metadata only. No inference, no hosting, no Spaces ap
 
 ## Related guides
 
-- [Connector overview](https://paperclip.ing/product/connectors/hugging-face/)
+- [Connector overview](https://thinkingmach.com/product/connectors/hugging-face/)
 
 - [Anthropic](anthropic.md), [OpenAI](openai.md), [OpenRouter](openrouter.md), [Grok](xai.md) — connections that actually run models.
 - [Set action permissions](action-permissions.md)

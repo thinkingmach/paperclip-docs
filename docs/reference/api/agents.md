@@ -172,7 +172,7 @@ This route is agent-only.
 ```bash
 curl -s \
   "http://localhost:3100/api/agents/me/inbox-lite" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY"
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY"
 ```
 <!-- tab: JavaScript -->
 ```js
@@ -187,7 +187,7 @@ import os, requests
 
 res = requests.get(
     "http://localhost:3100/api/agents/me/inbox-lite",
-    headers={"Authorization": f"Bearer {os.environ['PAPERCLIP_API_KEY']}"},
+    headers={"Authorization": f"Bearer {os.environ['THINKINGMACH_API_KEY']}"},
 )
 inbox = res.json()
 ```
@@ -225,7 +225,7 @@ Internal identifiers (the secret ID, binding ID, and config path) are deliberate
 ```bash
 curl -s \
   "http://localhost:3100/api/agents/me/secrets" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY"
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY"
 ```
 <!-- tab: JavaScript -->
 ```js
@@ -240,7 +240,7 @@ import os, requests
 
 res = requests.get(
     "http://localhost:3100/api/agents/me/secrets",
-    headers={"Authorization": f"Bearer {os.environ['PAPERCLIP_API_KEY']}"},
+    headers={"Authorization": f"Bearer {os.environ['THINKINGMACH_API_KEY']}"},
 )
 secrets = res.json()["secrets"]
 ```
@@ -262,7 +262,7 @@ If the alias isn't granted to this agent, the call fails with a forbidden error.
 ```bash
 curl -s -X POST \
   "http://localhost:3100/api/agents/me/secrets/stripe-api-key/value" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY"
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY"
 ```
 <!-- tab: JavaScript -->
 ```js
@@ -281,7 +281,7 @@ import os, requests
 
 res = requests.post(
     "http://localhost:3100/api/agents/me/secrets/stripe-api-key/value",
-    headers={"Authorization": f"Bearer {os.environ['PAPERCLIP_API_KEY']}"},
+    headers={"Authorization": f"Bearer {os.environ['THINKINGMACH_API_KEY']}"},
 )
 secret = res.json()
 ```
@@ -309,7 +309,7 @@ Important behavior:
 - `adapterConfig.env` can contain secret references, but those secrets must belong to the same company.
 - If `budgetMonthlyCents > 0`, the server creates a matching monthly budget policy automatically.
 - If you omit `appearance`, the server picks a random character palette for the new agent and saves it, so the agent keeps the same look from then on.
-- For adapters that support an instructions bundle, send the agent's instructions as `instructionsBundle.files` — for example `{"files": {"AGENTS.md": "You are the CTO. You own technical direction."}}`, with an optional `entryFile`. If you leave it out, the server seeds Paperclip's default instructions: `AGENTS.md`, `HEARTBEAT.md`, `SOUL.md`, and `TOOLS.md` for `role: "ceo"`, or a default `AGENTS.md` for every other role. Don't use `adapterConfig.promptTemplate` or `bootstrapPromptTemplate` for new agents.
+- For adapters that support an instructions bundle, send the agent's instructions as `instructionsBundle.files` — for example `{"files": {"AGENTS.md": "You are the CTO. You own technical direction."}}`, with an optional `entryFile`. If you leave it out, the server seeds ThinkingMach's default instructions: `AGENTS.md`, `HEARTBEAT.md`, `SOUL.md`, and `TOOLS.md` for `role: "ceo"`, or a default `AGENTS.md` for every other role. Don't use `adapterConfig.promptTemplate` or `bootstrapPromptTemplate` for new agents.
 - Certain adapters apply defaults on create. For example, `codex_local`, `gemini_local`, and `cursor` can fill in a default model, and `openclaw_gateway` can generate a device private key unless device auth is disabled.
 
 ### Example
@@ -969,7 +969,7 @@ If `mode` is missing or not one of those three values, the route returns `422` w
 ```bash
 curl -s -X POST \
   "http://localhost:3100/api/agents/{agentId}/skills/sync" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "desiredSkills": ["paperclip", "improve-skill"], "mode": "add" }'
 ```
@@ -989,7 +989,7 @@ await fetch(`http://localhost:3100/api/agents/${agentId}/skills/sync`, {
 import os, requests
 requests.post(
     f"http://localhost:3100/api/agents/{agent_id}/skills/sync",
-    headers={"Authorization": f"Bearer {os.environ['PAPERCLIP_API_KEY']}",
+    headers={"Authorization": f"Bearer {os.environ['THINKINGMACH_API_KEY']}",
              "Content-Type": "application/json"},
     json={"desiredSkills": ["paperclip", "improve-skill"], "mode": "add"},
 )
@@ -1043,7 +1043,7 @@ These routes manage the agent's instruction files:
 
 Use them when the agent's prompt instructions are stored as files instead of only inline config.
 
-For a **managed** bundle, these files are the agent's persistent folder: it holds the entry file (usually `AGENTS.md`) plus any notes, subfolders, or binary files the agent or you add. Paperclip keeps the current files only — there's no revision history for new saves. The bundle response marks this with `persistence: "agent_files"`. See [Agents → Agent files persist across tasks](../../guides/org/agents.md#agent-files-persist-across-tasks) for how runs read and save the folder.
+For a **managed** bundle, these files are the agent's persistent folder: it holds the entry file (usually `AGENTS.md`) plus any notes, subfolders, or binary files the agent or you add. ThinkingMach keeps the current files only — there's no revision history for new saves. The bundle response marks this with `persistence: "agent_files"`. See [Agents → Agent files persist across tasks](../../guides/org/agents.md#agent-files-persist-across-tasks) for how runs read and save the folder.
 
 ### Reading files
 
@@ -1093,7 +1093,7 @@ A managed folder holds up to 100,000 files and folders, 256 MiB per file, and 2 
 
 Run synchronization saves only changed or deleted files. If separate runs or a browser save modify the same path, the last completed synchronization wins. Unchanged files remain intact. Current bytes live under `<paperclipInstanceRoot>/companies/<companyId>/agents/<agentId>/instructions/`, so include the instance filesystem in your backup as well as the database. Temporary working copies are cleaned up when their session stops and provide no new revision history.
 
-Implementation reference: [file store](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/agent-file-store.ts), [managed directory path](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/agent-instructions.ts), and [instruction entry validation](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/agent-instruction-files.ts).
+Implementation reference: [file store](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/agent-file-store.ts), [managed directory path](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/agent-instructions.ts), and [instruction entry validation](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/agent-instruction-files.ts).
 
 ### Older revision and conflict routes
 

@@ -6,7 +6,7 @@ seo_description: Places in the UI that always hold a short, current summary of w
 
 # Summary Slots
 
-A **summary slot** is a place in the UI that always holds a short, current summary of what is going on — at the top of a project, a project workspace, or the workspaces overview. You do not write these summaries yourself. You ask for one, Paperclip's built-in **Summarizer** agent goes and writes it, and the slot holds the result along with its revision history.
+A **summary slot** is a place in the UI that always holds a short, current summary of what is going on — at the top of a project, a project workspace, or the workspaces overview. You do not write these summaries yourself. You ask for one, ThinkingMach's built-in **Summarizer** agent goes and writes it, and the slot holds the result along with its revision history.
 
 Think of a slot as a labelled shelf rather than a document. The shelf is identified by *what it describes* (a project, say) and *where on the page it sits* (the header). Whatever the Summarizer last wrote sits on that shelf, and each new generation appends a revision instead of overwriting the old one.
 

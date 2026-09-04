@@ -20,19 +20,19 @@ For the operator-facing walkthrough see [Administration → Plugins](../../admin
 |---|---|
 | `GET /api/plugins` | List installed plugins on this instance. |
 | `GET /api/plugins/examples` | List the bundled plugins discovered in the current checkout (reference examples and vendored first-party plugins). See below. |
-| `GET /api/plugins/ui-contributions` | Aggregate of UI slots and launchers contributed by enabled plugins. The Paperclip UI consumes this on page load. |
+| `GET /api/plugins/ui-contributions` | Aggregate of UI slots and launchers contributed by enabled plugins. The ThinkingMach UI consumes this on page load. |
 | `GET /api/plugins/tools` | Tools declared by enabled plugins. |
 | `POST /api/plugins/tools/execute` | Execute a plugin-declared tool by key. |
 
 ### Bundled plugin discovery
 
-`GET /api/plugins/examples` returns the plugins that ship inside the current Paperclip checkout. Rather than a fixed list, the server scans the bundled packages on disk for plugin manifests, so the result reflects whatever your checkout actually contains — the reference example plugins plus any vendored first-party plugins. The result is cached after the first scan.
+`GET /api/plugins/examples` returns the plugins that ship inside the current ThinkingMach checkout. Rather than a fixed list, the server scans the bundled packages on disk for plugin manifests, so the result reflects whatever your checkout actually contains — the reference example plugins plus any vendored first-party plugins. The result is cached after the first scan.
 
 Each entry has this shape:
 
 ```json
 {
-  "packageName": "@paperclipai/plugin-llm-wiki",
+  "packageName": "@thinkingmach/plugin-llm-wiki",
   "pluginKey": "llm-wiki",
   "displayName": "LLM Wiki",
   "description": "…",
@@ -61,7 +61,7 @@ Each entry has this shape:
 
 ### Installing a plugin
 
-`POST /api/plugins/install` handles two kinds of install through one route, and the request body is what tells Paperclip which one you mean. Either way it's an instance-admin operation, because the install flow fetches and inspects package contents on the host.
+`POST /api/plugins/install` handles two kinds of install through one route, and the request body is what tells ThinkingMach which one you mean. Either way it's an instance-admin operation, because the install flow fetches and inspects package contents on the host.
 
 | Field | Type | Purpose |
 |---|---|---|
@@ -75,9 +75,9 @@ For npm installs, a `packageName` containing any of `< > : " | ? *` is rejected 
 
 ### How local install paths are checked
 
-When you set `isLocalPath: true`, Paperclip canonicalizes the `packageName` value before anything else touches it: it resolves the string to an absolute path, then to its real path — collapsing `..` traversal segments and following every symlink — and requires the result to be an existing, readable directory. The loader only ever receives that canonical path, as its `localPath` install option, so two different spellings of the same folder can never reach different decisions.
+When you set `isLocalPath: true`, ThinkingMach canonicalizes the `packageName` value before anything else touches it: it resolves the string to an absolute path, then to its real path — collapsing `..` traversal segments and following every symlink — and requires the result to be an existing, readable directory. The loader only ever receives that canonical path, as its `localPath` install option, so two different spellings of the same folder can never reach different decisions.
 
-This is worth knowing for two practical reasons. Symlinked plugin folders install as their real target, so that's the path Paperclip records and watches. And a path that doesn't exist yet fails immediately with a clear message instead of surfacing later as a confusing manifest error.
+This is worth knowing for two practical reasons. Symlinked plugin folders install as their real target, so that's the path ThinkingMach records and watches. And a path that doesn't exist yet fails immediately with a clear message instead of surfacing later as a confusing manifest error.
 
 A path that fails canonicalization comes back as `400`, with the reason in the `error` field:
 
@@ -90,7 +90,7 @@ A path that fails canonicalization comes back as `400`, with the reason in the `
 
 ### Install sources on cloud-managed instances
 
-If your instance is managed by a Paperclip control plane rather than run by you, plugin installation is narrowed to a positive allowlist: only plugins bundled with the application itself can be installed. Everything else is rejected with `403`.
+If your instance is managed by a ThinkingMach control plane rather than run by you, plugin installation is narrowed to a positive allowlist: only plugins bundled with the application itself can be installed. Everything else is rejected with `403`.
 
 | `error` | When |
 |---|---|
@@ -145,4 +145,4 @@ These endpoints back the worker-to-host bridge — the calls a plugin worker mak
 | `POST /api/plugins/:pluginId/data/:key` | UI-facing entry to read a plugin's registered data feed by key. |
 | `POST /api/plugins/:pluginId/actions/:key` | UI-facing entry to invoke a plugin's registered action by key. |
 
-> **Stability.** The plugin runtime ships in alpha. Endpoint shapes here may change between Paperclip releases — pin your plugin and Paperclip versions in lockstep.
+> **Stability.** The plugin runtime ships in alpha. Endpoint shapes here may change between ThinkingMach releases — pin your plugin and ThinkingMach versions in lockstep.

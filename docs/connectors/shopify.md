@@ -15,20 +15,20 @@ There is no sign-in. These are public endpoints, so what an agent can see is wha
 ## Before you connect
 
 - The store's permanent `your-store.myshopify.com` domain. A custom domain is not the endpoint, even if that is the address customers use.
-- A **public** storefront. Shopify keeps trial storefronts private until a plan is selected, and a password-protected storefront returns an authorization error to everyone — Paperclip cannot use a merchant's Admin session to get past it.
+- A **public** storefront. Shopify keeps trial storefronts private until a plan is selected, and a password-protected storefront returns an authorization error to everyone — ThinkingMach cannot use a merchant's Admin session to get past it.
 
 To make a storefront public: select a Shopify plan, then in Shopify Admin open **Online Store → Preferences** and set storefront visibility to public, removing password protection.
 
 ## Pick a server
 
-Shopify offers two, and Paperclip exposes both:
+Shopify offers two, and ThinkingMach exposes both:
 
 | Option | Use it for |
 | --- | --- |
 | **Shopify UCP commerce** | The recommended choice. Shopify's current catalog, cart, and checkout tools |
 | **Storefront policies and compatibility tools** | Shopify's compatibility server, when agents mainly need storefront policy and FAQ search |
 
-> **Note:** On the UCP option, Paperclip supplies the agent profile Shopify requires automatically. It currently sends Shopify's documented hosted profile fixture while Paperclip's own production profile is being established.
+> **Note:** On the UCP option, ThinkingMach supplies the agent profile Shopify requires automatically. It currently sends Shopify's documented hosted profile fixture while ThinkingMach's own production profile is being established.
 
 ## Connect Shopify
 
@@ -36,7 +36,7 @@ Shopify offers two, and Paperclip exposes both:
 2. Open **Connectors** and select **Shopify**.
 3. Read the access line above the main button. It says who the connection signs in as and which agents can use it. To pick a different identity, narrow the agents, or use another sign-in method, select **Change**.
 4. Check the server option, and select **Change** to pick a different one.
-5. Enter the **Store domain** as the bare permanent host — `your-store.myshopify.com`, with no `https://` and no trailing path. Paperclip validates the format and rejects anything that is not a `myshopify.com` host.
+5. Enter the **Store domain** as the bare permanent host — `your-store.myshopify.com`, with no `https://` and no trailing path. ThinkingMach validates the format and rejects anything that is not a `myshopify.com` host.
 6. Finish setup.
 
 ## Choose access
@@ -78,7 +78,7 @@ Limitations: one store per connection, public storefront only, no Admin API. Sho
 
 ## Related guides
 
-- [Connector overview](https://paperclip.ing/product/connectors/shopify/)
+- [Connector overview](https://thinkingmach.com/product/connectors/shopify/)
 
 - [Stripe](stripe.md) — payments data, with its own boundaries.
 - [Set action permissions](action-permissions.md)

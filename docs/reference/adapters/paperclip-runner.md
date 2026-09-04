@@ -1,23 +1,23 @@
 ---
 paperclip_version: v2026.1005.0
-seo_title: Paperclip Runner Setup and Providers
-seo_description: Configure Paperclip Runner for native agent sessions. Choose a supported provider, set permissions and model access, and understand runtime limits.
+seo_title: ThinkingMach Runner Setup and Providers
+seo_description: Configure ThinkingMach Runner for native agent sessions. Choose a supported provider, set permissions and model access, and understand runtime limits.
 ---
 
-# Paperclip Runner
+# ThinkingMach Runner
 
-Use `paperclip_runner` when you want Paperclip's native run lifecycle, durable session recovery, and built-in task tools. You select the provider separately from the adapter, then configure model access and the execution environment.
+Use `paperclip_runner` when you want ThinkingMach's native run lifecycle, durable session recovery, and built-in task tools. You select the provider separately from the adapter, then configure model access and the execution environment.
 
-Paperclip Runner is experimental. Its `enableNativeRunner` setting is **on by default for self-hosted instances** and **off by default for Cloud-managed instances**. Deployment settings can override those defaults. An enabled flag does not convert your existing agents: onboarding and direct adapters keep their own execution paths.
+ThinkingMach Runner is experimental. Its `enableNativeRunner` setting is **on by default for self-hosted instances** and **off by default for Cloud-managed instances**. Deployment settings can override those defaults. An enabled flag does not convert your existing agents: onboarding and direct adapters keep their own execution paths.
 
 ## Before you start
 
-- An instance with **Paperclip Runner** enabled under **Settings → Instance settings → Experimental**.
+- An instance with **ThinkingMach Runner** enabled under **Settings → Instance settings → Experimental**.
 - An active agent and a task in standard, planning, or ask work mode.
 - A prepared execution environment and compatible model credential.
 - The pinned runtime required by the selected provider.
 
-For source development, an enabled Runner requires a Rust toolchain or `PAPERCLIP_RUNNER_BINARY`; the development launcher builds the daemon when needed. Published distributions and execution images provide their own runtime assets.
+For source development, an enabled Runner requires a Rust toolchain or `THINKINGMACH_RUNNER_BINARY`; the development launcher builds the daemon when needed. Published distributions and execution images provide their own runtime assets.
 
 ## Choose a provider
 
@@ -36,7 +36,7 @@ Managed providers need operator-prepared profiles; they are not configured by pa
 
 ## Configure an agent
 
-1. Create or edit the agent and choose **Paperclip Runner**.
+1. Create or edit the agent and choose **ThinkingMach Runner**.
 2. Select **Provider**. For **ACP agents**, select the **ACP agent** too.
 3. Select a model. When you edit a saved agent, choose a compatible **Connection** for Codex, OpenCode, Claude, or Grok.
 4. Choose the execution environment and review permissions.
@@ -61,12 +61,12 @@ The credential binding is configured separately, through the agent's **Connectio
 
 | Provider | Configuration | Supported behavior |
 | --- | --- | --- |
-| Codex | `codexPermissionMode` | Only `never`, shown as **Automatic (isolated)**, is admitted. Paperclip keeps its independent workspace, network, and environment restrictions. |
+| Codex | `codexPermissionMode` | Only `never`, shown as **Automatic (isolated)**, is admitted. ThinkingMach keeps its independent workspace, network, and environment restrictions. |
 | OpenCode | `opencodePermissionMode` | `allow` (default), `ask`, or `deny`. |
 | ACP | `acpxPermissionMode` | `approve-all` (default), `approve-paperclip`, `approve-reads`, or `deny-all`. |
-| Managed providers | Provider-owned policy | Non-interactive execution under the qualified profile and Paperclip policy. |
+| Managed providers | Provider-owned policy | Non-interactive execution under the qualified profile and ThinkingMach policy. |
 
-Company permissions, governed approvals, and budgets still apply. Grok cannot automatically approve Paperclip tool calls under the narrower ACP modes; those requests wait for approval.
+Company permissions, governed approvals, and budgets still apply. Grok cannot automatically approve ThinkingMach tool calls under the narrower ACP modes; those requests wait for approval.
 
 ## Sessions and task modes
 

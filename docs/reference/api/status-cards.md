@@ -5,9 +5,9 @@ seo_description: A standing question about your company's work plus its living a
 
 # Status Cards
 
-A **status card** is a standing question about a company's work, and the living answer to it. You give the card one message in plain language — what to watch, and how the update should read — and Paperclip's Summarizer compiles that into structured company-search queries, then keeps writing a Markdown summary as the matching issues move.
+A **status card** is a standing question about a company's work, and the living answer to it. You give the card one message in plain language — what to watch, and how the update should read — and ThinkingMach's Summarizer compiles that into structured company-search queries, then keeps writing a Markdown summary as the matching issues move.
 
-The API mirrors that lifecycle. You create a card and Paperclip queues a compile task; you ask for refreshes and it queues update tasks; the summarizer agent writes the compiled query and the finished summary back through two dedicated endpoints that only it may call.
+The API mirrors that lifecycle. You create a card and ThinkingMach queues a compile task; you ask for refreshes and it queues update tasks; the summarizer agent writes the compiled query and the finished summary back through two dedicated endpoints that only it may call.
 
 Status cards are company-scoped, and company access is enforced on every request. If you are new to the API, read the [API Overview](./overview.md) first for base URL, authentication, and error-code conventions — this page builds on those and won't repeat them.
 
@@ -309,7 +309,7 @@ Request body:
 
 | Field | Required | Notes |
 |---|---|---|
-| `full` | no | Defaults to `false`. `true` forces a full rebuild instead of letting Paperclip choose. |
+| `full` | no | Defaults to `false`. `true` forces a full rebuild instead of letting ThinkingMach choose. |
 
 A manual refresh always runs — it bypasses the card's active-hours window and daily token cap, and it runs even when change detection found nothing new.
 

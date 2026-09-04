@@ -1,13 +1,13 @@
 ---
 seo_title: Set a Monthly Budget and Enforce It
-seo_description: A misconfigured loop can run a four-figure tab in a weekend. Set a cap Paperclip enforces automatically, with warnings before the hard stop.
+seo_description: A misconfigured loop can run a four-figure tab in a weekend. Set a cap ThinkingMach enforces automatically, with warnings before the hard stop.
 ---
 
 # Set a monthly budget and enforce it
 
-Autonomous agents make real API calls. A misconfigured loop, an over-eager prompt, or a pricing change can run a four-figure tab in a weekend if nothing pulls the brake. Paperclip's budget system is the brake: you set a cap, Paperclip warns at 80%, hard-stops at 100%, and pauses the offending scope until you raise the cap or the calendar month resets.
+Autonomous agents make real API calls. A misconfigured loop, an over-eager prompt, or a pricing change can run a four-figure tab in a weekend if nothing pulls the brake. ThinkingMach's budget system is the brake: you set a cap, ThinkingMach warns at 80%, hard-stops at 100%, and pauses the offending scope until you raise the cap or the calendar month resets.
 
-Time to working budget: about 5 minutes. Pinned versions: Paperclip API v1, calendar-month-UTC windows.
+Time to working budget: about 5 minutes. Pinned versions: ThinkingMach API v1, calendar-month-UTC windows.
 
 ---
 
@@ -16,19 +16,19 @@ Time to working budget: about 5 minutes. Pinned versions: Paperclip API v1, cale
 The simplest path. One call sets the monthly ceiling for the whole company:
 
 ```bash
-curl -X PATCH "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/budgets" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X PATCH "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/budgets" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "budgetMonthlyCents": 10000 }'
 ```
 
-`budgetMonthlyCents` is in cents — `10000` is $100/mo. Paperclip stores the value, syncs a matching `company` budget policy with default thresholds (`warnPercent: 80`, `hardStopEnabled: true`, `notifyEnabled: true`), and returns the updated record.
+`budgetMonthlyCents` is in cents — `10000` is $100/mo. ThinkingMach stores the value, syncs a matching `company` budget policy with default thresholds (`warnPercent: 80`, `hardStopEnabled: true`, `notifyEnabled: true`), and returns the updated record.
 
 The same shape works per-agent:
 
 ```bash
-curl -X PATCH "$PAPERCLIP_API_URL/api/agents/$AGENT_ID/budgets" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X PATCH "$THINKINGMACH_API_URL/api/agents/$AGENT_ID/budgets" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "budgetMonthlyCents": 2500 }'
 ```
@@ -42,8 +42,8 @@ A per-agent cap is enforced independently of the company cap. An agent at 100% p
 `PATCH /budgets` is fine for the common case. When you need a non-default `warnPercent`, a project-scoped policy, or to disable hard-stop and run on warnings only, use the upsert route directly:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/budgets/policies" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/budgets/policies" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "scope": "agent",
@@ -75,17 +75,17 @@ Project policies default to lifetime caps — useful for one-shot work ("this pr
 
 ## 3. Where the warnings show up
 
-At 80% (or whatever `warnPercent` you set) Paperclip records a **soft incident** against the policy. At 100% it records a **hard incident** and pauses the scope. Both surface on the Budgets tab as cards above the policy list:
+At 80% (or whatever `warnPercent` you set) ThinkingMach records a **soft incident** against the policy. At 100% it records a **hard incident** and pauses the scope. Both surface on the Budgets tab as cards above the policy list:
 
 ![Budgets tab showing the control plane and active incidents grid](../user-guides/screenshots/light/costs/budgets.png)
 
-Paperclip does not push outbound webhooks today. If you want Slack or Discord pings on incidents, run a routine that diffs `GET /api/companies/{COMPANY_ID}/budgets/overview` against a cursor and posts to a webhook — the same shape as the approval notifier. See [Wire Slack/Discord notifications](./wire-slack-discord-notifications.md).
+ThinkingMach does not push outbound webhooks today. If you want Slack or Discord pings on incidents, run a routine that diffs `GET /api/companies/{COMPANY_ID}/budgets/overview` against a cursor and posts to a webhook — the same shape as the approval notifier. See [Wire Slack/Discord notifications](./wire-slack-discord-notifications.md).
 
 A faster sanity check while you're configuring: read overview and spend directly.
 
 ```bash
-curl "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/budgets/overview" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY"
+curl "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/budgets/overview" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY"
 ```
 
 The response gives you current policies, open incidents, and counts of paused agents and projects — the same numbers the UI's Budget control plane card renders.
@@ -99,8 +99,8 @@ The response gives you current policies, open incidents, and counts of paused ag
 Adapters set the field on the cost-event call:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/cost-events" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/cost-events" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "agentId": "'$AGENT_ID'",
@@ -140,8 +140,8 @@ Two things to know:
 To resume:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/budget-incidents/$INCIDENT_ID/resolve" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/budget-incidents/$INCIDENT_ID/resolve" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "action": "raise_budget_and_resume",
@@ -162,8 +162,8 @@ Before relying on the policy in production, prove it pauses. Test on a throwaway
 1. Set a tiny cap on the agent — say `$0.50`:
 
    ```bash
-   curl -X PATCH "$PAPERCLIP_API_URL/api/agents/$TEST_AGENT_ID/budgets" \
-     -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+   curl -X PATCH "$THINKINGMACH_API_URL/api/agents/$TEST_AGENT_ID/budgets" \
+     -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
      -H "Content-Type: application/json" \
      -d '{ "budgetMonthlyCents": 50 }'
    ```
@@ -171,8 +171,8 @@ Before relying on the policy in production, prove it pauses. Test on a throwaway
 2. Report a synthetic cost event that pushes the agent over the line. As a board user you can post events for any agent in the company:
 
    ```bash
-   curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/cost-events" \
-     -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+   curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/cost-events" \
+     -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
      -H "Content-Type: application/json" \
      -d '{
        "agentId": "'$TEST_AGENT_ID'",
@@ -186,8 +186,8 @@ Before relying on the policy in production, prove it pauses. Test on a throwaway
 3. Read the overview and confirm the agent shows as paused with an open hard incident:
 
    ```bash
-   curl "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/budgets/overview" \
-     -H "Authorization: Bearer $PAPERCLIP_API_KEY"
+   curl "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/budgets/overview" \
+     -H "Authorization: Bearer $THINKINGMACH_API_KEY"
    ```
 
    You should see the `pausedAgentsCount` go up by one and an entry in `incidents` with `status: "open"`, `kind: "hard_stop"`, and the test agent's id.
@@ -195,8 +195,8 @@ Before relying on the policy in production, prove it pauses. Test on a throwaway
 4. Resolve and clean up:
 
    ```bash
-   curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/budget-incidents/$INCIDENT_ID/resolve" \
-     -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+   curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/budget-incidents/$INCIDENT_ID/resolve" \
+     -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
      -H "Content-Type: application/json" \
      -d '{ "action": "keep_paused" }'
    ```

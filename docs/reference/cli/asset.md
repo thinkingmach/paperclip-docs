@@ -6,7 +6,7 @@ seo_description: Push image assets into a company from the terminal — a logo, 
 
 # Asset Commands
 
-Use these commands when you need to push image assets into a company from the terminal — a company logo, a documentation image, or any binary blob you later want to fetch back. The CLI uploads the file to the Paperclip API as `multipart/form-data` and prints the stored asset record; `asset content` is the inverse, streaming an asset's bytes back out by id. Reach for these when you are scripting company branding or bootstrapping content without opening the UI.
+Use these commands when you need to push image assets into a company from the terminal — a company logo, a documentation image, or any binary blob you later want to fetch back. The CLI uploads the file to the ThinkingMach API as `multipart/form-data` and prints the stored asset record; `asset content` is the inverse, streaming an asset's bytes back out by id. Reach for these when you are scripting company branding or bootstrapping content without opening the UI.
 
 All three subcommands accept the [common client options](./common-options.md) (`--data-dir`, `--api-base`, `--api-key`, `--context`, `--profile`, `--json`). The two upload commands are company-scoped and take `-C, --company-id <id>`; `asset content` works on a global asset id and is not company-scoped.
 
@@ -15,7 +15,7 @@ All three subcommands accept the [common client options](./common-options.md) (`
 ## Upload an image
 
 ```sh
-paperclipai asset image:upload \
+thinkingmach asset image:upload \
   --company-id <company-id> \
   --file ./diagram.png \
   --namespace docs \
@@ -40,7 +40,7 @@ paperclipai asset image:upload \
 ## Upload a logo
 
 ```sh
-paperclipai asset logo:upload \
+thinkingmach asset logo:upload \
   --company-id <company-id> \
   --file ./logo.svg
 ```
@@ -60,10 +60,10 @@ paperclipai asset logo:upload \
 
 ```sh
 # Write the bytes to a file
-paperclipai asset content <asset-id> --out ./asset.bin
+thinkingmach asset content <asset-id> --out ./asset.bin
 
 # Or stream the bytes to stdout (pipe or redirect them)
-paperclipai asset content <asset-id> > ./asset.bin
+thinkingmach asset content <asset-id> > ./asset.bin
 ```
 
 `asset content <assetId>` fetches the raw bytes from `/api/assets/<asset-id>/content`. By default it writes those bytes straight to stdout, which lets you pipe or redirect them. Pass `--out <path>` to have the CLI write the file for you instead — in that mode it prints a small confirmation object (`{ ok, out, bytes }`) rather than the binary.
@@ -81,15 +81,15 @@ paperclipai asset content <asset-id> > ./asset.bin
 Both uploads honor `--json`, so you can capture the returned asset id and feed it back into a download or another command:
 
 ```sh
-ASSET_ID=$(paperclipai asset image:upload \
+ASSET_ID=$(thinkingmach asset image:upload \
   --company-id <company-id> \
   --file ./diagram.png \
   --json | jq -r '.id')
 
-paperclipai asset content "$ASSET_ID" --out ./roundtrip.png
+thinkingmach asset content "$ASSET_ID" --out ./roundtrip.png
 ```
 
-API base resolution follows the standard order (`--api-base`, then `PAPERCLIP_API_URL`, then your selected context profile, then the local config port, then `http://localhost:3100`). If a connection fails, the error names the URL it tried so you can confirm you are pointed at the right instance — see [common options](./common-options.md) and [output and scripting](./output-and-scripting.md) for the full conventions.
+API base resolution follows the standard order (`--api-base`, then `THINKINGMACH_API_URL`, then your selected context profile, then the local config port, then `http://localhost:3100`). If a connection fails, the error names the URL it tried so you can confirm you are pointed at the right instance — see [common options](./common-options.md) and [output and scripting](./output-and-scripting.md) for the full conventions.
 
 ---
 

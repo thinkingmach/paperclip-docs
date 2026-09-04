@@ -28,8 +28,8 @@ This is a **bundled** catalog skill — part of the bundled baseline kit. For ho
 
 | Field | Value |
 |---|---|
-| Catalog id | `paperclipai:bundled:quality:qa-acceptance` |
-| Canonical key | `paperclipai/bundled/quality/qa-acceptance` |
+| Catalog id | `thinkingmach:bundled:quality:qa-acceptance` |
+| Canonical key | `thinkingmach/bundled/quality/qa-acceptance` |
 | Catalog path | `catalog/bundled/quality/qa-acceptance` |
 | Kind | `bundled` |
 | Category | `quality` |
@@ -43,7 +43,7 @@ This is a **bundled** catalog skill — part of the bundled baseline kit. For ho
 | Tags | `qa`, `acceptance`, `validation`, `testing` |
 | Files | 1 |
 | Content hash | `sha256:32372dacaf62e93454b9855968c4eec96456ba78b509f450b3dfaa48e31ef356` |
-| Package | `@paperclipai/skills-catalog@0.3.1` |
+| Package | `@thinkingmach/skills-catalog@0.3.1` |
 
 ## File inventory
 
@@ -59,7 +59,7 @@ The block below is the complete, authoritative `SKILL.md` for this skill — the
 ---
 name: qa-acceptance
 description: Produce QA acceptance criteria and a manual validation plan for a feature change — golden path, edge cases, error states, performance limits, and explicit pass/fail evidence.
-key: paperclipai/bundled/quality/qa-acceptance
+key: thinkingmach/bundled/quality/qa-acceptance
 recommendedForRoles:
   - qa
   - engineer

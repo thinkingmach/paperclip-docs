@@ -6,7 +6,7 @@ seo_description: Press Cmd+K or Ctrl+K to jump to any project, task, or page, st
 
 # The Command Palette
 
-When you want to get somewhere fast — jump to a project, open a task, or start a new agent — you don't have to hunt through the sidebar. Press **⌘K** (or **Ctrl+K** on Windows and Linux) from anywhere in Paperclip and the command palette opens: a single search box that lets you navigate, search, and run common actions from the keyboard.
+When you want to get somewhere fast — jump to a project, open a task, or start a new agent — you don't have to hunt through the sidebar. Press **⌘K** (or **Ctrl+K** on Windows and Linux) from anywhere in ThinkingMach and the command palette opens: a single search box that lets you navigate, search, and run common actions from the keyboard.
 
 Think of it as the fast lane. Everything the palette does is reachable elsewhere in the interface too — but once ⌘K is in your fingers, it's usually the quickest way to move around.
 
@@ -17,7 +17,7 @@ Think of it as the fast lane. Everything the palette does is reachable elsewhere
 - **Open:** press **⌘K** / **Ctrl+K** from any page. On a small screen the sidebar tucks away automatically so the palette has room.
 - **Close:** press **Esc**, or click outside the palette.
 
-Keyboard shortcuts are always available; you do not enable an experimental toggle first. Press **?** outside a text field to see the shortcut list. **/** focuses the current page's search when it has one, and otherwise opens quick search. Single-key shortcuts pause while you are typing or a modal dialog is open. The [shortcut handler](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/hooks/useKeyboardShortcuts.ts) defines those boundaries.
+Keyboard shortcuts are always available; you do not enable an experimental toggle first. Press **?** outside a text field to see the shortcut list. **/** focuses the current page's search when it has one, and otherwise opens quick search. Single-key shortcuts pause while you are typing or a modal dialog is open. The [shortcut handler](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/hooks/useKeyboardShortcuts.ts) defines those boundaries.
 
 The search box is focused the moment it opens, so you can start typing straight away. Its placeholder — *"Search tasks, agents, projects…"* — is a hint at what it can find.
 
@@ -88,7 +88,7 @@ It keeps the best few project matches and, when projects are showing, trims the 
 
 ## Recent tasks in the sidebar
 
-The palette isn't the only quick way back to a task. Whenever you open a task's detail page, Paperclip remembers it under a **Recent Tasks** heading near the bottom of the sidebar — so the handful of tasks you've been looking at stay one click away, no searching or scrolling the full Tasks list required.
+The palette isn't the only quick way back to a task. Whenever you open a task's detail page, ThinkingMach remembers it under a **Recent Tasks** heading near the bottom of the sidebar — so the handful of tasks you've been looking at stay one click away, no searching or scrolling the full Tasks list required.
 
 A few things worth knowing:
 

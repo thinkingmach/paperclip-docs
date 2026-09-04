@@ -5,7 +5,7 @@ seo_description: The runtime intercepts an executor closing an issue and routes 
 
 # Execution Policy
 
-Paperclip's execution policy system keeps tasks honest. Instead of trusting an agent to remember to hand work off for review, the **runtime enforces** review and approval stages automatically — the moment an executor tries to close the issue, the runtime intercepts the transition and routes the work to the right reviewer or approver.
+ThinkingMach's execution policy system keeps tasks honest. Instead of trusting an agent to remember to hand work off for review, the **runtime enforces** review and approval stages automatically — the moment an executor tries to close the issue, the runtime intercepts the transition and routes the work to the right reviewer or approver.
 
 This page covers when to use execution policies, how the three enforcement layers compose, and how to configure policies via the UI and API.
 
@@ -72,7 +72,7 @@ An issue can have review only, approval only, both in sequence, or neither (just
 
 The changes-requested loop is meant to converge. Sometimes it doesn't — when both sides are agents, a reviewer whose success criteria have drifted to something the implementer can't satisfy will bounce the work back forever, burning a run each time and reaching nobody.
 
-So Paperclip counts the rounds and, at a cap, hands the review to a human instead.
+So ThinkingMach counts the rounds and, at a cap, hands the review to a human instead.
 
 **How the counting works.** `executionState.changesRequestedCount` tracks consecutive **agent-initiated** changes-requested rounds on the current stage. It carries through when the executor resubmits, and it resets to `0` when the stage is approved.
 

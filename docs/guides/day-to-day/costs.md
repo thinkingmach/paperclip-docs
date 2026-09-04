@@ -1,13 +1,13 @@
 ---
 seo_title: Costs: Budgets, Providers, and Spend
-seo_description: Set limits Paperclip enforces automatically. Five tabs cover overview, budgets, providers, billers, and finance, with headline spend metrics on top.
+seo_description: Set limits ThinkingMach enforces automatically. Five tabs cover overview, budgets, providers, billers, and finance, with headline spend metrics on top.
 ---
 
 # Costs
 
-> **Warning:** AI agents make real API calls that cost real money. Every time an agent works — every heartbeat, every task, every comment it reads and writes — it sends and receives text through a provider like Anthropic or OpenAI, which charges you per token (roughly per word). This isn't a Paperclip fee; it's a cost you pay directly to the AI provider. Read this guide before your agents start running in earnest.
+> **Warning:** AI agents make real API calls that cost real money. Every time an agent works — every heartbeat, every task, every comment it reads and writes — it sends and receives text through a provider like Anthropic or OpenAI, which charges you per token (roughly per word). This isn't a ThinkingMach fee; it's a cost you pay directly to the AI provider. Read this guide before your agents start running in earnest.
 
-Paperclip's budget system exists to make sure you're never surprised. You set limits, and the platform enforces them automatically — an agent won't spend a cent beyond what you allow.
+ThinkingMach's budget system exists to make sure you're never surprised. You set limits, and the platform enforces them automatically — an agent won't spend a cent beyond what you allow.
 
 The **Costs** page in the sidebar is where all of this lives. It has five tabs — **Overview**, **Budgets**, **Providers**, **Billers**, and **Finance** — plus a shared date-range selector and four headline metrics at the top. This guide walks through each tab, then folds in the core concepts around how costs work, how budgets protect you, and how to tune spend over time.
 
@@ -17,21 +17,21 @@ The **Costs** page in the sidebar is where all of this lives. It has five tabs �
 
 Every time an agent runs a heartbeat, it generates an API call. That call sends the agent's context (its identity, its tasks, the instructions it's working from) to the AI provider, and receives a response (the agent's reasoning and next actions). The provider charges based on the number of tokens — input tokens (what's sent) and output tokens (what comes back).
 
-Paperclip records every one of these calls: which agent made it, which model it used, how many tokens were used, and the exact dollar cost. These records are aggregated per agent per calendar month (resetting on the 1st of each UTC month).
+ThinkingMach records every one of these calls: which agent made it, which model it used, how many tokens were used, and the exact dollar cost. These records are aggregated per agent per calendar month (resetting on the 1st of each UTC month).
 
 > **Note:** A token is roughly equivalent to one word, though technically it's a fragment of text slightly smaller than that. A busy agent doing coding or writing work might process 100,000–500,000 tokens per month. At typical Anthropic pricing, that's roughly $3–$15 per month for a moderately active worker agent — but this varies significantly based on the model used and how much context each task requires.
 
 ### Why the dollars are lower than the token count suggests
 
-If you multiply an agent's token count by the provider's list price, you'll usually land somewhere above what Paperclip reports. That gap is normally prompt caching doing its job, not an error in the arithmetic.
+If you multiply an agent's token count by the provider's list price, you'll usually land somewhere above what ThinkingMach reports. That gap is normally prompt caching doing its job, not an error in the arithmetic.
 
 Agents re-send a lot of the same text on every heartbeat — their identity, their standing instructions, the task they're working on. Providers cache that repeated context and charge much less for a cached token than for a fresh one. You can see the split yourself in the per-model rows on the **Providers** tab, where cached-input tokens are counted separately from input tokens.
 
-Paperclip records the **cache-adjusted** cost: what the provider actually billed after the cache discount, rather than an estimate derived from raw token counts. When an adapter reports a discounted amount separately, that discounted amount is the one that lands in the cost ledger, counts against your budgets, and rolls up into every total on this page. When an adapter reports only a single cost figure, Paperclip treats that figure as the billed amount.
+ThinkingMach records the **cache-adjusted** cost: what the provider actually billed after the cache discount, rather than an estimate derived from raw token counts. When an adapter reports a discounted amount separately, that discounted amount is the one that lands in the cost ledger, counts against your budgets, and rolls up into every total on this page. When an adapter reports only a single cost figure, ThinkingMach treats that figure as the billed amount.
 
 The practical rule: the dollars you see are billed dollars. A run with a large cached-input count and a small dollar figure is healthy — it means the agent's context is being reused instead of re-billed. If you want to reason about a run in detail, read the token columns and the dollar figure together rather than trying to derive one from the other.
 
-Beyond per-request inference costs, there are also **account-level** charges — monthly subscription fees, credit top-ups, invoice adjustments, refunds — that don't map to a single API call. Paperclip tracks those separately in the finance ledger so you can reconcile your actual provider invoices against what Paperclip thinks you spent.
+Beyond per-request inference costs, there are also **account-level** charges — monthly subscription fees, credit top-ups, invoice adjustments, refunds — that don't map to a single API call. ThinkingMach tracks those separately in the finance ledger so you can reconcile your actual provider invoices against what ThinkingMach thinks you spent.
 
 ---
 
@@ -79,7 +79,7 @@ The right side of the overview is the **Finance ledger** card — the same four 
 - **Debits** — account-level charges in the range, with the total event count.
 - **Credits** — refunds, offsets, and credit returns.
 - **Net** — debit minus credit for the period.
-- **Estimated** — debits that are not yet invoice-authoritative (for example, a Paperclip estimate of a subscription day that hasn't been reconciled with the provider's invoice yet).
+- **Estimated** — debits that are not yet invoice-authoritative (for example, a ThinkingMach estimate of a subscription day that hasn't been reconciled with the provider's invoice yet).
 
 ### By agent
 
@@ -94,7 +94,7 @@ If an agent has a per-model breakdown available, a caret appears on the left of 
 
 ### By project
 
-To the right of the agent breakdown is the **By project** card. Paperclip attributes run costs to a project when the run was triggered by an issue that belongs to that project. Each row shows the project name and its total attributed cost. Runs that didn't happen inside a project-linked issue appear as `Unattributed`.
+To the right of the agent breakdown is the **By project** card. ThinkingMach attributes run costs to a project when the run was triggered by an issue that belongs to that project. Each row shows the project name and its total attributed cost. Runs that didn't happen inside a project-linked issue appear as `Unattributed`.
 
 ### Finance timeline
 
@@ -110,11 +110,11 @@ If any agent or project has breached its hard-stop budget, up to two **Budget in
 
 ![Budgets tab](../../user-guides/screenshots/light/costs/budgets.png)
 
-The **Budgets** tab is where you configure the spend ceilings that protect your company. Think of it as the control plane for hard stops — the place where you decide, in dollars, how much any given scope is allowed to spend before Paperclip pulls the emergency brake.
+The **Budgets** tab is where you configure the spend ceilings that protect your company. Think of it as the control plane for hard stops — the place where you decide, in dollars, how much any given scope is allowed to spend before ThinkingMach pulls the emergency brake.
 
 ### Budget Levels
 
-Paperclip operates two levels of budget protection that work together:
+ThinkingMach operates two levels of budget protection that work together:
 
 **Company budget** — the total monthly ceiling for your entire company. All agents combined cannot spend more than this. Set it conservatively when starting out.
 
@@ -122,7 +122,7 @@ Paperclip operates two levels of budget protection that work together:
 
 A third scope, **project budget**, acts as a lifetime cap on an execution-bound project — useful for one-off work where you want to say "this project can never cost more than $200" regardless of the month.
 
-All budgets are displayed in dollars in the Paperclip UI.
+All budgets are displayed in dollars in the ThinkingMach UI.
 
 ### Budget control plane
 
@@ -137,7 +137,7 @@ If all four show zero, your budget posture is clean.
 
 ### What Happens When Limits Are Hit
 
-Paperclip enforces budgets automatically, in two stages:
+ThinkingMach enforces budgets automatically, in two stages:
 
 ```
 $0 ─────────────────────── 80% ──────── 100%
@@ -145,7 +145,7 @@ $0 ─────────────────────── 80% ─
                           Warning        Auto-paused
 ```
 
-**At 80%:** Paperclip records a warning so you can intervene before the hard stop. The agent continues running.
+**At 80%:** ThinkingMach records a warning so you can intervene before the hard stop. The agent continues running.
 
 **At 100%:** The agent is automatically paused. No further heartbeats are triggered. The agent stops all activity until either you increase its budget or the calendar month resets.
 
@@ -271,7 +271,7 @@ Selecting **All providers** renders a grid of provider cards (two per row on wid
 
 ### Quota windows
 
-For providers that have a subscription plan with a rolling usage window (e.g. Anthropic Pro/Max with a 5-hour window, daily, or weekly caps), the card also renders a **Quota windows** section. For each window Paperclip queries the provider and shows:
+For providers that have a subscription plan with a rolling usage window (e.g. Anthropic Pro/Max with a 5-hour window, daily, or weekly caps), the card also renders a **Quota windows** section. For each window ThinkingMach queries the provider and shows:
 
 - Window label (e.g. "5-hour", "daily", "weekly").
 - How much of the window you've consumed.
@@ -282,7 +282,7 @@ If the provider's quota endpoint returned an error, the card surfaces that error
 
 ### Provider window spend
 
-Underneath the quota bars, Paperclip also shows **window spend** — what the provider cost you inside each active quota window. This is how you tell the difference between "I'm at 80% of my 5-hour cap because of one burst" and "I'm at 80% and it's evenly distributed".
+Underneath the quota bars, ThinkingMach also shows **window spend** — what the provider cost you inside each active quota window. This is how you tell the difference between "I'm at 80% of my 5-hour cap because of one burst" and "I'm at 80% and it's evenly distributed".
 
 ---
 
@@ -311,7 +311,7 @@ The Biller view is how you reconcile invoices. When the Anthropic invoice lands 
 
 ### Attribution
 
-Every cost event in Paperclip is tagged with both a provider (who did the inference) and a biller (who charges you). For simple setups the two are identical, and you can largely ignore the Billers tab. For more complex setups — multiple accounts with the same provider, subscription-plus-API combinations, or a centralised gateway — the Billers tab is how you keep the accounting clean.
+Every cost event in ThinkingMach is tagged with both a provider (who did the inference) and a biller (who charges you). For simple setups the two are identical, and you can largely ignore the Billers tab. For more complex setups — multiple accounts with the same provider, subscription-plus-API combinations, or a centralised gateway — the Billers tab is how you keep the accounting clean.
 
 ---
 
@@ -328,7 +328,7 @@ At the top of the tab is the **Finance ledger** card with four metric tiles — 
 - **Debits** — total debited dollars in the range, plus the count of events.
 - **Credits** — refunds, offsets, and credit returns.
 - **Net** — debit minus credit for the selected period.
-- **Estimated** — debits that Paperclip has estimated but are not yet invoice-authoritative. These are the events most likely to change as invoices arrive.
+- **Estimated** — debits that ThinkingMach has estimated but are not yet invoice-authoritative. These are the events most likely to change as invoices arrive.
 
 ### By biller
 
@@ -346,7 +346,7 @@ To the right of the timeline is the **By kind** card. Instead of grouping by who
 
 ### Estimated versus actual
 
-Paperclip separates estimated debits from authoritative ones because your provider's invoice is the source of truth. Until an invoice is reconciled, Paperclip's number for a subscription day is its best guess — typically derived from the plan price divided by the billing cycle length. Once the real invoice arrives and is imported, the estimated flag flips off and the number becomes authoritative.
+ThinkingMach separates estimated debits from authoritative ones because your provider's invoice is the source of truth. Until an invoice is reconciled, ThinkingMach's number for a subscription day is its best guess — typically derived from the plan price divided by the billing cycle length. Once the real invoice arrives and is imported, the estimated flag flips off and the number becomes authoritative.
 
 The **Estimated** metric at the top tells you, at a glance, how much of your finance ledger is still provisional. A small number means most of your ledger is invoice-backed; a large number means a lot of estimated spend is waiting for reconciliation.
 
@@ -364,7 +364,7 @@ The Cost Summary panel on the dashboard shows each agent's current month spend a
 
 ![Cost Summary dashboard panel showing per-agent budget bars, two green and one amber](../../user-guides/screenshots/light/costs/costs-dashboard-overview.png)
 
-Check this panel whenever you open Paperclip. A bar that has jumped unexpectedly since your last check is worth investigating.
+Check this panel whenever you open ThinkingMach. A bar that has jumped unexpectedly since your last check is worth investigating.
 
 ### From the Agent Detail Page
 

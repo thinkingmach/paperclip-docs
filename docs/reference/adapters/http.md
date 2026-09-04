@@ -8,21 +8,21 @@ seo_description: Send a JSON webhook to a service you control. Use it when the r
 
 The `http` adapter sends a JSON webhook request to a service you control. Use it when the runtime is remote, long-lived, or already exposed as an API instead of a local command.
 
-> **Info:** `http` is a built-in internal adapter used by Paperclip's runtime. It's currently shown as **"Coming soon"** in the agent-config adapter-type dropdown and can't be selected manually. To target it today, configure the agent via the API or an imported company export.
+> **Info:** `http` is a built-in internal adapter used by ThinkingMach's runtime. It's currently shown as **"Coming soon"** in the agent-config adapter-type dropdown and can't be selected manually. To target it today, configure the agent via the API or an imported company export.
 
 ---
 
 ## When To Use
 
 - The agent runs in the cloud or behind another service.
-- You want Paperclip to trigger a webhook and let the remote service do the rest.
+- You want ThinkingMach to trigger a webhook and let the remote service do the rest.
 - The runtime already expects a JSON body and returns a simple success or failure response.
 
 ## When Not To Use
 
 - The runtime is just a local script or command. Use [Process](./process.md).
 - You need session persistence or built-in CLI behavior. Use one of the local adapters instead.
-- You need Paperclip to parse a rich stdout transcript from the remote runtime.
+- You need ThinkingMach to parse a rich stdout transcript from the remote runtime.
 
 ---
 
@@ -33,7 +33,7 @@ The `http` adapter sends a JSON webhook request to a service you control. Use it
 | `url` | yes | Absolute `http://` or `https://` endpoint. |
 | `method` | no | HTTP method to use. Defaults to `POST`. |
 | `headers` | no | Extra request headers. |
-| `payloadTemplate` | no | JSON object merged into the request body before the standard Paperclip fields are added. |
+| `payloadTemplate` | no | JSON object merged into the request body before the standard ThinkingMach fields are added. |
 | `timeoutMs` | no | Request timeout in milliseconds. `0` means no timeout. |
 
 > **Note:** The HTTP adapter does not run a child process. It sends a single request, waits for the response, and treats any non-2xx response as a failure.
@@ -42,13 +42,13 @@ The `http` adapter sends a JSON webhook request to a service you control. Use it
 
 ## Request Body
 
-Paperclip sends a JSON payload that always includes:
+ThinkingMach sends a JSON payload that always includes:
 
 - `runId`
 - `agentId`
 - `context`
 
-Any `payloadTemplate` fields are merged in first, then Paperclip adds the standard fields above. If a key collides, the standard Paperclip field wins.
+Any `payloadTemplate` fields are merged in first, then ThinkingMach adds the standard fields above. If a key collides, the standard ThinkingMach field wins.
 
 Example body shape:
 
@@ -65,7 +65,7 @@ Example body shape:
 }
 ```
 
-Your service can use `PAPERCLIP_API_URL` and a Paperclip API key to call back into the control plane after it finishes.
+Your service can use `THINKINGMACH_API_URL` and a ThinkingMach API key to call back into the control plane after it finishes.
 
 ---
 
@@ -75,7 +75,7 @@ Every request the HTTP adapter sends is checked at the socket boundary before it
 
 The check also pins the DNS result: the address the guard approves is the address the socket dials. That closes the door on a hostname that resolves to a public address during the check and a private one a moment later.
 
-If your runtime genuinely lives on a private origin — an internal service, a webhook on your own subnet — you opt it in explicitly with the `PAPERCLIP_HTTP_ADAPTER_PRIVATE_ENDPOINT_ALLOWLIST` environment variable on the Paperclip host. It's a comma-separated list of **exact origins**, where an origin is the scheme, host, and port together (for example `http://hooks.internal.example:8080`). Matching is case-insensitive, and each entry must:
+If your runtime genuinely lives on a private origin — an internal service, a webhook on your own subnet — you opt it in explicitly with the `THINKINGMACH_HTTP_ADAPTER_PRIVATE_ENDPOINT_ALLOWLIST` environment variable on the ThinkingMach host. It's a comma-separated list of **exact origins**, where an origin is the scheme, host, and port together (for example `http://hooks.internal.example:8080`). Matching is case-insensitive, and each entry must:
 
 - use `http` or `https`,
 - carry no path beyond `/`,

@@ -1,7 +1,7 @@
 ---
 paperclip_version: v2026.1005.0
 seo_title: Connect Your First Connector
-seo_description: Connect one read-only service to Paperclip and give an agent a task that uses it, without granting write access to anything.
+seo_description: Connect one read-only service to ThinkingMach and give an agent a task that uses it, without granting write access to anything.
 ---
 
 # Connect your first connector
@@ -14,7 +14,7 @@ The worked example is **Hugging Face**, chosen because it offers a simple setup:
 
 ## Before you start
 
-- Paperclip running, with a company you can administer. See [Installation](../guides/getting-started/installation.md).
+- ThinkingMach running, with a company you can administer. See [Installation](../guides/getting-started/installation.md).
 - At least one hired agent. See [Hire your first agent](../guides/getting-started/your-first-agent.md).
 - **Only if you follow the Hugging Face example:** a free [Hugging Face](https://huggingface.co) account, signed in in the same browser. If you choose a different first connector, follow that connector's prerequisites instead; you do not need a Hugging Face account.
 
@@ -22,11 +22,11 @@ The worked example is **Hugging Face**, chosen because it offers a simple setup:
 
 In the left sidebar, select **Connectors**.
 
-The page lists every connector Paperclip can set up. Use **Search connectors** to find **Hugging Face**, then select **Connect**.
+The page lists every connector ThinkingMach can set up. Use **Search connectors** to find **Hugging Face**, then select **Connect**.
 
 ## 2. Check who it is for
 
-Setup is a single screen. Paperclip fills in sensible defaults for who the connection belongs to and which agents may use it, and states them in one line above the main button — for example, *"Connects for everyone in your organization, available to all agents."* You can change any of it now or later on the connector's **Permissions** tab.
+Setup is a single screen. ThinkingMach fills in sensible defaults for who the connection belongs to and which agents may use it, and states them in one line above the main button — for example, *"Connects for everyone in your organization, available to all agents."* You can change any of it now or later on the connector's **Permissions** tab.
 
 For a first connector, narrow it. Select **Change**:
 
@@ -37,9 +37,9 @@ The line above the button updates to match, for example *"Connects as you, avail
 
 ## 3. Sign in
 
-Select **Continue to Hugging Face**. Paperclip registers itself with Hugging Face's authorization server and opens the provider's consent screen. Approve it there.
+Select **Continue to Hugging Face**. ThinkingMach registers itself with Hugging Face's authorization server and opens the provider's consent screen. Approve it there.
 
-You do not create an OAuth app, and you do not paste a token. If the provider ever refuses that automatic registration, Paperclip stops and asks you for a client instead of silently failing — that path is in [Connect a custom MCP server](custom-mcp-servers.md).
+You do not create an OAuth app, and you do not paste a token. If the provider ever refuses that automatic registration, ThinkingMach stops and asks you for a client instead of silently failing — that path is in [Connect a custom MCP server](custom-mcp-servers.md).
 
 ## 4. Turn off everything that is not a read
 
@@ -83,5 +83,5 @@ One connection, scoped to you, usable by one agent, restricted to reads. That is
 
 ## Sources
 
-- [Connection setup](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/features/connections/ConnectionSetupFlow.tsx) — one-screen access choices and setup behavior.
-- [Remote MCP setup](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/features/connections/remote-mcp/RemoteMcpConnectionSetup.tsx) — provider-specific connection controls.
+- [Connection setup](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/features/connections/ConnectionSetupFlow.tsx) — one-screen access choices and setup behavior.
+- [Remote MCP setup](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/features/connections/remote-mcp/RemoteMcpConnectionSetup.tsx) — provider-specific connection controls.

@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.824.0
 seo_title: Adapters API
-seo_description: The control-plane surface for the server-side adapter registry: which agent runtimes Paperclip can reach, how each is configured, and how packages install.
+seo_description: The control-plane surface for the server-side adapter registry: which agent runtimes ThinkingMach can reach, how each is configured, and how packages install.
 ---
 
 # Adapters API
 
-The adapters API is the control-plane surface for the **server-side adapter registry**: which agent runtimes Paperclip can talk to, how each is configured, and how external adapter packages get installed at the instance level.
+The adapters API is the control-plane surface for the **server-side adapter registry**: which agent runtimes ThinkingMach can talk to, how each is configured, and how external adapter packages get installed at the instance level.
 
 For per-adapter configuration semantics, jump to [Reference → Adapters → Overview](../adapters/overview.md). This page documents the REST endpoints.
 
@@ -20,7 +20,7 @@ For per-adapter configuration semantics, jump to [Reference → Adapters → Ove
 GET /api/adapters
 ```
 
-Returns the registry of server-side adapters Paperclip currently knows about: built-in adapter types plus any external adapters installed on the instance.
+Returns the registry of server-side adapters ThinkingMach currently knows about: built-in adapter types plus any external adapters installed on the instance.
 
 ## Install an external adapter
 
@@ -28,7 +28,7 @@ Returns the registry of server-side adapters Paperclip currently knows about: bu
 POST /api/adapters/install
 ```
 
-Installs an external adapter package on the instance. Used by the Adapter Manager UI and the `paperclipai adapter install` CLI workflow.
+Installs an external adapter package on the instance. Used by the Adapter Manager UI and the `thinkingmach adapter install` CLI workflow.
 
 ## Update an adapter's instance config
 
@@ -84,13 +84,13 @@ Returns the JSON schema the Adapter Manager uses to render the adapter's setting
 GET /api/adapters/:type/ui-parser.js
 ```
 
-Serves the adapter-supplied UI parser bundle. The Paperclip UI fetches this script to render run output for the adapter. The wire contract is documented in [Adapter UI Parser](../adapters/adapter-ui-parser.md).
+Serves the adapter-supplied UI parser bundle. The ThinkingMach UI fetches this script to render run output for the adapter. The wire contract is documented in [Adapter UI Parser](../adapters/adapter-ui-parser.md).
 
 ---
 
 ## Adapter device login
 
-Some adapters authenticate with a **device login** — the kind where the tool prints a code and a URL, you approve it in a browser, and the CLI finishes signing in. These routes drive that flow from Paperclip for a company, scoped to one environment. They currently apply to the Codex adapter.
+Some adapters authenticate with a **device login** — the kind where the tool prints a code and a URL, you approve it in a browser, and the CLI finishes signing in. These routes drive that flow from ThinkingMach for a company, scoped to one environment. They currently apply to the Codex adapter.
 
 | Route | Purpose |
 |---|---|

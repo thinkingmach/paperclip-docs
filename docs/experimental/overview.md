@@ -6,7 +6,7 @@ seo_description: Real, working features shipped behind opt-in flags while they a
 
 # Experimental features
 
-Paperclip ships some features behind opt-in flags before they become default behavior. They're real, working features — you can turn them on today — but they're still being evaluated against real usage, so they live on a dedicated **Experimental** settings page instead of being on for everyone.
+ThinkingMach ships some features behind opt-in flags before they become default behavior. They're real, working features — you can turn them on today — but they're still being evaluated against real usage, so they live on a dedicated **Experimental** settings page instead of being on for everyone.
 
 This section has one page per experimental feature: why it exists, how to turn it on, and how to use it.
 
@@ -14,38 +14,38 @@ This section has one page per experimental feature: why it exists, how to turn i
 
 ## What "experimental" means
 
-An experimental feature in Paperclip:
+An experimental feature in ThinkingMach:
 
 - **Has shipped and works.** These aren't stubs — each flag gates a complete surface.
-- **Has a feature gate.** Most flags are off by default. Paperclip Runner is experimental even though its gate defaults to on for self-hosted instances; Cloud can manage a different value.
+- **Has a feature gate.** Most flags are off by default. ThinkingMach Runner is experimental even though its gate defaults to on for self-hosted instances; Cloud can manage a different value.
 - **Comes with no compatibility guarantees.** The app puts it plainly when you open the page: *"Experimental features may break at any time. These features are opt-in and come with no compatibility guarantees. They may change, break, or be removed without notice. Avoid relying on them for critical or production workflows."*
 
 Check the feature's own page before changing its flag: hiding a surface and disabling execution can have different effects. Avoid relying on experimental behavior for a workflow that must stay stable, and read the release notes after an upgrade. Features may be renamed, reworked, promoted to core settings, or retired between releases.
 
 ## Turning a feature on
 
-All experimental flags live in one place, and they're instance-wide (they apply to every company on your Paperclip instance):
+All experimental flags live in one place, and they're instance-wide (they apply to every company on your ThinkingMach instance):
 
 1. Open **Settings → Instance settings → Experimental**.
 2. Find the feature's card and flip its toggle.
 
 Changes take effect immediately — no restart, no migration. Each feature page in this section repeats the exact toggle name to look for.
 
-The page groups its toggles into up to three sections — **Experimental features**, **Paperclip Developer Mode**, and **Legacy** — and lists the cards alphabetically within each one, so you can scan for a name. If every toggle in the developer or legacy section is hidden, that section heading disappears too.
+The page groups its toggles into up to three sections — **Experimental features**, **ThinkingMach Developer Mode**, and **Legacy** — and lists the cards alphabetically within each one, so you can scan for a name. If every toggle in the developer or legacy section is hidden, that section heading disappears too.
 
 ## If a toggle is missing
 
-If you're on a hosted Paperclip — a managed cloud or a shared server someone else runs — the operator may have hidden some toggles, or all of them, because they manage those features for you. A hidden toggle simply doesn't appear on the page. It still has a value, though: hiding a control keeps whatever it was set to, so a feature can be on even when you can't see its card. If you need one changed, ask whoever runs your instance. Operators can read how this works in [Operator controls for hosted deployments](../administration/settings.md#operator-controls-for-hosted-deployments).
+If you're on a hosted ThinkingMach — a managed cloud or a shared server someone else runs — the operator may have hidden some toggles, or all of them, because they manage those features for you. A hidden toggle simply doesn't appear on the page. It still has a value, though: hiding a control keeps whatever it was set to, so a feature can be on even when you can't see its card. If you need one changed, ask whoever runs your instance. Operators can read how this works in [Operator controls for hosted deployments](../administration/settings.md#operator-controls-for-hosted-deployments).
 
 ## If a toggle is locked
 
-On an instance managed by Paperclip Cloud, some of these features are decided for you. Open the Experimental page there and you'll see a small lock badge reading **Managed by Paperclip Cloud** next to the feature's name, and its toggle greyed out — the switch still shows you whether the feature is on or off, you just can't move it. Clicking it does nothing.
+On an instance managed by ThinkingMach Cloud, some of these features are decided for you. Open the Experimental page there and you'll see a small lock badge reading **Managed by ThinkingMach Cloud** next to the feature's name, and its toggle greyed out — the switch still shows you whether the feature is on or off, you just can't move it. Clicking it does nothing.
 
-That's not a permission problem with your account. Paperclip Cloud sets those values for the fleet your instance runs in, and the app re-applies them every time it reads the settings, so the answer can't drift — nothing you or anyone else does inside the instance changes a managed value. If you need one of these features turned on or off, that's a change on the Paperclip Cloud side rather than something you flip on this page.
+That's not a permission problem with your account. ThinkingMach Cloud sets those values for the fleet your instance runs in, and the app re-applies them every time it reads the settings, so the answer can't drift — nothing you or anyone else does inside the instance changes a managed value. If you need one of these features turned on or off, that's a change on the ThinkingMach Cloud side rather than something you flip on this page.
 
 Only some features are managed this way. Anything without the badge is still yours to turn on and off exactly as described above, and the two kinds sit side by side in the same list — so the badge is what tells you which is which, on any given release.
 
-**Self-hosted instances are unaffected.** If you run Paperclip yourself, there is no managed configuration, no lock badge, and every card on the page stays editable. What makes the difference is a single environment variable, [`PAPERCLIP_MANAGED_CONFIG`](../reference/deploy/environment-variables.md#cloud-managed-instances), which only the Paperclip Cloud harness sets.
+**Self-hosted instances are unaffected.** If you run ThinkingMach yourself, there is no managed configuration, no lock badge, and every card on the page stays editable. What makes the difference is a single environment variable, [`THINKINGMACH_MANAGED_CONFIG`](../reference/deploy/environment-variables.md#cloud-managed-instances), which only the ThinkingMach Cloud harness sets.
 
 ## The features
 
@@ -59,12 +59,12 @@ Only some features are managed this way. Anything without the badge is still you
 | [Chat-Style Tasks](task-chat.md) | **Now the default.** The task detail page as a live conversation: chat bubbles, streaming activity that folds into a one-line summary, a three-mode composer, and a resizable Properties · Plan · Artifacts pane. The old page is behind the **Classic Task Interface** toggle under **Legacy**. |
 | [Agent Chat](agent-chat.md) | One ongoing conversation per agent, reached from a **Chat** entry in the sidebar. Agents clarify your goal, hand real work off to tasks, and report back in the chat when those tasks are done. |
 | [Memory connectors](../connectors/memory-connectors.md) | **Experimental; off by default.** Set up Mem0, Zep, Supermemory, Cognee, or Honcho for agents. Existing connections keep running when setup is hidden. |
-| [Paperclip Runner](../reference/adapters/paperclip-runner.md) | **Experimental.** Native agent execution, enabled by default for self-hosted instances and disabled by default on Cloud. Agents must be explicitly configured to use it. |
+| [ThinkingMach Runner](../reference/adapters/paperclip-runner.md) | **Experimental.** Native agent execution, enabled by default for self-hosted instances and disabled by default on Cloud. Agents must be explicitly configured to use it. |
 | [Task Watchdogs](task-watchdogs.md) | Watchdog agents that verify stopped task subtrees and restore live paths when work should continue. |
 | [Status Cards](status-cards.md) | A shared board of living summaries: one message per card, compiled into a watch query and kept current by the Summarizer. |
 | [Cloud Sync](cloud-sync.md) | **Retired.** Host-to-host Cloud Sync has been removed upstream, toggle included — you won't find it on the Experimental page any more. Use [company Import/Export](../how-to/back-up-and-restore-a-company.md) to move a company between instances. |
 | [Server Info Debug View](server-info-debug-view.md) | A "Server" section in the account drawer with the server restart time and running commit. |
-| [Auto-Restart Dev Server When Idle](auto-restart-dev-server.md) | For Paperclip developers: restarts a stale `pnpm dev:once` boot once all local runs finish. |
+| [Auto-Restart Dev Server When Idle](auto-restart-dev-server.md) | For ThinkingMach developers: restarts a stale `pnpm dev:once` boot once all local runs finish. |
 | [Auto-Create Recovery Tasks](auto-create-recovery-tasks.md) | Lets the scheduler create recovery tasks for stalled task dependency chains. |
 
 ## Where to go next

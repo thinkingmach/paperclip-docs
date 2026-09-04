@@ -8,18 +8,18 @@ seo_description: Give agents model access through OpenRouter with an API key. Ru
 
 An OpenRouter connection gives agents a credential that routes to many model providers through one account. It is model access, not a set of tools — there are no actions to permit.
 
-OpenRouter is API key only. There is no subscription sign-in for this provider, and Paperclip says so on the sign-in screen.
+OpenRouter is API key only. There is no subscription sign-in for this provider, and ThinkingMach says so on the sign-in screen.
 
 ## Before you connect
 
 - An OpenRouter account with credit or billing set up, and an API key from [OpenRouter keys](https://openrouter.ai/keys).
 - An agent that runs on the OpenCode runtime. This credential is only usable by an agent whose harness resolves to OpenCode.
-- A model id that starts with `openrouter/`. This is a hard requirement, not a convention — Paperclip treats an OpenRouter connection as incompatible with a model id that lacks the prefix.
+- A model id that starts with `openrouter/`. This is a hard requirement, not a convention — ThinkingMach treats an OpenRouter connection as incompatible with a model id that lacks the prefix.
 
 ## Connect OpenRouter
 
 1. Open **Connectors** and select **OpenRouter**.
-2. Paste the API key. Paperclip stores it as a secret and it is not readable afterwards.
+2. Paste the API key. ThinkingMach stores it as a secret and it is not readable afterwards.
 
 Setup is a single screen with no separate access step. Once the account is saved, you change which people and agents may use it from the saved connection.
 
@@ -50,7 +50,7 @@ Reply with the single word: ready
 
 Run it on an agent with an `openrouter/`-prefixed model, after noting which AI connection that agent is configured to use.
 
-**A reply proves** an OpenRouter credential was accepted, the runtime and model prefix are compatible, and the checks above passed — Paperclip refuses an ineligible binding rather than falling back to another account. **It does not prove which OpenRouter account was charged**; Paperclip does not surface that attribution per run, so check the activity and credit balance in your OpenRouter account if you need to confirm it.
+**A reply proves** an OpenRouter credential was accepted, the runtime and model prefix are compatible, and the checks above passed — ThinkingMach refuses an ineligible binding rather than falling back to another account. **It does not prove which OpenRouter account was charged**; ThinkingMach does not surface that attribution per run, so check the activity and credit balance in your OpenRouter account if you need to confirm it.
 
 If it fails, change only one thing at a time — the model id is the most common cause.
 
@@ -68,11 +68,11 @@ If it fails, change only one thing at a time — the model id is the most common
 | Runs fail once usage rises | OpenRouter credit is exhausted or a rate limit applied | Top up or check limits in your OpenRouter account |
 | Status **needs attention** | The key was revoked or rotated | Reconnect with a current key |
 
-Limitations: one connection is one OpenRouter account, and it grants no tool access. Only `openrouter/`-prefixed models are usable with it. Which upstream models are reachable is OpenRouter's decision, not Paperclip's.
+Limitations: one connection is one OpenRouter account, and it grants no tool access. Only `openrouter/`-prefixed models are usable with it. Which upstream models are reachable is OpenRouter's decision, not ThinkingMach's.
 
 ## Related guides
 
-- [Connector overview](https://paperclip.ing/product/connectors/openrouter/)
+- [Connector overview](https://thinkingmach.com/product/connectors/openrouter/)
 
 - [Anthropic](anthropic.md), [OpenAI](openai.md), [Grok](xai.md) — the other model providers.
 - [How connector access works](access-model.md)

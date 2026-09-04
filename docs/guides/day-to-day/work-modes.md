@@ -6,7 +6,7 @@ seo_description: Choose Auto to do the work, Plan to review an approach first, o
 
 # Work modes
 
-Choose the kind of result you want before an agent starts: work done, a plan to review, or an answer in the thread. Paperclip offers **Auto mode**, **Plan mode**, and **Ask mode** for those three goals.
+Choose the kind of result you want before an agent starts: work done, a plan to review, or an answer in the thread. ThinkingMach offers **Auto mode**, **Plan mode**, and **Ask mode** for those three goals.
 
 ## Background
 
@@ -34,7 +34,7 @@ Pending questions and confirmations remain visible above the composer until you 
 
 Tasks keep their assignee, priority, project, thread, and status regardless of the mode. Budgets, approvals, and company boundaries still apply. The mode changes the agent's task instructions and available actions.
 
-Implementation reference: [composer mode selection](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/components/task-chat/TaskChatComposer.tsx) and [mode labels](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/lib/work-mode-meta.ts).
+Implementation reference: [composer mode selection](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/components/task-chat/TaskChatComposer.tsx) and [mode labels](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/lib/work-mode-meta.ts).
 
 ## Answer or artifact
 

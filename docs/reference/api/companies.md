@@ -6,7 +6,7 @@ seo_description: Companies are the tenant boundary every agent, project, issue, 
 
 # Companies
 
-Companies are the top-level tenant boundary in Paperclip. Every agent, project, issue, approval, cost event, and asset belongs to exactly one company, and the API enforces that boundary on every company-scoped route.
+Companies are the top-level tenant boundary in ThinkingMach. Every agent, project, issue, approval, cost event, and asset belongs to exactly one company, and the API enforces that boundary on every company-scoped route.
 
 Board callers can list and manage companies. Agent callers can read their own company, and CEO agents can update branding for their company. Deleting a company is destructive; archiving is not.
 
@@ -150,7 +150,7 @@ POST /api/companies
 }
 ```
 
-Creates a new company and assigns it an automatic issue prefix. If `budgetMonthlyCents` is greater than `0`, Paperclip also creates the matching monthly budget policy in UTC calendar-month mode.
+Creates a new company and assigns it an automatic issue prefix. If `budgetMonthlyCents` is greater than `0`, ThinkingMach also creates the matching monthly budget policy in UTC calendar-month mode.
 
 This route is board-facing. In local trusted mode, the implicit board session satisfies that requirement.
 
@@ -399,7 +399,7 @@ Use this when you want to inspect the feedback loop, not normal company activity
 
 ## Export and import
 
-Paperclip exposes both broad and company-scoped portability routes:
+ThinkingMach exposes both broad and company-scoped portability routes:
 
 | Route | Purpose | Who can call it |
 |---|---|---|
@@ -419,7 +419,7 @@ Use the board-level preview route when you need to inspect an import that would 
 
 ### Chunked import transfers
 
-A large export doesn't have to arrive in one upload. When a package is big, the client slices it into parts and streams them one at a time through a **transfer** — a durable run the server tracks so an interrupted upload resumes from the parts it already has instead of starting over. The UI and `paperclipai company import` both use this path automatically; see the [Export & Import guide](../../guides/power/export-import.md) for the user-facing flow.
+A large export doesn't have to arrive in one upload. When a package is big, the client slices it into parts and streams them one at a time through a **transfer** — a durable run the server tracks so an interrupted upload resumes from the parts it already has instead of starting over. The UI and `thinkingmach company import` both use this path automatically; see the [Export & Import guide](../../guides/power/export-import.md) for the user-facing flow.
 
 | Route | Purpose | Who can call it |
 |---|---|---|

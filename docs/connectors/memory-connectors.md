@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.1005.0
-seo_title: Memory Connectors in Paperclip
+seo_title: Memory Connectors in ThinkingMach
 seo_description: Choose an experimental memory provider, enable its setup, and help agents recall context while you keep access and action permissions under control.
 ---
 
 # Memory connectors
 
-You can give agents a place to recall preferences, decisions, and earlier work across tasks. Paperclip connects to **Mem0**, **Zep**, **Supermemory**, **Cognee**, and **Honcho** through the same access and action controls as other tool connectors.
+You can give agents a place to recall preferences, decisions, and earlier work across tasks. ThinkingMach connects to **Mem0**, **Zep**, **Supermemory**, **Cognee**, and **Honcho** through the same access and action controls as other tool connectors.
 
 These connectors are experimental and off by default. Open **Settings → Experimental** and enable **Memory connectors**, then find the provider in **Connectors**.
 
@@ -28,9 +28,9 @@ You manage every connection on its ordinary **Permissions** page. There is no se
 
 Active actions start as **Allowed**, including memory writes and deletions. To review what agents save, change writes to **Ask first**. Set deletion actions to **Off** if you do not want agents to forget stored information.
 
-Paperclip classifies retrieval as read, storage and updates as write, and deletion or reset as destructive. Supermemory's `add_memory` can also forget information, so the whole action is classified as destructive.
+ThinkingMach classifies retrieval as read, storage and updates as write, and deletion or reset as destructive. Supermemory's `add_memory` can also forget information, so the whole action is classified as destructive.
 
-The provider's credential, consent, and access rules decide which data the connection can reach. A user identifier, dataset name, workspace argument, or tag is not by itself a new isolation boundary enforced by Paperclip. Use separate credentials or provider access controls when work must stay separate.
+The provider's credential, consent, and access rules decide which data the connection can reach. A user identifier, dataset name, workspace argument, or tag is not by itself a new isolation boundary enforced by ThinkingMach. Use separate credentials or provider access controls when work must stay separate.
 
 ## Check a connection
 
@@ -48,5 +48,5 @@ An empty result may mean the wrong context, an empty store, or indexing that has
 
 ## Sources
 
-- [Feature defaults](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/packages/shared/src/feature-catalog.ts) and [connection setup service](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/tool-access.ts) — the off-by-default setting and new-setup gate.
-- [Memory tool classification](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/tool-access.ts) — reviewed action risks.
+- [Feature defaults](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/packages/shared/src/feature-catalog.ts) and [connection setup service](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/tool-access.ts) — the off-by-default setting and new-setup gate.
+- [Memory tool classification](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/tool-access.ts) — reviewed action risks.

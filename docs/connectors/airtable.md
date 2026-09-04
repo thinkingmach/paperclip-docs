@@ -19,11 +19,11 @@ Agents can work with your Airtable bases — finding records, reading fields, an
 2. Read the access line above the main button. It says who the connection signs in as and which agents can use it. To pick a different identity, narrow the agents, or use another sign-in method, select **Change**.
 3. Select **Sign in with Airtable** and complete browser sign-in, choosing what to share when Airtable asks.
 
-Paperclip registers its client with Airtable automatically, so there is nothing to set up in a developer console.
+ThinkingMach registers its client with Airtable automatically, so there is nothing to set up in a developer console.
 
 ## Choose access
 
-Base and table reach comes from Airtable: what the authorizing account can open, plus whatever you selected at Airtable's authorization screen. Paperclip has no base picker of its own, so narrow it there or by authorizing with an account that belongs to fewer workspaces.
+Base and table reach comes from Airtable: what the authorizing account can open, plus whatever you selected at Airtable's authorization screen. ThinkingMach has no base picker of its own, so narrow it there or by authorizing with an account that belongs to fewer workspaces.
 
 Airtable bases often mix reference data with operational records, and an agent cannot tell the difference. Record writes and deletions matter:
 
@@ -54,11 +54,11 @@ Then open the connection's activity and confirm the Airtable calls are listed th
 | A record was changed unexpectedly | A write action was set to **Allowed** | Restore from Airtable's revision history, then tighten the settings |
 | **Needs attention** | The grant was revoked in Airtable | Select **Reconnect** |
 
-Limitations: one Airtable account per connection. No base or table filter inside Paperclip. Airtable's API rate limits apply, so large scans are slow.
+Limitations: one Airtable account per connection. No base or table filter inside ThinkingMach. Airtable's API rate limits apply, so large scans are slow.
 
 ## Related guides
 
-- [Connector overview](https://paperclip.ing/product/connectors/airtable/)
+- [Connector overview](https://thinkingmach.com/product/connectors/airtable/)
 
 - [Google Sheets](google-sheets.md) — for spreadsheet data, with a stricter scoping option.
 - [Set action permissions](action-permissions.md)

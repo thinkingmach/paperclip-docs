@@ -6,7 +6,7 @@ seo_description: Company-scoped secrets share one value; user-scoped secrets hol
 
 # Secret scopes and the responsible user
 
-A secret in Paperclip has two parts: a definition (the name, and where it applies) and the values stored under it. The definition's scope decides who supplies the value. A company-scoped secret carries one value that every run in the company uses. A user-scoped secret holds a separate value per human, and a run resolves the value belonging to the human responsible for that run. Before a run dispatches, Paperclip checks that the responsible user has supplied every user-scoped value the run needs; if one is missing, the run does not start.
+A secret in ThinkingMach has two parts: a definition (the name, and where it applies) and the values stored under it. The definition's scope decides who supplies the value. A company-scoped secret carries one value that every run in the company uses. A user-scoped secret holds a separate value per human, and a run resolves the value belonging to the human responsible for that run. Before a run dispatches, ThinkingMach checks that the responsible user has supplied every user-scoped value the run needs; if one is missing, the run does not start.
 
 ## Why scope exists
 
@@ -48,11 +48,11 @@ The check confirms presence, not correctness. It guarantees the responsible user
 
 Not every use of a secret is a run. A couple of things in the product reach for one the moment you click, with no run and no dispatch check involved: testing an adapter's environment while you are still setting an agent up, and signing an agent in to Claude from its settings.
 
-For those, you are the responsible user. Paperclip works that out from the request itself — the signed-in user, or the user an agent is acting on behalf of when the request arrives with an agent's token. It is never something the request body can nominate, so the badge presented is always the one you are actually carrying.
+For those, you are the responsible user. ThinkingMach works that out from the request itself — the signed-in user, or the user an agent is acting on behalf of when the request arrives with an agent's token. It is never something the request body can nominate, so the badge presented is always the one you are actually carrying.
 
-If Paperclip cannot work out who you are, and the config needs a user-scoped value that is marked required, the action stops with `responsible_user_missing`. That is the same fail-closed answer dispatch gives a run whose responsible user hasn't supplied a value: nothing proceeds on a fallback identity.
+If ThinkingMach cannot work out who you are, and the config needs a user-scoped value that is marked required, the action stops with `responsible_user_missing`. That is the same fail-closed answer dispatch gives a run whose responsible user hasn't supplied a value: nothing proceeds on a fallback identity.
 
-Testing a config you haven't saved yet is the interesting case. Normally a user-scoped value has to be bound to the thing asking for it, and that binding is what says this definition belongs at this key in this agent's config. A config you are still filling in has no bindings, because it hasn't been saved. So for that one action Paperclip resolves your own value directly from the definition, checking only that the value is yours. Your teammates' values stay out of reach, and the test runs on your credentials or not at all.
+Testing a config you haven't saved yet is the interesting case. Normally a user-scoped value has to be bound to the thing asking for it, and that binding is what says this definition belongs at this key in this agent's config. A config you are still filling in has no bindings, because it hasn't been saved. So for that one action ThinkingMach resolves your own value directly from the definition, checking only that the value is yours. Your teammates' values stay out of reach, and the test runs on your credentials or not at all.
 
 Saved agents keep the stricter path. Signing a saved agent in to Claude resolves against the bindings recorded for that agent, so a required user-scoped reference that was never bound there is refused with `binding_missing` rather than quietly resolving. Company-scoped references resolve the same way in both cases.
 
@@ -74,7 +74,7 @@ The trade-off is real. User scope adds an onboarding step per human: a new teamm
 
 ## Where this sits in the secret model
 
-Scope answers a different question than the rest of the secret model. Providers and vaults, covered in the [Secrets reference](../reference/deploy/secrets.md), decide where secret material is stored and how Paperclip reaches external stores. Scope decides who supplies a value and which runs can use it. Reading that page first helps if you are new to secrets generally; this page assumes the basics and explains only the scoping layer.
+Scope answers a different question than the rest of the secret model. Providers and vaults, covered in the [Secrets reference](../reference/deploy/secrets.md), decide where secret material is stored and how ThinkingMach reaches external stores. Scope decides who supplies a value and which runs can use it. Reading that page first helps if you are new to secrets generally; this page assumes the basics and explains only the scoping layer.
 
 Naming is a third, separate question. Slashes in a secret name give the Secrets screen a folder tree to browse, and that grouping is independent of scope — a folder happily holds both company-scoped and user-scoped secrets. See [Secret folders](./secret-folders.md) for how the tree is derived and how to file secrets into it.
 

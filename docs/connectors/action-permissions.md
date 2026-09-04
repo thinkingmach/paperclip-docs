@@ -34,17 +34,17 @@ This is the quick way to lock down a fresh connection: set the whole **Write** g
 
 ## Why new connections can make changes
 
-When you connect a service, Paperclip asks the provider for the permissions its read **and** write actions need, and where a connector offers a read-only and a read-and-write version, setup starts on the one that can make changes. That way an agent is not blocked later by a credential that cannot do the job. The read-only choices are still there under **Change** when you connect.
+When you connect a service, ThinkingMach asks the provider for the permissions its read **and** write actions need, and where a connector offers a read-only and a read-and-write version, setup starts on the one that can make changes. That way an agent is not blocked later by a credential that cannot do the job. The read-only choices are still there under **Change** when you connect.
 
 What an agent may actually do is still decided here, action by action. Connecting with write access does not switch any action from **Off** or **Ask first** to **Allowed**, and reconnecting or changing sign-in settings never does either.
 
-For an API-key connection, the key carries whatever the provider gave it. Paperclip cannot add permissions to a key that already exists, so if an action fails for lack of access, create a key with the permissions you need and reconnect. When a provider explicitly says a sign-in lacks a permission, the action fails with *"The provider has not granted the permissions needed for this action. Reconnect this connection and allow the required read and write access."*
+For an API-key connection, the key carries whatever the provider gave it. ThinkingMach cannot add permissions to a key that already exists, so if an action fails for lack of access, create a key with the permissions you need and reconnect. When a provider explicitly says a sign-in lacks a permission, the action fails with *"The provider has not granted the permissions needed for this action. Reconnect this connection and allow the required read and write access."*
 
 The summary above the list reads back the current state — **Allowed for**, **Ask first for**, and **Off for** — so you can confirm a bulk change without scrolling the whole catalog.
 
 ## Read the risk classification
 
-Each action carries a classification Paperclip derives from the provider's tool metadata and name:
+Each action carries a classification ThinkingMach derives from the provider's tool metadata and name:
 
 - **read** — no known mutation.
 - **write** — creates or changes something.
@@ -78,10 +78,10 @@ The refresh reports how many actions it discovered — *"Found 24 actions"* — 
 
 | How the connection was set up | A newly discovered or changed action |
 | --- | --- |
-| **Managed — "Connect with Paperclip"** | New or changed actions are normally quarantined on refresh. Where safe defaults are enabled, read-classified actions are exempt. Check the resulting action list |
+| **Managed — "Connect with ThinkingMach"** | New or changed actions are normally quarantined on refresh. Where safe defaults are enabled, read-classified actions are exempt. Check the resulting action list |
 | **Your own credential or OAuth client** — the ordinary catalog setup for most connectors | Becomes **active** on discovery. It is then governed by the action policies already in force for that connection, not held in a separate review queue |
 | **A custom MCP server you pasted a URL for** | Becomes active on discovery, as above |
-| **A Paperclip example connection** | Safe defaults exempt read-classified actions; new or changed write and destructive actions are held back |
+| **A ThinkingMach example connection** | Safe defaults exempt read-classified actions; new or changed write and destructive actions are held back |
 
 For the ordinary case, the wizard projects the app's action defaults into policies when you finish setup, rather than using a review queue as the access state. This means **you should not assume a refresh can only ever reduce what an agent can do.**
 
@@ -99,9 +99,9 @@ A permission switch cannot grant something the connector was never allowed to do
 
 ## The shell exception
 
-Per-action settings govern tool calls through Paperclip's tool gateway. They do not govern commands an agent runs in its own workspace shell.
+Per-action settings govern tool calls through ThinkingMach's tool gateway. They do not govern commands an agent runs in its own workspace shell.
 
-When you change a permission on a GitHub connection bound to an agent identity, Paperclip says so at that moment: *"Shell Git and gh use this account for the run and are not constrained by per-tool Ask-first controls."* Read that as scoped to GitHub and to shell Git and `gh` — it is not a statement that other connectors are sandboxed.
+When you change a permission on a GitHub connection bound to an agent identity, ThinkingMach says so at that moment: *"Shell Git and gh use this account for the run and are not constrained by per-tool Ask-first controls."* Read that as scoped to GitHub and to shell Git and `gh` — it is not a statement that other connectors are sandboxed.
 
 ## Related
 
@@ -112,5 +112,5 @@ When you change a permission on a GitHub connection bound to an agent identity, 
 
 ## Sources
 
-- [Connection setup](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/features/connections/ConnectionSetupFlow.tsx) — one-screen access choices and setup behavior.
-- [Remote MCP setup](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/features/connections/remote-mcp/RemoteMcpConnectionSetup.tsx) — provider-specific connection controls.
+- [Connection setup](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/features/connections/ConnectionSetupFlow.tsx) — one-screen access choices and setup behavior.
+- [Remote MCP setup](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/features/connections/remote-mcp/RemoteMcpConnectionSetup.tsx) — provider-specific connection controls.

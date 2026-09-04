@@ -21,10 +21,10 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 /* Google renders roughly 60 characters of title and ~155 of description.
    The floor stops one-line filler from passing as an authored description. */
-const TITLE_MAX = 60;      // including the " | Paperclip Docs" suffix
+const TITLE_MAX = 60;      // including the " | ThinkingMach Docs" suffix
 const DESC_MIN = 110;
 const DESC_MAX = 158;
-const SUFFIX = " | Paperclip Docs";
+const SUFFIX = " | ThinkingMach Docs";
 
 const failures = [];
 const fail = (message) => failures.push(message);

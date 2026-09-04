@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.1005.0
 seo_title: Browser Use Cloud Connector
-seo_description: Delegate website tasks to Browser Use Cloud, watch the live browser in Paperclip, and choose saved profiles, agent access, and spending limits.
+seo_description: Delegate website tasks to Browser Use Cloud, watch the live browser in ThinkingMach, and choose saved profiles, agent access, and spending limits.
 ---
 
 # Browser Use Cloud
 
-You can give an agent website work and watch the hosted browser in the task's **Browser** tab. Browser Use Cloud runs the browsing task; Paperclip controls access, action approvals, and the recorded run costs.
+You can give an agent website work and watch the hosted browser in the task's **Browser** tab. Browser Use Cloud runs the browsing task; ThinkingMach controls access, action approvals, and the recorded run costs.
 
 Browser Use Cloud does not require an experimental setting.
 
@@ -16,7 +16,7 @@ Browser Use Cloud does not require an experimental setting.
 - An agent and a task for your first browsing test.
 - For self-hosted instances, outbound HTTPS access to `api.browser-use.com`. Your browser also needs access to `live.browser-use.com`; a custom Content Security Policy must allow that origin in `frame-src`.
 
-The API key stays in Paperclip's secret store. It is not handed to the agent or shown in the live browser panel.
+The API key stays in ThinkingMach's secret store. It is not handed to the agent or shown in the live browser panel.
 
 ## Connect Browser Use Cloud
 
@@ -26,11 +26,11 @@ The API key stays in Paperclip's secret store. It is not handed to the agent or 
 4. Open **Permissions**. Under **Browser settings**, set **Maximum cost per browser run (USD)** if you want a cap.
 5. Review **Allowed saved profiles**, then select **Save browser settings**.
 
-Fresh browsers are the default. Selecting a profile lets eligible agents use its saved website logins. Manage those profiles in Browser Use Cloud; Paperclip does not create or import them. The credential owner or a shared connection manager can change these settings.
+Fresh browsers are the default. Selecting a profile lets eligible agents use its saved website logins. Manage those profiles in Browser Use Cloud; ThinkingMach does not create or import them. The credential owner or a shared connection manager can change these settings.
 
 ## Choose access
 
-The exposed actions use the usual **Allowed**, **Ask first**, and **Off** permissions. Starting or continuing a browsing task can change websites, so Paperclip classifies those actions conservatively, alongside cancellation and ending a session.
+The exposed actions use the usual **Allowed**, **Ask first**, and **Off** permissions. Starting or continuing a browsing task can change websites, so ThinkingMach classifies those actions conservatively, alongside cancellation and ending a session.
 
 | Action | What you can do |
 | --- | --- |
@@ -44,7 +44,7 @@ The exposed actions use the usual **Allowed**, **Ask first**, and **Off** permis
 
 Browser work needs an actual task and agent run. The connector's test surface can list profiles, but it cannot start paid browsing. Eligible runs also receive the connector's usage skill automatically.
 
-A run's cost cap uses the lowest applicable limit: the requested cap, your saved browser cap, and remaining hard company, agent, or project budgets. Recorded provider run charges feed Paperclip's cost and budget records. They are not a live invoice or a shared reservation across concurrent runs.
+A run's cost cap uses the lowest applicable limit: the requested cap, your saved browser cap, and remaining hard company, agent, or project budgets. Recorded provider run charges feed ThinkingMach's cost and budget records. They are not a live invoice or a shared reservation across concurrent runs.
 
 ## Watch and continue work
 
@@ -64,7 +64,7 @@ The live viewer is for eligible human company members. Do not copy its URL into 
 Create a task for an eligible agent:
 
 ```txt
-Use Browser Use Cloud to visit paperclip.ing and report the main navigation links.
+Use Browser Use Cloud to visit thinkingmach.com and report the main navigation links.
 Use a fresh browser. Do not sign in, submit forms, or change anything.
 ```
 
@@ -82,7 +82,7 @@ Watch the page in **Browser**, compare the answer with the website, and inspect 
 | Another viewer controls sizing | Use **Fit to this pane instead** if you want this panel to control the viewport. |
 | Removal says shutdown is pending | Wait for provider shutdown, then retry removing the connection. |
 
-This connector delegates hosted tasks. It does not expose arbitrary browser-control commands, import recordings or files, or offer a local browser session. If a paid start has an uncertain outcome, inspect Browser Use Cloud before starting replacement work; Paperclip does not retry it automatically.
+This connector delegates hosted tasks. It does not expose arbitrary browser-control commands, import recordings or files, or offer a local browser session. If a paid start has an uncertain outcome, inspect Browser Use Cloud before starting replacement work; ThinkingMach does not retry it automatically.
 
 ## Related guides
 
@@ -92,5 +92,5 @@ This connector delegates hosted tasks. It does not expose arbitrary browser-cont
 
 ## Sources
 
-- [Connector definition](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/packages/shared/src/app-definitions/browser-use-cloud.json) — setup method and credential fields.
-- [Browser settings](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/pages/apps/app-detail/BrowserUseSettingsPanel.tsx), [browser controls](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/components/task-side-panel/TaskBrowserFooter.tsx), and [browser service](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/browser-use.ts) — profiles, viewer behavior, lifecycle, and costs.
+- [Connector definition](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/packages/shared/src/app-definitions/browser-use-cloud.json) — setup method and credential fields.
+- [Browser settings](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/pages/apps/app-detail/BrowserUseSettingsPanel.tsx), [browser controls](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/ui/src/components/task-side-panel/TaskBrowserFooter.tsx), and [browser service](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/browser-use.ts) — profiles, viewer behavior, lifecycle, and costs.

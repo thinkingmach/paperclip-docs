@@ -5,7 +5,7 @@ seo_description: Rate agent comments and documents Helpful or Needs work. Votes 
 
 # Feedback & Voting
 
-Every time an agent posts a comment or revises a document, you can rate the result with **Helpful** (thumbs up) or **Needs work** (thumbs down). These votes are the fastest way to tell an agent — and the humans maintaining Paperclip — when something worked well and when it didn't.
+Every time an agent posts a comment or revises a document, you can rate the result with **Helpful** (thumbs up) or **Needs work** (thumbs down). These votes are the fastest way to tell an agent — and the humans maintaining ThinkingMach — when something worked well and when it didn't.
 
 Votes stay on your own machine by default. Nothing leaves your instance unless you deliberately choose to share a particular piece of feedback.
 
@@ -26,7 +26,7 @@ Each vote creates two local records:
 | **Vote** | Direction (up/down), optional reason, sharing preference, consent version, timestamp |
 | **Trace bundle** | Full context snapshot: the voted-on comment or revision, issue title, agent info, vote, and reason — everything needed to understand the feedback in isolation |
 
-Everything lives in your local Paperclip database. If a vote is marked as *shared*, Paperclip immediately tries to upload the trace bundle to the configured telemetry backend. The upload is compressed so full bundles stay under gateway limits. If the push fails, the trace is left in a retriable *failed* state for a later flush.
+Everything lives in your local ThinkingMach database. If a vote is marked as *shared*, ThinkingMach immediately tries to upload the trace bundle to the configured telemetry backend. The upload is compressed so full bundles stay under gateway limits. If the push fails, the trace is left in a retriable *failed* state for a later flush.
 
 ---
 
@@ -35,7 +35,7 @@ Everything lives in your local Paperclip database. If a vote is marked as *share
 ### Quick report in the terminal
 
 ```sh
-pnpm paperclipai feedback report
+pnpm thinkingmach feedback report
 ```
 
 Prints a colour-coded summary: vote counts, per-trace detail with reasons, and export status.
@@ -44,13 +44,13 @@ Useful flags:
 
 ```sh
 # Installed CLI
-paperclipai feedback report
+thinkingmach feedback report
 
 # Point to a specific server or company
-pnpm paperclipai feedback report --api-base http://127.0.0.1:3000 --company-id <company-id>
+pnpm thinkingmach feedback report --api-base http://127.0.0.1:3000 --company-id <company-id>
 
 # Include raw payloads
-pnpm paperclipai feedback report --payloads
+pnpm thinkingmach feedback report --payloads
 ```
 
 ### API endpoints
@@ -100,7 +100,7 @@ The trace endpoints accept:
 ## Exporting your data
 
 ```sh
-pnpm paperclipai feedback export
+pnpm thinkingmach feedback export
 ```
 
 Produces a timestamped directory (and matching zip):
@@ -111,7 +111,7 @@ feedback-export-20260331T120000Z/
   votes/
     PAP-123-a1b2c3d4.json       # one vote record
   traces/
-    PAP-123-e5f6g7h8.json       # Paperclip feedback envelope
+    PAP-123-e5f6g7h8.json       # ThinkingMach feedback envelope
   full-traces/
     PAP-123-e5f6g7h8/
       bundle.json               # full export manifest
@@ -119,11 +119,11 @@ feedback-export-20260331T120000Z/
 feedback-export-20260331T120000Z.zip
 ```
 
-Exports are full by default. `traces/` contains the Paperclip envelope; `full-traces/` holds the richer per-trace bundle plus any recoverable adapter-native files.
+Exports are full by default. `traces/` contains the ThinkingMach envelope; `full-traces/` holds the richer per-trace bundle plus any recoverable adapter-native files.
 
 ```sh
 # Custom server and output directory
-pnpm paperclipai feedback export --api-base http://127.0.0.1:3000 --company-id <company-id> --out ./my-export
+pnpm thinkingmach feedback export --api-base http://127.0.0.1:3000 --company-id <company-id> --out ./my-export
 ```
 
 ### Reading an exported trace
@@ -200,7 +200,7 @@ Votes you choose to share are sent to the telemetry backend immediately from the
 - **App server:** builds the bundle, POSTs to the telemetry backend, updates trace status.
 - **Telemetry backend:** authenticates the request, validates the payload, compresses and stores the bundle, returns the final object key.
 - **Retries:** failed uploads move to `failed` with an error message in `failureReason`; the worker retries on later ticks.
-- **Default endpoint:** when no backend URL is configured, Paperclip falls back to `https://telemetry.paperclip.ing`.
+- **Default endpoint:** when no backend URL is configured, ThinkingMach falls back to `https://telemetry.thinkingmach.com`.
 - **Snapshot caveat:** the uploaded object is the bundle at vote time. If you regenerate a local bundle later and the underlying adapter session has grown, the local bundle may be larger than the uploaded snapshot.
 
 Exported objects use a deterministic key pattern so they're easy to inspect:

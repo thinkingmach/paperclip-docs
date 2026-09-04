@@ -18,14 +18,14 @@ You can let agents recall and save conversation context in Honcho. Agents choose
 
 1. Open **Connectors** and select **Honcho**.
 2. Read the access line above the main button. Select **Change** to choose a personal credential or narrow which agents can use it.
-3. Paste the **Honcho API key**, then complete setup. Paperclip stores it as a secret.
+3. Paste the **Honcho API key**, then complete setup. ThinkingMach stores it as a secret.
 4. Open **Permissions** and review the exposed actions.
 
-Paperclip connects to `https://mcp.honcho.dev`. Memory is stored in your Honcho account.
+ThinkingMach connects to `https://mcp.honcho.dev`. Memory is stored in your Honcho account.
 
 ## Choose access
 
-Honcho's API key and provider access rules determine what data can be reached. A workspace or peer identifier an agent passes is call context, not an isolation boundary enforced by Paperclip. Use separate keys when work must stay separate.
+Honcho's API key and provider access rules determine what data can be reached. A workspace or peer identifier an agent passes is call context, not an isolation boundary enforced by ThinkingMach. Use separate keys when work must stay separate.
 
 Active actions start as **Allowed**, including writes and deletion-capable tools. Set writes to **Ask first** and unwanted actions to **Off** on **Permissions**.
 
@@ -40,11 +40,11 @@ Give an eligible agent the workspace's intended peer and session context, and as
 | Problem | Check |
 | --- | --- |
 | Honcho is absent from the catalog | Enable **Memory connectors**. |
-| New setup will not finish | Check that the key is valid; Paperclip reports when the provider rejects it. |
+| New setup will not finish | Check that the key is valid; ThinkingMach reports when the provider rejects it. |
 | Retrieval returns the wrong context | Check the workspace, peer, or session named in the task. |
 | Calls fail | Check the key and its provider-side access. |
 
-Turning off the experimental setting leaves saved connections running and allows reconnecting. Paperclip does not create an automatic memory scope from an agent's identity or upload conversations in the background.
+Turning off the experimental setting leaves saved connections running and allows reconnecting. ThinkingMach does not create an automatic memory scope from an agent's identity or upload conversations in the background.
 
 ## Related guides
 
@@ -54,5 +54,5 @@ Turning off the experimental setting leaves saved connections running and allows
 
 ## Sources
 
-- [Honcho definition](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/packages/shared/src/app-definitions/honcho.json) — API-key setup and endpoint.
-- [Feature defaults](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/packages/shared/src/feature-catalog.ts) — experimental availability.
+- [Honcho definition](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/packages/shared/src/app-definitions/honcho.json) — API-key setup and endpoint.
+- [Feature defaults](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/packages/shared/src/feature-catalog.ts) — experimental availability.

@@ -6,9 +6,9 @@ seo_description: Inspect, summarise, and export the thumbs-up and thumbs-down fe
 
 # Feedback Commands
 
-Use these commands when you want to inspect, summarize, or extract the thumbs-up / thumbs-down feedback that gets recorded against a company's work — agent outputs, comments, and other targets that a reviewer voted on. The shortest route from "what did people actually think of this agent's work?" to a shareable artifact is `paperclipai feedback report` for a quick read and `paperclipai feedback export` to write a full bundle to disk. The `trace` and `bundle` subcommands fetch a single feedback record by ID for scripted workflows.
+Use these commands when you want to inspect, summarize, or extract the thumbs-up / thumbs-down feedback that gets recorded against a company's work — agent outputs, comments, and other targets that a reviewer voted on. The shortest route from "what did people actually think of this agent's work?" to a shareable artifact is `thinkingmach feedback report` for a quick read and `thinkingmach feedback export` to write a full bundle to disk. The `trace` and `bundle` subcommands fetch a single feedback record by ID for scripted workflows.
 
-Feedback in Paperclip is captured as **feedback traces**. A trace records one vote against one target (its `vote`, its `status`, the issue it belongs to, a summary of what was voted on, and an optional reason), and it carries a `payloadSnapshot` plus a downloadable **bundle** of the underlying files. These commands read those traces through the API — the CLI never computes votes itself, it observes what the server already stored.
+Feedback in ThinkingMach is captured as **feedback traces**. A trace records one vote against one target (its `vote`, its `status`, the issue it belongs to, a summary of what was voted on, and an optional reason), and it carries a `payloadSnapshot` plus a downloadable **bundle** of the underlying files. These commands read those traces through the API — the CLI never computes votes itself, it observes what the server already stored.
 
 ---
 
@@ -23,7 +23,7 @@ Feedback in Paperclip is captured as **feedback traces**. A trace records one vo
 
 All four subcommands accept the common client options described in [Common Options](./common-options.md): `--data-dir`, `--api-base`, `--api-key`, `--context`, `--profile`, and `--json`. `report` and `export` are company-scoped and additionally take `-C, --company-id <id>`.
 
-> **Note:** `feedback report` and `feedback export` resolve the company from `-C/--company-id`, then `PAPERCLIP_COMPANY_ID`, then your CLI context default. If none of those is set, the command falls back to the **first** company returned by the API. On an instance with more than one company, always pass `--company-id` so you export the company you mean.
+> **Note:** `feedback report` and `feedback export` resolve the company from `-C/--company-id`, then `THINKINGMACH_COMPANY_ID`, then your CLI context default. If none of those is set, the command falls back to the **first** company returned by the API. On an instance with more than one company, always pass `--company-id` so you export the company you mean.
 
 ---
 
@@ -62,7 +62,7 @@ Every trace carries an export `status`. The report tallies these four, and they 
 `feedback report` reads the matching traces and prints a terminal report: a header with the server URL and company, a summary block, and a detail section for each trace.
 
 ```sh
-paperclipai feedback report --company-id <company-id>
+thinkingmach feedback report --company-id <company-id>
 ```
 
 The summary counts thumbs up, thumbs down, downvotes that carried a written reason, and the total trace count, then breaks the traces down by export status. The detail section shows, per trace, the issue reference and title, a short trace ID, the status, the creation date, the target label, an excerpt of what was voted on, and the reason when one was given.
@@ -70,7 +70,7 @@ The summary counts thumbs up, thumbs down, downvotes that carried a written reas
 Narrow the report with any of the filter flags. For example, to look at just the downvotes for one project in the last week:
 
 ```sh
-paperclipai feedback report \
+thinkingmach feedback report \
   --company-id <company-id> \
   --vote down \
   --project-id <project-id> \
@@ -80,7 +80,7 @@ paperclipai feedback report \
 To see the full raw payload for each trace inline, add `--payloads`:
 
 ```sh
-paperclipai feedback report --company-id <company-id> --payloads
+thinkingmach feedback report --company-id <company-id> --payloads
 ```
 
 > **Tip:** `--payloads` dumps the complete `payloadSnapshot` JSON under each trace. It is verbose — reach for it when you are debugging exactly what was captured, not for a routine read.
@@ -88,7 +88,7 @@ paperclipai feedback report --company-id <company-id> --payloads
 For machine consumption, pass `--json`. The command then prints a structured object with `apiBase`, `companyId`, the `summary`, and the full `traces` array instead of the formatted terminal report:
 
 ```sh
-paperclipai feedback report --company-id <company-id> --json
+thinkingmach feedback report --company-id <company-id> --json
 ```
 
 ---
@@ -98,7 +98,7 @@ paperclipai feedback report --company-id <company-id> --json
 `feedback export` reads the matching traces, fetches each trace's bundle, and writes everything to a folder plus a sibling `.zip` archive. This is the command to use when feedback needs to leave the terminal — for a review, an archive, or a hand-off.
 
 ```sh
-paperclipai feedback export --company-id <company-id> --out ./feedback/acme
+thinkingmach feedback export --company-id <company-id> --out ./feedback/acme
 ```
 
 If you omit `--out`, the command writes to `./feedback-export-<timestamp>` in the current directory. The output directory must not already exist with files in it — the command refuses to write into a non-empty directory so it never clobbers a previous export.
@@ -124,7 +124,7 @@ Export is always **company-scoped**: it pulls the traces for one company, then g
 To export only what is shareable for a single issue:
 
 ```sh
-paperclipai feedback export \
+thinkingmach feedback export \
   --company-id <company-id> \
   --issue-id <issue-id> \
   --shared-only \
@@ -134,7 +134,7 @@ paperclipai feedback export \
 With `--json`, the command prints `companyId`, the resolved `outputDir`, the `zipPath`, and the export `summary` instead of the formatted summary:
 
 ```sh
-paperclipai feedback export --company-id <company-id> --json
+thinkingmach feedback export --company-id <company-id> --json
 ```
 
 ---
@@ -144,8 +144,8 @@ paperclipai feedback export --company-id <company-id> --json
 `feedback trace` fetches a single feedback trace by its ID. Use it when you already have a trace ID — from a report, an export, or another tool — and want the raw record.
 
 ```sh
-paperclipai feedback trace <trace-id>
-paperclipai feedback trace <trace-id> --json
+thinkingmach feedback trace <trace-id>
+thinkingmach feedback trace <trace-id> --json
 ```
 
 This is a direct read of `/api/feedback-traces/<trace-id>` and is not company-scoped — the ID identifies the trace on its own.
@@ -157,8 +157,8 @@ This is a direct read of `/api/feedback-traces/<trace-id>` and is not company-sc
 `feedback bundle` fetches a single trace's **bundle**: the trace plus the underlying files captured with it. This is the same material that `feedback export` writes into each `full-traces/` directory, but fetched for one trace at a time.
 
 ```sh
-paperclipai feedback bundle <trace-id>
-paperclipai feedback bundle <trace-id> --json
+thinkingmach feedback bundle <trace-id>
+thinkingmach feedback bundle <trace-id> --json
 ```
 
 Reach for `bundle` when you need the full context behind a single vote — the actual files that were voted on — without running a whole company export.

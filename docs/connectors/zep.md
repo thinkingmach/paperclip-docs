@@ -23,11 +23,11 @@ A Zep project API key does not authenticate this hosted Memory MCP endpoint.
 3. Complete **Sign in with Zep** using the assigned work identity.
 4. Review the actions on **Permissions**.
 
-Paperclip uses the hosted MCP endpoint `https://api.getzep.com/mcp`. You do not need to register a separate OAuth app for this flow.
+ThinkingMach uses the hosted MCP endpoint `https://api.getzep.com/mcp`. You do not need to register a separate OAuth app for this flow.
 
 ## Choose access
 
-Zep controls the identity's memory and shared-graph access. Paperclip controls which eligible agents may call the exposed tools, and whether each action is **Allowed**, **Ask first**, or **Off**.
+Zep controls the identity's memory and shared-graph access. ThinkingMach controls which eligible agents may call the exposed tools, and whether each action is **Allowed**, **Ask first**, or **Off**.
 
 Active actions start as **Allowed**. Choose **Ask first** for writes if you want to review saved memories. Do not use another graph or identity as a workaround for missing access; authorize the needed context in Zep instead.
 
@@ -46,7 +46,7 @@ Ask an eligible agent to find one known decision in the connected identity's mem
 | A shared graph is unavailable | Check that graph's authorization in Zep. |
 | A recent memory is missing | Check the source episode and whether graph processing has finished. |
 
-Turning off the experimental setting leaves saved connections running and allows reconnecting. Paperclip does not automatically upload conversations to Zep.
+Turning off the experimental setting leaves saved connections running and allows reconnecting. ThinkingMach does not automatically upload conversations to Zep.
 
 ## Related guides
 
@@ -56,5 +56,5 @@ Turning off the experimental setting leaves saved connections running and allows
 
 ## Sources
 
-- [Zep definition](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/packages/shared/src/app-definitions/zep.json) — personal OAuth sign-in, prerequisites, and endpoint.
-- [Feature defaults](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/packages/shared/src/feature-catalog.ts) — experimental availability.
+- [Zep definition](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/packages/shared/src/app-definitions/zep.json) — personal OAuth sign-in, prerequisites, and endpoint.
+- [Feature defaults](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/packages/shared/src/feature-catalog.ts) — experimental availability.
