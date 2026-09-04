@@ -16,7 +16,7 @@ Where a [skill](./skills.md) is one reusable procedure, a *team* is a whole unit
 
 The catalog comes in two flavours, and the same install flow covers both.
 
-- **Bundled** teams ship inside the app and are the everyday starting points. They lean on skills Paperclip already knows about, so installing one is self-contained. Examples shipping today: a **core executive team** (a CEO, CTO, and QA with a starter project and a recurring CEO heartbeat task), a **product-engineering** pod (CTO, Senior Coder, QA, and a weekly engineering sync), and a **product-design** team (a UX designer with the `wireframe` and `design-critique` skills and a weekly design review).
+- **Bundled** teams ship inside the app and are the everyday starting points. They lean on skills ThinkingMach already knows about, so installing one is self-contained. Examples shipping today: a **core executive team** (a CEO, CTO, and QA with a starter project and a recurring CEO heartbeat task), a **product-engineering** pod (CTO, Senior Coder, QA, and a weekly engineering sync), and a **product-design** team (a UX designer with the `wireframe` and `design-critique` skills and a weekly design review).
 - **Optional** teams are extras you reach for when a specific need shows up — for example a content team that brings its own content-calendar skill and a recurring weekly content review. Some optional teams pull skills from external sources (GitHub, a URL, or skills.sh), which is why installing them asks you to opt in to those sources explicitly.
 
 "Bundled" doesn't mean forced on you. You still browse, pick, and install only the teams you want — nothing lands in a company until you install it.
@@ -37,7 +37,7 @@ A catalog team is the fastest way to get a company doing real work:
 
 Open the **Team Catalog** page to see the available teams, filter by bundled or optional, and read what each one contains before you commit. Selecting a team shows its agents, the projects and tasks it sets up, and the skills it needs — the same detail the CLI's `inspect` prints. If a team is already installed in the company, the catalog marks it as installed, and flags it when your installed copy has fallen behind a newer catalog version.
 
-Installing is a two-look process by design. First you **preview**: Paperclip runs the import on the server and shows you exactly what would be created and which skills it would prepare, without writing anything. When the plan looks right, you **install**, and the team's agents, projects, tasks, and skills are created in the company.
+Installing is a two-look process by design. First you **preview**: ThinkingMach runs the import on the server and shows you exactly what would be created and which skills it would prepare, without writing anything. When the plan looks right, you **install**, and the team's agents, projects, tasks, and skills are created in the company.
 
 A few choices happen at install time:
 
@@ -54,10 +54,10 @@ Installing a team is a single action that builds out several things at once:
 
 - **Agents** — every agent the team defines, with its role, prompt, and place in the reporting hierarchy. The team's root agents either stand on their own or report to the manager you picked.
 - **Projects** — the workspaces the team operates in, so its agents have somewhere to do the work.
-- **Tasks** — including any recurring routines the team ships, such as a CEO heartbeat or a weekly sync, imported the same careful way Paperclip imports any routine.
+- **Tasks** — including any recurring routines the team ships, such as a CEO heartbeat or a weekly sync, imported the same careful way ThinkingMach imports any routine.
 - **Skills** — the team's required skills are prepared in the company library: catalog skills are installed for you, and external-source skills are imported once you've allowed their sources.
 
-Because every catalog team carries a version, Paperclip knows which version you installed. The catalog flags a team as out of date when a newer version has shipped, so you can reinstall the updated team when you're ready.
+Because every catalog team carries a version, ThinkingMach knows which version you installed. The catalog flags a team as out of date when a newer version has shipped, so you can reinstall the updated team when you're ready.
 
 ---
 
@@ -73,12 +73,12 @@ Everything above is available from the CLI too, which is handy for scripting a k
 
 ```sh
 # Browse and inspect
-paperclipai teams browse --kind bundled
-paperclipai teams inspect core-exec-team
+thinkingmach teams browse --kind bundled
+thinkingmach teams inspect core-exec-team
 
 # Preview, then install into a company
-paperclipai teams preview core-exec-team --company-id <company-id>
-paperclipai teams install core-exec-team --company-id <company-id>
+thinkingmach teams preview core-exec-team --company-id <company-id>
+thinkingmach teams install core-exec-team --company-id <company-id>
 ```
 
 For every command, flag, and the permission-fallback details, see the [Teams CLI reference](../../reference/cli/teams.md).

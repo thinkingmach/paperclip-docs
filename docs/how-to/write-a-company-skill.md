@@ -33,14 +33,14 @@ The skill lives once, in the company library. Each agent's `desiredSkills` is ju
 
 ## 1. Prereqs
 
-- Paperclip running locally or on a server you control. See [Installation](../guides/getting-started/installation.md).
+- ThinkingMach running locally or on a server you control. See [Installation](../guides/getting-started/installation.md).
 - An agent already hired that you want the skill to attach to. See [Hire Your First Agent](../guides/getting-started/your-first-agent.md).
 - The actor running these calls needs **`agents:create` capability** (the board, the company CEO agent, or any agent with `permissions.canCreateAgents=true`). Skill mutations and agent-skill mutations share that gate.
 - A shell with `curl` and a text editor. No special CLI is needed — this is all REST.
 
 ```bash
-export PAPERCLIP_API_URL=http://localhost:3100
-export PAPERCLIP_API_KEY=<board-or-ceo-token>
+export THINKINGMACH_API_URL=http://localhost:3100
+export THINKINGMACH_API_KEY=<board-or-ceo-token>
 export COMPANY_ID=<your-company-id>
 ```
 
@@ -50,7 +50,7 @@ export COMPANY_ID=<your-company-id>
 
 A skill is a folder with a `SKILL.md` at its root. The frontmatter is what the agent reads first to decide whether to load the body. Keep the routing description sharp — "Use when… Don't use when…" — and put long material in a `references/` subfolder.
 
-The bundled `paperclip` skill that ships with the server is the canonical example for this layout. You can read it [on GitHub](https://github.com/paperclipai/paperclip/tree/main/skills/paperclip) (`SKILL.md` plus a `references/` tree). Mirror that shape for your own.
+The bundled `paperclip` skill that ships with the server is the canonical example for this layout. You can read it [on GitHub](https://github.com/thinkingmach/paperclip/tree/main/skills/paperclip) (`SKILL.md` plus a `references/` tree). Mirror that shape for your own.
 
 For this how-to we'll build a small `release-note-writer` skill — a release-notes format checklist for a coder agent.
 
@@ -90,7 +90,7 @@ See `references/example.md` for a known-good output you can pattern-match agains
 
 Then drop a reference example next to it at `references/example.md` so the agent has something concrete to copy from. Anything you put under `references/` is bundled with the skill and classified as a `reference` in the file inventory when you import the parent folder — see [Skills reference → Supporting files](../reference/skills.md#supporting-files).
 
-> **Frontmatter style.** Paperclip parses frontmatter with its own narrow YAML reader. Stick to flat scalars, nested objects, and `- ` list items. Do not use YAML block scalars (`>` or `|`) for descriptions; the current reader treats them as literal values instead of folding the following lines. The full frontmatter schema lives at [Skills reference → Frontmatter fields](../reference/skills.md#frontmatter-fields).
+> **Frontmatter style.** ThinkingMach parses frontmatter with its own narrow YAML reader. Stick to flat scalars, nested objects, and `- ` list items. Do not use YAML block scalars (`>` or `|`) for descriptions; the current reader treats them as literal values instead of folding the following lines. The full frontmatter schema lives at [Skills reference → Frontmatter fields](../reference/skills.md#frontmatter-fields).
 
 ---
 
@@ -103,8 +103,8 @@ Then drop a reference example next to it at `references/example.md` so the agent
 The fastest path while you're iterating. Point the API at the parent folder that contains the skill folder you just wrote (`~/skills` in this example), so supporting files under `release-note-writer/references/` are included in the inventory:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/skills/import" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/skills/import" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "source": "/Users/me/skills"
@@ -121,20 +121,20 @@ Once the skill is in a repo, prefer that source so it's pinned to a commit and y
 
 ```bash
 # Whole-repo import — finds every SKILL.md in the repo
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/skills/import" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/skills/import" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "source": "https://github.com/acme/agent-skills" }'
 
 # Single-skill import via the tree URL
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/skills/import" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/skills/import" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "source": "https://github.com/acme/agent-skills/tree/main/release-note-writer" }'
 
 # skills.sh shorthand — same skill, managed registry
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/skills/import" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/skills/import" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "source": "https://skills.sh/acme/agent-skills/release-note-writer" }'
 ```
@@ -144,8 +144,8 @@ The full list of accepted source forms (npx commands, gist URLs, raw URLs, `owne
 ### Verify the install
 
 ```bash
-curl "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/skills" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY"
+curl "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/skills" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY"
 ```
 
 Find the row whose `slug` is `release-note-writer`. Note its `key` and its `id`. Either is a valid handle for assignment.
@@ -161,8 +161,8 @@ You can also browse the result in the UI under **Skills** — the new row shows 
 Skills live company-wide; *which* agents see them is controlled by each agent's `desiredSkills`. Sync takes a required `mode` that says how the skills you name should meet the agent's current set. To simply add the new skill to a coder agent without touching anything else it already has, use `mode: "add"`:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/agents/$CODER_AGENT_ID/skills/sync" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/agents/$CODER_AGENT_ID/skills/sync" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "desiredSkills": [
@@ -175,8 +175,8 @@ curl -X POST "$PAPERCLIP_API_URL/api/agents/$CODER_AGENT_ID/skills/sync" \
 `mode` picks the behaviour: `add` keeps the agent's other skills and unions in the ones you name, `remove` drops only the named skills, and `replace` overwrites the complete desired set with exactly what you send (that's the reconciling behaviour — anything not in the list is detached). Because `add` and `remove` are now available, you no longer have to send the full set just to change one entry — reach for `replace` only when you truly want to overwrite everything. If you want to `replace` and don't know the agent's current set, read it first:
 
 ```bash
-curl "$PAPERCLIP_API_URL/api/agents/$CODER_AGENT_ID/skills" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY"
+curl "$THINKINGMACH_API_URL/api/agents/$CODER_AGENT_ID/skills" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY"
 ```
 
 The response (an `AgentSkillSnapshot`) lists every entry the agent currently has, with `state` (`configured`, `installed`, `available`, etc.) and `mode` (the runtime sync strategy — see below). The full schema is at [Skills reference → Assigning skills to agents](../reference/skills.md#3-assigning-skills-to-agents).
@@ -187,7 +187,7 @@ Each `desiredSkills` entry can be:
 - a skill **UUID** (`id` from the company skills list),
 - or a **slug** (`release-note-writer`) — fine for one-off calls but rejected with `Invalid company skill selection (ambiguous references: …)` if the slug matches more than one skill.
 
-> **Bundled skills are always attached.** The server unions any `paperclipai/paperclip/*` bundled skills (`paperclip`, etc.) into every agent's resolved set, regardless of what you send. So you never have to list `paperclip` to keep it — and even a `mode: "replace"` that omits it won't drop it from the resolved set.
+> **Bundled skills are always attached.** The server unions any `thinkingmach/paperclip/*` bundled skills (`paperclip`, etc.) into every agent's resolved set, regardless of what you send. So you never have to list `paperclip` to keep it — and even a `mode: "replace"` that omits it won't drop it from the resolved set.
 
 ### Adapter sync mode matters
 
@@ -197,7 +197,7 @@ The snapshot's `mode` field tells you what the adapter actually does with the as
 |---|---|
 | `persistent` | The adapter writes skill files into the agent's working directory and leaves them there between runs. Most local adapters (`claude_local`, `codex_local`) use this mode. |
 | `ephemeral` | The adapter materialises files for each run and cleans up afterwards. Default for sandboxed adapters. |
-| `unsupported` | Paperclip records the assignment but cannot push files into the runtime. `openclaw_gateway` falls here — manage skills inside the remote runtime instead. See [Bring your own agent](./bring-your-own-agent.md). |
+| `unsupported` | ThinkingMach records the assignment but cannot push files into the runtime. `openclaw_gateway` falls here — manage skills inside the remote runtime instead. See [Bring your own agent](./bring-your-own-agent.md). |
 
 If you assigned a skill and the agent never picks it up, check the snapshot's `mode` first — the assignment may be tracked-only.
 
@@ -209,8 +209,8 @@ Once the skill is in the company library, you can attach it on day one when you 
 
 ```bash
 # Direct create (no approval)
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/agents" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/agents" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Release Note Coder",
@@ -224,8 +224,8 @@ curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/agents" \
   }'
 
 # Hire request (board approval flow)
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/agent-hires" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/agent-hires" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Release Note Coder",
@@ -245,8 +245,8 @@ The same resolution rules apply — pass keys, IDs, or unique slugs. Unknown or 
 Now that the skill is installed and attached, prove it actually loads. Assign the agent a task whose description matches the skill's routing description:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/issues" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/issues" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Draft release notes for v0.7.2",
@@ -273,19 +273,19 @@ Behaviour depends on where the skill came from.
 | Source | Pinned? | How to update |
 |---|---|---|
 | **Local path** (`/Users/.../release-note-writer`) | No — live | Edit the file on disk. The next read picks it up. Re-import only if you change the source location. |
-| **Paperclip-managed** (created from the UI's **+** button) | No — live | Edit in the Markdown editor on the Skills page. |
+| **ThinkingMach-managed** (created from the UI's **+** button) | No — live | Edit in the Markdown editor on the Skills page. |
 | **GitHub** | Yes — pinned to a commit SHA | `GET /skills/{id}/update-status` shows the latest commit on the tracked ref. `POST /skills/{id}/install-update` re-imports it. |
 | **skills.sh** | Yes — resolves to GitHub under the hood | Same as GitHub. |
 | **URL / raw file** | No | Re-import the URL to refresh. |
-| **Bundled with Paperclip** | Pinned to the Paperclip release | Upgrade Paperclip itself; bundled skills can't be edited. |
+| **Bundled with ThinkingMach** | Pinned to the ThinkingMach release | Upgrade ThinkingMach itself; bundled skills can't be edited. |
 
 Promote a skill to a GitHub source as soon as you want to share it across multiple agents or companies — that's the path that gives you reviewable diffs, a stable canonical key, and update-status tracking. The `id` doesn't change when you `install-update`, so anything that referenced the skill by `id` keeps working without re-syncing.
 
 To check for updates on a GitHub-sourced skill:
 
 ```bash
-curl "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/skills/$SKILL_ID/update-status" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY"
+curl "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/skills/$SKILL_ID/update-status" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY"
 ```
 
 Response (abbreviated):
@@ -303,8 +303,8 @@ Response (abbreviated):
 If `hasUpdate` is `true`:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/skills/$SKILL_ID/install-update" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY"
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/skills/$SKILL_ID/install-update" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY"
 ```
 
 Local-path skills aren't pinned, so they don't expose `update-status` — the response is `{ "supported": false, "reason": "..." }`. Edit the file in place instead.
@@ -315,7 +315,7 @@ Local-path skills aren't pinned, so they don't expose `update-status` — the re
 
 - **Company-scoped, not org-scoped.** A skill installed in Company A is invisible to Company B. To share, install the source twice — once into each company.
 - **No per-team or per-role gate.** Granularity is `desiredSkills` per agent. Two agents on the same `cwd` can have completely different skill sets.
-- **Bundled skills are forced on.** `paperclipai/paperclip/*` skills are unioned into every resolved set; you can't drop them.
+- **Bundled skills are forced on.** `thinkingmach/paperclip/*` skills are unioned into every resolved set; you can't drop them.
 - **Adapter sync mode is the runtime gate.** If `mode: "unsupported"`, the assignment exists but no files reach the runtime. Either switch adapters or manage skills in the remote runtime.
 
 The full set of rules — required vs. optional, bundled-required, materialisation strategy, conflict resolution — is at [Skills reference → Scoping rules](../reference/skills.md#4-scoping-rules).
@@ -337,13 +337,13 @@ The reference in `desiredSkills` doesn't match any installed skill. Most often a
 Check the snapshot: `GET /api/agents/{agentId}/skills`. If `mode` is `unsupported`, the adapter (e.g. `openclaw_gateway`) cannot sync; the assignment is metadata-only. If `mode` is `ephemeral`, the files only exist during a run — the workspace looks empty at rest. That is correct behaviour.
 
 **Frontmatter changes don't take effect.**
-Paperclip's YAML reader is intentionally narrow. Use spaces (not tabs), `- ` for list items, and plain one-line string values for `name` and `description`. Avoid block scalars (`>` and `|`) because they are not folded by the current parser. If a value still parses incorrectly after you simplify it to the supported subset, file a bug; the in-house parser is documented at [Skills reference → Frontmatter fields](../reference/skills.md#frontmatter-fields).
+ThinkingMach's YAML reader is intentionally narrow. Use spaces (not tabs), `- ` for list items, and plain one-line string values for `name` and `description`. Avoid block scalars (`>` and `|`) because they are not folded by the current parser. If a value still parses incorrectly after you simplify it to the supported subset, file a bug; the in-house parser is documented at [Skills reference → Frontmatter fields](../reference/skills.md#frontmatter-fields).
 
 **`references/example.md` is missing from the imported file inventory.**
 Re-import from the parent folder that contains the skill directory (`/Users/me/skills` in this how-to), not the `release-note-writer` folder itself. The parent-folder import walks `release-note-writer/SKILL.md` and the adjacent `references/`, `scripts/`, and `assets/` folders together.
 
 **Bundled skill keeps re-appearing after I delete it.**
-That's by design — `paperclip` and the other `paperclipai/paperclip/*` skills are re-imported on every list call. To suppress one, run a forked Paperclip build that doesn't ship it.
+That's by design — `paperclip` and the other `thinkingmach/paperclip/*` skills are re-imported on every list call. To suppress one, run a forked ThinkingMach build that doesn't ship it.
 
 For deeper debugging — wrong tool list, sync mode confusion, GitHub pin stuck on an old commit — walk the [full troubleshooting list](../reference/skills.md#8-troubleshooting-why-a-skill-isnt-loading).
 

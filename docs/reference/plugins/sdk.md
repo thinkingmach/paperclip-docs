@@ -1,16 +1,16 @@
 ---
 paperclip_version: v2026.722.0
 seo_title: Plugin SDK
-seo_description: The worker-side authoring kit for Paperclip plugins. Import it in your worker entrypoint to declare a plugin and subscribe to host events.
+seo_description: The worker-side authoring kit for ThinkingMach plugins. Import it in your worker entrypoint to declare a plugin and subscribe to host events.
 ---
 
 # Plugin SDK
 
-`@paperclipai/plugin-sdk` is the worker-side authoring kit for Paperclip plugins. Import it from your plugin's worker entrypoint to declare a plugin, subscribe to host events, register jobs and data feeds, run RPC against the host, and reach the managed database, secrets, state, and the rest of the Paperclip API surface.
+`@thinkingmach/plugin-sdk` is the worker-side authoring kit for ThinkingMach plugins. Import it from your plugin's worker entrypoint to declare a plugin, subscribe to host events, register jobs and data feeds, run RPC against the host, and reach the managed database, secrets, state, and the rest of the ThinkingMach API surface.
 
 This page is for **plugin authors**: the developers writing the code that ships inside a plugin package. If you only run plugins — install, configure, enable, disable — you want [Administration → Plugins](../../administration/plugins.md) instead.
 
-> The plugin runtime is in alpha. The SDK still ships breaking changes between Paperclip releases; pin your `@paperclipai/plugin-sdk` and `@paperclipai/shared` versions and re-read this page when you upgrade.
+> The plugin runtime is in alpha. The SDK still ships breaking changes between ThinkingMach releases; pin your `@thinkingmach/plugin-sdk` and `@thinkingmach/shared` versions and re-read this page when you upgrade.
 
 ---
 
@@ -18,15 +18,15 @@ This page is for **plugin authors**: the developers writing the code that ships 
 
 Reach for the plugin SDK when you want to:
 
-- Add a long-running worker that reacts to Paperclip events (`issue.created`, `agent.run.completed`, …).
-- Expose new pages, widgets, launchers, or settings inside the Paperclip UI.
+- Add a long-running worker that reacts to ThinkingMach events (`issue.created`, `agent.run.completed`, …).
+- Expose new pages, widgets, launchers, or settings inside the ThinkingMach UI.
 - Register scheduled jobs, webhooks, tools, or managed agents and routines.
 - Ship a managed database namespace alongside your plugin code.
-- Bridge a new environment driver (custom sandbox / execution backend) into Paperclip.
+- Bridge a new environment driver (custom sandbox / execution backend) into ThinkingMach.
 
 ## When not to use
 
-- **Teaching Paperclip a new AI runtime.** Use an [adapter](../adapters/creating-an-adapter.md) instead — adapters speak the per-run wire protocol; plugins extend the server.
+- **Teaching ThinkingMach a new AI runtime.** Use an [adapter](../adapters/creating-an-adapter.md) instead — adapters speak the per-run wire protocol; plugins extend the server.
 - **Adding instructions an agent should follow.** Write a [company skill](../../how-to/write-a-company-skill.md) — those are markdown an agent loads at run time, not server code.
 - **One-off scripts.** A plugin needs to be installed, enabled, and managed. For ad-hoc automation, prefer the REST API or the CLI.
 
@@ -36,10 +36,10 @@ Reach for the plugin SDK when you want to:
 
 The SDK package exposes two entrypoints:
 
-- `@paperclipai/plugin-sdk` — the worker-side surface documented on this page. Default for `definePlugin`, `runWorker`, `PluginContext`, the protocol helpers, and all manifest/protocol types.
-- `@paperclipai/plugin-sdk/ui` — UI-bundle surface for plugin UI contributions. Out of scope for this page; see [Administration → Plugins](../../administration/plugins.md) for the operator-facing view.
+- `@thinkingmach/plugin-sdk` — the worker-side surface documented on this page. Default for `definePlugin`, `runWorker`, `PluginContext`, the protocol helpers, and all manifest/protocol types.
+- `@thinkingmach/plugin-sdk/ui` — UI-bundle surface for plugin UI contributions. Out of scope for this page; see [Administration → Plugins](../../administration/plugins.md) for the operator-facing view.
 
-All identifiers below are exported from `@paperclipai/plugin-sdk`. They are the source of truth — copy names verbatim.
+All identifiers below are exported from `@thinkingmach/plugin-sdk`. They are the source of truth — copy names verbatim.
 
 ---
 
@@ -49,15 +49,15 @@ All identifiers below are exported from `@paperclipai/plugin-sdk`. They are the 
 
 | Export | What it is | Use it when |
 |---|---|---|
-| `definePlugin` | Factory that wraps a `PluginDefinition` into a `PaperclipPlugin`. Default-export the result from your worker entrypoint. | Always — every plugin worker starts with `definePlugin({...})`. |
+| `definePlugin` | Factory that wraps a `PluginDefinition` into a `ThinkingMachPlugin`. Default-export the result from your worker entrypoint. | Always — every plugin worker starts with `definePlugin({...})`. |
 | `runWorker` | Boots the worker JSON-RPC loop against the supplied plugin and `import.meta.url`. | At the bottom of your worker entrypoint, after `definePlugin`. |
 | `startWorkerRpcHost` | Lower-level entry that returns a `WorkerRpcHost` you can manage yourself (for tests or custom harnesses). | Embedding the worker in a non-default transport (e.g. an in-process test). |
 
-Types: `PluginDefinition`, `PaperclipPlugin`, `PluginHealthDiagnostics`, `PluginConfigChangeContext`, `PluginConfigValidationResult`, `PluginWebhookInput`, `PluginApiRequestInput`, `PluginApiResponse`, `RunWorkerOptions`, `WorkerRpcHostOptions`, `WorkerRpcHost`.
+Types: `PluginDefinition`, `ThinkingMachPlugin`, `PluginHealthDiagnostics`, `PluginConfigChangeContext`, `PluginConfigValidationResult`, `PluginWebhookInput`, `PluginApiRequestInput`, `PluginApiResponse`, `RunWorkerOptions`, `WorkerRpcHostOptions`, `WorkerRpcHost`.
 
 #### Knowing *which* company's config changed
 
-When an operator saves your plugin's configuration, the host calls your optional `onConfigChanged` hook so you can apply the change without a worker restart. Plugin configuration in Paperclip is company-scoped, and a worker is spawned once per plugin — not once per company — so the interesting question is always "whose config is this?"
+When an operator saves your plugin's configuration, the host calls your optional `onConfigChanged` hook so you can apply the change without a worker restart. Plugin configuration in ThinkingMach is company-scoped, and a worker is spawned once per plugin — not once per company — so the interesting question is always "whose config is this?"
 
 `onConfigChanged` now answers it. The hook takes a second argument:
 
@@ -81,7 +81,7 @@ Because that replay fans out every configured company, a plugin that keeps one w
 Set `multiCompanyConfig: true` on your plugin definition when your worker genuinely serves more than one company from a single process, and key your per-company state on `context.companyId`:
 
 ```ts
-import { definePlugin, runWorker, type PluginLogger } from "@paperclipai/plugin-sdk";
+import { definePlugin, runWorker, type PluginLogger } from "@thinkingmach/plugin-sdk";
 
 const configByCompany = new Map<string, Record<string, unknown>>();
 let logger: PluginLogger | null = null;
@@ -113,7 +113,7 @@ The `companyId` has always travelled on the wire — it is the optional `company
 
 ### Plugin context
 
-`PluginContext` is the parameter your `setup(ctx)` receives. It exposes one client per concern, all imported from `@paperclipai/plugin-sdk` as types:
+`PluginContext` is the parameter your `setup(ctx)` receives. It exposes one client per concern, all imported from `@thinkingmach/plugin-sdk` as types:
 
 | Client | Purpose |
 |---|---|
@@ -127,9 +127,9 @@ The `companyId` has always travelled on the wire — it is the optional `company
 | `PluginActivityClient` | Append `PluginActivityLogEntry` rows to the host activity log. |
 | `PluginStateClient` | Scoped key-value state under a `ScopeKey`. |
 | `PluginEntitiesClient` | Upsert and query plugin-owned entities (`PluginEntityUpsert`, `PluginEntityQuery`, `PluginEntityRecord`). |
-| `PluginProjectsClient`, `PluginExecutionWorkspacesClient`, `PluginCompaniesClient`, `PluginIssuesClient`, `PluginIssueRelationsClient`, `PluginIssueSummariesClient`, `PluginAgentsClient`, `PluginAgentSessionsClient`, `PluginGoalsClient`, `PluginSkillsClient` | Read/write access to the core Paperclip domain via the host. |
+| `PluginProjectsClient`, `PluginExecutionWorkspacesClient`, `PluginCompaniesClient`, `PluginIssuesClient`, `PluginIssueRelationsClient`, `PluginIssueSummariesClient`, `PluginAgentsClient`, `PluginAgentSessionsClient`, `PluginGoalsClient`, `PluginSkillsClient` | Read/write access to the core ThinkingMach domain via the host. |
 | `ctx.approvals` | Read and decide company approvals — see [Responding to interactions and approvals](#responding-to-interactions-and-approvals). Requires `approvals.read` for `list` / `get` and `approvals.respond` for `decide`. The interface is named `PluginApprovalsClient` in the SDK source but is not currently re-exported as a name; it is reachable from `PluginContext`. |
-| `ctx.routines` | Resolve and reconcile plugin-managed Paperclip routines (`ctx.routines.managed`). Requires the `routines.managed` capability. The interface type is not currently re-exported as a name, but it is reachable from `PluginContext`. |
+| `ctx.routines` | Resolve and reconcile plugin-managed ThinkingMach routines (`ctx.routines.managed`). Requires the `routines.managed` capability. The interface type is not currently re-exported as a name, but it is reachable from `PluginContext`. |
 | `ctx.execution` | Stream live output from a long-running `execute` call — see [Streaming live command output](#streaming-live-command-output). The interface is named `PluginExecutionClient` in the SDK source but is not currently re-exported as a name; it is reachable from `PluginContext`. |
 | `PluginDataClient` | Register data feeds the UI can query (`ctx.data.register(...)`). |
 | `PluginActionsClient` | Register host-invokable actions. |
@@ -154,11 +154,11 @@ Workspace, event, and scope helpers: `PluginWorkspace`, `PluginEvent`, `EventFil
 
 ### Manifest types
 
-Plugin manifests are validated against types re-exported from `@paperclipai/shared`. Importing them from the SDK gives you a single dependency:
+Plugin manifests are validated against types re-exported from `@thinkingmach/shared`. Importing them from the SDK gives you a single dependency:
 
 | Type | Declares |
 |---|---|
-| `PaperclipPluginManifestV1` | Top-level manifest shape. |
+| `ThinkingMachPluginManifestV1` | Top-level manifest shape. |
 | `PluginJobDeclaration` | Scheduled / triggered job. |
 | `PluginWebhookDeclaration` | Inbound webhook endpoint. |
 | `PluginToolDeclaration` | Tool exposed to agents. |
@@ -180,7 +180,7 @@ Constant enum types: `PluginStatus`, `PluginCategory`, `PluginCapability`, `Plug
 
 ### Managed resources
 
-"Managed resources" is the umbrella term for plugin-owned Paperclip records that the host materialises per company: managed **agents**, **projects**, **routines**, and **skills**. You declare them once on the manifest under top-level `agents[]`, `projects[]`, `routines[]`, and `skills[]`, and the host creates, relinks, or returns the existing record for the current `companyId` at runtime.
+"Managed resources" is the umbrella term for plugin-owned ThinkingMach records that the host materialises per company: managed **agents**, **projects**, **routines**, and **skills**. You declare them once on the manifest under top-level `agents[]`, `projects[]`, `routines[]`, and `skills[]`, and the host creates, relinks, or returns the existing record for the current `companyId` at runtime.
 
 Reach for managed resources when your plugin needs durable business objects the operator should see in the board — a named worker, a stable project home for plugin-generated issues, a recurring routine that produces visible task trails, or a reusable skill surfaced on managed agents. Keep `jobs[]` for plugin runtime maintenance that does not need a board-visible task trail.
 
@@ -203,11 +203,11 @@ For the full manifest example and authoring rules, see the parent `doc/plugins/P
 
 ### Responding to interactions and approvals
 
-If your plugin bridges Paperclip to somewhere people already work — a chat app, a ticketing tool — the interesting half is the round trip *back*. An agent asks a question or requests a confirmation, someone answers it where they saw it, and the decision has to land on the board exactly as if they had clicked the button in Paperclip themselves.
+If your plugin bridges ThinkingMach to somewhere people already work — a chat app, a ticketing tool — the interesting half is the round trip *back*. An agent asks a question or requests a confirmation, someone answers it where they saw it, and the decision has to land on the board exactly as if they had clicked the button in ThinkingMach themselves.
 
 `ctx.issues` and `ctx.approvals` give you that, plus the ability to read the files people attached along the way. All of it is capability-gated, and the write halves all ask you to name the human the decision belongs to.
 
-A note on imports: the domain types these methods hand back — `IssueThreadInteraction`, `Approval`, `IssueAttachment` — come from `@paperclipai/shared`, not from the SDK's own export list. Import them from there.
+A note on imports: the domain types these methods hand back — `IssueThreadInteraction`, `Approval`, `IssueAttachment` — come from `@thinkingmach/shared`, not from the SDK's own export list. Import them from there.
 
 #### Reading and resolving issue-thread interactions
 
@@ -235,7 +235,7 @@ if (!applied) {
 
 Three things worth planning for:
 
-- **`actorUserId` is optional in the type but required in practice.** Resolving an interaction is a board-user action, so the host rejects the call when it is missing. It is not a value the host takes on trust either: it independently re-verifies that the user is an active human member of the issue's company at apply time, and rejects a member whose `membershipRole` is `viewer`, because the web app treats viewer access as read-only on exactly these routes. Your plugin can only ever act as an identity that could have taken the same action in Paperclip.
+- **`actorUserId` is optional in the type but required in practice.** Resolving an interaction is a board-user action, so the host rejects the call when it is missing. It is not a value the host takes on trust either: it independently re-verifies that the user is an active human member of the issue's company at apply time, and rejects a member whose `membershipRole` is `viewer`, because the web app treats viewer access as read-only on exactly these routes. Your plugin can only ever act as an identity that could have taken the same action in ThinkingMach.
 - **`applied` tells you whether *this* call did the work.** It is `true` when your call performed the resolution and `false` when the interaction had already converged to a resolved state. A duplicate button tap relayed from chat is therefore a safe no-op rather than an error, and the already-resolved interaction still comes back so you can render its final state.
 - **Accepting can wake the agent.** When the resolved interaction's `continuationPolicy` is `wake_assignee` — or `wake_assignee_on_accept` and the decision was an accept — the host wakes the issue's assignee so the agent resumes, the same way it would after a decision made in the web app.
 
@@ -253,7 +253,7 @@ Three things worth planning for:
 
 Two behaviours to know about:
 
-- **Payloads are redacted on the way out.** `list` and `get` return approvals whose `payload` has been redacted host-side to match Paperclip's own approval read surface, so the bridge never hands your plugin secrets the web app itself hides from an approval reader.
+- **Payloads are redacted on the way out.** `list` and `get` return approvals whose `payload` has been redacted host-side to match ThinkingMach's own approval read surface, so the bridge never hands your plugin secrets the web app itself hides from an approval reader.
 - **A fresh decision wakes the requester.** When `applied` is `true` and the approval has a `requestedByAgentId`, the host wakes that agent so it resumes after the decision.
 
 #### Reading attachments
@@ -313,7 +313,7 @@ All five are members of `PLUGIN_CAPABILITIES`, which the SDK re-exports if you w
 
 ### External-object reference providers
 
-An **external-object reference provider** teaches Paperclip to recognise URLs that point at work living in another system — a GitHub PR, a Linear issue — and to keep a status-aware reference to that object alongside your issues. When an operator pastes a supported URL into issue content, the host detects it, asks your plugin to resolve the current remote status, and then refreshes it on a schedule so the reference renders as a live, status-aware chip across issue surfaces instead of a plain link.
+An **external-object reference provider** teaches ThinkingMach to recognise URLs that point at work living in another system — a GitHub PR, a Linear issue — and to keep a status-aware reference to that object alongside your issues. When an operator pastes a supported URL into issue content, the host detects it, asks your plugin to resolve the current remote status, and then refreshes it on a schedule so the reference renders as a live, status-aware chip across issue surfaces instead of a plain link.
 
 You declare providers on the manifest under top-level `objectReferences[]`, and you implement the lifecycle as optional handlers on the object you pass to `definePlugin({...})`. Declaring `objectReferences` requires both the `external.objects.detect` and `external.objects.read` capabilities; the batch refresh handler additionally requires `external.objects.refresh`.
 
@@ -341,12 +341,12 @@ Each entry is a `PluginObjectReferenceProviderDeclaration`:
 
 You implement the lifecycle as three optional hooks on your plugin definition. Each is gated behind its own capability.
 
-`onDetectExternalObjects(params)` — Paperclip calls this when it scans issue, comment, or document content and asks whether any sanitized URL candidates belong to your providers. The host has already stripped URL userinfo, query strings, and fragments unless provider-safe identity components were explicitly hashed. Requires `external.objects.detect`.
+`onDetectExternalObjects(params)` — ThinkingMach calls this when it scans issue, comment, or document content and asks whether any sanitized URL candidates belong to your providers. The host has already stripped URL userinfo, query strings, and fragments unless provider-safe identity components were explicitly hashed. Requires `external.objects.detect`.
 
 - Receives `DetectExternalObjectsParams`: `companyId`, an array of `PluginExternalObjectUrlCandidate` (`sanitizedCanonicalUrl`, `sanitizedDisplayUrl`, `canonicalIdentityHash`, `canonicalIdentity`, `redactedMatchedText`), and a `PluginExternalObjectSourceContext` (`companyId`, `sourceIssueId`, `sourceKind`, `sourceRecordId`, `documentKey`, `propertyKey`).
 - Returns `DetectExternalObjectsResult`: `{ detections }`, where each `PluginExternalObjectDetection` carries `urlIdentityHash`, `providerKey`, `objectType`, `externalId`, and optional `displayKey`, `iconKey`, `displayTitle`, and `confidence`.
 
-`onResolveExternalObject(params)` — Paperclip calls this when it needs the current normalized status for one external object owned by a declared provider. Requires `external.objects.read`.
+`onResolveExternalObject(params)` — ThinkingMach calls this when it needs the current normalized status for one external object owned by a declared provider. Requires `external.objects.read`.
 
 - Receives `ResolveExternalObjectParams`: `companyId`, `providerKey`, `objectType`, `externalId`, and the current `object` as a `PluginExternalObjectRecordSnapshot` (the persisted row — `id`, `companyId`, `providerKey`, `objectType`, `externalId`, `sanitizedCanonicalUrl`, `canonicalIdentityHash`, `displayKey`, `iconKey`, `displayTitle`, `statusKey`, `statusLabel`, `statusIconKey`, `statusCategory`, `statusTone`, `liveness`, `isTerminal`, `data`, `remoteVersion`, `etag`).
 - Returns `PluginExternalObjectResolveResult`, a discriminated union:
@@ -437,7 +437,7 @@ Some files are not useful the moment they arrive. A dependency manifest needs an
 
 Absent means "no commands", and an operation without the field is byte-identical to a pre-contract one — so if you never look at it, your driver behaves exactly as it did before.
 
-Each entry is a `PluginPostUploadCommand`, exported from `@paperclipai/plugin-sdk`:
+Each entry is a `PluginPostUploadCommand`, exported from `@thinkingmach/plugin-sdk`:
 
 | Field | Type | Declares |
 |---|---|---|
@@ -452,9 +452,9 @@ The ordering rules are simple, and you should follow them exactly:
 
 ###### The security contract you have to honour
 
-This is the part that matters most, because `command` is a string your driver hands to a shell. Paperclip keeps it safe by controlling where the string can come from, and your provider is the second half of that contract.
+This is the part that matters most, because `command` is a string your driver hands to a shell. ThinkingMach keeps it safe by controlling where the string can come from, and your provider is the second half of that contract.
 
-**`command` is a Paperclip/adapter-authored control operation.** It may be supplied only by core or adapter code. It never comes from a server route, from issue or comment content, from project or workspace file content, from a provider-plugin callback, or from arbitrary adapter config. Any path embedded in it is built by adapter/core helpers out of already-confined paths and shell-quoted before it ever reaches you.
+**`command` is a ThinkingMach/adapter-authored control operation.** It may be supplied only by core or adapter code. It never comes from a server route, from issue or comment content, from project or workspace file content, from a provider-plugin callback, or from arbitrary adapter config. Any path embedded in it is built by adapter/core helpers out of already-confined paths and shell-quoted before it ever reaches you.
 
 **Treat the command as opaque.** You may execute it or reject it. You must **not** rewrite it, concatenate it, or append shell fragments of your own. In practice that means the working directory rides as a structured argument, never as a `cd … &&` prefix glued onto the front of the command string.
 
@@ -532,7 +532,7 @@ The harness deliberately mirrors the host's own write bar rather than waving it 
 
 - `z` — `zod` is re-exported so plugin authors do not need to add a separate dependency. Use it for `instanceConfigSchema` and tool `parametersSchema` declarations.
 - `NOOP_PLUGIN_TRACER`, `NOOP_PLUGIN_SPAN` — the default no-op tracer and span (values, not types). Handy as a stand-in when you want the do-nothing default explicitly, e.g. in tests.
-- Constants from `@paperclipai/shared`: `PLUGIN_API_VERSION`, `PLUGIN_STATUSES`, `PLUGIN_CATEGORIES`, `PLUGIN_CAPABILITIES`, `PLUGIN_UI_SLOT_TYPES`, `PLUGIN_UI_SLOT_ENTITY_TYPES`, `PLUGIN_STATE_SCOPE_KINDS`, `PLUGIN_JOB_STATUSES`, `PLUGIN_JOB_RUN_STATUSES`, `PLUGIN_JOB_RUN_TRIGGERS`, `PLUGIN_WEBHOOK_DELIVERY_STATUSES`, `PLUGIN_EVENT_TYPES`, `PLUGIN_BRIDGE_ERROR_CODES`.
+- Constants from `@thinkingmach/shared`: `PLUGIN_API_VERSION`, `PLUGIN_STATUSES`, `PLUGIN_CATEGORIES`, `PLUGIN_CAPABILITIES`, `PLUGIN_UI_SLOT_TYPES`, `PLUGIN_UI_SLOT_ENTITY_TYPES`, `PLUGIN_STATE_SCOPE_KINDS`, `PLUGIN_JOB_STATUSES`, `PLUGIN_JOB_RUN_STATUSES`, `PLUGIN_JOB_RUN_TRIGGERS`, `PLUGIN_WEBHOOK_DELIVERY_STATUSES`, `PLUGIN_EVENT_TYPES`, `PLUGIN_BRIDGE_ERROR_CODES`.
 
 ---
 
@@ -542,7 +542,7 @@ A minimal worker entrypoint that wires up an event subscription, a job, and a da
 
 ```ts
 // dist/worker.ts
-import { definePlugin, runWorker, z } from "@paperclipai/plugin-sdk";
+import { definePlugin, runWorker, z } from "@thinkingmach/plugin-sdk";
 
 const plugin = definePlugin({
   async setup(ctx) {

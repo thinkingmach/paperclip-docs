@@ -15,11 +15,11 @@ All `project` subcommands accept the common client flags (`--data-dir`, `--api-b
 ## At A Glance
 
 ```sh
-paperclipai project list --company-id <company-id>
-paperclipai project get <project-id-or-shortname> [--company-id <company-id>]
-paperclipai project create --company-id <company-id> --name "Launch Site" [--goal-ids <id1,id2>] [--lead-agent-id <agent-id>]
-paperclipai project update <project-id-or-shortname> --status in_progress [--company-id <company-id>]
-paperclipai project delete <project-id-or-shortname> --yes [--company-id <company-id>]
+thinkingmach project list --company-id <company-id>
+thinkingmach project get <project-id-or-shortname> [--company-id <company-id>]
+thinkingmach project create --company-id <company-id> --name "Launch Site" [--goal-ids <id1,id2>] [--lead-agent-id <agent-id>]
+thinkingmach project update <project-id-or-shortname> --status in_progress [--company-id <company-id>]
+thinkingmach project delete <project-id-or-shortname> --yes [--company-id <company-id>]
 ```
 
 `get`, `update`, and `delete` take a project reference that can be either the project UUID or its shortname. When you pass a shortname, supply `--company-id` so the server can resolve it within the right company.
@@ -31,8 +31,8 @@ paperclipai project delete <project-id-or-shortname> --yes [--company-id <compan
 ## List Projects
 
 ```sh
-paperclipai project list --company-id <company-id>
-paperclipai project list --company-id <company-id> --json
+thinkingmach project list --company-id <company-id>
+thinkingmach project list --company-id <company-id> --json
 ```
 
 `list` is company-scoped and requires `--company-id`. The default output prints one line per project with the fields most useful for triage:
@@ -53,9 +53,9 @@ When there are no projects, `list` prints an empty result. Use `--json` to get t
 ## Get A Project
 
 ```sh
-paperclipai project get <project-id-or-shortname>
-paperclipai project get launch-site --company-id <company-id>
-paperclipai project get <project-id> --json
+thinkingmach project get <project-id-or-shortname>
+thinkingmach project get launch-site --company-id <company-id>
+thinkingmach project get <project-id> --json
 ```
 
 `get` returns one project by ID or shortname. The reference argument is required. Passing `--company-id` adds a `companyId` query parameter, which the server needs to resolve a shortname unambiguously — always include it when you pass a shortname rather than a UUID.
@@ -65,7 +65,7 @@ paperclipai project get <project-id> --json
 ## Create A Project
 
 ```sh
-paperclipai project create --company-id <company-id> --name "Launch Site"
+thinkingmach project create --company-id <company-id> --name "Launch Site"
 ```
 
 `create` is company-scoped: both `--company-id` and `--name` are required. The remaining options are optional and map directly onto the project record.
@@ -87,7 +87,7 @@ paperclipai project create --company-id <company-id> --name "Launch Site"
 `--goal-ids` is the supported way to attach goals; `--goal-id` exists only for backward compatibility with the old single-goal model. The submitted payload is validated against the server's create-project schema before the request is sent, so an out-of-range value fails locally with a clear error rather than a server round-trip.
 
 ```sh
-paperclipai project create \
+thinkingmach project create \
   --company-id <company-id> \
   --name "Launch Site" \
   --description "Public marketing launch" \
@@ -102,8 +102,8 @@ paperclipai project create \
 ## Update A Project
 
 ```sh
-paperclipai project update <project-id-or-shortname> --status in_progress
-paperclipai project update launch-site --company-id <company-id> --name "Launch v2"
+thinkingmach project update <project-id-or-shortname> --status in_progress
+thinkingmach project update launch-site --company-id <company-id> --name "Launch v2"
 ```
 
 `update` takes a project reference (UUID or shortname) and patches only the fields you pass — anything you omit is left untouched. As with `get`, include `--company-id` when you reference a project by shortname so it resolves to the right company.
@@ -129,10 +129,10 @@ Nullable fields follow one rule: pass the literal string `null` to clear the val
 
 ```sh
 # Clear the lead agent and unarchive in one call
-paperclipai project update <project-id> --lead-agent-id null --archived-at null
+thinkingmach project update <project-id> --lead-agent-id null --archived-at null
 
 # Archive a project
-paperclipai project update <project-id> --archived-at 2026-06-01T00:00:00Z
+thinkingmach project update <project-id> --archived-at 2026-06-01T00:00:00Z
 ```
 
 > **Note:** `--goal-ids` replaces the entire set of linked goals on the project. Pass the full list you want, not a delta.
@@ -142,8 +142,8 @@ paperclipai project update <project-id> --archived-at 2026-06-01T00:00:00Z
 ## Delete A Project
 
 ```sh
-paperclipai project delete <project-id-or-shortname> --yes
-paperclipai project delete launch-site --company-id <company-id> --yes
+thinkingmach project delete <project-id-or-shortname> --yes
+thinkingmach project delete launch-site --company-id <company-id> --yes
 ```
 
 `delete` removes a project. It refuses to run without `--yes` — the command fails fast with "Deletion requires --yes." if the flag is missing. Pass `--company-id` when you reference the project by shortname.
@@ -156,14 +156,14 @@ paperclipai project delete launch-site --company-id <company-id> --yes
 
 Two project fields carry structured configuration that the CLI accepts as raw JSON: the `env` binding (`--env-json`) and the execution workspace policy (`--execution-workspace-policy-json`). On both `create` and `update`, the CLI parses the string you pass with `JSON.parse` and forwards the result to the API. Invalid JSON fails locally with `Invalid JSON: ...` before any request is made, and the literal string `null` clears the field on `update`.
 
-These fields shape how an agent's work actually runs. Remember that the agent's real execution happens server-side in the Paperclip runtime and adapters — the CLI sets these defaults; the server enforces them.
+These fields shape how an agent's work actually runs. Remember that the agent's real execution happens server-side in the ThinkingMach runtime and adapters — the CLI sets these defaults; the server enforces them.
 
 ### `--env-json`
 
 The `env` binding declares environment values that issues in the project inherit at execution time. Secret-backed entries reference a named secret rather than embedding the value, which keeps plaintext out of the project record:
 
 ```sh
-paperclipai project create \
+thinkingmach project create \
   --company-id <company-id> \
   --name "Ops" \
   --env-json '{"OPENAI_API_KEY":{"kind":"secret","secretName":"openai-api-key"}}'
@@ -174,14 +174,14 @@ paperclipai project create \
 The execution workspace policy controls how execution workspaces are provisioned for the project's issues — for example whether the policy is enabled and which default mode new work uses:
 
 ```sh
-paperclipai project update <project-id> \
+thinkingmach project update <project-id> \
   --execution-workspace-policy-json '{"enabled":true,"defaultMode":"shared_workspace"}'
 ```
 
 To remove a policy you previously set, pass `null`:
 
 ```sh
-paperclipai project update <project-id> --execution-workspace-policy-json null
+thinkingmach project update <project-id> --execution-workspace-policy-json null
 ```
 
 > **Tip:** Build these JSON values in a file and pass them inline, or generate them with a tool that guarantees valid JSON. Because the CLI parses the string before sending it, a malformed object is rejected immediately rather than producing a confusing server error.

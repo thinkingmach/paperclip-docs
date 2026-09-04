@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.817.0
 seo_title: Codex Adapter
-seo_description: Run OpenAI's Codex CLI on the Paperclip host as a local coding agent, with persistent session state and a managed CODEX_HOME per agent.
+seo_description: Run OpenAI's Codex CLI on the ThinkingMach host as a local coding agent, with persistent session state and a managed CODEX_HOME per agent.
 ---
 
 # Codex
 
-`codex_local` runs OpenAI's Codex CLI on the same machine as Paperclip. Use it when you want a local coding agent with persistent session state, managed `CODEX_HOME`, and Paperclip skills injected into the Codex skills directory.
+`codex_local` runs OpenAI's Codex CLI on the same machine as ThinkingMach. Use it when you want a local coding agent with persistent session state, managed `CODEX_HOME`, and ThinkingMach skills injected into the Codex skills directory.
 
 ---
 
@@ -14,14 +14,14 @@ seo_description: Run OpenAI's Codex CLI on the Paperclip host as a local coding 
 
 - You already use the Codex CLI on the host machine.
 - You want session continuity across heartbeats.
-- You want Paperclip to manage a per-company Codex home when possible.
-- You want repo instructions, Paperclip instructions, and Codex's own runtime behavior to work together.
+- You want ThinkingMach to manage a per-company Codex home when possible.
+- You want repo instructions, ThinkingMach instructions, and Codex's own runtime behavior to work together.
 
 ## When Not To Use
 
 - The runtime lives behind a webhook or remote API. Use [HTTP](./http.md).
 - You only need a shell command or script. Use [Process](./process.md).
-- Codex CLI is not installed or cannot be executed from the Paperclip host.
+- Codex CLI is not installed or cannot be executed from the ThinkingMach host.
 
 ---
 
@@ -29,7 +29,7 @@ seo_description: Run OpenAI's Codex CLI on the Paperclip host as a local coding 
 
 | Field | Required | Notes |
 |---|---:|---|
-| `cwd` | no | Absolute working directory for the agent. Recommended in practice. If omitted, the adapter falls back to the current process working directory. Paperclip creates the path when permissions allow. |
+| `cwd` | no | Absolute working directory for the agent. Recommended in practice. If omitted, the adapter falls back to the current process working directory. ThinkingMach creates the path when permissions allow. |
 | `engine` | no | How Codex is run: `auto` (the default — ACP preferred), `acp` (always the Agent Client Protocol), or `cli` (always the classic Codex CLI). See [ACP Engine](#acp-engine). |
 | `model` | no | Codex model id. See [Models](#models). If you leave it unset, the adapter omits `--model` so the Codex CLI uses its own default. |
 | `promptTemplate` | no | Prompt template used for the run. |
@@ -42,7 +42,7 @@ seo_description: Run OpenAI's Codex CLI on the Paperclip host as a local coding 
 | `env` | no | Environment variables passed to the runtime. Secret refs are supported. |
 | `timeoutSec` | no | Run timeout in seconds. On local and SSH targets, `0` means no adapter wall-clock timeout. On a sandbox target, `0` or an unset value uses the 14,400-second sandbox default; use a positive value to override it or a negative value to opt out of the adapter timeout. |
 | `graceSec` | no | Grace period before a forced stop. |
-| `outputInactivityTimeoutMs` | no | How long the adapter waits for Codex to produce output before treating the run as stuck. The timer resets every time Codex emits a parsed event, so a busy run never trips it. Defaults to 7 minutes (`420000`) when unset. Set it to `null` to switch the monitor off entirely — only do that for tasks you know go quiet for long stretches, since Paperclip's platform-level one-hour silent-run safety net still applies. When it fires, the adapter stops the Codex process and reports the run as failed with a message like `monitor: no codex output for 7m 0s`. |
+| `outputInactivityTimeoutMs` | no | How long the adapter waits for Codex to produce output before treating the run as stuck. The timer resets every time Codex emits a parsed event, so a busy run never trips it. Defaults to 7 minutes (`420000`) when unset. Set it to `null` to switch the monitor off entirely — only do that for tasks you know go quiet for long stretches, since ThinkingMach's platform-level one-hour silent-run safety net still applies. When it fires, the adapter stops the Codex process and reports the run as failed with a message like `monitor: no codex output for 7m 0s`. |
 | `workspaceStrategy` | no | Execution workspace strategy, such as `git_worktree`. |
 | `workspaceRuntime` | no | Reserved workspace runtime metadata. |
 
@@ -54,7 +54,7 @@ seo_description: Run OpenAI's Codex CLI on the Paperclip host as a local coding 
 
 Codex can run through one of two engines — ACP or the classic Codex CLI — selected by the `engine` field:
 
-- **`auto` (default) — ACP preferred.** Paperclip runs Codex through the Agent Client Protocol (ACP) when the host meets the prerequisites, and falls back to the Codex CLI — with diagnostics explaining why — when it can't.
+- **`auto` (default) — ACP preferred.** ThinkingMach runs Codex through the Agent Client Protocol (ACP) when the host meets the prerequisites, and falls back to the Codex CLI — with diagnostics explaining why — when it can't.
 - **`acp` — always ACP.** Force the Agent Client Protocol path.
 - **`cli` — always the Codex CLI.** Force the classic CLI wrapper and skip ACP entirely.
 
@@ -67,14 +67,14 @@ When the engine resolves to ACP (either `acp`, or `auto` on a capable host), the
 | `agentCommand` | package-local `codex-acp` | Optional override for the Codex ACP server command. |
 | `mode` | `persistent` | `persistent` keeps ACP session state between runs; `oneshot` starts fresh each run. |
 | `nonInteractivePermissions` | `deny` | What to do if the ACP agent asks for input outside an interactive session — `deny` the request or `fail` the run. |
-| `stateDir` | Paperclip-managed | Optional ACP session-state directory. Defaults to Paperclip's company- and agent-scoped storage. |
+| `stateDir` | ThinkingMach-managed | Optional ACP session-state directory. Defaults to ThinkingMach's company- and agent-scoped storage. |
 | `warmHandleIdleMs` | `0` | How long to keep the ACP process warm between runs, in milliseconds. `0` closes it after each run while still retaining persistent session state. |
 
 > **Heads-up:** ACP is where the old standalone `acpx_local` adapter's capabilities now live. That adapter has been retired — pick `codex_local` (or `claude_local` / `gemini_local`) and leave `engine` on `auto` to get ACP by default.
 
 ### ACP in sandbox environments
 
-You can keep `engine` on `auto` when this agent runs in a Paperclip sandbox environment. If that sandbox provides Paperclip's bidirectional process session, Paperclip keeps the ACP engine and its structured live transcript; you do not add a separate bridge setting to the adapter config.
+You can keep `engine` on `auto` when this agent runs in a ThinkingMach sandbox environment. If that sandbox provides ThinkingMach's bidirectional process session, ThinkingMach keeps the ACP engine and its structured live transcript; you do not add a separate bridge setting to the adapter config.
 
 An environment that only runs one-shot commands cannot host an ACP session, so `auto` falls back to the Codex CLI with a diagnostic. The same fallback applies to non-sandbox remote targets such as SSH. Choose `engine: "acp"` when ACP is required and a failed prerequisite should stop the run, or `engine: "cli"` when you always want the CLI lane.
 
@@ -98,7 +98,7 @@ Pick any of the known Codex model ids in the `model` field. The current options 
 - `o3-mini`
 - `codex-mini-latest`
 
-You can also type a model id that is not in this list. Anything Paperclip does not recognize is treated as a manual model id and passed straight through to the Codex CLI.
+You can also type a model id that is not in this list. Anything ThinkingMach does not recognize is treated as a manual model id and passed straight through to the Codex CLI.
 
 > **Tip:** Leave `model` empty to let Codex choose. When no model is set, the adapter omits the `--model` flag entirely so the Codex CLI falls back to its own default model.
 
@@ -116,7 +116,7 @@ The important part is *explicitly configured*: the `cheap` profile ships with an
 
 > **Heads-up:** `cheap` used to hard-code a specific Codex model and reasoning effort for you. It no longer does. If you were relying on that, set the model you want on the profile yourself.
 
-New Codex agents start with this profile switched off. When an agent is created and its runtime config does not already mention `cheap`, Paperclip records `modelProfiles.cheap = { enabled: false }` — the profile is present but dormant, waiting for you to configure it and turn it on.
+New Codex agents start with this profile switched off. When an agent is created and its runtime config does not already mention `cheap`, ThinkingMach records `modelProfiles.cheap = { enabled: false }` — the profile is present but dormant, waiting for you to configure it and turn it on.
 
 ---
 
@@ -137,16 +137,16 @@ If the working directory changes, the adapter starts a fresh session instead of 
 
 ## Skills Injection
 
-Codex injects Paperclip skills into the effective `CODEX_HOME/skills` directory.
+Codex injects ThinkingMach skills into the effective `CODEX_HOME/skills` directory.
 
-In the default managed-home mode, Paperclip uses a per-company Codex home under the active Paperclip instance and seeds it from the shared Codex home for auth continuity.
+In the default managed-home mode, ThinkingMach uses a per-company Codex home under the active ThinkingMach instance and seeds it from the shared Codex home for auth continuity.
 
-When Paperclip runs inside a managed worktree instance, that Codex home is worktree-isolated so sessions, logs, and skills do not leak across checkouts.
+When ThinkingMach runs inside a managed worktree instance, that Codex home is worktree-isolated so sessions, logs, and skills do not leak across checkouts.
 
-For manual local CLI use outside Paperclip, run:
+For manual local CLI use outside ThinkingMach, run:
 
 ```sh
-pnpm paperclipai agent local-cli codexcoder --company-id <company-id>
+pnpm thinkingmach agent local-cli codexcoder --company-id <company-id>
 ```
 
 That command installs missing skills, creates an agent API key, and prints shell exports you can use to run Codex as that agent.
@@ -155,26 +155,26 @@ That command installs missing skills, creates an agent API key, and prints shell
 
 ## Instructions File
 
-If you set `instructionsFilePath`, Paperclip reads that file and prepends it to the stdin prompt sent to `codex exec` on every run.
+If you set `instructionsFilePath`, ThinkingMach reads that file and prepends it to the stdin prompt sent to `codex exec` on every run.
 
 That is separate from Codex's own repo instruction discovery. If the working directory contains an `AGENTS.md`, Codex can still load it as part of its normal behavior.
 
-> **Tip:** Use `instructionsFilePath` for Paperclip-managed instructions. Use repo-local instruction files when you want Codex to pick them up naturally from the workspace.
+> **Tip:** Use `instructionsFilePath` for ThinkingMach-managed instructions. Use repo-local instruction files when you want Codex to pick them up naturally from the workspace.
 
 ---
 
 ## Authentication And Per-Agent Homes
 
-Each `codex_local` agent runs against its own managed Codex home, so one agent can never spend against another agent's login or share its Codex state. Because that home starts empty, Paperclip seeds credentials into it for you before launching Codex:
+Each `codex_local` agent runs against its own managed Codex home, so one agent can never spend against another agent's login or share its Codex state. Because that home starts empty, ThinkingMach seeds credentials into it for you before launching Codex:
 
-- **You inherit the host Codex login by default.** If you are already signed in to Codex on the Paperclip host (a ChatGPT-subscription login), Paperclip links that login into the agent's managed home automatically. You do not have to log in again per company or per agent.
-- **A per-agent API key wins when you set one.** If the agent's `env` carries an `OPENAI_API_KEY`, Paperclip writes that key into the managed home as API-key auth instead of borrowing the host login.
-- **Your own `CODEX_HOME` is left alone.** If you point the adapter at a `CODEX_HOME` outside Paperclip's managed company tree, Paperclip treats it as self-managed and never seeds or overwrites it.
+- **You inherit the host Codex login by default.** If you are already signed in to Codex on the ThinkingMach host (a ChatGPT-subscription login), ThinkingMach links that login into the agent's managed home automatically. You do not have to log in again per company or per agent.
+- **A per-agent API key wins when you set one.** If the agent's `env` carries an `OPENAI_API_KEY`, ThinkingMach writes that key into the managed home as API-key auth instead of borrowing the host login.
+- **Your own `CODEX_HOME` is left alone.** If you point the adapter at a `CODEX_HOME` outside ThinkingMach's managed company tree, ThinkingMach treats it as self-managed and never seeds or overwrites it.
 - **No silent credential-less runs.** If a managed home ends up with no usable login and no configured API key, the run fails fast with a clear adapter error instead of starting Codex and hitting a `401` from the provider.
 
 ### CODEX_HOME sync into a sandbox
 
-When this agent runs in a Paperclip sandbox, the adapter does not copy your whole Codex home into the sandbox. Instead it stages an explicit allowlist, so only the material a run actually needs crosses the boundary and none of your host-local runtime state comes along for the ride. The synced entries are:
+When this agent runs in a ThinkingMach sandbox, the adapter does not copy your whole Codex home into the sandbox. Instead it stages an explicit allowlist, so only the material a run actually needs crosses the boundary and none of your host-local runtime state comes along for the ride. The synced entries are:
 
 - `config.json`
 - `config.toml`
@@ -201,9 +201,9 @@ If the probe fails, fix the command or auth path before saving the adapter.
 
 ## Custom Providers And Gateways
 
-Codex has no CLI flag or env var for pointing at a custom OpenAI-compatible endpoint. Custom endpoints live as `[model_providers.<id>]` tables in `$CODEX_HOME/config.toml`. To route Codex at your own gateway or provider without hand-editing that file, set the `PAPERCLIP_CODEX_PROVIDERS` environment variable on the Paperclip host.
+Codex has no CLI flag or env var for pointing at a custom OpenAI-compatible endpoint. Custom endpoints live as `[model_providers.<id>]` tables in `$CODEX_HOME/config.toml`. To route Codex at your own gateway or provider without hand-editing that file, set the `THINKINGMACH_CODEX_PROVIDERS` environment variable on the ThinkingMach host.
 
-`PAPERCLIP_CODEX_PROVIDERS` is a JSON object that maps onto Codex's `config.toml` schema:
+`THINKINGMACH_CODEX_PROVIDERS` is a JSON object that maps onto Codex's `config.toml` schema:
 
 ```json
 {
@@ -221,11 +221,11 @@ Codex has no CLI flag or env var for pointing at a custom OpenAI-compatible endp
 
 - Each key under `providers` becomes a `[model_providers.<id>]` table. Common fields are `name` (optional display name), `base_url` (the OpenAI-compatible endpoint), `env_key` (the env var Codex reads the bearer key from at request time), and `wire_api` (the protocol Codex speaks to the provider). Any other field Codex supports is passed through too, including `query_params`, `http_headers`, `env_http_headers`, and `request_max_retries`.
 - `model_provider` is optional. When set, it selects the top-level provider and must match one of your `providers` entries. The `model` field then picks the model *within* that provider.
-- String values may use `{env:VAR}` placeholders. Paperclip expands them server-side against the run env and `process.env`, which is handy for fields that must carry a literal value such as `http_headers`. Prefer Codex's own `env_key` indirection for the bearer key. Unresolvable placeholders are left intact.
+- String values may use `{env:VAR}` placeholders. ThinkingMach expands them server-side against the run env and `process.env`, which is handy for fields that must carry a literal value such as `http_headers`. Prefer Codex's own `env_key` indirection for the bearer key. Unresolvable placeholders are left intact.
 
-Paperclip writes these definitions into a managed region of the per-company managed Codex home's `config.toml`, delimited by `# >>> paperclip codex providers ... managed, do not edit >>>` marker comments. Your existing config is preserved, conflicting definitions are excised so the managed ones win, and the original file is restored after the run.
+ThinkingMach writes these definitions into a managed region of the per-company managed Codex home's `config.toml`, delimited by `# >>> paperclip codex providers ... managed, do not edit >>>` marker comments. Your existing config is preserved, conflicting definitions are excised so the managed ones win, and the original file is restored after the run.
 
-> **Note:** This merge only happens for the managed Codex home. If your adapter config explicitly sets `env.CODEX_HOME`, Paperclip leaves that user-managed home untouched and surfaces a note instead of merging.
+> **Note:** This merge only happens for the managed Codex home. If your adapter config explicitly sets `env.CODEX_HOME`, ThinkingMach leaves that user-managed home untouched and surfaces a note instead of merging.
 
 ---
 

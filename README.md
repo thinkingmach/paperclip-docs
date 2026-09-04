@@ -1,8 +1,8 @@
-# Paperclip Docs
+# ThinkingMach Docs
 
-Source for the [Paperclip](https://github.com/paperclipai/paperclip) documentation site — user guides, API and CLI reference, adapter docs, and deployment notes.
+Source for the [ThinkingMach](https://github.com/thinkingmach/paperclip) documentation site — user guides, API and CLI reference, adapter docs, and deployment notes.
 
-**Read the docs:** https://docs.paperclip.ing/
+**Read the docs:** https://docs.thinkingmach.com/
 
 ## What's inside
 
@@ -21,10 +21,14 @@ Build a release bundle locally with:
 ```sh
 npm run docs:build
 ```
+or
+```sh
+bun run docs:build
+```
 
-Cloudflare Pages is connected directly to `paperclipai/paperclip-docs` through GitHub. There is no normal Wrangler publish step for this repo:
+Cloudflare Pages is connected directly to `thinkingmach/paperclip-docs` through GitHub. There is no normal Wrangler publish step for this repo:
 
-- Pushes to `main` deploy production at `https://docs.paperclip.ing/`.
+- Pushes to `main` deploy production at `https://docs.thinkingmach.com/`.
 - Pushes to other branches create Cloudflare Pages preview/canary deployments.
 - Canary URLs are created by Cloudflare for each deployment, for example `https://92b9a99c.paperclip-docs-74t.pages.dev`. Use the URL shown in the Cloudflare Pages deployment row or GitHub deployment/check for the pushed branch and commit.
 
@@ -47,12 +51,12 @@ For larger changes, fork the repo and open a PR against `main`. Screenshots live
 ## Community
 
 - [Discord](https://discord.gg/m4HZY7xNG3)
-- [GitHub Discussions](https://github.com/paperclipai/paperclip/discussions)
+- [GitHub Discussions](https://github.com/thinkingmach/paperclip/discussions)
 
 ## License
 
-Copyright (c) 2026 Paperclip Community.
+Copyright (c) 2026 ThinkingMach Community.
 
-The Paperclip **software** is open source — see the main [paperclip](https://github.com/paperclipai/paperclip) repository for its license.
+The ThinkingMach **software** is open source — see the main [paperclip](https://github.com/thinkingmach/paperclip) repository for its license.
 
 The **documentation in this repository** is licensed under [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)](https://creativecommons.org/licenses/by-nc-nd/4.0/). You may read and share it for non-commercial purposes with attribution. Commercial use of any kind requires prior written permission from the copyright holders. See [`LICENSE`](LICENSE) for the full text.

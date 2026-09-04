@@ -41,10 +41,10 @@ So if the screen looks bare, the fix is usually "run a task," not "find the hidd
 
 Every execution workspace is linked to a project. The project defines the base configuration — where the code lives, how to run it, what the default setup looks like.
 
-When a task runs, Paperclip resolves which execution workspace to use for that run:
+When a task runs, ThinkingMach resolves which execution workspace to use for that run:
 
 1. **The heartbeat fires** and the agent picks up a task
-2. **Paperclip resolves the workspace** — creating a new one, reusing an existing one, or sticking with the project default, depending on your settings
+2. **ThinkingMach resolves the workspace** — creating a new one, reusing an existing one, or sticking with the project default, depending on your settings
 3. **The agent receives the workspace path** and works within it
 4. **The workspace persists** after the run if you're using an isolated or reusable workspace mode
 
@@ -55,7 +55,7 @@ When a task runs, Paperclip resolves which execution workspace to use for that r
 When isolated workspaces are enabled for a project, you can choose how an issue's workspace is handled:
 
 **Isolated (new workspace)**
-Paperclip creates a fresh working copy for this task — a new git worktree at a new path, branched from the base. The agent works here without any risk of interfering with other workspaces. When the task is done, you can review and merge the branch, then archive the workspace.
+ThinkingMach creates a fresh working copy for this task — a new git worktree at a new path, branched from the base. The agent works here without any risk of interfering with other workspaces. When the task is done, you can review and merge the branch, then archive the workspace.
 
 This is the right choice for tasks that make code changes — features, fixes, experiments.
 
@@ -69,17 +69,17 @@ The task runs in the project's primary checkout, not an isolated copy. Use this 
 
 ---
 
-## How Paperclip keeps reused workspaces consistent
+## How ThinkingMach keeps reused workspaces consistent
 
-Reusing a workspace is convenient, but it raises a fair question: what happens when two different agents — with two different intended environments — land in the same workspace? Paperclip closes that gap so a reused workspace never quietly drifts.
+Reusing a workspace is convenient, but it raises a fair question: what happens when two different agents — with two different intended environments — land in the same workspace? ThinkingMach closes that gap so a reused workspace never quietly drifts.
 
-- **No silent environment reuse.** Each task run has an intended environment, resolved in this order: an environment set explicitly on the issue always wins; otherwise the project's workspace-policy environment applies; otherwise the agent's own default environment; and the instance default is the final fallback. (An agent deliberately pinned to the local default is never promoted off it by a project policy — only an explicit issue-level environment can move it.) When a run reuses a workspace whose environment doesn't match the run's intended one, Paperclip treats that as a conflict to surface rather than silently inheriting whatever the previous occupant left behind.
+- **No silent environment reuse.** Each task run has an intended environment, resolved in this order: an environment set explicitly on the issue always wins; otherwise the project's workspace-policy environment applies; otherwise the agent's own default environment; and the instance default is the final fallback. (An agent deliberately pinned to the local default is never promoted off it by a project policy — only an explicit issue-level environment can move it.) When a run reuses a workspace whose environment doesn't match the run's intended one, ThinkingMach treats that as a conflict to surface rather than silently inheriting whatever the previous occupant left behind.
 - **Dependent issues wait for finalize.** When an issue depends on another, its wake no longer fires before the upstream workspace has finished finalizing. The dependent task only starts once the workspace it relies on is in a consistent, settled state — so it never reads a half-written checkout.
 - **Accepting an interaction waits too.** Accepting a plan or review (`issue.interaction.accept`) now waits for the workspace to finalize before it proceeds, for the same reason.
 
 You don't configure any of this — it's part of how isolated and reused workspaces behave. The practical effect is simply that dependent work and reused workspaces see consistent state, every time.
 
-> **Note:** Execution workspaces are local working copies. Paperclip does not push them to a remote git host on your behalf — finished work is reviewed and merged through Paperclip, not through a `git push` from inside the workspace.
+> **Note:** Execution workspaces are local working copies. ThinkingMach does not push them to a remote git host on your behalf — finished work is reviewed and merged through ThinkingMach, not through a `git push` from inside the workspace.
 
 ---
 
@@ -87,7 +87,7 @@ You don't configure any of this — it's part of how isolated and reused workspa
 
 Each workspace can have runtime services: background processes that need to be running for the agent's work to make sense — a development server, a database, a build watcher.
 
-Runtime services are manually controlled from the workspace UI. Paperclip does not start or stop them automatically when a heartbeat fires.
+Runtime services are manually controlled from the workspace UI. ThinkingMach does not start or stop them automatically when a heartbeat fires.
 
 To start services for a workspace:
 1. Open your project and click on the workspace
@@ -100,7 +100,7 @@ To start services for a workspace:
 
 ## HTTPS previews for runtime services
 
-When a runtime service runs a dev server, you usually reach it on a loopback URL. On a managed workspace, Paperclip can also publish that same service on your tailnet at a real, cert-valid `https://<node>.<tailnet>.ts.net:<port>` URL — the public port matches the loopback app port — so you can open the preview from another device or share it with a teammate on the same tailnet.
+When a runtime service runs a dev server, you usually reach it on a loopback URL. On a managed workspace, ThinkingMach can also publish that same service on your tailnet at a real, cert-valid `https://<node>.<tailnet>.ts.net:<port>` URL — the public port matches the loopback app port — so you can open the preview from another device or share it with a teammate on the same tailnet.
 
 ### Reading the HTTPS states
 
@@ -108,12 +108,12 @@ The Services control bar tracks HTTPS exposure as its own lifecycle, **separate 
 
 You'll see these states next to a service:
 
-- **Provisioning HTTPS…** — the service is up and Paperclip is bringing the HTTPS mapping online.
+- **Provisioning HTTPS…** — the service is up and ThinkingMach is bringing the HTTPS mapping online.
 - **HTTPS ready** — the preview is live. You get the public URL with a copy-URL button and an open-in-new-tab button.
 - **HTTPS unavailable** — provisioning failed. The bar shows remediation text ("Check the Tailscale broker and node HTTPS configuration.").
 - **HTTPS cleanup pending** — a previous mapping still needs tearing down before the port can be reused ("Restart the host broker before reusing this port.").
 
-Because HTTPS is fail-closed, Paperclip never falls back to plain HTTP and calls it ready — if the probe doesn't pass, the preview stays unavailable rather than silently downgrading.
+Because HTTPS is fail-closed, ThinkingMach never falls back to plain HTTP and calls it ready — if the probe doesn't pass, the preview stays unavailable rather than silently downgrading.
 
 ### Opting a service in
 
@@ -127,7 +127,7 @@ When you do want to be explicit, add an `expose` block to the service with `type
 }
 ```
 
-The recognized fields — `hostname` (`"auto"`, resolved from the local Tailscale node), `publicPort` (`"same"`, matching the loopback app port), `includePaperclipViteHmr`, and `failurePolicy` (`"fail_closed"`) — all fall back to their defaults if you omit them. `includePaperclipViteHmr` defaults to on, which exposes a companion HMR port so Vite hot reload keeps working over the HTTPS origin. To opt a service out, set `type: "none"` (or `tailscaleHttps: false`) on the block.
+The recognized fields — `hostname` (`"auto"`, resolved from the local Tailscale node), `publicPort` (`"same"`, matching the loopback app port), `includeThinkingMachViteHmr`, and `failurePolicy` (`"fail_closed"`) — all fall back to their defaults if you omit them. `includeThinkingMachViteHmr` defaults to on, which exposes a companion HMR port so Vite hot reload keeps working over the HTTPS origin. To opt a service out, set `type: "none"` (or `tailscaleHttps: false`) on the block.
 
 > **Prerequisite:** HTTPS previews only work when the instance is on a tailnet with the HTTPS broker installed. If you see **HTTPS unavailable**, that host-side helper is usually what needs attention — see [Tailscale HTTPS Broker](../../reference/deploy/tailscale-https-broker.md) for the operator setup.
 
@@ -141,7 +141,7 @@ That card exists because a plain "Open" link used to lie. A workspace whose data
 
 ### Reading the access states
 
-The card shows a badge, a title, and a single primary action. The primary action is either a button you can click now or a disabled wait state while Paperclip finishes something:
+The card shows a badge, a title, and a single primary action. The primary action is either a button you can click now or a disabled wait state while ThinkingMach finishes something:
 
 - **Provisioning** → "Workspace is not running" → **Start workspace** (or a disabled **Provisioning** / **Repair in progress** while it settles).
 - **Validating clone** → disabled **Validating** — wait for the clone to be checked.
@@ -150,7 +150,7 @@ The card shows a badge, a title, and a single primary action. The primary action
 - **Repairing** → "Repairing workspace database" → disabled **Repair in progress** — wait.
 - **Failed** → "Database provisioning failed" / "Repair failed" → **Repair workspace**, or for a failed repair a **View repair log** link. A failed repair keeps your data — "The pre-repair backup was kept."
 
-The human-readable cause under the title tells you *why* you're seeing a repair or start action instead of **Open workspace**. Causes the card surfaces include: no healthy runtime service is publishing a URL yet; the runtime is publishing a URL Paperclip can't open; the cloned database isn't ready to accept a login yet; the isolated database isn't answering; the clone restored no company or issue rows; the cloned product tables couldn't be read; or no cloned user has an active company membership. Each of these maps you to **Repair workspace** or **Start workspace** rather than a link that would just fail.
+The human-readable cause under the title tells you *why* you're seeing a repair or start action instead of **Open workspace**. Causes the card surfaces include: no healthy runtime service is publishing a URL yet; the runtime is publishing a URL ThinkingMach can't open; the cloned database isn't ready to accept a login yet; the isolated database isn't answering; the clone restored no company or issue rows; the cloned product tables couldn't be read; or no cloned user has an active company membership. Each of these maps you to **Repair workspace** or **Start workspace** rather than a link that would just fail.
 
 ### What "Open workspace" does — the single-use handoff
 
@@ -185,7 +185,7 @@ Execution workspaces are durable — they persist until you explicitly archive o
 When you're done with a workspace:
 1. Review the agent's work (merge the branch, approve changes, etc.)
 2. Click **Archive** on the workspace
-3. Paperclip cleans up the workspace according to its mode and project settings
+3. ThinkingMach cleans up the workspace according to its mode and project settings
 
 > **Warning:** Archiving a workspace that has unmerged changes or uncommitted work means that work is gone. Make sure you've reviewed and merged anything you want to keep before archiving.
 
@@ -210,7 +210,7 @@ There are two places to see your workspaces, and they show the same data from di
 - **The Workspaces sidebar item** opens the company-wide view. It's grouped by project, so you see every project that has workspace activity, each with its workspaces underneath. Projects with running services float to the top.
 - **A project's Workspaces tab** (open a project, click **Workspaces**) is the same list scoped to that one project. It only appears once that project has workspace activity.
 
-Either way, you'll see the project's primary workspace and any isolated execution workspaces Paperclip has provisioned. If nothing has been provisioned yet, the company-wide view shows **"No workspace activity yet."**
+Either way, you'll see the project's primary workspace and any isolated execution workspaces ThinkingMach has provisioned. If nothing has been provisioned yet, the company-wide view shows **"No workspace activity yet."**
 
 ![The company-wide Workspaces screen, grouped by project: the Website project's isolated execution workspace (with a running service and a linked task) above its primary "main" workspace](../../user-guides/screenshots/light/workspaces/list.png)
 
@@ -232,7 +232,7 @@ The header of the detail screen shows the workspace name with quick start/stop/r
 4. **Runtime logs** — history of runtime and cleanup operations
 5. **Routines** — routines that use workspace-specific variables, which you can run against this workspace
 
-Installed plugins can add their own tabs alongside these (for example, a workspace-diff plugin contributes a **Changes** tab). The tabs remember your last selection per workspace, so if you always land on Runtime logs for a specific workspace, Paperclip keeps taking you there.
+Installed plugins can add their own tabs alongside these (for example, a workspace-diff plugin contributes a **Changes** tab). The tabs remember your last selection per workspace, so if you always land on Runtime logs for a specific workspace, ThinkingMach keeps taking you there.
 
 ---
 
@@ -244,7 +244,7 @@ The **Services** tab is the control surface for runtime behaviour: services you 
 
 Two rules govern what you can do here:
 
-1. **You need a working directory.** Every command Paperclip runs against the workspace needs an absolute path to run in. If the workspace's `cwd` is empty, the action buttons are disabled and a hint reminds you to fix that first. Fill in the **Working directory** field on the Configuration tab, save, and the controls light up again.
+1. **You need a working directory.** Every command ThinkingMach runs against the workspace needs an absolute path to run in. If the workspace's `cwd` is empty, the action buttons are disabled and a hint reminds you to fix that first. Fill in the **Working directory** field on the Configuration tab, save, and the controls light up again.
 2. **Services need runtime config.** Service commands only show up if there's a runtime config somewhere in the chain — either inherited from the project workspace or overridden on this execution workspace. If neither exists, the services list stays empty with a short note; jobs may still run if they're defined and a `cwd` is set.
 
 The tab groups commands into two sections:
@@ -252,7 +252,7 @@ The tab groups commands into two sections:
 - **Services** — long-running processes like `pnpm dev`, a Postgres container, or a build watcher. For each service you'll see start, stop, and restart controls and the service's last observed status.
 - **Jobs** — one-shot commands like `pnpm db:migrate` or a test runner. Each job has a single run action.
 
-When Paperclip is busy running an action (for example, starting a service), the controls show a pending state and block duplicate actions. On success you'll see a short confirmation — "Workspace service started.", "Workspace job completed." — and on failure, the error message from the adapter appears in red. Either way, the full history ends up in the Runtime logs tab.
+When ThinkingMach is busy running an action (for example, starting a service), the controls show a pending state and block duplicate actions. On success you'll see a short confirmation — "Workspace service started.", "Workspace job completed." — and on failure, the error message from the adapter appears in red. Either way, the full history ends up in the Runtime logs tab.
 
 ---
 
@@ -264,15 +264,15 @@ The Configuration tab is where you inspect and edit everything that makes this w
 
 ### Workspace settings
 
-The **Workspace settings** card holds the editable fields for the workspace. Most of these are populated when Paperclip provisions the workspace; you usually only need to touch them when an agent or project has moved, a branch was renamed, or the provisioning scripts changed.
+The **Workspace settings** card holds the editable fields for the workspace. Most of these are populated when ThinkingMach provisions the workspace; you usually only need to touch them when an agent or project has moved, a branch was renamed, or the provisioning scripts changed.
 
 - **Workspace name** — a human label used in lists, breadcrumbs, and notifications.
 - **Branch name** — the git branch this workspace is checked out on. For isolated worktrees, this is typically something like `PAP-946-workspace`.
-- **Working directory** — the absolute path on disk. This is where the agent runs its commands. If this path is empty, Paperclip can't run any local commands for this workspace — it's the single most important field to keep correct.
+- **Working directory** — the absolute path on disk. This is where the agent runs its commands. If this path is empty, ThinkingMach can't run any local commands for this workspace — it's the single most important field to keep correct.
 - **Provider path / ref** — the path or reference used by the workspace provider. For git worktrees this is the worktree path; for other providers it's whatever reference that provider needs.
 - **Repo URL** — the remote URL the working directory was cloned from. Used for linking out to GitHub/GitLab in the UI.
 - **Base ref** — the ref the workspace branched off from, for example `origin/main`.
-- **Provision command** — runs when Paperclip prepares this execution workspace (for example, a script that clones a worktree and installs dependencies).
+- **Provision command** — runs when ThinkingMach prepares this execution workspace (for example, a script that clones a worktree and installs dependencies).
 - **Teardown command** — runs when the execution workspace is archived or cleaned up.
 - **Cleanup command** — an optional workspace-specific cleanup step that runs before teardown (for example, killing a stuck `vite` process).
 
@@ -291,16 +291,16 @@ For the rare cases where you need to tweak the raw runtime JSON, expand the **Ad
 - A checkbox — **Inherit project workspace runtime config** — that toggles override vs. inherit mode.
 - A JSON textarea where you can edit the workspace's `commands` object. Both legacy `services` arrays and the newer `commands` array (supporting both services and jobs) are accepted.
 
-Changes in the Workspace settings card stay local until you click **Save changes**. The **Reset** button reverts the form to whatever Paperclip has currently persisted, so you can back out of a half-edited change without reloading the page.
+Changes in the Workspace settings card stay local until you click **Save changes**. The **Reset** button reverts the form to whatever ThinkingMach has currently persisted, so you can back out of a half-edited change without reloading the page.
 
 ### Workspace context
 
-The **Workspace context** card (labelled "Linked objects" in the UI) shows the other Paperclip entities this execution workspace is connected to:
+The **Workspace context** card (labelled "Linked objects" in the UI) shows the other ThinkingMach entities this execution workspace is connected to:
 
 - **Project** — the project this workspace belongs to.
 - **Project workspace** — the project-level workspace this execution workspace was provisioned from. Runtime config inheritance follows this link.
 - **Source issue** — the issue that originally triggered this workspace's creation, if any. Clicking it takes you to the issue detail page.
-- **Derived from** — if this workspace was created by splitting or branching off another execution workspace, you'll see a link back to the original. This is how Paperclip represents follow-up worktrees that share a code lineage with an earlier one.
+- **Derived from** — if this workspace was created by splitting or branching off another execution workspace, you'll see a link back to the original. This is how ThinkingMach represents follow-up worktrees that share a code lineage with an earlier one.
 - **Workspace ID** — the raw identifier, shown in monospaced text and copyable for API calls or debugging.
 
 Use this card to navigate quickly back to the project, the issue that kicked off the work, or the parent workspace this one derived from.
@@ -314,15 +314,15 @@ The **Concrete location** card summarises the physical and git-level facts about
 - **Repo URL** — when set to a valid `http(s)` URL, this becomes a clickable link out to the remote.
 - **Base ref** — the starting ref the workspace was branched from.
 - **Branch** — the active branch name.
-- **Opened** — timestamp when Paperclip first opened the workspace.
+- **Opened** — timestamp when ThinkingMach first opened the workspace.
 - **Last used** — the most recent time an agent interacted with it.
-- **Cleanup** — if Paperclip has scheduled this workspace for cleanup, the eligible-at time and the reason are shown here. Otherwise this reads `Not scheduled`.
+- **Cleanup** — if ThinkingMach has scheduled this workspace for cleanup, the eligible-at time and the reason are shown here. Otherwise this reads `Not scheduled`.
 
 Together, Workspace settings, Workspace context, and Concrete location give you everything you need to answer "what is this workspace, where does it live, and what is it connected to?"
 
 ### Working with runtime config overrides
 
-Runtime configuration is one of the places where project defaults and workspace-specific needs sometimes pull in different directions. Paperclip resolves this with a two-level inheritance model:
+Runtime configuration is one of the places where project defaults and workspace-specific needs sometimes pull in different directions. ThinkingMach resolves this with a two-level inheritance model:
 
 1. The **project workspace** defines a baseline runtime config. This is what gets applied to every execution workspace carved out of that project workspace unless you explicitly override it.
 2. The **execution workspace** can either inherit that baseline or override it with its own `workspaceRuntime` object.
@@ -331,7 +331,7 @@ The **Runtime config source** notice on the Configuration tab tells you which of
 
 - **Execution workspace override** — this workspace has its own runtime config and ignores whatever the project workspace provides. Use this when a specific worktree needs a different port, a different dev command, or extra jobs that don't belong on every workspace.
 - **Project workspace default** — this workspace is inheriting the project's runtime config as-is. This is the common case and the one you should aim for — overrides add drift and should be the exception.
-- **None** — neither level has runtime config defined, so Paperclip can't start services. Jobs may still run if they're provided, but services won't appear in the Services tab.
+- **None** — neither level has runtime config defined, so ThinkingMach can't start services. Jobs may still run if they're provided, but services won't appear in the Services tab.
 
 If you've added an override and want to go back to inheriting, click **Reset to inherit** — it clears the override and the workspace falls back to the project workspace's config. If the project workspace has no runtime config of its own, that button is disabled; you'd otherwise be resetting the execution workspace to "None".
 
@@ -340,13 +340,13 @@ The **Advanced runtime JSON** panel is hidden behind a disclosure triangle on pu
 - The legacy `{ "services": [...] }` array, kept for backwards compatibility.
 - The newer `{ "commands": [...] }` array with `kind: "service"` or `kind: "job"` entries, which is what new workspaces should use.
 
-Paperclip validates the JSON when you hit **Save changes**; if it can't be parsed or isn't a JSON object, you'll get an inline error and the save is aborted.
+ThinkingMach validates the JSON when you hit **Save changes**; if it can't be parsed or isn't a JSON object, you'll get an inline error and the save is aborted.
 
 ---
 
 ## Runtime logs tab
 
-Switch to the Runtime logs tab to see what Paperclip has actually done with this workspace — which commands ran, when they ran, how they exited, and what they printed.
+Switch to the Runtime logs tab to see what ThinkingMach has actually done with this workspace — which commands ran, when they ran, how they exited, and what they printed.
 
 ![Runtime logs tab](../../user-guides/screenshots/light/workspaces/runtime-logs.png)
 
@@ -360,7 +360,7 @@ Under the **Recent operations** heading, each entry represents one workspace ope
 This tab covers both kinds of operations:
 
 - **Runtime operations** — service starts, stops, restarts, and one-shot jobs you trigger from the Services tab (or the header quick controls).
-- **Cleanup operations** — provision, teardown, and cleanup command runs that happen when Paperclip prepares or closes the workspace.
+- **Cleanup operations** — provision, teardown, and cleanup command runs that happen when ThinkingMach prepares or closes the workspace.
 
 If nothing has happened yet, you'll see "No workspace operations have been recorded yet." When the operation log fails to load, the error message from the server is shown in red.
 
@@ -374,7 +374,7 @@ If you're new to the Runtime logs tab, it helps to know which UI actions produce
 - Clicking **Stop** or **Restart** on a service produces a short operation that records how the service was terminated or bounced.
 - Clicking **Run** on a job produces a single operation with the job's command; its final status reflects the job's exit code.
 - **Close workspace** (from the Configuration tab) runs the cleanup command and then the teardown command in sequence. Each appears as its own operation so you can tell which of the two failed if the close ends in `cleanup_failed`.
-- **Provision** operations are emitted automatically when Paperclip first prepares the workspace; you won't trigger these from the UI, but you'll see them here when debugging first-boot problems.
+- **Provision** operations are emitted automatically when ThinkingMach first prepares the workspace; you won't trigger these from the UI, but you'll see them here when debugging first-boot problems.
 
 If nothing about a failure is obvious from the excerpt, remember that excerpts are truncated. Reach into the underlying worktree on disk, re-run the command manually from that directory, and compare its output to the excerpt — the mismatch usually points at an environment or permissions difference between the agent's runtime and your shell.
 
@@ -405,7 +405,7 @@ If an issue in the list needs to be reassigned or rescheduled before you can clo
 
 Two different relationships show up on the Tasks tab and in the Configuration tab's Workspace context card, and it's worth keeping them straight:
 
-- The **source issue** is the single issue that originally caused Paperclip to provision this workspace. It's stored on the workspace itself and appears in the Workspace context card. For isolated worktrees created from a specific task, this will typically be the task that kicked the whole flow off.
+- The **source issue** is the single issue that originally caused ThinkingMach to provision this workspace. It's stored on the workspace itself and appears in the Workspace context card. For isolated worktrees created from a specific task, this will typically be the task that kicked the whole flow off.
 - The **linked issues** listed on the Tasks tab are every issue that has ever been attached to this workspace, including the source issue, follow-up child issues that inherited the workspace, and any issue whose `inheritExecutionWorkspaceFromIssueId` pointed back here.
 
 When you're deciding whether it's safe to archive, look at the full linked list, not just the source issue. An archived workspace takes all its branch state with it, and a follow-up issue that still references it will end up without a valid cwd the next time it runs.
@@ -414,7 +414,7 @@ When you're deciding whether it's safe to archive, look at the full linked list,
 
 ## Archiving and cleanup
 
-Closing a workspace is a two-step operation in Paperclip:
+Closing a workspace is a two-step operation in ThinkingMach:
 
 1. **Cleanup** — the cleanup command (if any) runs first. This is where you stop stray dev servers, free ports, and do anything that would otherwise prevent teardown from succeeding.
 2. **Teardown** — the teardown command then dismantles the workspace itself. For git worktrees this typically removes the worktree directory and prunes the branch; for other providers it does whatever that provider considers cleanup.
@@ -427,7 +427,7 @@ Some practical tips:
 - Review the **Tasks tab** for any issue still in `in_progress` that's tied to this workspace. Archive the workspace only after those issues are done, cancelled, or moved to another workspace.
 - If an agent had uncommitted changes on the branch, those changes go away at teardown. Either merge the branch first or stash/commit anything you want to keep.
 
-The **Cleanup** row on the Concrete location card tells you whether Paperclip has already scheduled the workspace for automatic cleanup — for example, because it's been idle past a retention window — and what the reason is. If you see a scheduled cleanup you didn't expect, look at the project's workspace lifecycle settings to understand why.
+The **Cleanup** row on the Concrete location card tells you whether ThinkingMach has already scheduled the workspace for automatic cleanup — for example, because it's been idle past a retention window — and what the reason is. If you see a scheduled cleanup you didn't expect, look at the project's workspace lifecycle settings to understand why.
 
 ---
 
@@ -436,11 +436,11 @@ The **Cleanup** row on the Concrete location card tells you whether Paperclip ha
 When something doesn't behave, run through this checklist before filing a bug:
 
 - **Is the `cwd` set and correct?** Without an absolute working directory, no local command can run. Configuration tab → Workspace settings → Working directory.
-- **Is the branch still there?** If someone deleted the branch outside Paperclip, the agent will fail when it tries to check out. Re-create or re-point the branch.
+- **Is the branch still there?** If someone deleted the branch outside ThinkingMach, the agent will fail when it tries to check out. Re-create or re-point the branch.
 - **Does the runtime config actually apply?** Look at Runtime config source on the Configuration tab. If it says "None", no service commands will be available.
 - **Is another workspace holding the port?** Two isolated worktrees on the same machine that both inherit a dev server config will both try to bind. Either override the port on one of them or only start one at a time.
 - **Did a previous close fail?** If the workspace is in `cleanup_failed`, you'll keep getting stale state until you either retry the close or manually fix the underlying problem and then retry.
-- **Is the agent looking at the right workspace?** When follow-up tasks are created, make sure either `parentId` or `inheritExecutionWorkspaceFromIssueId` is set on the child issue so Paperclip can resolve it back to this workspace.
+- **Is the agent looking at the right workspace?** When follow-up tasks are created, make sure either `parentId` or `inheritExecutionWorkspaceFromIssueId` is set on the child issue so ThinkingMach can resolve it back to this workspace.
 
 Most workspace-level issues come down to one of these six questions.
 
@@ -448,13 +448,13 @@ Most workspace-level issues come down to one of these six questions.
 
 ## Isolation and git worktrees
 
-Paperclip's default for "isolated" execution workspaces is a **git worktree** branched off the project workspace's base ref. If you haven't used git worktrees before, here's what that means in practice:
+ThinkingMach's default for "isolated" execution workspaces is a **git worktree** branched off the project workspace's base ref. If you haven't used git worktrees before, here's what that means in practice:
 
 - A worktree is a second (or third, or tenth) checkout of the same repository, living at a different path, with its own branch checked out.
 - They share the same underlying object database with the primary checkout, so creating a worktree is cheap — no full re-clone, no duplicated history on disk.
 - Because each worktree has its own working directory, agents in different worktrees can't accidentally overwrite each other's uncommitted changes.
 
-When Paperclip provisions an isolated workspace:
+When ThinkingMach provisions an isolated workspace:
 
 1. It picks a path under the project workspace's worktree directory.
 2. It creates a new branch off the configured base ref (for example, `origin/main`).
@@ -496,7 +496,7 @@ A few concrete patterns show up often enough to be worth calling out:
 
 **Kicking off a new feature**
 1. Create the issue and assign it to the agent who'll do the work.
-2. Let Paperclip provision an isolated workspace when the agent checks out the task.
+2. Let ThinkingMach provision an isolated workspace when the agent checks out the task.
 3. When the agent finishes and the branch is ready, review the branch in your usual git workflow.
 4. Once merged, come back to the Workspaces tab and archive the workspace.
 
@@ -514,7 +514,7 @@ A few concrete patterns show up often enough to be worth calling out:
 
 **Reusing a workspace across tasks**
 1. When creating the follow-up issue, set `parentId` if it's a child task, or `inheritExecutionWorkspaceFromIssueId` if it's a sibling that should share the same workspace.
-2. Paperclip will wire the new issue up to the existing workspace on checkout.
+2. ThinkingMach will wire the new issue up to the existing workspace on checkout.
 3. On the Tasks tab of the workspace, you'll see the new issue alongside the original.
 
 These patterns are just defaults — adapt them to how your team actually operates.

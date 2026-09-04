@@ -1,6 +1,6 @@
 # Screenshots TODO — IA refresh
 
-> **WARNING — Run on a disposable demo Paperclip instance ONLY. Never against live data.**
+> **WARNING — Run on a disposable demo ThinkingMach instance ONLY. Never against live data.**
 > Real user avatars, company names, task titles, and emails must not appear in any captured PNG.
 
 Default viewport: `1440 × 900`. Capture both light and dark themes where noted.
@@ -14,9 +14,9 @@ Before capturing, create a realistic demo dataset on the demo instance so screen
 2. Invite 2–3 test users (use throwaway emails). Leave one invite pending so the invite state badges render.
 3. Open a 2nd browser/device and follow one invite link to generate a pending **join request** in the queue.
 4. Install all three bundled example plugins on the demo instance to populate the plugin list:
-   - `@paperclipai/plugin-hello-world-example`
-   - `@paperclipai/plugin-file-browser-example`
-   - `@paperclipai/plugin-kitchen-sink-example`
+   - `@thinkingmach/plugin-hello-world-example`
+   - `@thinkingmach/plugin-file-browser-example`
+   - `@thinkingmach/plugin-kitchen-sink-example`
 5. Create one dummy export so the Export page has a history row.
 6. Create one instance admin besides the board user so the Access list has more than one row.
 
@@ -77,8 +77,8 @@ Extend the demo dataset so the new topic batches render populated views:
 7. Install at least one adapter beyond the default local adapter so the AdapterManager list has more than one row.
 8. Add at least one skill via "Add skill" so the dialog has surrounding context on the skills page.
 9. Run a couple of cost-incurring runs (any real or mock provider events) so the Costs overview has non-zero numbers across providers, billers, and finance.
-10. Generate a CLI auth code via `paperclipai login` so `/cli-auth/{id}` renders a real pending request.
-11. Generate a board claim token (`paperclipai board claim ...` or the admin flow) so `/board-claim/{token}` renders.
+10. Generate a CLI auth code via `thinkingmach login` so `/cli-auth/{id}` renders a real pending request.
+11. Generate a board claim token (`thinkingmach board claim ...` or the admin flow) so `/board-claim/{token}` renders.
 
 Placeholders used below:
 

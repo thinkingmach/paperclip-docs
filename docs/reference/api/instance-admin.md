@@ -8,7 +8,7 @@ seo_description: Instance-scoped endpoints that fit nowhere else: general and ex
 
 A grab-bag of instance-scoped REST endpoints that don't fit neatly into the other API pages: general and experimental instance settings, on-demand database backups, the LLM reflection endpoints, environments (sandbox/runtime drivers), and execution-workspace lifecycle.
 
-These surfaces are stable enough to call from your own tooling, but they are intentionally narrow — most operators reach them through the UI, the CLI, or via the `paperclipai doctor` command rather than by hand.
+These surfaces are stable enough to call from your own tooling, but they are intentionally narrow — most operators reach them through the UI, the CLI, or via the `thinkingmach doctor` command rather than by hand.
 
 > All routes are mounted under `/api`. Most require instance-admin or board authentication; per-route notes call out exceptions.
 
@@ -53,7 +53,7 @@ On a brand-new private instance that requires login, this lets the first person 
 
 **Availability.** This route only exists when the instance runs with `deploymentMode` set to `authenticated` **and** `deploymentExposure` set to `private`. On any other configuration it returns `404` with `Browser first-admin claim is not available`.
 
-**Cloud-managed instances.** If your instance is managed by a Paperclip control plane rather than run by you, you never meet this claim screen at all — the instance comes up ready to use. The control plane owns identity there, and the users it signs in are deliberately never given the `instance_admin` role, so `GET /api/health` skips the first-admin check entirely and always reports `bootstrapStatus: "ready"`. Self-hosted instances are unaffected: if you run the server yourself, the claim flow behaves exactly as described here.
+**Cloud-managed instances.** If your instance is managed by a ThinkingMach control plane rather than run by you, you never meet this claim screen at all — the instance comes up ready to use. The control plane owns identity there, and the users it signs in are deliberately never given the `instance_admin` role, so `GET /api/health` skips the first-admin check entirely and always reports `bootstrapStatus: "ready"`. Self-hosted instances are unaffected: if you run the server yourself, the claim flow behaves exactly as described here.
 
 **Authentication.** The caller must be a signed-in browser session (a board actor whose session source is the browser). Other callers — agents, CLI tokens, unauthenticated requests — get `401` with `Sign in from a browser session before claiming first admin`.
 
@@ -102,7 +102,7 @@ Environments are the plugin-managed execution backends declared by environment-d
 
 ## Execution workspaces
 
-Execution workspaces are the materialised working directories Paperclip creates for an issue run.
+Execution workspaces are the materialised working directories ThinkingMach creates for an issue run.
 
 | Endpoint | Purpose |
 |---|---|

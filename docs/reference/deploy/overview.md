@@ -5,7 +5,7 @@ seo_description: Three supported configurations, from zero-friction local use to
 
 # Deployment Overview
 
-Paperclip supports three deployment configurations, from zero-friction local use to login-protected private and public deployments.
+ThinkingMach supports three deployment configurations, from zero-friction local use to login-protected private and public deployments.
 
 Use this section when you need to choose a mode, understand the storage and secrets defaults, or move from local development into a more durable setup.
 
@@ -46,20 +46,20 @@ Use this section when you need to choose a mode, understand the storage and secr
 
 ## Choosing A Mode
 
-- Just trying Paperclip: use `local_trusted` first.
+- Just trying ThinkingMach: use `local_trusted` first.
 - Sharing with a team on a private network: use `authenticated` + `private`.
 - Deploying to the cloud: use `authenticated` + `public`.
 
 Start from onboarding:
 
 ```sh
-pnpm paperclipai onboard
+pnpm thinkingmach onboard
 ```
 
 Or change the mode later:
 
 ```sh
-pnpm paperclipai configure --section server
+pnpm thinkingmach configure --section server
 ```
 
 ---

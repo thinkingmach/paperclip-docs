@@ -6,9 +6,9 @@ seo_description: Projects bind work to a repository, a working directory, and a 
 
 # Projects
 
-A project is the container Paperclip uses to group related work. If goals answer "why are we doing this?" and issues answer "what exactly needs doing?", projects sit in between: they bind a body of work to a concrete place — a repository, a working directory, a budget envelope, a set of execution workspaces — where agents can actually pick up tasks and make progress.
+A project is the container ThinkingMach uses to group related work. If goals answer "why are we doing this?" and issues answer "what exactly needs doing?", projects sit in between: they bind a body of work to a concrete place — a repository, a working directory, a budget envelope, a set of execution workspaces — where agents can actually pick up tasks and make progress.
 
-Every issue in Paperclip lives under a project. Every execution workspace is scoped to a project. Budgets can be pinned to a project. When you tell an agent "work on the marketing site", you are really telling it "work on issues in the Marketing Site project, using the code and configuration the project points at". Projects are how the abstract strategy the CEO writes becomes something concrete an agent can check out and run.
+Every issue in ThinkingMach lives under a project. Every execution workspace is scoped to a project. Budgets can be pinned to a project. When you tell an agent "work on the marketing site", you are really telling it "work on issues in the Marketing Site project, using the code and configuration the project points at". Projects are how the abstract strategy the CEO writes becomes something concrete an agent can check out and run.
 
 This guide walks through the project list, then the five tabs you see when you open a project: **Overview**, **Issues**, **Workspaces**, **Configuration**, and **Budget**.
 
@@ -25,7 +25,7 @@ The Projects page lists every active (non-archived) project in the currently sel
 Each row is a single project entry. Reading left to right you see:
 
 - **Color swatch** — a small square in the project's color. The color is chosen when the project is created and can be changed on the project detail page. Use it to visually scan related projects; it has no functional meaning.
-- **Project name** — the main title. Clicking anywhere on the row opens the project detail page and defaults to the Issues tab (unless you previously visited the project, in which case Paperclip restores the tab you last used).
+- **Project name** — the main title. Clicking anywhere on the row opens the project detail page and defaults to the Issues tab (unless you previously visited the project, in which case ThinkingMach restores the tab you last used).
 - **Description** (subtitle) — the first line of the project description if one has been set. If the project has no description, this area is empty.
 - **Target date** — the project's target completion date if set. Shown on the right in muted text. Projects without a target date omit this field.
 - **Status badge** — the current project status: `backlog`, `planned`, `in_progress`, `completed`, or `cancelled`. The badge color is consistent with issue status badges used elsewhere in the app.
@@ -68,7 +68,7 @@ The Overview tab is the light-weight, human-readable summary of a project. It is
 
 Goals linked to the project are surfaced in the properties panel on the right of the project page (not in the Overview body itself). Linking a project to one or more goals is how the CEO's strategy connects to executable work: a goal describes an outcome, and any project linked to it inherits that outcome as its reason for existing. See the [Goals guide](./goals.md) for how goals are defined and how to link or unlink them.
 
-Progress on a project is implicit: Paperclip does not maintain a single "percent complete" field. Instead, progress is the shape of the Issues tab — how many issues are `todo`, `in_progress`, `in_review`, `done`, or `cancelled`. If you want a rolled-up view, read the Issues tab with the status grouping turned on.
+Progress on a project is implicit: ThinkingMach does not maintain a single "percent complete" field. Instead, progress is the shape of the Issues tab — how many issues are `todo`, `in_progress`, `in_review`, `done`, or `cancelled`. If you want a rolled-up view, read the Issues tab with the status grouping turned on.
 
 ### When to use the Overview tab
 
@@ -114,7 +114,7 @@ Each issue may be tied to an execution workspace — a specific working copy of 
 
 ## Workspaces Tab
 
-The Workspaces tab shows the execution workspaces currently attached to the project. It only appears when the company has the **isolated workspaces** experimental setting enabled and the project has at least one non-default workspace with activity. On projects without isolated workspaces, Paperclip redirects you to the Issues tab instead.
+The Workspaces tab shows the execution workspaces currently attached to the project. It only appears when the company has the **isolated workspaces** experimental setting enabled and the project has at least one non-default workspace with activity. On projects without isolated workspaces, ThinkingMach redirects you to the Issues tab instead.
 
 ![Workspaces tab](../../user-guides/screenshots/light/projects/workspaces.png)
 
@@ -156,8 +156,8 @@ The Configuration tab is where the project's editable properties live. Most of t
 
 Projects can be bound to either a local folder (`cwd`), a remote repository (`repoUrl`), or both:
 
-- **Local folder only** — for projects where the code lives on the machine Paperclip is running on. Agents work directly in this folder (or in isolated worktrees derived from it).
-- **Remote repository only** — for projects where Paperclip clones or references a remote repository. Useful when no local checkout exists yet.
+- **Local folder only** — for projects where the code lives on the machine ThinkingMach is running on. Agents work directly in this folder (or in isolated worktrees derived from it).
+- **Remote repository only** — for projects where ThinkingMach clones or references a remote repository. Useful when no local checkout exists yet.
 - **Both** — the most common setup: a local checkout that also tracks a remote URL. Both references are kept so tooling that needs one or the other has it available.
 
 The **Choose path** action helps you pick a local folder via the native OS file picker.
@@ -177,8 +177,8 @@ When isolated workspaces are enabled for the company, the Configuration tab expo
 - **Execution workspace enabled** — whether this project participates in isolated workspaces at all. If off, every issue runs in the project primary workspace.
 - **Default mode** — the default workspace mode for new issues: isolated (new workspace), reuse existing, or project primary. Individual issues can override.
 - **Base ref** — the git ref (branch, tag, or commit) new isolated workspaces branch from.
-- **Branch template** — the naming convention Paperclip uses when it creates new branches for isolated workspaces (e.g. a template that includes the issue identifier).
-- **Worktree parent directory** — where Paperclip places new git worktrees on disk.
+- **Branch template** — the naming convention ThinkingMach uses when it creates new branches for isolated workspaces (e.g. a template that includes the issue identifier).
+- **Worktree parent directory** — where ThinkingMach places new git worktrees on disk.
 - **Provision command** — an optional command run after a new workspace is created (for example, to install dependencies).
 - **Teardown command** — an optional command run before a workspace is closed.
 
@@ -212,7 +212,7 @@ Project budgets are useful when a single project needs a hard spending ceiling i
 The Budget tab renders a single policy card for this project's budget:
 
 - **Scope** — always `project` on this tab, targeting the current project's id and name.
-- **Metric** — `billed_cents`. Paperclip tracks billable cost in cents and converts to a currency figure for display.
+- **Metric** — `billed_cents`. ThinkingMach tracks billable cost in cents and converts to a currency figure for display.
 - **Window** — `lifetime`. Project budgets default to a lifetime cap rather than a rolling window; the total spend against the project counts against the amount.
 - **Amount** — the configured cap. Editable in the card.
 - **Observed amount** — how much has been spent so far against the project.

@@ -6,7 +6,7 @@ seo_description: Provision Modal sandboxes as the execution environment for agen
 
 # Modal
 
-`modal` provisions [Modal](https://modal.com/) sandboxes as the execution environment for Paperclip agent runs. Pick it when you want a managed cloud sandbox with first-class container images, configurable network policy, and a 24-hour ceiling on per-sandbox lifetime — without running your own infrastructure.
+`modal` provisions [Modal](https://modal.com/) sandboxes as the execution environment for ThinkingMach agent runs. Pick it when you want a managed cloud sandbox with first-class container images, configurable network policy, and a 24-hour ceiling on per-sandbox lifetime — without running your own infrastructure.
 
 Modal is a sandbox provider plugin, so it lives behind the `provider: "modal"` setting on a sandbox environment. Once installed, any adapter that runs against a sandbox (for example `claude_local` or `cursor_local`) can target a Modal environment.
 
@@ -14,15 +14,15 @@ Modal is a sandbox provider plugin, so it lives behind the `provider: "modal"` s
 
 ## When To Use
 
-- You want Paperclip's agents to run inside Modal sandboxes that you provision on demand.
+- You want ThinkingMach's agents to run inside Modal sandboxes that you provision on demand.
 - You want a specific container image, working directory, and network policy on every run.
-- You have Modal account credentials (`tokenId` / `tokenSecret`) you can paste into Paperclip as secrets.
+- You have Modal account credentials (`tokenId` / `tokenSecret`) you can paste into ThinkingMach as secrets.
 
 ## When Not To Use
 
-- You want local execution on the Paperclip host. Use a local adapter instead.
+- You want local execution on the ThinkingMach host. Use a local adapter instead.
 - You already standardise on a different sandbox provider (Cloudflare, Daytona, E2B, exe.dev). See [Sandbox Providers](./sandbox-providers.md).
-- You can't get to Modal's API from where Paperclip runs.
+- You can't get to Modal's API from where ThinkingMach runs.
 
 ---
 
@@ -31,14 +31,14 @@ Modal is a sandbox provider plugin, so it lives behind the `provider: "modal"` s
 From the [Plugins](../../administration/plugins.md) page, install:
 
 ```text
-@paperclipai/plugin-modal
+@thinkingmach/plugin-modal
 ```
 
 The host plugin installer pulls in Modal's JS SDK during installation. There's no separate workspace step — once the install finishes, Modal shows up as a sandbox provider when you configure environments.
 
 ### Runtime support note
 
-Modal's official JS SDK supports **Node 22 or later**. Paperclip's baseline is now `node >= 24.11.0`, comfortably above that floor, so the plugin runs on a supported Node by default and the old best-effort caveat no longer applies.
+Modal's official JS SDK supports **Node 22 or later**. ThinkingMach's baseline is now `node >= 24.11.0`, comfortably above that floor, so the plugin runs on a supported Node by default and the old best-effort caveat no longer applies.
 
 ---
 
@@ -61,7 +61,7 @@ Configure Modal from **Settings → Instance settings → Environments**, not fr
 | `cidrAllowlist` | no | List of CIDRs the sandbox may reach. Cannot be combined with `blockNetwork`. |
 | `reuseLease` | no | When `true`, the sandbox is detached on release and reattached by id later. Defaults to `false`. |
 
-A note on `tokenId` / `tokenSecret`: the plugin worker runs in a child process that doesn't inherit host env vars, so `MODAL_TOKEN_ID` / `MODAL_TOKEN_SECRET` set on the Paperclip server are **not** read by the plugin. Always provide the tokens through the environment config — Paperclip stores pasted values as company secrets.
+A note on `tokenId` / `tokenSecret`: the plugin worker runs in a child process that doesn't inherit host env vars, so `MODAL_TOKEN_ID` / `MODAL_TOKEN_SECRET` set on the ThinkingMach server are **not** read by the plugin. Always provide the tokens through the environment config — ThinkingMach stores pasted values as company secrets.
 
 ---
 
@@ -70,7 +70,7 @@ A note on `tokenId` / `tokenSecret`: the plugin worker runs in a child process t
 Modal doesn't expose a separate pause/resume primitive for sandboxes — there's no equivalent to e2b's `pause()`. The plugin maps `reuseLease` onto what Modal does offer:
 
 - **`reuseLease: false` (default).** On release the sandbox is terminated. The next run creates a fresh one.
-- **`reuseLease: true`.** On release the plugin detaches the sandbox. It keeps running on Modal until `sandboxTimeoutMs` or `idleTimeoutMs` elapses, then the next acquire reconnects to it by id. If the sandbox has already expired, Paperclip notices and provisions a new one.
+- **`reuseLease: true`.** On release the plugin detaches the sandbox. It keeps running on Modal until `sandboxTimeoutMs` or `idleTimeoutMs` elapses, then the next acquire reconnects to it by id. If the sandbox has already expired, ThinkingMach notices and provisions a new one.
 
 Because there's no real pause, **`reuseLease: true` keeps billing running** until the sandbox or idle timeout cuts it off. If you turn reuse on, set `idleTimeoutMs` to a value that matches how long you actually expect to hold the lease open — it's your cost guard.
 
@@ -87,10 +87,10 @@ You don't need to configure anything on the host side for Modal cold starts. The
 Before you point a real task at the new environment, walk through this once:
 
 1. Provision Modal credentials in your Modal account (`modal token new`) or use a service account.
-2. Install the plugin from the Paperclip Plugins page.
+2. Install the plugin from the ThinkingMach Plugins page.
 3. In **Settings → Instance settings → Environments**, add a Modal sandbox environment with at least `appName`, `image`, `tokenId`, and `tokenSecret`.
 4. Run the environment **Probe** action. A success result confirms auth, app creation, image pull, and an `exec` round-trip.
-5. Run at least one Paperclip task with a remote-managed adapter (for example `claude_local`) bound to that environment. The adapter should provision the sandbox, run commands in it, and clean it up.
+5. Run at least one ThinkingMach task with a remote-managed adapter (for example `claude_local`) bound to that environment. The adapter should provision the sandbox, run commands in it, and clean it up.
 
 If probe fails on auth, double-check that both `tokenId` and `tokenSecret` are set — the plugin rejects a config that has one without the other.
 

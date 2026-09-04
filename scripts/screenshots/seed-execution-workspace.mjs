@@ -15,7 +15,7 @@
  * workspace id that the page can't resolve.
  *
  * The connection target is the embedded Postgres the onboard server starts under
- * PAPERCLIP_HOME. The `postgres` client is resolved from the parent repo's
+ * THINKINGMACH_HOME. The `postgres` client is resolved from the parent repo's
  * node_modules (it isn't a dependency of paperclip-docs).
  */
 
@@ -107,7 +107,7 @@ function loadPostgres() {
  * from `postmaster.pid` (line 4 is the port) first, then config.json.
  *
  * There is deliberately NO compiled-in fallback to 54329: that is the default a
- * developer's real local Paperclip uses, so guessing it could connect this
+ * developer's real local ThinkingMach uses, so guessing it could connect this
  * direct-DB seed into the real database. If neither source yields a port we
  * throw — a loud failure is far safer than a silent write to the wrong cluster.
  */

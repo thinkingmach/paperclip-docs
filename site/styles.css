@@ -1,9 +1,9 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      /* Light theme — paperclip.ing "materials" palette */
+      /* Light theme — thinkingmach.com "materials" palette */
       --white:      #ffffff;            /* bond / surface */
-      --linen:      #ffffff;            /* page background (matches paperclip.ing) */
+      --linen:      #ffffff;            /* page background (matches thinkingmach.com) */
       --parchment:  #f0ece7;            /* raised surface */
       --stone:      #e0dcd6;            /* rule / border */
       --stone-dark: #c8c3bc;            /* border hover */
@@ -83,7 +83,7 @@
       transition: background 0.25s, color 0.25s, border-color 0.25s;
     }
 
-    /* ─── Navbar (mirrors paperclip.ing) ─────────────────────── */
+    /* ─── Navbar (mirrors thinkingmach.com) ─────────────────────── */
     .navbar {
       position: sticky;
       top: 0;
@@ -407,18 +407,18 @@
     .card-meta  { font-size: 11.5px; color: var(--ash); margin-top: 10px; display: flex; align-items: center; gap: 6px; }
     .card-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--stone-dark); }
 
-    /* ─── Footer (mirrors paperclip.ing — always dark) ───────── */
+    /* ─── Footer ────────────────────────────────────────────────── */
     .footer {
-      /* Pin to paperclip.ing dark palette regardless of page theme */
-      --bg: #141413;
-      --surface: #1F1D1A;
-      --ink-t: #FFFFFF;
-      --mono: #9A958A;
-      --rule: #2F2C28;
+      --bg: var(--linen);
+      --surface: var(--white);
+      --ink-t: var(--ink);
+      --mono: var(--graphite);
+      --rule: var(--stone);
       background: var(--bg);
       color: var(--ink-t);
       border-top: 1px solid var(--rule);
       margin-top: 80px;
+      transition: background 0.25s, color 0.25s, border-color 0.25s;
     }
     .footer-container {
       max-width: var(--layout-max);

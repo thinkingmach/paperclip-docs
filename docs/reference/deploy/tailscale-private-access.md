@@ -1,11 +1,11 @@
 ---
 seo_title: Tailscale Private Access
-seo_description: Reach a Paperclip instance from a private network rather than localhost only — the practical path to an authenticated, private deployment.
+seo_description: Reach a ThinkingMach instance from a private network rather than localhost only — the practical path to an authenticated, private deployment.
 ---
 
 # Tailscale Private Access
 
-Use this page when you want a Paperclip instance that is reachable from a private network, not just from `localhost`.
+Use this page when you want a ThinkingMach instance that is reachable from a private network, not just from `localhost`.
 
 It is the practical path for `authenticated` + `private` deployments.
 
@@ -13,7 +13,7 @@ It is the practical path for `authenticated` + `private` deployments.
 
 ## Start In Private Mode
 
-Start Paperclip with the private authenticated dev mode:
+Start ThinkingMach with the private authenticated dev mode:
 
 ```sh
 pnpm dev --tailscale-auth
@@ -27,9 +27,9 @@ pnpm dev --authenticated-private
 
 This configures:
 
-- `PAPERCLIP_DEPLOYMENT_MODE=authenticated`
-- `PAPERCLIP_DEPLOYMENT_EXPOSURE=private`
-- `PAPERCLIP_AUTH_BASE_URL_MODE=auto`
+- `THINKINGMACH_DEPLOYMENT_MODE=authenticated`
+- `THINKINGMACH_DEPLOYMENT_EXPOSURE=private`
+- `THINKINGMACH_AUTH_BASE_URL_MODE=auto`
 - `HOST=0.0.0.0`
 
 > **Note:** The bind address matters. If you leave the host on `localhost`, other devices on the private network will not be able to reach the app.
@@ -38,7 +38,7 @@ This configures:
 
 ## Find The Reachable Address
 
-From the machine that is running Paperclip:
+From the machine that is running ThinkingMach:
 
 ```sh
 tailscale ip -4
@@ -50,7 +50,7 @@ You can also use a MagicDNS hostname such as `my-macbook.tailnet.ts.net`.
 
 ## Open The Instance
 
-Use the private-network host or IP with the Paperclip port:
+Use the private-network host or IP with the ThinkingMach port:
 
 ```txt
 http://<tailscale-host-or-ip>:3100
@@ -66,10 +66,10 @@ http://my-macbook.tailnet.ts.net:3100
 
 ## Allow Custom Hostnames
 
-If you use a private hostname that Paperclip has not seen before, add it to the allowlist:
+If you use a private hostname that ThinkingMach has not seen before, add it to the allowlist:
 
 ```sh
-pnpm paperclipai allowed-hostname my-macbook.tailnet.ts.net
+pnpm thinkingmach allowed-hostname my-macbook.tailnet.ts.net
 ```
 
 Use this when the app redirects incorrectly or refuses a host that is valid inside your private network.
@@ -94,7 +94,7 @@ Expected response:
 
 ## Troubleshooting
 
-- If login or redirect errors mention the hostname, add it with `paperclipai allowed-hostname`.
+- If login or redirect errors mention the hostname, add it with `thinkingmach allowed-hostname`.
 - If the app only works on `localhost`, confirm you started with `--tailscale-auth` or `--authenticated-private`.
 - If local access works but remote access does not, verify both devices are on the same Tailscale network and that port `3100` is reachable.
 

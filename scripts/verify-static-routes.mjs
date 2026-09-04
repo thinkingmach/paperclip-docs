@@ -44,27 +44,27 @@ const REPRESENTATIVE_ROUTES = [
   {
     route: "/",
     file: "index.html",
-    h1: '<h1 id="landing-title">Everything you need to <em>run Paperclip.</em></h1>',
+    h1: '<h1 id="landing-title">Everything you need to <em>run ThinkingMach.</em></h1>',
     contentMarker: '<div class="card-grid" id="landing-cards" data-server-rendered="true">',
     isDocsRoot: true,
   },
   {
     route: "/guides/welcome/what-is-paperclip/",
     file: "guides/welcome/what-is-paperclip/index.html",
-    h1: '<h1 id="what-is-paperclip">What is Paperclip?</h1>',
-    contentMarker: "Paperclip is the operating system for your AI company",
+    h1: '<h1 id="what-is-thinkingmach">What is ThinkingMach?</h1>',
+    contentMarker: "ThinkingMach is the operating system for your AI company",
   },
   {
     route: "/reference/api/overview/",
     file: "reference/api/overview/index.html",
     h1: '<h1 id="api-overview">API Overview</h1>',
-    contentMarker: "Paperclip exposes a JSON API for company control-plane work",
+    contentMarker: "ThinkingMach exposes a JSON API for company control-plane work",
   },
   {
     route: "/how-to/add-mcp-server-to-agent/",
     file: "how-to/add-mcp-server-to-agent/index.html",
     h1: '<h1 id="add-an-mcp-server-to-an-agents-toolkit">Add an MCP server to an agent&#39;s toolkit</h1>',
-    contentMarker: "Attach a Model Context Protocol (MCP) server to a specific Paperclip agent",
+    contentMarker: "Attach a Model Context Protocol (MCP) server to a specific ThinkingMach agent",
   },
   {
     route: "/reference/changelog/",
@@ -84,11 +84,11 @@ try {
 
   const skillsHtml = read(skillsPath);
   assert(
-    skillsHtml.includes("<title>Skills Reference | Paperclip Docs</title>"),
+    skillsHtml.includes("<title>Skills Reference | ThinkingMach Docs</title>"),
     "skills route did not get a route-specific title",
   );
   assert(
-    skillsHtml.includes('<link rel="canonical" data-seo-managed href="https://docs.paperclip.ing/reference/skills/" />'),
+    skillsHtml.includes('<link rel="canonical" data-seo-managed href="https://docs.thinkingmach.com/reference/skills/" />'),
     "skills route canonical URL is missing or incorrect",
   );
   assert(!skillsHtml.match(/rel="canonical"[^>]+#/), "canonical URL contains a hash");
@@ -141,7 +141,7 @@ try {
   assert(!appJs.includes("/#/"), "generated app JS still contains primary hash route URLs");
 
   const sitemap = read("sitemap.xml");
-  assert(sitemap.includes("https://docs.paperclip.ing/reference/skills"), "sitemap is missing reference/skills");
+  assert(sitemap.includes("https://docs.thinkingmach.com/reference/skills"), "sitemap is missing reference/skills");
   assert(!sitemap.includes("<changefreq>"), "sitemap should not publish ignored changefreq values");
   assert(!sitemap.includes("<priority>"), "sitemap should not publish ignored priority values");
   /* The invariant is that the sitemap never claims the whole corpus changed on
@@ -166,24 +166,24 @@ try {
     "missing reference/skills/optional/index.html",
   );
   assert(
-    sitemap.includes("https://docs.paperclip.ing/reference/skills/bundled"),
+    sitemap.includes("https://docs.thinkingmach.com/reference/skills/bundled"),
     "sitemap is missing reference/skills/bundled",
   );
   assert(
-    sitemap.includes("https://docs.paperclip.ing/reference/skills/optional"),
+    sitemap.includes("https://docs.thinkingmach.com/reference/skills/optional"),
     "sitemap is missing reference/skills/optional",
   );
   assert(
-    skillsHtml.includes('class="page-nav-btn prev" href="https://docs.paperclip.ing/'),
+    skillsHtml.includes('class="page-nav-btn prev" href="https://docs.thinkingmach.com/'),
     "static docs pages should expose a crawlable previous-page link",
   );
   assert(
-    skillsHtml.includes('class="page-nav-btn next" href="https://docs.paperclip.ing/'),
+    skillsHtml.includes('class="page-nav-btn next" href="https://docs.thinkingmach.com/'),
     "static docs pages should expose a crawlable next-page link",
   );
 
   const robots = read("robots.txt");
-  assert(robots.includes("Sitemap: https://docs.paperclip.ing/sitemap.xml"), "robots.txt is missing sitemap reference");
+  assert(robots.includes("Sitemap: https://docs.thinkingmach.com/sitemap.xml"), "robots.txt is missing sitemap reference");
 
   const redirects = read("_redirects");
   const canonicalRedirect = "/guides/getting-started/five-minute-path /guides/getting-started/five-minute-path/ 301";
@@ -292,7 +292,7 @@ try {
     } else {
       assert(!hasLandingMarkup, `${route}: interior documents must not contain the homepage subtree`);
       assert(
-        !html.includes("Everything you need to <em>run Paperclip.</em>"),
+        !html.includes("Everything you need to <em>run ThinkingMach.</em>"),
         `${route}: the homepage headline must not bleed into interior documents`,
       );
       assert(

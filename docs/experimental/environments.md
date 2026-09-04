@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.707.0
 seo_title: Environments: Remote Execution Targets
-seo_description: Run agents somewhere other than the Paperclip host. Define named targets over SSH or a provider sandbox, and assign them per instance, project, or agent.
+seo_description: Run agents somewhere other than the ThinkingMach host. Define named targets over SSH or a provider sandbox, and assign them per instance, project, or agent.
 ---
 
 # Environments
 
-By default, agent runs execute on the Paperclip host itself. **Environments** let you define named, reusable execution targets — a remote machine over SSH, or a sandbox from a provider plugin — and assign them per instance, per project, or per agent. Each environment carries its own configuration and, for sandbox environments, supports connection probing and reusable custom images.
+By default, agent runs execute on the ThinkingMach host itself. **Environments** let you define named, reusable execution targets — a remote machine over SSH, or a sandbox from a provider plugin — and assign them per instance, per project, or per agent. Each environment carries its own configuration and, for sandbox environments, supports connection probing and reusable custom images.
 
 ![Environment management in instance settings](../user-guides/screenshots/light/experimental/environments.png)
 
@@ -25,7 +25,7 @@ The **Environments** entry under Instance settings is always visible, but until 
 
 1. Open **Settings → Instance settings → Environments**.
 2. Click **Add environment** and pick a driver:
-   - **Local** — runs on the Paperclip host (the default behavior, as an explicit choice).
+   - **Local** — runs on the ThinkingMach host (the default behavior, as an explicit choice).
    - **SSH** — a remote machine: host, user, key, and remote path.
    - **Sandbox** — a sandbox provider installed as a plugin (see [Sandbox Providers](../reference/adapters/sandbox-providers.md)); each provider brings its own config fields.
 3. Use **Test** to probe the connection before saving.

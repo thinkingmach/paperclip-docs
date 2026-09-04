@@ -14,12 +14,12 @@ If you're setting up an agent for the first time, follow [Hire Your First Agent]
 
 ## Two ways to store an API key
 
-Paperclip lets you bind a provider key into an agent's `adapterConfig.env` in one of two shapes. Knowing which one you used decides where you change the value.
+ThinkingMach lets you bind a provider key into an agent's `adapterConfig.env` in one of two shapes. Knowing which one you used decides where you change the value.
 
 | Storage shape | What it looks like | Where you rotate it |
 |---|---|---|
 | **Plain value** | The key is pasted directly into the agent's Environment variables field. | On the agent itself — open the adapter form, paste the new value, save. |
-| **Secret reference** | The agent's env-var entry points at a secret in Paperclip's secret store, usually with `version: "latest"`. | In **Company Settings → Secrets** — rotate the secret once, every agent bound to it picks up the new value. |
+| **Secret reference** | The agent's env-var entry points at a secret in ThinkingMach's secret store, usually with `version: "latest"`. | In **Company Settings → Secrets** — rotate the secret once, every agent bound to it picks up the new value. |
 
 > **Tip:** If you have more than one agent on the same provider, store the key as a secret reference. Rotation becomes a single edit instead of one trip per agent.
 
@@ -39,7 +39,7 @@ The next heartbeat picks up the new value. No restart needed.
 
 ![Adapter form with environment variables section](../user-guides/screenshots/light/agents/claude-local-config-filled.png)
 
-> **Warning:** Plain values are stored on the agent record. If you're running with `PAPERCLIP_SECRETS_STRICT_MODE=true`, the server rejects new inline values for any env key whose name matches a sensitive-keyword regex (`api_key`, `token`, `auth`, `authorization`, `bearer`, `secret`, `password`, `credential`, `jwt`, `private_key`, `cookie`, `connectionstring`). Either turn strict mode off temporarily, or use Path B.
+> **Warning:** Plain values are stored on the agent record. If you're running with `THINKINGMACH_SECRETS_STRICT_MODE=true`, the server rejects new inline values for any env key whose name matches a sensitive-keyword regex (`api_key`, `token`, `auth`, `authorization`, `bearer`, `secret`, `password`, `credential`, `jwt`, `private_key`, `cookie`, `connectionstring`). Either turn strict mode off temporarily, or use Path B.
 
 ---
 
@@ -61,7 +61,7 @@ Use this when the env-var entry on the agent looks like:
 
 1. Open **Company Settings → Secrets**.
 2. Find the secret the agent is referencing — it's usually named after the provider (`anthropic-key`, `openai-key`, etc.).
-3. Click **Rotate**, paste the new value, and confirm. Paperclip stores it as a new version and bumps `latestVersion`.
+3. Click **Rotate**, paste the new value, and confirm. ThinkingMach stores it as a new version and bumps `latestVersion`.
 4. Open the agent and click **Test environment** to confirm the new value is being injected.
 
 Every agent that references this secret with `version: "latest"` now resolves to the new value on its next heartbeat. Agents pinned to a numeric version (`"version": "3"`) stay on that historical value until you re-point them.
@@ -112,7 +112,7 @@ Used by `grok_local`. Treat it the same as the other provider keys — generate,
 
 <!-- tab: Cursor -->
 
-**Local (`cursor`):** No API key field. The local adapter uses Cursor Agent CLI's own login session — re-authenticate by running `cursor login` from a terminal on the host. No Paperclip change is needed.
+**Local (`cursor`):** No API key field. The local adapter uses Cursor Agent CLI's own login session — re-authenticate by running `cursor login` from a terminal on the host. No ThinkingMach change is needed.
 
 **Cloud (`cursor_cloud`):** Env var `CURSOR_API_KEY`. Rotate via Path A or Path B; generate the key from your Cursor account settings. See [Cursor Cloud](../reference/adapters/cursor-cloud.md).
 
@@ -143,15 +143,15 @@ If the agent uses two providers (for example a model and an embedding provider),
 
 **"I added a new secret but the agent still 401s"** — Creating a secret in **Company Settings → Secrets** does *not* auto-rewire existing agents. The agent is still using whatever was wired into its `ANTHROPIC_API_KEY` (or equivalent) env-var row when you last saved it. Open the agent → **Edit** → **Environment variables**, change the row's source to **Secret**, pick the new secret, then click **Test environment**. If the row was already set to **Plain** with the old key, that plain value shadows any new secret you create elsewhere — switching it to **Secret** is the fix.
 
-**A 401 from the provider after a rotation** — The provider (not Paperclip) is rejecting the credential, which means the request reached them with *some* key. Two common causes: (1) the key value itself is wrong — whitespace pasted around it, copied from the wrong account/workspace, or the new console account hasn't been funded yet; (2) the agent picked up an old plain value rather than the rotated secret. Re-copy the key from the provider console, paste it as a plain value temporarily to isolate which side is wrong, then move it back to a secret reference once Test environment passes.
+**A 401 from the provider after a rotation** — The provider (not ThinkingMach) is rejecting the credential, which means the request reached them with *some* key. Two common causes: (1) the key value itself is wrong — whitespace pasted around it, copied from the wrong account/workspace, or the new console account hasn't been funded yet; (2) the agent picked up an old plain value rather than the rotated secret. Re-copy the key from the provider console, paste it as a plain value temporarily to isolate which side is wrong, then move it back to a secret reference once Test environment passes.
 
 **"API key invalid"** — Compare the env-var *name* against the provider's expected name (`ANTHROPIC_API_KEY`, not `ANTHROPIC_KEY`). Check the key prefix matches what the provider issues (`sk-ant-`, `sk-`, etc.). Whitespace pasted in front of or after the key is a common culprit.
 
 **Test environment still fails after rotation** — The agent may be holding a cached process. Stop and re-enable heartbeats so the next run starts a fresh subprocess with the new environment. For long-running adapters like `cursor`, end the existing session so the resume cache doesn't reuse the old auth.
 
-**Strict mode rejects the inline value** — You're running with `PAPERCLIP_SECRETS_STRICT_MODE=true`, which blocks inline sensitive values on persisted env bindings. Use Path B (secret reference) instead. See [Secrets](../reference/deploy/secrets.md).
+**Strict mode rejects the inline value** — You're running with `THINKINGMACH_SECRETS_STRICT_MODE=true`, which blocks inline sensitive values on persisted env bindings. Use Path B (secret reference) instead. See [Secrets](../reference/deploy/secrets.md).
 
-**The old subscription login keeps being used** — Claude Code, Codex CLI, and Gemini CLI each cache their own login state outside Paperclip. If you intend the API key to take precedence, log out of the CLI (`claude logout`, `codex logout`, etc.) on the host so the adapter falls back to the env var.
+**The old subscription login keeps being used** — Claude Code, Codex CLI, and Gemini CLI each cache their own login state outside ThinkingMach. If you intend the API key to take precedence, log out of the CLI (`claude logout`, `codex logout`, etc.) on the host so the adapter falls back to the env var.
 
 **Multiple agents still failing** — If you rotated a secret and only some agents picked up the new value, check the failing ones' env binding. Agents pinned to a specific version (`"version": "3"`) don't follow `latest`; re-point them or update the binding.
 

@@ -8,7 +8,7 @@ seo_description: The most direct way to say go do this to an agent without openi
 
 Prompt handoff is how you hand a task to an agent from the terminal. Reach for it when you want to say "agent, go do this" without opening the UI. It is the most direct command in the CLI for putting work in front of an agent and getting that agent moving immediately.
 
-Read one thing carefully before you use it: **prompt handoff is not chat.** There is no conversation, no streamed reply, no session to keep open. Paperclip's communication model is **tasks and comments**, not messages. A prompt handoff creates a `todo` issue assigned to the target agent and then **wakes** that agent so the server-side runtime picks the work up. The CLI returns the issue (or comment) it created and exits. The actual work runs server-side, on the next heartbeat, against that issue — you observe it through the issue, runs, and activity, not through the prompt command's output.
+Read one thing carefully before you use it: **prompt handoff is not chat.** There is no conversation, no streamed reply, no session to keep open. ThinkingMach's communication model is **tasks and comments**, not messages. A prompt handoff creates a `todo` issue assigned to the target agent and then **wakes** that agent so the server-side runtime picks the work up. The CLI returns the issue (or comment) it created and exits. The actual work runs server-side, on the next heartbeat, against that issue — you observe it through the issue, runs, and activity, not through the prompt command's output.
 
 There are three commands, one per situation:
 
@@ -40,7 +40,7 @@ It posts that to `POST /api/companies/<company-id>/issues`. Then, unless `--no-w
 
 > **Note:** Because the default path creates a brand-new `todo` issue every time, running `agent prompt "..."` three times gives you three separate tasks — not a three-message thread. If you mean "continue the same piece of work," you almost always want `--issue`.
 
-The wake is a `POST /api/agents/<agent-id>/wakeup` with `source: "on_demand"`. It does not run the model inline. It tells the Paperclip runtime "there is work for this agent," and the server schedules the run. The prompt command returns once the issue/comment is created and the wakeup is acknowledged.
+The wake is a `POST /api/agents/<agent-id>/wakeup` with `source: "on_demand"`. It does not run the model inline. It tells the ThinkingMach runtime "there is work for this agent," and the server schedules the run. The prompt command returns once the issue/comment is created and the wakeup is acknowledged.
 
 ---
 
@@ -49,7 +49,7 @@ The wake is a `POST /api/agents/<agent-id>/wakeup` with `source: "on_demand"`. I
 Use this when you have an agent API key in hand and want to push work to that exact agent in one self-contained command. The agent reference and the key are both positional, so this is the form that copies cleanly into a script or another tool's config.
 
 ```sh
-paperclipai agent-prompt <agent-id> <agent-api-key> "Draft the Q3 launch checklist and link the source issues"
+thinkingmach agent-prompt <agent-id> <agent-api-key> "Draft the Q3 launch checklist and link the source issues"
 ```
 
 The agent reference can be the agent ID, its shortname (`urlKey`), or its name. The CLI verifies the key actually belongs to that agent: it calls `/api/agents/me` with the key and checks that the agent you named matches the key's identity. If you point the key at the wrong agent, the command fails with a clear message telling you who the key really belongs to — it will not silently file the task against someone else.
@@ -71,13 +71,13 @@ Use this from a session that already has an agent persona — a saved agent prof
 
 ```sh
 # Use the active agent profile/context
-paperclipai agent prompt "Investigate the failing nightly build and report findings"
+thinkingmach agent prompt "Investigate the failing nightly build and report findings"
 
 # Read the key from a named environment variable
-paperclipai agent prompt --api-key-env PAPERCLIP_API_KEY "Investigate the failing nightly build"
+thinkingmach agent prompt --api-key-env THINKINGMACH_API_KEY "Investigate the failing nightly build"
 
 # Target a specific saved profile
-paperclipai agent prompt --profile my-agent "Investigate the failing nightly build"
+thinkingmach agent prompt --profile my-agent "Investigate the failing nightly build"
 ```
 
 If you pass `--agent`, the CLI confirms it matches the authenticated agent's own identity; if you omit it, the target defaults to the profile's agent (and falls back to the identity the credential resolves to). Either way an agent persona can only prompt **itself** — that is the point of the agent persona, and it is enforced. To file work for a *different* agent, use `board prompt`.
@@ -99,7 +99,7 @@ If you pass `--agent`, the CLI confirms it matches the authenticated agent's own
 Use this when you are operating with board authority and want to direct work to any agent in a company. This is the operator's command: it does not require the target agent's key, just your board credential plus the company and the agent you are targeting.
 
 ```sh
-paperclipai board prompt --company-id <company-id> --agent <agent-name-or-id> \
+thinkingmach board prompt --company-id <company-id> --agent <agent-name-or-id> \
   "Take over the migration rollback and post a status update when staging is green"
 ```
 
@@ -123,7 +123,7 @@ paperclipai board prompt --company-id <company-id> --agent <agent-name-or-id> \
 
 ```sh
 # Nudge an agent already working a task, and wake it to resume
-paperclipai board prompt --company-id <company-id> --agent <agent-id> --issue PAP-142 \
+thinkingmach board prompt --company-id <company-id> --agent <agent-id> --issue PAP-142 \
   "The staging DB is back up — retry the migration step and confirm row counts"
 ```
 
@@ -137,7 +137,7 @@ By default every handoff wakes the agent. `--no-wake` skips that final step: the
 
 ```sh
 # Queue several tasks, then let the normal scheduler pick them up
-paperclipai board prompt --company-id <company-id> --agent <agent-id> --no-wake \
+thinkingmach board prompt --company-id <company-id> --agent <agent-id> --no-wake \
   "Audit the auth module for unused permission checks"
 ```
 

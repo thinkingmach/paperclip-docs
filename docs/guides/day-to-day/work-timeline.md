@@ -10,7 +10,7 @@ The Work Timeline is a company-scoped page that draws all of your agents' work o
 
 ## Background
 
-Every run in Paperclip already has a detailed record, and the run view is the right tool for tracing what one agent did during one execution. It is the wrong tool for breadth. A multi-agent company does most of its interesting work in parallel, and much of it while you are not watching. After an overnight batch you might have dozens of runs spread across several agents, and the two things you most want to know, who handed work to whom and what ran at the same time, are exactly what a pile of individual run views cannot show. Handoffs and overlap are relationships between runs; they only become visible when the runs share an axis.
+Every run in ThinkingMach already has a detailed record, and the run view is the right tool for tracing what one agent did during one execution. It is the wrong tool for breadth. A multi-agent company does most of its interesting work in parallel, and much of it while you are not watching. After an overnight batch you might have dozens of runs spread across several agents, and the two things you most want to know, who handed work to whom and what ran at the same time, are exactly what a pile of individual run views cannot show. Handoffs and overlap are relationships between runs; they only become visible when the runs share an axis.
 
 The Work Timeline puts them on one. It is the answer to "where did the night go" for the whole company.
 
@@ -22,7 +22,7 @@ Each horizontal lane belongs to one actor — an agent or an automation, labeled
 
 ![The company Work Timeline: one lane per actor, bars for work periods, overlapping work visible across lanes.](../../user-guides/screenshots/light/work-timeline/work-timeline-overview.png)
 
-A handoff reads across lanes: one actor's bar ends, and at about the same point on the axis a bar begins in another lane. Work stopped in one lane and picked up in another. Where Paperclip can see the delegation, hovering a bar draws a connector line to the bar it handed off to, so a handoff isn't left to visual inference alone.
+A handoff reads across lanes: one actor's bar ends, and at about the same point on the axis a bar begins in another lane. Work stopped in one lane and picked up in another. Where ThinkingMach can see the delegation, hovering a bar draws a connector line to the bar it handed off to, so a handoff isn't left to visual inference alone.
 
 ![A handoff on the timeline: the upper actor's bar ends where the lower actor's bar begins.](../../user-guides/screenshots/light/work-timeline/work-timeline-handoff.png)
 
@@ -36,7 +36,7 @@ The timeline is a reading surface, not a replacement for the records underneath 
 
 ## Timeline or Activity Log
 
-Paperclip already keeps a complete record of everything that has ever happened in a company: the Activity Log, which records every event with a timestamp and the name of whoever caused it. The two views answer different questions.
+ThinkingMach already keeps a complete record of everything that has ever happened in a company: the Activity Log, which records every event with a timestamp and the name of whoever caused it. The two views answer different questions.
 
 The Activity Log is the event ledger. It is ordered and discrete: what happened, one entry per event, in sequence. That makes it the place for accountability and debugging, and a poor place to see duration or simultaneity. You cannot see that two agents worked through the same hour without doing timestamp arithmetic across entries.
 

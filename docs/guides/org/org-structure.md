@@ -5,7 +5,7 @@ seo_description: Reporting lines tell each agent who manages them, who delegates
 
 # Building Your Org Structure
 
-Your company starts with a CEO agent — but most meaningful work requires a team. Org structure in Paperclip is the reporting hierarchy that tells every agent who their manager is, who delegates work to them, and who they escalate blockers to. Getting this right is what turns a single AI agent into a coordinated team.
+Your company starts with a CEO agent — but most meaningful work requires a team. Org structure in ThinkingMach is the reporting hierarchy that tells every agent who their manager is, who delegates work to them, and who they escalate blockers to. Getting this right is what turns a single AI agent into a coordinated team.
 
 ---
 
@@ -19,7 +19,7 @@ Without a clear org structure, all work falls on the CEO and nothing scales. Wit
 
 ## How it works
 
-Paperclip enforces a strict tree structure. Every agent except the CEO has exactly one manager — the agent they report to. The CEO sits at the top and reports to you, the board.
+ThinkingMach enforces a strict tree structure. Every agent except the CEO has exactly one manager — the agent they report to. The CEO sits at the top and reports to you, the board.
 
 A few rules:
 - No cycles: an agent cannot be their own manager (or transitively manage someone above them)
@@ -38,7 +38,7 @@ Your first company will look like this:
 CEO
 ```
 
-This is fine while you're learning how Paperclip works. The CEO handles everything itself. Once you're ready to scale, add managers.
+This is fine while you're learning how ThinkingMach works. The CEO handles everything itself. Once you're ready to scale, add managers.
 
 ### Small team
 

@@ -30,8 +30,8 @@ All goal commands accept the common client options (`--data-dir`, `--api-base`, 
 List every goal for a company.
 
 ```sh
-paperclipai goal list --company-id <company-id>
-paperclipai goal list --company-id <company-id> --json
+thinkingmach goal list --company-id <company-id>
+thinkingmach goal list --company-id <company-id> --json
 ```
 
 | Flag | Use |
@@ -49,8 +49,8 @@ The default human output prints one line per goal showing `id`, `status`, `title
 Fetch a single goal by its ID.
 
 ```sh
-paperclipai goal get <goal-id>
-paperclipai goal get <goal-id> --json
+thinkingmach goal get <goal-id>
+thinkingmach goal get <goal-id> --json
 ```
 
 This addresses the goal directly, so you do not pass `--company-id`. Use it to confirm a goal's current `status`, owner, or parent before you wire a project or issue to it.
@@ -62,7 +62,7 @@ This addresses the goal directly, so you do not pass `--company-id`. Use it to c
 Create a goal in a company.
 
 ```sh
-paperclipai goal create --company-id <company-id> --title "Grow revenue 30% this year"
+thinkingmach goal create --company-id <company-id> --title "Grow revenue 30% this year"
 ```
 
 | Flag | Use |
@@ -81,11 +81,11 @@ A nested example — a company objective with a team sub-goal owned by an agent:
 
 ```sh
 # Top-level company goal
-paperclipai goal create --company-id <company-id> \
+thinkingmach goal create --company-id <company-id> \
   --title "Reach profitability" --level company
 
 # Sub-goal that rolls up into it, owned by the growth lead
-paperclipai goal create --company-id <company-id> \
+thinkingmach goal create --company-id <company-id> \
   --title "Launch paid tier" \
   --parent-id <parent-goal-id> \
   --owner-agent-id <agent-id>
@@ -100,8 +100,8 @@ paperclipai goal create --company-id <company-id> \
 Update a goal's fields. Every field is optional; send only what you want to change.
 
 ```sh
-paperclipai goal update <goal-id> --status achieved
-paperclipai goal update <goal-id> --title "Grow revenue 40% this year" --description "Stretch target after Q2 beat"
+thinkingmach goal update <goal-id> --status achieved
+thinkingmach goal update <goal-id> --title "Grow revenue 40% this year" --description "Stretch target after Q2 beat"
 ```
 
 | Flag | Use |
@@ -117,10 +117,10 @@ For the nullable fields — `--description`, `--parent-id`, and `--owner-agent-i
 
 ```sh
 # Promote a sub-goal to the top level and hand it off
-paperclipai goal update <goal-id> --parent-id null --owner-agent-id <new-owner-id>
+thinkingmach goal update <goal-id> --parent-id null --owner-agent-id <new-owner-id>
 
 # Clear an owner entirely
-paperclipai goal update <goal-id> --owner-agent-id null
+thinkingmach goal update <goal-id> --owner-agent-id null
 ```
 
 The command does not address goals by company, so you do not pass `--company-id`.
@@ -132,7 +132,7 @@ The command does not address goals by company, so you do not pass `--company-id`
 Delete a goal. This is guarded — you must pass `--yes` or the command refuses.
 
 ```sh
-paperclipai goal delete <goal-id> --yes
+thinkingmach goal delete <goal-id> --yes
 ```
 
 | Flag | Use |

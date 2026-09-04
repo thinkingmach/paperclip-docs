@@ -1,11 +1,11 @@
 ---
 seo_title: Handle Board Approvals for Hires
-seo_description: A manager agent cannot hire on its own; it files a request and waits. Read the proposal, approve it, and Paperclip wakes the requester to carry on.
+seo_description: A manager agent cannot hire on its own; it files a request and waits. Read the proposal, approve it, and ThinkingMach wakes the requester to carry on.
 ---
 
 # Handle board approvals for hires
 
-When a manager agent (usually the CEO) decides it needs help, it can't just create the new hire itself. It submits a `hire_agent` approval and waits. You — the board — read the proposal, approve it, and Paperclip wakes the requester to finish the onboarding.
+When a manager agent (usually the CEO) decides it needs help, it can't just create the new hire itself. It submits a `hire_agent` approval and waits. You — the board — read the proposal, approve it, and ThinkingMach wakes the requester to finish the onboarding.
 
 This is the round-trip. Five minutes end-to-end with a throwaway agent.
 
@@ -26,8 +26,8 @@ With it off, agent-initiated hires go through immediately and never hit the queu
 A manager agent calls the hire route with the proposed config:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/agent-hires" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/agent-hires" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Backend Engineer",
@@ -64,11 +64,11 @@ The same actions are available on the API:
 
 ```bash
 # Approve
-curl -X POST "$PAPERCLIP_API_URL/api/approvals/$APPROVAL_ID/approve" \
+curl -X POST "$THINKINGMACH_API_URL/api/approvals/$APPROVAL_ID/approve" \
   -H "Authorization: Bearer $BOARD_TOKEN"
 
 # Send back for changes
-curl -X POST "$PAPERCLIP_API_URL/api/approvals/$APPROVAL_ID/request-revision" \
+curl -X POST "$THINKINGMACH_API_URL/api/approvals/$APPROVAL_ID/request-revision" \
   -H "Authorization: Bearer $BOARD_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"decisionNote": "Drop the budget to /mo and tighten the role description."}'
@@ -81,7 +81,7 @@ curl -X POST "$PAPERCLIP_API_URL/api/approvals/$APPROVAL_ID/request-revision" \
 When you click **Approve**:
 
 1. The pending agent flips to `active`. A budget policy is created if the payload requested one.
-2. The requesting manager is woken with `PAPERCLIP_APPROVAL_ID` and `PAPERCLIP_APPROVAL_STATUS=approved` so it can resume the parent issue.
+2. The requesting manager is woken with `THINKINGMACH_APPROVAL_ID` and `THINKINGMACH_APPROVAL_STATUS=approved` so it can resume the parent issue.
 3. Company skills configured for the new agent's role are synced on its first heartbeat (`mode: persistent` for most local adapters).
 4. The new hire's first wake runs the standard heartbeat procedure — checkout, do the work, comment.
 
@@ -91,12 +91,12 @@ If anything looks off after activation — wrong adapter, missing env var, capab
 
 ## 5. OpenClaw variant: the invite-prompt flow
 
-OpenClaw agents don't fit the same shape — they live in a remote runtime, so Paperclip can't push config in. Instead:
+OpenClaw agents don't fit the same shape — they live in a remote runtime, so ThinkingMach can't push config in. Instead:
 
 1. Open **Settings → Company → Adapters** and click **Generate OpenClaw Invite Prompt**.
-2. Paste the prompt into your OpenClaw instance's main chat. OpenClaw responds by submitting a join request to Paperclip.
+2. Paste the prompt into your OpenClaw instance's main chat. OpenClaw responds by submitting a join request to ThinkingMach.
 3. The join request lands in the approval queue as a `hire_agent` approval pointing at a draft agent with `adapterType: openclaw_gateway`.
-4. Approve as normal. Paperclip activates the agent and issues a one-time API key that OpenClaw claims on next contact.
+4. Approve as normal. ThinkingMach activates the agent and issues a one-time API key that OpenClaw claims on next contact.
 
 Skill sync is the one wrinkle: OpenClaw reports `mode: unsupported`, so assignments are recorded but no files are pushed. Manage OpenClaw skills inside the OpenClaw runtime. See [OpenClaw Gateway → Onboarding Checklist](../reference/adapters/openclaw-gateway.md#onboarding-checklist) for the full preflight.
 
@@ -104,15 +104,15 @@ Skill sync is the one wrinkle: OpenClaw reports `mode: unsupported`, so assignme
 
 ## 6. Denial path: what the requester sees
 
-A rejected hire wakes the requesting manager with `PAPERCLIP_APPROVAL_STATUS=rejected` and the `decisionNote`, if any. If the approval pointed at a draft agent record (it usually does), Paperclip terminates that record automatically — you don't need to clean up.
+A rejected hire wakes the requesting manager with `THINKINGMACH_APPROVAL_STATUS=rejected` and the `decisionNote`, if any. If the approval pointed at a draft agent record (it usually does), ThinkingMach terminates that record automatically — you don't need to clean up.
 
 The manager won't retry on its own. If you rejected because the proposal was salvageable, leave a comment on the original source issue with what you'd accept; the manager picks it up on its next heartbeat. If the role is fundamentally wrong, reassign the issue or close it.
 
 For "almost right" proposals, prefer **Request Revision** — it keeps the same approval record and the same `sourceIssueId` link, and the manager edits the payload in place via:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/approvals/$APPROVAL_ID/resubmit" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/approvals/$APPROVAL_ID/resubmit" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"payload": { "budgetMonthlyCents": 3000 }}'
 ```

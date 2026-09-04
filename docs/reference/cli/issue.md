@@ -6,7 +6,7 @@ seo_description: Every piece of agent work lives on an issue. Create, read, upda
 
 # Issue Commands
 
-Issues are the core work objects in Paperclip — every piece of work an agent does lives on an issue, and Paperclip's communication model is tasks plus comments, not chat. Reach for `paperclipai issue` when you want to create, find, move, annotate, or coordinate work from the terminal, or when you need to drive any of the issue subresources (documents, work products, interactions, tree holds, attachments, labels, approvals, recovery, runs, and feedback) without opening the UI.
+Issues are the core work objects in ThinkingMach — every piece of work an agent does lives on an issue, and ThinkingMach's communication model is tasks plus comments, not chat. Reach for `thinkingmach issue` when you want to create, find, move, annotate, or coordinate work from the terminal, or when you need to drive any of the issue subresources (documents, work products, interactions, tree holds, attachments, labels, approvals, recovery, runs, and feedback) without opening the UI.
 
 This is the largest command surface in the CLI. It is organized below into clear sections: start with the core CRUD/comments/checkout/release commands, then drop into a subresource section when you need it.
 
@@ -21,11 +21,11 @@ Most issue-scoped commands accept either the issue UUID or its human identifier 
 Use these for everyday work — finding tasks, inspecting one, creating new work, moving it, and annotating it.
 
 ```sh
-paperclipai issue list -C <company-id> --status todo,in_review --assignee-agent-id <agent-id> --match "billing"
-paperclipai issue get PC-12
-paperclipai issue create -C <company-id> --title "Fix invoice rounding" --priority high --assignee-agent-id <agent-id>
-paperclipai issue update <issue-id> --status in_review --comment "Ready for review"
-paperclipai issue delete <issue-id> --yes
+thinkingmach issue list -C <company-id> --status todo,in_review --assignee-agent-id <agent-id> --match "billing"
+thinkingmach issue get PC-12
+thinkingmach issue create -C <company-id> --title "Fix invoice rounding" --priority high --assignee-agent-id <agent-id>
+thinkingmach issue update <issue-id> --status in_review --comment "Ready for review"
+thinkingmach issue delete <issue-id> --yes
 ```
 
 `list` is company-scoped and supports server-side and local filtering:
@@ -77,9 +77,9 @@ paperclipai issue delete <issue-id> --yes
 Checkout is how the single-assignee model is enforced at the CLI layer: an agent claims an issue, works it, then releases it.
 
 ```sh
-paperclipai issue checkout <issue-id> --agent-id <agent-id>
-paperclipai issue checkout <issue-id> --agent-id <agent-id> --expected-statuses todo,in_review
-paperclipai issue release <issue-id>
+thinkingmach issue checkout <issue-id> --agent-id <agent-id>
+thinkingmach issue checkout <issue-id> --agent-id <agent-id> --expected-statuses todo,in_review
+thinkingmach issue release <issue-id>
 ```
 
 | Flag | Use |
@@ -98,12 +98,12 @@ paperclipai issue release <issue-id>
 Communication on an issue is a thread of comments. Adding a comment can also reopen finished work or wake the assignee.
 
 ```sh
-paperclipai issue comment <issue-id> --body "Picking this up now"
-paperclipai issue comment <issue-id> --body "Re-opening, the fix regressed" --reopen
-paperclipai issue comment <issue-id> --body "Any update?" --resume
-paperclipai issue comments <issue-id> --order asc --limit 50
-paperclipai issue comment:get <issue-id> <comment-id>
-paperclipai issue comment:delete <issue-id> <comment-id>
+thinkingmach issue comment <issue-id> --body "Picking this up now"
+thinkingmach issue comment <issue-id> --body "Re-opening, the fix regressed" --reopen
+thinkingmach issue comment <issue-id> --body "Any update?" --resume
+thinkingmach issue comments <issue-id> --order asc --limit 50
+thinkingmach issue comment:get <issue-id> <comment-id>
+thinkingmach issue comment:delete <issue-id> <comment-id>
 ```
 
 | Command | Use |
@@ -120,12 +120,12 @@ paperclipai issue comment:delete <issue-id> <comment-id>
 Issues carry keyed markdown documents — a structured, revisioned place to keep specs, plans, and deliverables separate from the comment thread.
 
 ```sh
-paperclipai issue documents <issue-id> --include-system
-paperclipai issue document:get <issue-id> spec
-paperclipai issue document:put <issue-id> spec --title "Spec" --body-file ./spec.md --change-summary "Initial draft"
-paperclipai issue document:lock <issue-id> spec
-paperclipai issue document:revisions <issue-id> spec
-paperclipai issue document:restore <issue-id> spec <revision-id>
+thinkingmach issue documents <issue-id> --include-system
+thinkingmach issue document:get <issue-id> spec
+thinkingmach issue document:put <issue-id> spec --title "Spec" --body-file ./spec.md --change-summary "Initial draft"
+thinkingmach issue document:lock <issue-id> spec
+thinkingmach issue document:revisions <issue-id> spec
+thinkingmach issue document:restore <issue-id> spec <revision-id>
 ```
 
 | Command | Use |
@@ -158,10 +158,10 @@ paperclipai issue document:restore <issue-id> spec <revision-id>
 Work products are the structured deliverables an agent produces against an issue. Create and update take a JSON payload so the full shape is available without a flag for every field.
 
 ```sh
-paperclipai issue work-products <issue-id>
-paperclipai issue work-product:create <issue-id> --payload-json '{"kind":"report","title":"Q2 analysis"}'
-paperclipai issue work-product:update <work-product-id> --payload-json '{"title":"Q2 analysis (final)"}'
-paperclipai issue work-product:delete <work-product-id>
+thinkingmach issue work-products <issue-id>
+thinkingmach issue work-product:create <issue-id> --payload-json '{"kind":"report","title":"Q2 analysis"}'
+thinkingmach issue work-product:update <work-product-id> --payload-json '{"title":"Q2 analysis (final)"}'
+thinkingmach issue work-product:delete <work-product-id>
 ```
 
 | Command | Use |
@@ -178,12 +178,12 @@ paperclipai issue work-product:delete <work-product-id>
 Interactions are structured exchanges on an issue's thread — most notably `ask_user_questions`, where an agent pauses for input. Use these to inspect a pending interaction and accept, reject, cancel, or respond to it.
 
 ```sh
-paperclipai issue interactions <issue-id>
-paperclipai issue interaction:create <issue-id> --payload-json '{ ... }'
-paperclipai issue interaction:accept <issue-id> <interaction-id> --selected-client-keys a,b
-paperclipai issue interaction:reject <issue-id> <interaction-id> --reason "Out of scope"
-paperclipai issue interaction:cancel <issue-id> <interaction-id> --reason "No longer needed"
-paperclipai issue interaction:respond <issue-id> <interaction-id> --answers-json '[{"key":"q1","value":"yes"}]' --summary-markdown "Confirmed scope"
+thinkingmach issue interactions <issue-id>
+thinkingmach issue interaction:create <issue-id> --payload-json '{ ... }'
+thinkingmach issue interaction:accept <issue-id> <interaction-id> --selected-client-keys a,b
+thinkingmach issue interaction:reject <issue-id> <interaction-id> --reason "Out of scope"
+thinkingmach issue interaction:cancel <issue-id> <interaction-id> --reason "No longer needed"
+thinkingmach issue interaction:respond <issue-id> <interaction-id> --answers-json '[{"key":"q1","value":"yes"}]' --summary-markdown "Confirmed scope"
 ```
 
 | Command | Use |
@@ -202,12 +202,12 @@ paperclipai issue interaction:respond <issue-id> <interaction-id> --answers-json
 The tree-control surface operates on an issue and everything beneath it. Inspect the tree state, preview a control change before committing, and place or release holds (pause / resume / cancel / restore) across the whole subtree.
 
 ```sh
-paperclipai issue tree-state <root-issue-id>
-paperclipai issue tree-preview <root-issue-id> --payload-json '{"mode":"pause"}'
-paperclipai issue tree-holds <root-issue-id> --status active --mode pause --include-members
-paperclipai issue tree-hold:create <root-issue-id> --payload-json '{"mode":"pause","reason":"awaiting budget"}'
-paperclipai issue tree-hold:get <root-issue-id> <hold-id>
-paperclipai issue tree-hold:release <root-issue-id> <hold-id> --payload-json '{}'
+thinkingmach issue tree-state <root-issue-id>
+thinkingmach issue tree-preview <root-issue-id> --payload-json '{"mode":"pause"}'
+thinkingmach issue tree-holds <root-issue-id> --status active --mode pause --include-members
+thinkingmach issue tree-hold:create <root-issue-id> --payload-json '{"mode":"pause","reason":"awaiting budget"}'
+thinkingmach issue tree-hold:get <root-issue-id> <hold-id>
+thinkingmach issue tree-hold:release <root-issue-id> <hold-id> --payload-json '{}'
 ```
 
 | Command | Use |
@@ -228,11 +228,11 @@ paperclipai issue tree-hold:release <root-issue-id> <hold-id> --payload-json '{}
 Attach files to an issue or to a specific comment, list them, download them, and delete them.
 
 ```sh
-paperclipai issue attachments <issue-id>
-paperclipai issue attachment:upload <issue-id> -C <company-id> --file ./diagram.png
-paperclipai issue attachment:upload <issue-id> -C <company-id> --file ./log.txt --comment-id <comment-id>
-paperclipai issue attachment:download <attachment-id> --out ./diagram.png
-paperclipai issue attachment:delete <attachment-id>
+thinkingmach issue attachments <issue-id>
+thinkingmach issue attachment:upload <issue-id> -C <company-id> --file ./diagram.png
+thinkingmach issue attachment:upload <issue-id> -C <company-id> --file ./log.txt --comment-id <comment-id>
+thinkingmach issue attachment:download <attachment-id> --out ./diagram.png
+thinkingmach issue attachment:delete <attachment-id>
 ```
 
 | Command | Use |
@@ -251,9 +251,9 @@ paperclipai issue attachment:delete <attachment-id>
 Labels are company-scoped and shared across all issues in a company.
 
 ```sh
-paperclipai issue label:list -C <company-id>
-paperclipai issue label:create -C <company-id> --name "needs-review" --color "#4f46e5"
-paperclipai issue label:delete <label-id>
+thinkingmach issue label:list -C <company-id>
+thinkingmach issue label:create -C <company-id> --name "needs-review" --color "#4f46e5"
+thinkingmach issue label:delete <label-id>
 ```
 
 | Command | Use |
@@ -269,9 +269,9 @@ paperclipai issue label:delete <label-id>
 Link existing approvals to an issue, list them, and unlink. To create approvals themselves, see the [approval commands](approval.md).
 
 ```sh
-paperclipai issue approvals <issue-id>
-paperclipai issue approval:link <issue-id> <approval-id>
-paperclipai issue approval:unlink <issue-id> <approval-id>
+thinkingmach issue approvals <issue-id>
+thinkingmach issue approval:link <issue-id> <approval-id>
+thinkingmach issue approval:unlink <issue-id> <approval-id>
 ```
 
 | Command | Use |
@@ -287,10 +287,10 @@ paperclipai issue approval:unlink <issue-id> <approval-id>
 These mark an issue's inbox state for the current credential — useful when scripting an inbox triage loop.
 
 ```sh
-paperclipai issue read <issue-id>
-paperclipai issue unread <issue-id>
-paperclipai issue archive <issue-id>
-paperclipai issue unarchive <issue-id>
+thinkingmach issue read <issue-id>
+thinkingmach issue unread <issue-id>
+thinkingmach issue archive <issue-id>
+thinkingmach issue unarchive <issue-id>
 ```
 
 | Command | Use |
@@ -307,10 +307,10 @@ paperclipai issue unarchive <issue-id>
 When work gets stuck — an issue wedged in a checkout, or a recovery action the server has flagged — use these to unblock it.
 
 ```sh
-paperclipai issue recovery-actions <issue-id>
-paperclipai issue recovery:resolve <issue-id> --outcome restored --source-issue-status todo --resolution-note "Re-queued after restart"
-paperclipai issue force-release <issue-id>
-paperclipai issue child:create <parent-issue-id> --payload-json '{"title":"Subtask"}'
+thinkingmach issue recovery-actions <issue-id>
+thinkingmach issue recovery:resolve <issue-id> --outcome restored --source-issue-status todo --resolution-note "Re-queued after restart"
+thinkingmach issue force-release <issue-id>
+thinkingmach issue child:create <parent-issue-id> --payload-json '{"title":"Subtask"}'
 ```
 
 | Command | Use |
@@ -338,9 +338,9 @@ paperclipai issue child:create <parent-issue-id> --payload-json '{"title":"Subta
 These read the heartbeat runs tied to an issue — what executed, what is in flight, and what is active right now. These are the server-side runs an issue produced; they are distinct from the local `run` bootstrap command. See the [run commands](run.md) for the run surface itself.
 
 ```sh
-paperclipai issue runs <issue-id>
-paperclipai issue live-runs <issue-id>
-paperclipai issue active-run <issue-id>
+thinkingmach issue runs <issue-id>
+thinkingmach issue live-runs <issue-id>
+thinkingmach issue active-run <issue-id>
 ```
 
 | Command | Use |
@@ -358,10 +358,10 @@ All three accept an issue UUID or identifier.
 Feedback captures votes and traces against an issue and its targets — the raw material for evaluating agent output. See the [feedback commands](feedback.md) for the broader feedback surface.
 
 ```sh
-paperclipai issue feedback:votes <issue-id>
-paperclipai issue feedback:vote <issue-id> --payload-json '{"targetType":"comment","targetId":"<id>","vote":"up"}'
-paperclipai issue feedback:list <issue-id> --vote down --status open --include-payload
-paperclipai issue feedback:export <issue-id> --from 2026-01-01 --format ndjson --out ./feedback.ndjson
+thinkingmach issue feedback:votes <issue-id>
+thinkingmach issue feedback:vote <issue-id> --payload-json '{"targetType":"comment","targetId":"<id>","vote":"up"}'
+thinkingmach issue feedback:list <issue-id> --vote down --status open --include-payload
+thinkingmach issue feedback:export <issue-id> --from 2026-01-01 --format ndjson --out ./feedback.ndjson
 ```
 
 | Command | Use |

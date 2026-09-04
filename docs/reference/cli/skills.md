@@ -8,13 +8,13 @@ seo_description: Browse the app-shipped catalog, install skills into a company l
 
 Use these commands to put capabilities in front of your agents: browse the app-shipped catalog, install skills into a company's library, attach the ones an agent should actually use, and keep installed skills in sync with their pinned origins. Skills are how you teach an agent a repeatable procedure (open a pull request, run a browser, follow a review checklist) without rewriting its prompt every time.
 
-There are two command groups. The plural `paperclipai skills` group is the one you reach for in practice — it understands catalog references, resolves skills by `id`/`key`/`slug`, and prints readable tables. The singular `paperclipai skill` group is a thin, payload-driven wrapper over the same company-skill API endpoints; use it only when you need raw control over the request body in a script.
+There are two command groups. The plural `thinkingmach skills` group is the one you reach for in practice — it understands catalog references, resolves skills by `id`/`key`/`slug`, and prints readable tables. The singular `thinkingmach skill` group is a thin, payload-driven wrapper over the same company-skill API endpoints; use it only when you need raw control over the request body in a script.
 
 ---
 
 ## The three operations
 
-`paperclipai skills` spans three distinct things. Keeping them straight is the whole mental model:
+`thinkingmach skills` spans three distinct things. Keeping them straight is the whole mental model:
 
 | Operation | Commands | What it changes |
 | --- | --- | --- |
@@ -22,7 +22,7 @@ There are two command groups. The plural `paperclipai skills` group is the one y
 | **Agent attach** | `skills agent sync`, `skills agent clear` | Changes an agent's *desired* company-skill set. `sync` takes a required `--mode` (`add`, `remove`, or `replace`) so you can grow, prune, or overwrite the set; `clear` empties it. |
 | **Adapter runtime sync** | reported by `skills agent list`; triggered by `sync`/`clear` | The server-side adapter reconciles the desired set with files on disk and returns an `AgentSkillSnapshot`. |
 
-> **Note:** `skills agent sync` now requires a `--mode` (`add`, `remove`, or `replace`), so you choose whether the named skills join, leave, or overwrite the desired set. `skills agent clear` empties the set outright (it uses `replace` internally with an empty list). Bundled Paperclip skills still live in the company library as read-only entries, but the server no longer force-attaches them to an agent.
+> **Note:** `skills agent sync` now requires a `--mode` (`add`, `remove`, or `replace`), so you choose whether the named skills join, leave, or overwrite the desired set. `skills agent clear` empties the set outright (it uses `replace` internally with an empty list). Bundled ThinkingMach skills still live in the company library as read-only entries, but the server no longer force-attaches them to an agent.
 
 > **Tip:** Add `--json` to any command to print the raw API result for scripting. Every company-scoped command takes `--company-id <company-id>` (and respects your selected profile/context). See [common options](./common-options.md).
 
@@ -30,12 +30,12 @@ There are two command groups. The plural `paperclipai skills` group is the one y
 
 ## Catalog: browse before you install
 
-The Paperclip app ships a curated catalog of skills. Catalog commands let you read it without writing anything to a company — there is no company context required to browse, search, or inspect.
+The ThinkingMach app ships a curated catalog of skills. Catalog commands let you read it without writing anything to a company — there is no company context required to browse, search, or inspect.
 
 ```sh
-paperclipai skills browse --kind bundled --category github
-paperclipai skills search "pull request" --kind bundled
-paperclipai skills inspect github-pr-workflow
+thinkingmach skills browse --kind bundled --category github
+thinkingmach skills search "pull request" --kind bundled
+thinkingmach skills inspect github-pr-workflow
 ```
 
 | Command | Use |
@@ -61,8 +61,8 @@ A `<catalogRef>` is a catalog skill `id`, `key`, or a unique `slug`. Inspect a s
 `skills install` materializes a catalog skill into a company-managed skill. This is a **company install** — it does not attach the skill to any agent.
 
 ```sh
-paperclipai skills install github-pr-workflow --company-id <company-id>
-paperclipai skills install github-pr-workflow --as review-prs --company-id <company-id>
+thinkingmach skills install github-pr-workflow --company-id <company-id>
+thinkingmach skills install github-pr-workflow --as review-prs --company-id <company-id>
 ```
 
 | Flag | Use |
@@ -81,12 +81,12 @@ After install the command reminds you that nothing is attached yet. To make an a
 These commands manage the skills that exist in a company, regardless of where they came from. All require a company context.
 
 ```sh
-paperclipai skills list --company-id <company-id>
-paperclipai skills show <skill-ref> --company-id <company-id>
-paperclipai skills file <skill-ref> --path SKILL.md --company-id <company-id>
-paperclipai skills import <source> --company-id <company-id>
-paperclipai skills create --name "Review PRs" --slug review-prs --body-file SKILL.md --company-id <company-id>
-paperclipai skills scan-projects --project-id <project-id> --company-id <company-id>
+thinkingmach skills list --company-id <company-id>
+thinkingmach skills show <skill-ref> --company-id <company-id>
+thinkingmach skills file <skill-ref> --path SKILL.md --company-id <company-id>
+thinkingmach skills import <source> --company-id <company-id>
+thinkingmach skills create --name "Review PRs" --slug review-prs --body-file SKILL.md --company-id <company-id>
+thinkingmach skills scan-projects --project-id <project-id> --company-id <company-id>
 ```
 
 | Command | Use |
@@ -125,11 +125,11 @@ With no `--project-id`/`--workspace-id` the scan covers the company's projects a
 Catalog-installed skills are pinned to an origin. Over time the catalog moves on, or someone edits the installed bytes locally. These four commands are the maintenance loop. The skill reference is optional on `check`, `update`, and `audit`; omit it to operate over the whole library.
 
 ```sh
-paperclipai skills check --company-id <company-id>
-paperclipai skills update <skill-ref> --company-id <company-id>
-paperclipai skills update --all --company-id <company-id>
-paperclipai skills audit <skill-ref> --company-id <company-id>
-paperclipai skills reset <skill-ref> --yes --company-id <company-id>
+thinkingmach skills check --company-id <company-id>
+thinkingmach skills update <skill-ref> --company-id <company-id>
+thinkingmach skills update --all --company-id <company-id>
+thinkingmach skills audit <skill-ref> --company-id <company-id>
+thinkingmach skills reset <skill-ref> --yes --company-id <company-id>
 ```
 
 | Command | Use |
@@ -155,7 +155,7 @@ paperclipai skills reset <skill-ref> --yes --company-id <company-id>
 ## Remove a skill
 
 ```sh
-paperclipai skills remove <skill-ref> --yes --company-id <company-id>
+thinkingmach skills remove <skill-ref> --yes --company-id <company-id>
 ```
 
 `skills remove` deletes a skill from the company library. It prompts for confirmation in an interactive terminal and requires `--yes` when run non-interactively.
@@ -173,9 +173,9 @@ Once a skill is in the library, `skills agent sync` decides how the skills you n
 The adapter then reconciles and the command returns an `AgentSkillSnapshot`.
 
 ```sh
-paperclipai skills agent list <agent-ref> --company-id <company-id>
-paperclipai skills agent sync <agent-ref> --skill review-prs --skill agent-browser --mode add --company-id <company-id>
-paperclipai skills agent clear <agent-ref> --yes --company-id <company-id>
+thinkingmach skills agent list <agent-ref> --company-id <company-id>
+thinkingmach skills agent sync <agent-ref> --skill review-prs --skill agent-browser --mode add --company-id <company-id>
+thinkingmach skills agent clear <agent-ref> --yes --company-id <company-id>
 ```
 
 | Command | Use |
@@ -196,16 +196,16 @@ An `<agentRef>` is an agent `id` or shortname/url-key. With `--mode replace` you
 
 ## The singular `skill` group
 
-`paperclipai skill` is a lower-level wrapper over the same company-skill API. It does not resolve `key`/`slug` references — every subcommand takes a literal `<skillId>` — and the create/import/scan/file-update operations are driven by a raw JSON payload. Reach for it only when you are scripting against a known skill ID and want direct control of the request body.
+`thinkingmach skill` is a lower-level wrapper over the same company-skill API. It does not resolve `key`/`slug` references — every subcommand takes a literal `<skillId>` — and the create/import/scan/file-update operations are driven by a raw JSON payload. Reach for it only when you are scripting against a known skill ID and want direct control of the request body.
 
 ```sh
-paperclipai skill list -C <company-id>
-paperclipai skill get <skill-id> -C <company-id>
-paperclipai skill file <skill-id> --path SKILL.md -C <company-id>
-paperclipai skill file:update <skill-id> --payload-json '{"path":"SKILL.md","content":"..."}' -C <company-id>
-paperclipai skill update-status <skill-id> -C <company-id>
-paperclipai skill install-update <skill-id> -C <company-id>
-paperclipai skill delete <skill-id> -C <company-id>
+thinkingmach skill list -C <company-id>
+thinkingmach skill get <skill-id> -C <company-id>
+thinkingmach skill file <skill-id> --path SKILL.md -C <company-id>
+thinkingmach skill file:update <skill-id> --payload-json '{"path":"SKILL.md","content":"..."}' -C <company-id>
+thinkingmach skill update-status <skill-id> -C <company-id>
+thinkingmach skill install-update <skill-id> -C <company-id>
+thinkingmach skill delete <skill-id> -C <company-id>
 ```
 
 | Command | Use |

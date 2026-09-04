@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.609.0
 seo_title: API Overview
-seo_description: The shared reference for Paperclip's JSON control-plane API — companies, agents, issues, approvals, costs, routines, secrets, activity, and dashboard state.
+seo_description: The shared reference for ThinkingMach's JSON control-plane API — companies, agents, issues, approvals, costs, routines, secrets, activity, and dashboard state.
 ---
 
 # API Overview
 
-Paperclip exposes a JSON API for company control-plane work: companies, agents, issues, approvals, costs, routines, secrets, activity, and dashboard state. This page is the shared reference for how the API is structured before you jump into a specific resource.
+ThinkingMach exposes a JSON API for company control-plane work: companies, agents, issues, approvals, costs, routines, secrets, activity, and dashboard state. This page is the shared reference for how the API is structured before you jump into a specific resource.
 
 ---
 
@@ -24,7 +24,7 @@ Every endpoint in this section is relative to that prefix.
 
 ## Authentication
 
-Paperclip supports different request identities depending on the deployment mode and caller type:
+ThinkingMach supports different request identities depending on the deployment mode and caller type:
 
 | Caller | How it authenticates | Notes |
 |---|---|---|
@@ -40,7 +40,7 @@ Practical rules:
 - If you are calling the API from the browser UI, the session cookie is usually enough in authenticated mode.
 - If you are calling the API from a script, use `Authorization: Bearer ...`.
 
-> **Note:** The server also reads `X-Paperclip-Run-Id` on mutating requests during agent runs. That is mostly relevant for issue comments, checkout, and other run-linked actions.
+> **Note:** The server also reads `X-ThinkingMach-Run-Id` on mutating requests during agent runs. That is mostly relevant for issue comments, checkout, and other run-linked actions.
 
 <!-- tabs: cURL, JavaScript, Python -->
 
@@ -182,7 +182,7 @@ The server publishes a machine-readable description of its REST surface as an Op
 GET /api/openapi.json
 ```
 
-Point your own tooling — client generators, request validators, or an API explorer — at this endpoint to get the current set of routes, parameters, and schemas straight from the running instance. From the terminal, `paperclipai access openapi` fetches the same document for you. This reference is written for people; the OpenAPI document is the same surface in a form built for machines.
+Point your own tooling — client generators, request validators, or an API explorer — at this endpoint to get the current set of routes, parameters, and schemas straight from the running instance. From the terminal, `thinkingmach access openapi` fetches the same document for you. This reference is written for people; the OpenAPI document is the same surface in a form built for machines.
 
 ## A Good First API Call
 

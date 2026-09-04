@@ -8,7 +8,7 @@ seo_description: When an agent misreads a blocker or calls a task done without p
 
 Sometimes an agent stops work for the wrong reason. It misreads a blocker, declares an issue "done" without real proof, accepts a stale plan confirmation, or hits a recoverable error and gives up. When that happens, nothing wakes anyone — the issue tree just goes quiet and sits there.
 
-A **task watchdog** is an agent you put in charge of double-checking a stopped issue tree and putting it back into motion when stopping was a mistake. You attach it to one issue; it watches that issue and its descendants. When everything in that subtree has come to rest and there's no live path forward, Paperclip wakes the watchdog to read the evidence and decide whether the stop is genuine — or whether work should continue.
+A **task watchdog** is an agent you put in charge of double-checking a stopped issue tree and putting it back into motion when stopping was a mistake. You attach it to one issue; it watches that issue and its descendants. When everything in that subtree has come to rest and there's no live path forward, ThinkingMach wakes the watchdog to read the evidence and decide whether the stop is genuine — or whether work should continue.
 
 Think of it as a second pass on stopped work, without re-running the original assignee. It's verification-shaped, not execution-shaped: it checks what other agents claimed against what's actually in the thread, then either accepts the stop or restores a live path.
 
@@ -18,7 +18,7 @@ Think of it as a second pass on stopped work, without re-running the original as
 
 ## Three things called "watchdog"
 
-The word shows up in a few places in Paperclip. Keep them straight:
+The word shows up in a few places in ThinkingMach. Keep them straight:
 
 - **Task watchdog** (this page) — an agent *you* assign to a specific issue. Fires only when the whole watched subtree has stopped. Configurable.
 - **Silent active-run watchdog** — automatic monitoring of a single *running* agent for output silence. No configuration, nothing to set up. Silence surfaces as a **suspicious** or **critical** level on the active-run summary in the UI, but it takes no action on its own — it no longer creates evaluation issues, recovery actions, comments, or wake requests. (See your adapter's inactivity settings, e.g. codex-local's `outputInactivityTimeoutMs`.)
@@ -34,7 +34,7 @@ A watchdog stays asleep while there's still live work to do. It wakes only when 
 
 ![Watchdog lifecycle: attach, work runs, subtree stops, review task opens, outcome posts, fingerprint settles](../../user-guides/screenshots/diagrams/task-watchdog-lifecycle.png)
 
-At that point Paperclip hands the watchdog agent the tree and a mandate: treat every stopped leaf as a *claim* that has to be verified, not a fact to be trusted. The watchdog then:
+At that point ThinkingMach hands the watchdog agent the tree and a mandate: treat every stopped leaf as a *claim* that has to be verified, not a fact to be trusted. The watchdog then:
 
 - **Leaves genuinely-finished leaves alone**, with a short note on what it checked.
 - **Restores a live path** when a leaf isn't really done — by reopening the issue, reassigning it, commenting actionable next steps, opening a follow-up child issue inside the watched subtree, or accepting an eligible plan confirmation.
@@ -46,7 +46,7 @@ The review's outcome lands back in the watched issue's thread, so the record of 
 
 ![A watchdog review outcome posted back to the task thread, with its disposition and verified evidence.](../../user-guides/screenshots/light/watchdogs/watchdog-thread-outcome.png)
 
-One refinement makes the loop livable: Paperclip fingerprints the stopped state it has already reviewed. If nothing has changed since the last review, no new review task is created. A stalled tree gets looked at once per distinct state, not once per scan, so the watchdog never fills the thread with duplicate reviews of the same silence.
+One refinement makes the loop livable: ThinkingMach fingerprints the stopped state it has already reviewed. If nothing has changed since the last review, no new review task is created. A stalled tree gets looked at once per distinct state, not once per scan, so the watchdog never fills the thread with duplicate reviews of the same silence.
 
 ---
 
@@ -109,7 +109,7 @@ Any move that crosses those lines is rejected at the API layer, so the watchdog 
 
 ## Watchdogs, approvals, and execution policy
 
-Paperclip has three oversight mechanisms, and they answer different questions.
+ThinkingMach has three oversight mechanisms, and they answer different questions.
 
 Approvals are human gates: a person must say yes before something happens. Execution policy is staged review: work passes through defined reviewer stages before it counts as done. Both are checkpoints that work flows through.
 

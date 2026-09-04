@@ -5,7 +5,7 @@ seo_description: Agents pause for your sign-off before consequential actions. Re
 
 # Approvals
 
-Approvals are how you stay in control even as your agents work autonomously. Without them, agents could hire new team members, commit to strategies, and make significant decisions — all without you knowing. Approvals are the governance layer that prevents that: before any agent takes a consequential action, Paperclip pauses and asks for your sign-off.
+Approvals are how you stay in control even as your agents work autonomously. Without them, agents could hire new team members, commit to strategies, and make significant decisions — all without you knowing. Approvals are the governance layer that prevents that: before any agent takes a consequential action, ThinkingMach pauses and asks for your sign-off.
 
 Think of it like a board seat. The agents run the day-to-day company. But the big calls — who gets hired, what the strategy is — still come to you.
 
@@ -15,7 +15,7 @@ Think of it like a board seat. The agents run the day-to-day company. But the bi
 
 ## Types of Approvals
 
-The first approvals most people encounter in Paperclip are:
+The first approvals most people encounter in ThinkingMach are:
 
 ### Hire Agent
 
@@ -173,7 +173,7 @@ Every actionable approval (anything in `pending` or `revision_requested`) shows 
 **If you Approve:**
 - The action proceeds immediately.
 - For a hire: the new agent is created and queued to wake automatically.
-- For a strategy: Paperclip queues the requester to wake automatically, so the follow-up run usually appears shortly after approval.
+- For a strategy: ThinkingMach queues the requester to wake automatically, so the follow-up run usually appears shortly after approval.
 - The approval moves to "approved" status in the list.
 
 **If you Reject:**

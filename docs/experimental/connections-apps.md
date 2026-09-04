@@ -6,7 +6,7 @@ seo_description: The experimental home for connecting agents to outside services
 
 # Connections v3 (Apps)
 
-**Apps** is the experimental home for connecting Paperclip to the outside services your agents use — think Google Sheets, remote MCP servers, and REST APIs. Behind it sits **Connections v3**, a rebuilt foundation for how Paperclip stores, authorizes, and hands out those connections. This release lands the groundwork for one-click Connected Apps: a typed app catalog, a stable connection identity, and subject-aware authorization.
+**Apps** is the experimental home for connecting ThinkingMach to the outside services your agents use — think Google Sheets, remote MCP servers, and REST APIs. Behind it sits **Connections v3**, a rebuilt foundation for how ThinkingMach stores, authorizes, and hands out those connections. This release lands the groundwork for one-click Connected Apps: a typed app catalog, a stable connection identity, and subject-aware authorization.
 
 It's early. What ships in this release is the plumbing, not a finished app store. You can turn it on and explore, but treat it as a preview.
 
@@ -14,7 +14,7 @@ It's early. What ships in this release is the plumbing, not a finished app store
 
 Connecting an external service used to mean a loose bundle of config and secrets with no clear owner and no stable name. Connections v3 replaces that with an explicit model:
 
-- **A stable connection identity.** Every connection gets a company-scoped `uid` (like `google-sheets/finance-sheet-1a2b3c4d`) that stays put even as names change, so other parts of Paperclip can reference it reliably.
+- **A stable connection identity.** Every connection gets a company-scoped `uid` (like `google-sheets/finance-sheet-1a2b3c4d`) that stays put even as names change, so other parts of ThinkingMach can reference it reliably.
 - **Explicit ownership, auth, and transport.** Each connection now records who owns it, how it authenticates (`oauth`, `api_key`, or `none`), and how it talks to the service.
 - **Subject-aware grants.** A new `connection_grants` table separates *the connection* from *who is allowed to use it*. A grant is either a `workspace` grant (shared by the whole company) or a `user` grant (scoped to one person), so a single connection can serve a shared default and per-user authorizations at the same time.
 - **Multi-key credentials.** Connections can hold more than one credential reference, which is what real-world apps with several keys or scopes need.

@@ -106,7 +106,7 @@ assert(findPage("reference/skills/optional.md"), "Optional overview is missing f
 
 const expectedBundledCategories = [
   "Docs",
-  "Paperclip Operations",
+  "ThinkingMach Operations",
   "Product",
   "Quality",
   "Software Development",
@@ -126,11 +126,11 @@ const expectedTrails = new Map([
   ],
   [
     "reference/skills/bundled/paperclip-operations/issue-triage.md",
-    ["Skills", "Bundled", "Paperclip Operations", "Issue Triage"],
+    ["Skills", "Bundled", "ThinkingMach Operations", "Issue Triage"],
   ],
   [
     "reference/skills/bundled/paperclip-operations/task-planning.md",
-    ["Skills", "Bundled", "Paperclip Operations", "Task Planning"],
+    ["Skills", "Bundled", "ThinkingMach Operations", "Task Planning"],
   ],
   [
     "reference/skills/bundled/product/wireframe.md",

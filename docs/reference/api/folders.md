@@ -10,7 +10,7 @@ Once a company has more than a handful of routines or skills, a flat list stops 
 
 Folders come in two flavours, and the two trees are completely separate: a `routine` folder holds routines, a `skill` folder holds skills. Every request names which tree you mean, and the server refuses to mix them.
 
-Some folders are created and maintained by Paperclip itself — the `Bundled` category folders that ship with the product, the personal `My Skills` folder each board user gets, and a folder per project. Those are marked as system-managed and are read-only to you. Everything else is yours to organise however you like.
+Some folders are created and maintained by ThinkingMach itself — the `Bundled` category folders that ship with the product, the personal `My Skills` folder each board user gets, and a folder per project. Those are marked as system-managed and are read-only to you. Everything else is yours to organise however you like.
 
 Folders are company-scoped, and — like the rest of the control-plane API — company access is enforced on every request. If you are new to the API, read the [API Overview](./overview.md) first for base URL, authentication, and error-code conventions; this page builds on those and won't repeat them.
 
@@ -47,7 +47,7 @@ Folders nest up to **4 levels deep**. Creating or moving a folder that would pus
 
 ### System-managed folders
 
-Anything with a `systemKey`, plus everything inside the `bundled` tree, is managed by Paperclip. Trying to rename, move, or delete one returns `403 Forbidden`:
+Anything with a `systemKey`, plus everything inside the `bundled` tree, is managed by ThinkingMach. Trying to rename, move, or delete one returns `403 Forbidden`:
 
 ```json
 { "error": "System-managed folders cannot be changed" }
@@ -59,7 +59,7 @@ and anything that would write into the bundled tree returns:
 { "error": "Bundled folders are read-only" }
 ```
 
-Three root slugs are reserved in the `skill` tree — `bundled`, `my`, and `projects`. You cannot create, rename, or move a root skill folder onto one of them; the server answers `403 Forbidden` with `{ "error": "Reserved skill folders are system-managed" }`. The `my` and `projects` containers are also closed to hand-made children, since Paperclip fills them in itself.
+Three root slugs are reserved in the `skill` tree — `bundled`, `my`, and `projects`. You cannot create, rename, or move a root skill folder onto one of them; the server answers `403 Forbidden` with `{ "error": "Reserved skill folders are system-managed" }`. The `my` and `projects` containers are also closed to hand-made children, since ThinkingMach fills them in itself.
 
 ---
 

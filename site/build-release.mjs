@@ -20,8 +20,8 @@ const sourceNavPath = path.join(__dirname, "content.json");
 const sourceRedirectsPath = path.join(__dirname, "redirects.json");
 const sourceVendorDir = path.join(__dirname, "vendor");
 const screenshotsSourceDir = path.join(docsRoot, "user-guides", "screenshots");
-const defaultSiteUrl = "https://docs.paperclip.ing";
-const defaultSeoDescription = "Guides, references, and walkthroughs for running Paperclip, an AI company operating system for agent teams, governance, budgets, and workflows.";
+const defaultSiteUrl = "https://docs.thinkingmach.com";
+const defaultSeoDescription = "Guides, references, and walkthroughs for running ThinkingMach, an AI company operating system for agent teams, governance, budgets, and workflows.";
 const execFileAsync = promisify(execFile);
 
 function printUsage() {
@@ -431,7 +431,7 @@ async function detectAppBasePath() {
       }
     }
     if (!isNavPayload(navData)) {
-      throw new Error("content.json did not match the expected Paperclip docs schema.");
+      throw new Error("content.json did not match the expected ThinkingMach docs schema.");
     }
   } catch (e) {`,
   );
@@ -480,7 +480,7 @@ const responsiveScreenshotVariants = new Map([
   ["dashboard/dashboard-overview.png", { width: 2880, height: 1800, variantWidth: 900 }],
 ]);
 
-function screenshotReleasePath(src, theme = "dark") {
+function screenshotReleasePath(src, theme = "light") {
   const match = String(src).match(/(?:^|\/)user-guides\/screenshots\/(?:light|dark)\/(.+)$/);
   if (match) return `user-guides/screenshots/${theme}/${match[1]}`;
   return src;
@@ -571,19 +571,19 @@ function buildJsonLd(metadata) {
     ? {
         "@context": "https://schema.org",
         "@type": "TechArticle",
-        headline: metadata.title.replace(/ \| Paperclip Docs$/, ""),
+        headline: metadata.title.replace(/ \| ThinkingMach Docs$/, ""),
         description: metadata.description,
         url: metadata.url,
         isPartOf: {
           "@type": "WebSite",
-          name: "Paperclip Docs",
+          name: "ThinkingMach Docs",
           url: siteUrlForPath(metadata.siteUrl, metadata.basePath),
         },
       }
     : {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        name: "Paperclip Docs",
+        name: "ThinkingMach Docs",
         description: metadata.description,
         url: metadata.url,
       };
@@ -607,7 +607,7 @@ function injectSeo(html, metadata, { baseHref = null } = {}) {
     `<meta name="robots" data-seo-managed content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />`,
     `<link rel="canonical" data-seo-managed href="${escapeHtml(metadata.url)}" />`,
     `<meta property="og:type" data-seo-managed content="${metadata.page ? "article" : "website"}" />`,
-    `<meta property="og:site_name" data-seo-managed content="Paperclip Docs" />`,
+    `<meta property="og:site_name" data-seo-managed content="ThinkingMach Docs" />`,
     `<meta property="og:title" data-seo-managed content="${title}" />`,
     `<meta property="og:description" data-seo-managed content="${escapeHtml(metadata.description)}" />`,
     `<meta property="og:url" data-seo-managed content="${escapeHtml(metadata.url)}" />`,
@@ -643,11 +643,11 @@ async function pageMetadataForNav(nav, outDir, siteUrl, basePath) {
     // derived description is just the opening paragraph clipped to a length.
     const authoredTitle = page.frontmatter?.seo_title?.trim();
     const authoredDescription = page.frontmatter?.seo_description?.trim();
-    const pageTitle = authoredTitle || page.title || h1 || "Paperclip Docs";
+    const pageTitle = authoredTitle || page.title || h1 || "ThinkingMach Docs";
     pages.push({
       page,
       sectionTitle: section.title,
-      title: `${pageTitle} | Paperclip Docs`,
+      title: `${pageTitle} | ThinkingMach Docs`,
       description: authoredDescription || markdownDescription(markdown),
       url: routeUrlForPage(siteUrl, basePath, page),
       lastmod: lastmods.get(page.file),
@@ -954,8 +954,8 @@ function buildCloudflareHeaders() {
 
 function buildNotFoundPage(siteUrl, basePath) {
   const metadata = {
-    title: "Not found | Paperclip Docs",
-    description: "This Paperclip Docs URL does not exist.",
+    title: "Not found | ThinkingMach Docs",
+    description: "This ThinkingMach Docs URL does not exist.",
     url: siteUrlForPath(siteUrl, basePath, "404.html"),
     siteUrl,
     basePath,
@@ -972,7 +972,7 @@ function buildNotFoundPage(siteUrl, basePath) {
 <body>
   <main>
     <h1>Not found</h1>
-    <p>This Paperclip Docs URL does not exist.</p>
+    <p>This ThinkingMach Docs URL does not exist.</p>
     <p><a href="${escapeAttr(siteUrlForPath(siteUrl, basePath))}">Open the docs home page</a></p>
   </main>
 </body>
@@ -1082,7 +1082,7 @@ function buildNginxConfig(basePath) {
   const placeholderComment = basePath === "auto"
     ? "# Replace /paperclip-docs/ with the public mount path for this bundle before using this snippet.\n"
     : "";
-  return `${placeholderComment}# Paperclip docs static SPA
+  return `${placeholderComment}# ThinkingMach docs static SPA
 # Real files must 404 if missing. Only extensionless routes should fall back to index.html.
 location ~ ^${deploymentBasePath}.*\\.[A-Za-z0-9]+$ {
     try_files $uri =404;
@@ -1542,7 +1542,7 @@ node site/build-release.mjs --base-path ${deploymentBasePath}
 \`\`\``
     : `This bundle was built for the public base path \`${basePath}\`.`;
 
-  return `# Paperclip Docs Release Deployment
+  return `# ThinkingMach Docs Release Deployment
 
 ${basePathGuidance}
 
@@ -1560,8 +1560,8 @@ If \`content.json\` or linked markdown files are missing from the uploaded bundl
 
 ## Cloudflare Pages
 
-- The \`paperclipai/paperclip-docs\` repository is connected to Cloudflare Pages; do not deploy this bundle with Wrangler for normal docs releases.
-- Pushing \`main\` triggers the production deployment. Cloudflare serves it on \`docs.paperclip.ing\`, the project domain, and a deployment-specific \`https://<hash>.paperclip-docs-74t.pages.dev\` URL.
+- The \`thinkingmach/paperclip-docs\` repository is connected to Cloudflare Pages; do not deploy this bundle with Wrangler for normal docs releases.
+- Pushing \`main\` triggers the production deployment. Cloudflare serves it on \`docs.thinkingmach.com\`, the project domain, and a deployment-specific \`https://<hash>.paperclip-docs-74t.pages.dev\` URL.
 - Pushing any other branch triggers a preview/canary deployment. In the Cloudflare Pages dashboard, open **Workers & Pages -> paperclip-docs -> Deployments** and use the row whose source branch and commit match your push.
 - Canary URLs are Cloudflare-generated deployment URLs, for example \`https://92b9a99c.paperclip-docs-74t.pages.dev\`; do not derive them from the branch name by hand.
 - If GitHub shows a Cloudflare Pages check or deployment link on the commit/PR, that URL should match the Cloudflare dashboard deployment row.
@@ -1686,7 +1686,7 @@ async function main() {
     legacyRedirects: sourceRedirects,
   }));
   const rootMetadata = {
-    title: "Paperclip Docs",
+    title: "ThinkingMach Docs",
     description: defaultSeoDescription,
     url: siteUrlForPath(options.siteUrl, options.basePath),
     siteUrl: options.siteUrl,

@@ -5,16 +5,16 @@ seo_description: Wire a coding agent to a real repo so every issue you assign pr
 
 # Connect an agent to a GitHub repo and have it open PRs
 
-Wire a `claude_local` (or `codex_local`) coding agent to a real GitHub repo so every issue you assign produces a branch, a working commit, and a pull request — all visible in both the Paperclip issue thread and the GitHub PR page. End-to-end on a fresh repo in about 20 minutes.
+Wire a `claude_local` (or `codex_local`) coding agent to a real GitHub repo so every issue you assign produces a branch, a working commit, and a pull request — all visible in both the ThinkingMach issue thread and the GitHub PR page. End-to-end on a fresh repo in about 20 minutes.
 
-This is the recipe behind every "agent shipped a PR overnight" story. The moving parts are mundane: a project workspace pointed at the right git remote, a credential the agent can use to push, an `AGENTS.md` that tells the agent to work in PRs, and Paperclip's review stage matched to GitHub's review.
+This is the recipe behind every "agent shipped a PR overnight" story. The moving parts are mundane: a project workspace pointed at the right git remote, a credential the agent can use to push, an `AGENTS.md` that tells the agent to work in PRs, and ThinkingMach's review stage matched to GitHub's review.
 
 ---
 
 ## Architecture
 
 ```txt
-        Paperclip issue                              GitHub
+        ThinkingMach issue                              GitHub
    ┌──────────────────────┐                  ┌─────────────────────┐
    │ assign to coder      │                  │ branch + commits    │
    │ status: in_progress  │   git push +     │ PR opened by agent  │
@@ -24,16 +24,16 @@ This is the recipe behind every "agent shipped a PR overnight" story. The moving
    └──────────┬───────────┘                  └──────────┬──────────┘
               │                                          │
               └────────── isolated git worktree ─────────┘
-                          (one per Paperclip issue)
+                          (one per ThinkingMach issue)
 ```
 
-Paperclip provisions an **isolated git worktree** when the issue is checked out. That worktree is a normal `git` clone with its own branch — the agent runs `git`, `gh`, your linter, and your test suite the same way you would. Pushes go to the upstream remote you configured on the project workspace.
+ThinkingMach provisions an **isolated git worktree** when the issue is checked out. That worktree is a normal `git` clone with its own branch — the agent runs `git`, `gh`, your linter, and your test suite the same way you would. Pushes go to the upstream remote you configured on the project workspace.
 
 ---
 
 ## 1. Prereqs
 
-- Paperclip running locally or on a server you control. See [Installation](../guides/getting-started/installation.md).
+- ThinkingMach running locally or on a server you control. See [Installation](../guides/getting-started/installation.md).
 - A coding agent already hired — `claude_local` with Claude Code installed, or `codex_local`. See [Hire Your First Agent](../guides/getting-started/your-first-agent.md).
 - A GitHub repo you have push access to. The recipe assumes you can either issue a Personal Access Token or install a GitHub App against it.
 - The `gh` CLI installed on the host running the agent (used by the agent to open PRs without juggling the REST API).
@@ -48,7 +48,7 @@ Open **Projects → {project}** and set or create a workspace with:
 
 | Field | Value | Notes |
 |---|---|---|
-| `cwd` | `/Users/me/work/acme-api` | Absolute path on the host. Paperclip uses this as the worktree root. |
+| `cwd` | `/Users/me/work/acme-api` | Absolute path on the host. ThinkingMach uses this as the worktree root. |
 | `repoUrl` | `https://github.com/acme/api.git` | The HTTPS clone URL. Used by the UI to link out and by the worktree to set the upstream. |
 | `repoRef` (base) | `main` | The branch new worktrees branch off. |
 | `isPrimary` | `true` | The first workspace becomes primary automatically. |
@@ -58,8 +58,8 @@ API equivalent (two calls — the workspace itself, and the project policy that 
 
 ```bash
 # 1. Create or update the project workspace
-curl -X POST "$PAPERCLIP_API_URL/api/projects/$PROJECT_ID/workspaces" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/projects/$PROJECT_ID/workspaces" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "acme-api-main",
@@ -70,8 +70,8 @@ curl -X POST "$PAPERCLIP_API_URL/api/projects/$PROJECT_ID/workspaces" \
   }'
 
 # 2. Set the project's execution-workspace policy so every issue gets its own worktree
-curl -X PATCH "$PAPERCLIP_API_URL/api/projects/$PROJECT_ID" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X PATCH "$THINKINGMACH_API_URL/api/projects/$PROJECT_ID" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "executionWorkspacePolicy": {
@@ -87,7 +87,7 @@ curl -X PATCH "$PAPERCLIP_API_URL/api/projects/$PROJECT_ID" \
 
 The second call is what actually turns on per-issue isolation. Without `executionWorkspacePolicy.workspaceStrategy.type = "git_worktree"`, every agent runs against the project's primary checkout and you lose the parallel-PR story. The UI's **Workspace mode: Isolated** toggle on the project does the same thing — pick whichever interface you prefer.
 
-> **Branch naming.** Paperclip names the per-issue worktree branch after the issue identifier — for example `PAP-1802-workspace`. You don't set this directly; let the worktree provider pick it. If you need a different convention, set `workspaceStrategy.branchTemplate` in the policy above, or override `branchName` on a single execution workspace. See [Workspaces](../guides/projects-workflow/workspaces.md#workspace-settings) for the full field list.
+> **Branch naming.** ThinkingMach names the per-issue worktree branch after the issue identifier — for example `PAP-1802-workspace`. You don't set this directly; let the worktree provider pick it. If you need a different convention, set `workspaceStrategy.branchTemplate` in the policy above, or override `branchName` on a single execution workspace. See [Workspaces](../guides/projects-workflow/workspaces.md#workspace-settings) for the full field list.
 
 ---
 
@@ -104,11 +104,11 @@ A fine-grained PAT scoped to the single repo is the path of least resistance.
 3. Permissions: **Contents: Read and write**, **Pull requests: Read and write**, **Metadata: Read-only** (auto-set).
 4. Generate, copy the `github_pat_…` value once.
 
-Store it as a Paperclip secret on the agent's environment so it isn't sitting in a JSON file:
+Store it as a ThinkingMach secret on the agent's environment so it isn't sitting in a JSON file:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/secrets" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/secrets" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "GITHUB_TOKEN_ACME",
@@ -138,7 +138,7 @@ A GitHub App installed on the org issues short-lived installation tokens, isn't 
 3. Generate a private key, download the `.pem`. Note the App ID and the installation ID for the target repo.
 4. Mint installation tokens with `gh auth token --hostname github.com` (App-aware) or a small script using `actions/create-github-app-token`'s logic.
 
-Store the App ID, installation ID, and private key as Paperclip secrets, and have the agent's heartbeat exchange them for an installation token at the start of each run. The token expires in an hour, which is exactly long enough for one heartbeat.
+Store the App ID, installation ID, and private key as ThinkingMach secrets, and have the agent's heartbeat exchange them for an installation token at the start of each run. The token expires in an hour, which is exactly long enough for one heartbeat.
 
 **Tradeoff:** more moving parts, a one-time setup that takes 15 extra minutes. Worth it the moment you have more than one coding agent or you care about audit trails.
 
@@ -146,7 +146,7 @@ For a single-developer team running a couple of agents, Option A is enough. For 
 
 ### What about `gh auth login` on the host?
 
-If you've already run `gh auth login` interactively on the machine running the agent, the local `gh` keyring has a working credential and the agent will use it transparently — no env var plumbing required. This is what most contributors hit during a first smoke test, and it's the path the HT3 verification run used (real PR: [paperclipai/paperclip-docs#1](https://github.com/paperclipai/paperclip-docs/pull/1)).
+If you've already run `gh auth login` interactively on the machine running the agent, the local `gh` keyring has a working credential and the agent will use it transparently — no env var plumbing required. This is what most contributors hit during a first smoke test, and it's the path the HT3 verification run used (real PR: [thinkingmach/paperclip-docs#1](https://github.com/thinkingmach/paperclip-docs/pull/1)).
 
 It is fine for **local development on a single host**. It is not fine for:
 
@@ -158,14 +158,14 @@ Treat host-keyring auth as the smoke-test option. Promote to Option A as soon as
 
 ### The credential preflight catches a missing token before the work
 
-Getting told about a missing token *after* the agent has implemented and reviewed a change is the worst possible time to hear it. So before dispatching a run on a local, git-sensitive adapter, Paperclip checks whether the run is going to need push credentials — and if it does, whether `GH_TOKEN` or `GITHUB_TOKEN` is actually bound at agent or project scope. If neither is, the run is blocked up front with the reason `push_write_credential_missing` and this remediation:
+Getting told about a missing token *after* the agent has implemented and reviewed a change is the worst possible time to hear it. So before dispatching a run on a local, git-sensitive adapter, ThinkingMach checks whether the run is going to need push credentials — and if it does, whether `GH_TOKEN` or `GITHUB_TOKEN` is actually bound at agent or project scope. If neither is, the run is blocked up front with the reason `push_write_credential_missing` and this remediation:
 
 > GitHub PR workflow requires GH_TOKEN or GITHUB_TOKEN bound at project or agent scope.
 
 There are two ways a run gets flagged as needing push credentials:
 
 1. **The issue mentions the GitHub PR workflow skill.** The explicit signal.
-2. **The issue's title or description states a PR deliverable in plain text.** Routine-created tasks and agent-to-agent hand-offs rarely name the skill, even when the text literally says to push a branch and open a PR — so Paperclip reads the text too.
+2. **The issue's title or description states a PR deliverable in plain text.** Routine-created tasks and agent-to-agent hand-offs rarely name the skill, even when the text literally says to push a branch and open a PR — so ThinkingMach reads the text too.
 
 The text check is deliberately conservative: it looks for a **verb** attached to the deliverable — opening, creating, raising, or submitting a pull request, or pushing a branch or pushing to a remote. A passing mention like "the PR merged yesterday" or "PR feedback addressed" won't trigger it, and neither will "push back on the upstream dependency change".
 
@@ -180,7 +180,7 @@ The agent's `AGENTS.md` is what turns "do the task" into "do the task on a branc
 ```md
 ## Working rules: PR-driven
 
-You always work on a feature branch, never on `main` directly. Paperclip provisions an isolated git worktree per issue; that worktree is already on the right branch when you check the issue out.
+You always work on a feature branch, never on `main` directly. ThinkingMach provisions an isolated git worktree per issue; that worktree is already on the right branch when you check the issue out.
 
 Before you exit a heartbeat:
 
@@ -206,8 +206,8 @@ A round-trip on a real repo, start to finish:
 
 ```bash
 # Create the issue and assign the coder agent
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/issues" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/issues" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Reject signup when orgId is null",
@@ -220,9 +220,9 @@ curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/issues" \
 
 Within a heartbeat or two:
 
-- The agent checks the issue out — Paperclip provisions a worktree at `/Users/me/work/acme-api/.paperclip-worktrees/PAP-1802-workspace` and switches it to a fresh branch off `main`.
+- The agent checks the issue out — ThinkingMach provisions a worktree at `/Users/me/work/acme-api/.paperclip-worktrees/PAP-1802-workspace` and switches it to a fresh branch off `main`.
 - The agent edits the right files, runs the test suite, commits, and pushes.
-- The agent calls `gh pr create --fill --base main` and pastes the resulting `https://github.com/acme/api/pull/142` into the Paperclip issue thread.
+- The agent calls `gh pr create --fill --base main` and pastes the resulting `https://github.com/acme/api/pull/142` into the ThinkingMach issue thread.
 - The issue moves to `in_review`.
 
 If you see the worktree path on disk but no commits, that's almost always a missing `GITHUB_TOKEN` — see [Troubleshooting](#troubleshooting) below.
@@ -236,16 +236,16 @@ You have two parallel review surfaces. Use them for different things — they're
 | Surface | What you do here |
 |---|---|
 | **GitHub PR** | Read the diff, comment line-by-line, watch CI, request changes via the GitHub review UI. The coder agent is configured (Step 4) to refuse merging on its own — a human or a senior agent merges. |
-| **Paperclip issue** | Track status (`in_review` → `done`), pipe approvals to Slack, link the PR to the goal/project, gate the next step in the workflow. |
+| **ThinkingMach issue** | Track status (`in_review` → `done`), pipe approvals to Slack, link the PR to the goal/project, gate the next step in the workflow. |
 
 When the PR merges:
 
 - A human (or your CI's auto-merge bot) merges through GitHub.
-- A reviewer agent — the CTO, a senior engineer, or you — moves the Paperclip issue to `done` with a comment including the merge SHA. Paperclip doesn't infer the merge for you yet; if you want it to, set up a [GitHub → Paperclip routine webhook](./wire-slack-discord-notifications.md#testing-the-loop) that listens to `pull_request.closed` with `merged: true` and PATCHes the linked issue. That's a 20-line script.
+- A reviewer agent — the CTO, a senior engineer, or you — moves the ThinkingMach issue to `done` with a comment including the merge SHA. ThinkingMach doesn't infer the merge for you yet; if you want it to, set up a [GitHub → ThinkingMach routine webhook](./wire-slack-discord-notifications.md#testing-the-loop) that listens to `pull_request.closed` with `merged: true` and PATCHes the linked issue. That's a 20-line script.
 
 If the PR is rejected, change the issue back to `in_progress` with a comment naming what to fix. The agent picks it up on its next heartbeat, pushes a follow-up commit to the same branch, and the PR re-runs CI.
 
-If your team uses Paperclip's [Execution Policy](../guides/power/execution-policy.md) for review stages, set the policy on the project so the issue passes through `engineer → reviewer → done` automatically when the agent submits and the reviewer approves.
+If your team uses ThinkingMach's [Execution Policy](../guides/power/execution-policy.md) for review stages, set the policy on the project so the issue passes through `engineer → reviewer → done` automatically when the agent submits and the reviewer approves.
 
 ---
 
@@ -267,7 +267,7 @@ A coder agent should refuse to resolve conflicts blindly. The right loop is: age
 Tighten the rules in `AGENTS.md` (Step 4): "move to `in_review` only after `gh pr checks --watch` exits 0". Re-prompt agents that already cut PRs.
 
 **The PR shows commits authored by `noreply@github.com` instead of the agent's identity.**
-Set `git config user.name` and `user.email` in the worktree provision command on the project workspace. Many teams use `Paperclip Coder <noreply@paperclip.example.com>` so PRs are clearly machine-authored.
+Set `git config user.name` and `user.email` in the worktree provision command on the project workspace. Many teams use `ThinkingMach Coder <noreply@paperclip.example.com>` so PRs are clearly machine-authored.
 
 **The agent keeps creating new branches per heartbeat instead of reusing the existing one.**
 This is a workspace-mode problem — the project is set to **Project primary** instead of **Isolated**. Switch it. See [Workspaces → Workspace modes](../guides/projects-workflow/workspaces.md#workspace-modes).

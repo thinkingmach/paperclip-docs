@@ -1,4 +1,4 @@
-# Proposal: keep `/sync-docs` working under Paperclip's release-channel model
+# Proposal: keep `/sync-docs` working under ThinkingMach's release-channel model
 
 **Status:** implemented on `feat/sync-docs-release-channels` · **Date:** 2026-08-25
 
@@ -11,10 +11,10 @@
 > v2026.824.0 leak fixture until it flagged exactly Kimi + the reaper env var with
 > zero false positives on in-tag pages, and against the corrected release (0 leaks).
 **Trigger:** the v2026.824.0 release run shipped (and we caught) docs for features
-that were **not in the release** — Kimi adapter, `PAPERCLIP_WORKSPACE_REAPER_COOLDOWN_DAYS`,
+that were **not in the release** — Kimi adapter, `THINKINGMACH_WORKSPACE_REAPER_COOLDOWN_DAYS`,
 and a mission-less onboarding rewrite. All three exist on `master` but landed
 **after** the stable tag was cut. This is now a *structural* problem, because
-Paperclip has formalized a four-lane release model where `master` runs far ahead
+ThinkingMach has formalized a four-lane release model where `master` runs far ahead
 of `stable`.
 
 The goal is explicit: **keep the single-trigger `/sync-docs` skill working as-is**
@@ -53,7 +53,7 @@ promotion and carries the lane (`2026.MDD.P-beta.N`).
 - **nightly mode** → tracks parent **`master` HEAD**, targets our `nightly` branch,
   deploys a Cloudflare preview. Cumulative diff base = `base_release_tag`, next = `master` HEAD.
 - **release mode** → fires when `gh api …/releases/latest` returns a newer tag than
-  `base_release_tag`; targets `main` (→ docs.paperclip.ing) via a PR cut from `nightly`.
+  `base_release_tag`; targets `main` (→ docs.thinkingmach.com) via a PR cut from `nightly`.
 
 Two assumptions are now broken:
 
@@ -77,7 +77,7 @@ Two assumptions are now broken:
 | Leak | Why it leaked | How we caught it |
 |---|---|---|
 | Kimi adapter page + nav + overview row | `packages/adapters/kimi-local` is **404 at the tag** (only on `master`, commit `dc5b070` post-tag) | manual per-feature check against the tag |
-| `PAPERCLIP_WORKSPACE_REAPER_COOLDOWN_DAYS` | absent from `.env.example`/config at the tag | manual check |
+| `THINKINGMACH_WORKSPACE_REAPER_COOLDOWN_DAYS` | absent from `.env.example`/config at the tag | manual check |
 | Onboarding "mission step is gone" rewrite | the tag's `OnboardingWizard.tsx` **still has** the mission step; the drop is a post-tag change | manual check |
 
 All three were drafted by nightly runs whose cited parent SHA was **ahead of the
@@ -100,10 +100,10 @@ not cleanly**:
 
 - **GitHub Releases and git tags exist for `stable` only.** All releases are
   `prerelease=false` clean CalVer (`vYYYY.MDD.P`). The only prerelease git tags in
-  the repo are legacy pre-CalVer package tags (`paperclipai@0.3.x-canary.N`).
+  the repo are legacy pre-CalVer package tags (`thinkingmach@0.3.x-canary.N`).
 - **No git ref for beta/nightly/canary.** `git/ref/tags/{beta,nightly,canary}` →
   404. There is no branch or moving tag to diff against.
-- **npm exposes no `gitHead`.** `npm view paperclipai@beta` returns the version
+- **npm exposes no `gitHead`.** `npm view thinkingmach@beta` returns the version
   string but not the commit; the lane SHA lives in CI job summaries and Docker
   `:sha-<short>` tags — not something to diff a docs window against reliably.
 - **Beta can lag stable.** Today: `beta = 2026.818.0-beta.1` while `stable =

@@ -1,24 +1,24 @@
 ---
 paperclip_version: v2026.512.0
 seo_title: Cursor Cloud Adapter
-seo_description: Run Cursor Cloud Agents through the official SDK so Cursor handles remote code execution while Paperclip keeps the task state and history.
+seo_description: Run Cursor Cloud Agents through the official SDK so Cursor handles remote code execution while ThinkingMach keeps the task state and history.
 ---
 
 # Cursor Cloud
 
-`cursor_cloud` runs Cursor Cloud Agents through the official Cursor SDK so Paperclip can keep task state while Cursor handles remote code execution. Use it when you want durable remote Cursor agent sessions that survive between Paperclip heartbeats.
+`cursor_cloud` runs Cursor Cloud Agents through the official Cursor SDK so ThinkingMach can keep task state while Cursor handles remote code execution. Use it when you want durable remote Cursor agent sessions that survive between ThinkingMach heartbeats.
 
 ---
 
 ## When To Use
 
-- You want Paperclip to run Cursor Cloud Agents through the official Cursor SDK.
-- You want durable remote Cursor agent sessions across Paperclip heartbeats.
-- You want Paperclip to keep task state while Cursor handles remote code execution.
+- You want ThinkingMach to run Cursor Cloud Agents through the official Cursor SDK.
+- You want durable remote Cursor agent sessions across ThinkingMach heartbeats.
+- You want ThinkingMach to keep task state while Cursor handles remote code execution.
 
 ## When Not To Use
 
-- You want local execution on the same machine as Paperclip. Use [Cursor Local](./cursor-local.md).
+- You want local execution on the same machine as ThinkingMach. Use [Cursor Local](./cursor-local.md).
 - You do not have a Cursor API key or a Cursor account that allows cloud agents.
 - The work the agent needs to do cannot be expressed as a repository checkout.
 
@@ -40,22 +40,22 @@ seo_description: Run Cursor Cloud Agents through the official SDK so Cursor hand
 | `promptTemplate` | no | Heartbeat prompt template. |
 | `bootstrapPromptTemplate` | no | First-run-only bootstrap prompt template. |
 | `model` | no | Cursor model id. Omit to use the account default. |
-| `env.CURSOR_API_KEY` | yes | Cursor API key. Use a Paperclip secret reference. |
+| `env.CURSOR_API_KEY` | yes | Cursor API key. Use a ThinkingMach secret reference. |
 | `env.*` | no | Additional environment variables injected into the cloud agent shell. |
 
 ---
 
 ## Session Persistence
 
-Paperclip reuses the durable Cursor agent across heartbeats when the repo and runtime identity still match. Each Paperclip heartbeat maps to a Cursor run on that durable agent. If the repo URL, starting ref, or runtime environment changes, Paperclip starts a fresh Cursor agent.
+ThinkingMach reuses the durable Cursor agent across heartbeats when the repo and runtime identity still match. Each ThinkingMach heartbeat maps to a Cursor run on that durable agent. If the repo URL, starting ref, or runtime environment changes, ThinkingMach starts a fresh Cursor agent.
 
 ---
 
 ## Execution Details
 
-- Paperclip drives the agent through the Cursor SDK rather than a local CLI.
-- Paperclip injects `PAPERCLIP_*` runtime env vars into the cloud agent shell via the Cursor SDK `cloud envVars` channel.
-- Paperclip remains the source of truth for issue and task state. Cursor provides the remote execution surface.
+- ThinkingMach drives the agent through the Cursor SDK rather than a local CLI.
+- ThinkingMach injects `THINKINGMACH_*` runtime env vars into the cloud agent shell via the Cursor SDK `cloud envVars` channel.
+- ThinkingMach remains the source of truth for issue and task state. Cursor provides the remote execution surface.
 
 ---
 

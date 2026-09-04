@@ -4,11 +4,11 @@ seo_title: Sync a Local Company to Cloud Upstream
 seo_description: Move a company's agents, projects, issues, skills, and portability files into a connected Cloud stack: preview, resolve conflicts, push, then verify.
 ---
 
-# Sync a local company to a Paperclip Cloud upstream
+# Sync a local company to a ThinkingMach Cloud upstream
 
 > **Deprecated — being removed.** Host-to-host Cloud Sync has been retired upstream. To move a company to another instance (including a hosted one), export it to a portable package and import it there instead — the replacement is full-fidelity and works local-to-local, over a URL, or from GitHub. See [Back up and restore a company](./back-up-and-restore-a-company.md). This page is kept temporarily for anyone on an older build and will be removed in a future release.
 
-Cloud Upstream sync moves a local Paperclip company — its agents, projects, issues, skills, and portability files — into a connected Paperclip Cloud stack. You preview what would change, resolve any conflicts, push the work, and then decide which entity types (agents, routines, monitors) should activate on the cloud side.
+Cloud Upstream sync moves a local ThinkingMach company — its agents, projects, issues, skills, and portability files — into a connected ThinkingMach Cloud stack. You preview what would change, resolve any conflicts, push the work, and then decide which entity types (agents, routines, monitors) should activate on the cloud side.
 
 The flow is opt-in, experimental, and gated behind an instance setting. Nothing leaves your local instance until you flip the flag and authorize a connection.
 
@@ -18,8 +18,8 @@ Time to first dry-run push: about 15 minutes.
 
 ## What you'll need
 
-- A running local Paperclip instance you can reach as the board user.
-- A Paperclip Cloud stack URL that advertises the `cloud_sync` transfer feature flag at `/.well-known/paperclip-upstream`.
+- A running local ThinkingMach instance you can reach as the board user.
+- A ThinkingMach Cloud stack URL that advertises the `cloud_sync` transfer feature flag at `/.well-known/paperclip-upstream`.
 - The local `companyId` you want to push.
 - Enough rights on the cloud stack to approve the authorization grant — the CLI requests the scopes `upstream_import:preview`, `upstream_import:write`, and `upstream_import:read`.
 
@@ -32,8 +32,8 @@ Cloud Upstream sync is hidden until you opt in. The server rejects every cloud r
 The flag lives on the instance experimental settings:
 
 ```bash
-curl -X PATCH "$PAPERCLIP_API_URL/api/instance/settings/experimental" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X PATCH "$THINKINGMACH_API_URL/api/instance/settings/experimental" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "enableCloudSync": true }'
 ```
@@ -47,13 +47,13 @@ You can also flip it through the board Settings panel — the Cloud Upstream ent
 The CLI generates a fresh source identity (an ed25519 keypair plus a fingerprint), opens a browser to the cloud stack's PKCE authorize URL, and stores the resulting token under `~/.paperclip/<instance>/secrets/cloud-upstream-connections.json`. The file is written with mode `0600` — keep it that way.
 
 ```bash
-paperclipai cloud connect https://cloud.example.com
+thinkingmach cloud connect https://cloud.example.com
 ```
 
 If the host has no browser, fall back to the device-code flow:
 
 ```bash
-paperclipai cloud connect https://cloud.example.com --no-browser
+thinkingmach cloud connect https://cloud.example.com --no-browser
 ```
 
 You'll see a verification URL and a one-time user code. Open the URL on a machine that does have a browser, paste the code, approve the grant, and the CLI takes over.
@@ -69,7 +69,7 @@ Either way, you end with a stored connection that the next steps reuse.
 A preview is a dry run. The CLI exports the local company through the portability service, builds a transfer manifest, and asks the cloud stack what would change. Nothing is written on the remote.
 
 ```bash
-paperclipai cloud push \
+thinkingmach cloud push \
   --company "$LOCAL_COMPANY_ID" \
   --dry-run
 ```
@@ -108,7 +108,7 @@ The CLI surfaces conflicts on `stderr` and exits with code `2` (a non-fatal hint
 Once the preview is clean — or you've accepted the conflicts the importer is allowed to handle — drop `--dry-run`:
 
 ```bash
-paperclipai cloud push --company "$LOCAL_COMPANY_ID"
+thinkingmach cloud push --company "$LOCAL_COMPANY_ID"
 ```
 
 The CLI uploads chunked entity payloads (default 100 entities per chunk; tune with `--max-entities-per-chunk`), tells the remote to apply, and then fetches the trailing event log. The summary line and the last ten events print to stdout.
@@ -127,8 +127,8 @@ Activate one type at a time:
 
 ```bash
 curl -X POST \
-  "$PAPERCLIP_API_URL/api/cloud-upstreams/$CONNECTION_ID/push-runs/$RUN_ID/activation" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+  "$THINKINGMACH_API_URL/api/cloud-upstreams/$CONNECTION_ID/push-runs/$RUN_ID/activation" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "companyId": "'$LOCAL_COMPANY_ID'", "entityType": "agents" }'
 ```
@@ -144,8 +144,8 @@ The board's Cloud Upstream page exposes three buttons mapped to the same call. A
 The connection's `lastRunId` points at the most recent run, so a single fetch tells you everything:
 
 ```bash
-curl -sS "$PAPERCLIP_API_URL/api/cloud-upstreams?companyId=$LOCAL_COMPANY_ID" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY"
+curl -sS "$THINKINGMACH_API_URL/api/cloud-upstreams?companyId=$LOCAL_COMPANY_ID" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY"
 ```
 
 The `CloudUpstreamsState` response contains the connection list and the recent run list for that company. Spot-check that:
@@ -164,16 +164,16 @@ Follow `targetUrl` to land on the run inside the cloud stack and confirm the act
 | Symptom | What it means |
 |---|---|
 | `Cloud sync is disabled.` (CLI) or HTTP `404 Cloud sync is not enabled` | The `enableCloudSync` experimental flag is `false`. Flip it (step 1) and retry. |
-| `Remote URL is not a Paperclip Cloud upstream target.` | The remote did not serve a valid `/.well-known/paperclip-upstream` document with `schema: "paperclip-upstream-discovery-v1"`. |
+| `Remote URL is not a ThinkingMach Cloud upstream target.` | The remote did not serve a valid `/.well-known/paperclip-upstream` document with `schema: "paperclip-upstream-discovery-v1"`. |
 | `Cloud upstream schema mismatch: local major X, remote supports Y.` (CLI exit code `3`) | The two sides are on different transfer schema majors. Upgrade one. |
-| `Remote Paperclip Cloud stack does not advertise the cloud_sync transfer flag.` | The cloud stack is reachable but doesn't enable cloud sync. Ask the stack admin to advertise the `cloud_sync` feature flag. |
+| `Remote ThinkingMach Cloud stack does not advertise the cloud_sync transfer flag.` | The cloud stack is reachable but doesn't enable cloud sync. Ask the stack admin to advertise the `cloud_sync` feature flag. |
 | CLI exit code `2` after `cloud push` | At least one conflict or stale-mapping row needs human attention. Re-run with `--dry-run` to inspect, then either resolve locally or accept and re-apply. |
-| `No cloud connection found.` | The CLI couldn't match `--remote-url` (or the default current connection) in the local store. Re-run `paperclipai cloud connect`. |
+| `No cloud connection found.` | The CLI couldn't match `--remote-url` (or the default current connection) in the local store. Re-run `thinkingmach cloud connect`. |
 
 ---
 
 ## See also
 
-- [Cloud commands in the CLI reference](../reference/cli/cloud.md) — every flag for `paperclipai cloud connect` and `paperclipai cloud push`.
+- [Cloud commands in the CLI reference](../reference/cli/cloud.md) — every flag for `thinkingmach cloud connect` and `thinkingmach cloud push`.
 - [Back up and restore a company](./back-up-and-restore-a-company.md) — the local portability export that the cloud push wraps.
 - [Glossary](../guides/welcome/glossary.md) — definitions for company, agent, routine, monitor.

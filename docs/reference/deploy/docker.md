@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.609.0
-seo_title: Deploy Paperclip with Docker
+seo_title: Deploy ThinkingMach with Docker
 seo_description: Run a self-contained instance without installing Node or pnpm on the host. Covers the quickstart image, manual builds, and configuration.
 ---
 
 # Docker
 
-Use Docker when you want a self-contained Paperclip instance without installing Node or pnpm on the host machine.
+Use Docker when you want a self-contained ThinkingMach instance without installing Node or pnpm on the host machine.
 
 This page covers the quickstart image, the manual image build, the cloud image variant, and what persists between container restarts.
 
@@ -34,11 +34,11 @@ Defaults:
 Override them with environment variables:
 
 ```sh
-PAPERCLIP_PORT=3200 PAPERCLIP_DATA_DIR=../data/pc \
+THINKINGMACH_PORT=3200 THINKINGMACH_DATA_DIR=../data/pc \
   docker compose -f docker/docker-compose.quickstart.yml up --build
 ```
 
-> **Note:** `PAPERCLIP_DATA_DIR` is resolved relative to the compose file in `docker/`, so `../data/pc` maps to `data/pc` in the repository root.
+> **Note:** `THINKINGMACH_DATA_DIR` is resolved relative to the compose file in `docker/`, so `../data/pc` maps to `data/pc` in the repository root.
 
 ---
 
@@ -51,22 +51,22 @@ docker build --target production -t paperclip-local .
 docker run --name paperclip \
   -p 3100:3100 \
   -e HOST=0.0.0.0 \
-  -e PAPERCLIP_HOME=/paperclip \
+  -e THINKINGMACH_HOME=/paperclip \
   -v "$(pwd)/data/docker-paperclip:/paperclip" \
   paperclip-local
 ```
 
-Use this when you want tight control over the container lifecycle or are embedding Paperclip into a larger Docker workflow.
+Use this when you want tight control over the container lifecycle or are embedding ThinkingMach into a larger Docker workflow.
 
-> **Note:** Name the `production` stage explicitly. The Dockerfile declares a `cloud` stage *after* `production`, and a build with no `--target` picks the last stage in the file — so leaving it off would quietly give you the cloud variant instead. Paperclip's own published image is pinned the same way.
+> **Note:** Name the `production` stage explicitly. The Dockerfile declares a `cloud` stage *after* `production`, and a build with no `--target` picks the last stage in the file — so leaving it off would quietly give you the cloud variant instead. ThinkingMach's own published image is pinned the same way.
 
 ---
 
 ## Cloud Image Variant
 
-Paperclip publishes a second image alongside the regular one: the **cloud variant**. If you are self-hosting, you almost certainly want the plain tag. The cloud variant exists for managed deployments and carries extra weight you do not need.
+ThinkingMach publishes a second image alongside the regular one: the **cloud variant**. If you are self-hosting, you almost certainly want the plain tag. The cloud variant exists for managed deployments and carries extra weight you do not need.
 
-The only difference is what is pre-built inside it. The cloud variant is the production image plus a small set of sandbox-provider plugins that have already been compiled. Managed instances receive a `plugins.autoInstall` list through `PAPERCLIP_MANAGED_CONFIG` and install those plugins from the bundled catalog at boot, which works only when each plugin's `dist/` output is already present in the image. The default image ships the plugin source but not the build output, so auto-install skips those plugins and logs that the bundle is not present.
+The only difference is what is pre-built inside it. The cloud variant is the production image plus a small set of sandbox-provider plugins that have already been compiled. Managed instances receive a `plugins.autoInstall` list through `THINKINGMACH_MANAGED_CONFIG` and install those plugins from the bundled catalog at boot, which works only when each plugin's `dist/` output is already present in the image. The default image ships the plugin source but not the build output, so auto-install skips those plugins and logs that the bundle is not present.
 
 Cloud images are published under the same tag set as the regular image, each tag carrying a `-cloud` suffix:
 
@@ -122,7 +122,7 @@ If you want those adapters to run inside the container, pass the relevant API ke
 docker run --name paperclip \
   -p 3100:3100 \
   -e HOST=0.0.0.0 \
-  -e PAPERCLIP_HOME=/paperclip \
+  -e THINKINGMACH_HOME=/paperclip \
   -e OPENAI_API_KEY=sk-... \
   -e ANTHROPIC_API_KEY=sk-... \
   -e GEMINI_API_KEY=... \

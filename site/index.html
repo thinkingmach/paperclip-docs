@@ -3,26 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Paperclip Docs</title>
-  <meta name="description" data-seo-managed content="Guides, references, and walkthroughs for running Paperclip, an AI company operating system for agent teams, governance, budgets, and workflows." />
+  <title>ThinkingMach Docs</title>
+  <meta name="description" data-seo-managed content="Guides, references, and walkthroughs for running ThinkingMach, an AI company operating system for agent teams, governance, budgets, and workflows." />
   <meta name="robots" data-seo-managed content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-  <link rel="canonical" data-seo-managed href="https://docs.paperclip.ing/" />
+  <link rel="canonical" data-seo-managed href="https://docs.thinkingmach.com/" />
   <meta property="og:type" data-seo-managed content="website" />
-  <meta property="og:site_name" data-seo-managed content="Paperclip Docs" />
-  <meta property="og:title" data-seo-managed content="Paperclip Docs" />
-  <meta property="og:description" data-seo-managed content="Guides, references, and walkthroughs for running Paperclip, an AI company operating system for agent teams, governance, budgets, and workflows." />
-  <meta property="og:url" data-seo-managed content="https://docs.paperclip.ing/" />
+  <meta property="og:site_name" data-seo-managed content="ThinkingMach Docs" />
+  <meta property="og:title" data-seo-managed content="ThinkingMach Docs" />
+  <meta property="og:description" data-seo-managed content="Guides, references, and walkthroughs for running ThinkingMach, an AI company operating system for agent teams, governance, budgets, and workflows." />
+  <meta property="og:url" data-seo-managed content="https://docs.thinkingmach.com/" />
   <meta name="twitter:card" data-seo-managed content="summary" />
-  <meta name="twitter:title" data-seo-managed content="Paperclip Docs" />
-  <meta name="twitter:description" data-seo-managed content="Guides, references, and walkthroughs for running Paperclip, an AI company operating system for agent teams, governance, budgets, and workflows." />
+  <meta name="twitter:title" data-seo-managed content="ThinkingMach Docs" />
+  <meta name="twitter:description" data-seo-managed content="Guides, references, and walkthroughs for running ThinkingMach, an AI company operating system for agent teams, governance, budgets, and workflows." />
   <script>
-    /* Apply theme before first paint (dark by default) to avoid a flash. */
+    /* Apply theme before first paint (system preference by default) to avoid a flash. */
     (function () {
-      var saved = localStorage.getItem('pc-guides-theme') || 'dark';
-      if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      var saved = localStorage.getItem('theme');
+      var isDark = saved ? saved === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      if (isDark) document.documentElement.setAttribute('data-theme', 'dark');
+      else document.documentElement.removeAttribute('data-theme');
     })();
   </script>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48'/></svg>" />
+  <link rel="icon" type="image/svg+xml" media="(prefers-color-scheme: light)" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M1 2.02 12 8.93 23 2.02v16.96l-4.71 3.21v-12.02L12 14.1l-6.29-3.95v12.02L1 18.98Z'/></svg>" />
+  <link rel="icon" type="image/svg+xml" media="(prefers-color-scheme: dark)" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M1 2.02 12 8.93 23 2.02v16.96l-4.71 3.21v-12.02L12 14.1l-6.29-3.95v12.02L1 18.98Z'/></svg>" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -40,21 +43,21 @@
           <circle cx="7" cy="7" r="5"/><path d="m11 11 3 3"/>
         </svg>
       </button>
-      <a href="https://paperclip.ing/blog" class="navbar-link">Blog</a>
+      <a href="https://thinkingmach.com/blog" class="navbar-link">Blog</a>
       <a href="/" class="navbar-link" data-nav="home">Docs</a>
-      <a href="https://github.com/paperclipai/paperclip" class="navbar-link navbar-link--icon" target="_blank" rel="noopener" aria-label="GitHub">
+      <a href="https://github.com/thinkingmach/paperclip" class="navbar-link navbar-link--icon" target="_blank" rel="noopener" aria-label="GitHub">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
         GitHub
       </a>
     </div>
     <div class="navbar-logo">
-      <a id="logo" class="navbar-logo-link" href="https://paperclip.ing">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551"/>
+      <a id="logo" class="navbar-logo-link" href="https://thinkingmach.com">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M1 2.02 12 8.93 23 2.02v16.96l-4.71 3.21v-12.02L12 14.1l-6.29-3.95v12.02L1 18.98Z"/>
         </svg>
-        <span>Paperclip</span>
+        <span>ThinkingMach</span>
       </a>
-      <a class="navbar-logo-link navbar-logo-sub" href="https://docs.paperclip.ing">Docs</a>
+      <a class="navbar-logo-link navbar-logo-sub" href="https://docs.thinkingmach.com">Docs</a>
     </div>
     <div class="navbar-right">
       <button id="search-trigger" class="navbar-search-btn js-search-open" aria-label="Search docs" aria-haspopup="dialog">
@@ -64,10 +67,10 @@
         <span class="navbar-search-label">Search</span>
         <kbd class="navbar-search-kbd">⌘K</kbd>
       </button>
-      <a href="https://github.com/paperclipai/paperclip" class="navbar-link navbar-link--icon navbar-github-mobile" target="_blank" rel="noopener" aria-label="GitHub">
+      <a href="https://github.com/thinkingmach/paperclip" class="navbar-link navbar-link--icon navbar-github-mobile" target="_blank" rel="noopener" aria-label="GitHub">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
       </a>
-      <a href="https://github.com/paperclipai/paperclip" class="navbar-cta" target="_blank" rel="noopener">
+      <a href="https://github.com/thinkingmach/paperclip" class="navbar-cta" target="_blank" rel="noopener">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         Star<span class="navbar-cta-count" data-star-count hidden></span>
       </a>
@@ -123,7 +126,7 @@
 <section id="landing">
   <div id="landing-hero">
     <div id="landing-eyebrow">Documentation</div>
-    <h1 id="landing-title">Everything you need to <em>run Paperclip.</em></h1>
+    <h1 id="landing-title">Everything you need to <em>run ThinkingMach.</em></h1>
     <p id="landing-desc">Guides, references, and walkthroughs for the people running AI agents at work. Start at the quickstart, or jump anywhere below.</p>
   </div>
 
@@ -160,42 +163,41 @@
   </div>
 </div>
 
-<footer class="footer" data-theme="dark">
+<footer class="footer">
   <div class="footer-wordmark-row footer-container">
-    <span class="footer-wordmark">Paperclip</span>
+    <span class="footer-wordmark">ThinkingMach</span>
   </div>
   <div class="footer-columns footer-container">
     <div class="footer-col">
       <div class="footer-col-heading">Product</div>
-      <a href="https://paperclip.ing/#get-started" target="_blank" rel="noopener">Get started</a>
+      <a href="https://thinkingmach.com/#get-started" target="_blank" rel="noopener">Get started</a>
       <a href="/guides/getting-started/five-minute-path/" data-nav="link">Quickstart</a>
     </div>
     <div class="footer-col">
       <div class="footer-col-heading">Platform</div>
       <a href="/guides/org/agents/" data-nav="link">Agents</a>
-      <a href="https://paperclip.ing/#governance-section" target="_blank" rel="noopener">Governance</a>
+      <a href="https://thinkingmach.com/#governance-section" target="_blank" rel="noopener">Governance</a>
       <a href="/guides/org/adapters/" data-nav="link">Integrations</a>
     </div>
     <div class="footer-col">
       <div class="footer-col-heading">Developers</div>
       <a href="/" data-nav="home">Documentation</a>
       <a href="/reference/api/overview/" data-nav="link">API reference</a>
-      <a href="https://github.com/paperclipai/paperclip" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/thinkingmach/paperclip" target="_blank" rel="noopener">GitHub</a>
     </div>
     <div class="footer-col">
       <div class="footer-col-heading">Resources</div>
-      <a href="https://paperclip.ing/blog" target="_blank" rel="noopener">Blog</a>
-      <a href="https://paperclip.ing/changelog" target="_blank" rel="noopener">Changelog</a>
-      <a href="https://github.com/paperclipai/paperclip/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing</a>
-      <a href="https://github.com/paperclipai/paperclip/blob/main/LICENSE" target="_blank" rel="noopener">License</a>
-      <a href="https://discord.gg/m4HZY7xNG3" target="_blank" rel="noopener">Discord</a>
+      <a href="https://thinkingmach.com/blog" target="_blank" rel="noopener">Blog</a>
+      <a href="https://thinkingmach.com/changelog" target="_blank" rel="noopener">Changelog</a>
+      <a href="https://github.com/thinkingmach/paperclip/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing</a>
+      <a href="https://github.com/thinkingmach/paperclip/blob/main/LICENSE" target="_blank" rel="noopener">License</a>
     </div>
   </div>
   <div class="footer-bottom footer-container">
-    <span class="footer-copy">&copy; 2026 Paperclip. Open source under MIT.</span>
+    <span class="footer-copy">&copy; 2026 ThinkingMach. Open source under MIT.</span>
     <div class="footer-bottom-links">
-      <a href="https://paperclip.ing/tos#privacy" target="_blank" rel="noopener">Privacy</a>
-      <a href="https://paperclip.ing/tos" target="_blank" rel="noopener">Terms</a>
+      <a href="https://thinkingmach.com/privacy" target="_blank" rel="noopener">Privacy</a>
+      <a href="https://thinkingmach.com/terms" target="_blank" rel="noopener">Terms</a>
     </div>
   </div>
 </footer>

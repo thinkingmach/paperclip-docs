@@ -4,14 +4,14 @@
       "tier": "Learn",
       "title": "Quickstart",
       "icon": "rocket",
-      "desc": "Learn what Paperclip is, install it, create your first company, hire an agent, and watch it work.",
+      "desc": "Learn what ThinkingMach is, install it, create your first company, hire an agent, and watch it work.",
       "pages": [
         {
           "title": "Quickstart Path",
           "file": "../docs/guides/getting-started/five-minute-path.md"
         },
         {
-          "title": "What is Paperclip?",
+          "title": "What is ThinkingMach?",
           "file": "../docs/guides/welcome/what-is-paperclip.md"
         },
         {
@@ -347,7 +347,7 @@
               "file": "../docs/how-to/deploy-to-vps-or-fly.md"
             },
             {
-              "title": "Update Paperclip to the Latest Version",
+              "title": "Update ThinkingMach to the Latest Version",
               "file": "../docs/how-to/update-paperclip.md"
             },
             {
@@ -701,7 +701,7 @@
               ]
             },
             {
-              "title": "Paperclip Operations",
+              "title": "ThinkingMach Operations",
               "pages": [
                 {
                   "title": "Issue Triage",
@@ -911,7 +911,7 @@
       "tier": "Reference",
       "title": "Plugins",
       "icon": "puzzle",
-      "desc": "Plugin SDK reference for authors building Paperclip plugins.",
+      "desc": "Plugin SDK reference for authors building ThinkingMach plugins.",
       "pages": [
         {
           "title": "Plugin SDK",
@@ -931,7 +931,7 @@
       "tier": "Reference",
       "title": "Deployment",
       "icon": "cloud",
-      "desc": "Run Paperclip on your laptop, in Docker, or on a server — with secrets and Tailscale.",
+      "desc": "Run ThinkingMach on your laptop, in Docker, or on a server — with secrets and Tailscale.",
       "pages": [
         {
           "title": "Overview",

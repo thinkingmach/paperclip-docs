@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.720.0
 seo_title: Sandbox Providers
-seo_description: Provider plugins that let Paperclip provision external compute as the execution environment for agent runs, instead of running them on the host.
+seo_description: Provider plugins that let ThinkingMach provision external compute as the execution environment for agent runs, instead of running them on the host.
 ---
 
 # Sandbox Providers
 
-Sandbox provider plugins let Paperclip provision external compute as the execution environment for agent runs. They live in the parent repo under `packages/plugins/sandbox-providers/` and ship as published npm packages you install from the Plugin Manager (see [Plugins](../../administration/plugins.md)).
+Sandbox provider plugins let ThinkingMach provision external compute as the execution environment for agent runs. They live in the parent repo under `packages/plugins/sandbox-providers/` and ship as published npm packages you install from the Plugin Manager (see [Plugins](../../administration/plugins.md)).
 
 A sandbox provider plugin registers an `environmentDriver` of kind `sandbox_provider`. Once installed, the provider is available when you configure a sandbox environment under **Settings → Instance settings → Environments**.
 
@@ -16,7 +16,7 @@ A sandbox provider plugin registers an `environmentDriver` of kind `sandbox_prov
 
 ## Cloudflare (`provider: "cloudflare"`)
 
-Package: `@paperclipai/plugin-cloudflare-sandbox`
+Package: `@thinkingmach/plugin-cloudflare-sandbox`
 
 Configure from **Settings → Instance settings → Environments** with core `driver: "sandbox"` and `provider: "cloudflare"`.
 
@@ -36,20 +36,20 @@ The Cloudflare bridge gained a batch of hardening fixes in v2026.517.0:
 
 - **Bigger default container.** The bridge worker's container `instance_type` moved from `lite` to `standard-2` (with `max_instances: 10`), giving long-running agent runs more headroom before they're throttled.
 - **SSE keepalives on streaming exec.** The execution-streaming endpoint now emits a `: keepalive\n\n` SSE comment every 15 seconds while a command is running, so intermediate proxies and Cloudflare's edge no longer idle-time out during silent stretches (for example, an `npm install` that downloads quietly for a minute).
-- **Bridge control traffic skips streaming.** Commands tagged as bridge-channel (readiness probes, file payload reads, queue responses — anything where Paperclip consumes the stdout machine-side) now use the non-streaming `exec` path. The `@cloudflare/sandbox` SDK's streaming mode could drop the final stdout chunk when a short shell exited the same tick as it wrote, which surfaced as opaque `"invalid readiness JSON"` errors. Adapter sessions still stream so live logs flow as before.
+- **Bridge control traffic skips streaming.** Commands tagged as bridge-channel (readiness probes, file payload reads, queue responses — anything where ThinkingMach consumes the stdout machine-side) now use the non-streaming `exec` path. The `@cloudflare/sandbox` SDK's streaming mode could drop the final stdout chunk when a short shell exited the same tick as it wrote, which surfaced as opaque `"invalid readiness JSON"` errors. Adapter sessions still stream so live logs flow as before.
 - **Default bridge request timeout raised to 5 minutes.** `DEFAULT_BRIDGE_REQUEST_TIMEOUT_MS` jumped from 30,000 to 300,000 ms, matching the default sandbox `timeoutMs` so longer agent commands no longer hit the request budget before the inner timeout.
 - **Sandbox-aware environment-test timeouts.** The `helloProbeTimeoutSec` used by `testEnvironment()` on Claude Code, Cursor Local, and OpenCode now branches on whether the run targets a sandbox: **90 s for sandbox targets**, and **45 s** (Claude, Cursor) or **60 s** (OpenCode) otherwise. Cursor's preliminary `versionProbeTimeoutSec` follows the same pattern (60 s sandbox, 45 s otherwise). The extra runway covers Cloudflare's `standard-2` cold-start without masking real hangs on local runs. (Grok Local ships its own `testEnvironment` in this release with a flat 45 s probe; sandbox awareness for Grok is on the follow-up list.)
 - **Pi adapter install command corrected.** `pi_local`'s `SANDBOX_INSTALL_COMMAND` now points at `@earendil-works/pi-coding-agent@0.74.0` (pinned) instead of the previous unmaintained namespace, so Pi agents running inside a Cloudflare sandbox install cleanly on first run.
 
-There's nothing to configure on the Paperclip side — upgrade the bridge worker image and the host to match this release and the fixes apply.
+There's nothing to configure on the ThinkingMach side — upgrade the bridge worker image and the host to match this release and the fixes apply.
 
 ---
 
 ## Daytona (`provider: "daytona"`)
 
-Package: `@paperclipai/plugin-daytona`
+Package: `@thinkingmach/plugin-daytona`
 
-Configure from **Settings → Instance settings → Environments**. Put the Daytona API key on the sandbox environment itself — Paperclip stores pasted API keys as company secrets. `DAYTONA_API_KEY` remains an optional host-level fallback when an environment omits the key.
+Configure from **Settings → Instance settings → Environments**. Put the Daytona API key on the sandbox environment itself — ThinkingMach stores pasted API keys as company secrets. `DAYTONA_API_KEY` remains an optional host-level fallback when an environment omits the key.
 
 Optional `apiUrl` and `target` settings map directly to the Daytona SDK or client configuration. The driver supports both `snapshot`-based and `image`-based sandbox creation; setting both is rejected as ambiguous. Reusable leases map to Daytona stop/start semantics; non-reusable leases are deleted on release.
 
@@ -75,35 +75,35 @@ These defaults only apply when you leave a field unset — an explicit value (in
 
 ### Resource overrides need an image
 
-Optional `cpu` (cores), `memory` (GiB; one of `1`, `2`, `4`, `8`), `disk` (GiB), and `gpu` (units) let you request a larger sandbox — but Daytona only honours resource overrides on image-backed creation. Snapshot/default creation rejects them. The driver enforces this up front: if you set any of these fields without an `image`, validation and lease acquisition fail with a clear Paperclip error ("Daytona resource settings require image-backed sandbox creation; snapshot/default sandbox creation cannot override CPU, memory, disk, or GPU") instead of letting Daytona return an opaque one. To run a sized sandbox, configure an `image`; otherwise leave the resource fields unset and Daytona uses its defaults.
+Optional `cpu` (cores), `memory` (GiB; one of `1`, `2`, `4`, `8`), `disk` (GiB), and `gpu` (units) let you request a larger sandbox — but Daytona only honours resource overrides on image-backed creation. Snapshot/default creation rejects them. The driver enforces this up front: if you set any of these fields without an `image`, validation and lease acquisition fail with a clear ThinkingMach error ("Daytona resource settings require image-backed sandbox creation; snapshot/default sandbox creation cannot override CPU, memory, disk, or GPU") instead of letting Daytona return an opaque one. To run a sized sandbox, configure an `image`; otherwise leave the resource fields unset and Daytona uses its defaults.
 
 ---
 
 ## exe.dev (`provider: "exe-dev"`)
 
-Package: `@paperclipai/plugin-exe-dev`
+Package: `@thinkingmach/plugin-exe-dev`
 
-Configure from **Settings → Instance settings → Environments**. Put the exe.dev API token on the sandbox environment itself — Paperclip stores pasted API keys and pasted SSH private keys as company secrets. `EXE_API_KEY` remains an optional host-level fallback when an environment omits the token.
+Configure from **Settings → Instance settings → Environments**. Put the exe.dev API token on the sandbox environment itself — ThinkingMach stores pasted API keys and pasted SSH private keys as company secrets. `EXE_API_KEY` remains an optional host-level fallback when an environment omits the token.
 
 The provider provisions VMs through exe.dev's HTTPS API and runs commands through direct SSH to the created VM. You need:
 
 - An exe.dev API token that allows the lifecycle commands `new`, `ls`, and `rm`. `whoami` and `help` are recommended for manual debugging.
-- SSH access from the Paperclip host to the resulting `*.exe.xyz` VMs.
+- SSH access from the ThinkingMach host to the resulting `*.exe.xyz` VMs.
 - An SSH private key exe.dev recognises. You can either paste the private key into the environment config via `sshPrivateKey`, or point `sshIdentityFile` at an absolute host path.
 
 ---
 
 ## E2B (`provider: "e2b"`)
 
-Package: `@paperclipai/plugin-e2b-sandbox` (shipped since `v2026.427.0`).
+Package: `@thinkingmach/plugin-e2b-sandbox` (shipped since `v2026.427.0`).
 
-Configure from **Settings → Instance settings → Environments**. The plugin manifest declares a `configSchema` with `template`, `apiKey` (a Paperclip secret reference; falls back to `E2B_API_KEY`), and `timeoutMs`.
+Configure from **Settings → Instance settings → Environments**. The plugin manifest declares a `configSchema` with `template`, `apiKey` (a ThinkingMach secret reference; falls back to `E2B_API_KEY`), and `timeoutMs`.
 
 ---
 
 ## Modal (`provider: "modal"`)
 
-Package: `@paperclipai/plugin-modal`
+Package: `@thinkingmach/plugin-modal`
 
 First-party sandbox provider that provisions [Modal](https://modal.com/) sandboxes with a configurable image, app, auth, timeouts, and network controls. Required fields are `appName`, `image`, `tokenId`, and `tokenSecret`; `tokenId` and `tokenSecret` must both be set. `sandboxTimeoutMs` defaults to `3_600_000` (1 hour) and must be a positive multiple of `1000` up to `86_400_000` (24 hours). Modal has no native pause primitive, so `reuseLease: true` keeps the sandbox billing until `sandboxTimeoutMs` or `idleTimeoutMs` elapses. See the dedicated [Modal](./modal.md) page for the full field reference and operator verification flow.
 
@@ -111,23 +111,23 @@ First-party sandbox provider that provisions [Modal](https://modal.com/) sandbox
 
 ## Novita AI (`provider: "novita"`)
 
-Package: `@paperclipai/plugin-novita-sandbox`
+Package: `@thinkingmach/plugin-novita-sandbox`
 
-Provisions Novita Agent Sandbox instances for Paperclip agent runs. Install it like any other plugin from the [Plugins](../../administration/plugins.md) page, by package name:
+Provisions Novita Agent Sandbox instances for ThinkingMach agent runs. Install it like any other plugin from the [Plugins](../../administration/plugins.md) page, by package name:
 
 ```text
-@paperclipai/plugin-novita-sandbox
+@thinkingmach/plugin-novita-sandbox
 ```
 
 The host runs `npm install` into its managed plugin directory at install time, so the provider's own dependencies (such as `novita-sandbox`) are pulled in for you.
 
-Configure Novita from **Settings → Instance settings → Environments**. Put the Novita API key on the sandbox environment itself — Paperclip stores pasted API keys as company secrets. `NOVITA_API_KEY` remains an optional host-level fallback when an environment omits the key.
+Configure Novita from **Settings → Instance settings → Environments**. Put the Novita API key on the sandbox environment itself — ThinkingMach stores pasted API keys as company secrets. `NOVITA_API_KEY` remains an optional host-level fallback when an environment omits the key.
 
 The driver's `configSchema` exposes:
 
 | Field | Default | Purpose |
 |---|---|---|
-| `apiKey` | (none) | Environment-specific Novita API key — a pasted key or an existing Paperclip secret reference. Falls back to `NOVITA_API_KEY` when omitted (an API key from one source or the other is required). |
+| `apiKey` | (none) | Environment-specific Novita API key — a pasted key or an existing ThinkingMach secret reference. Falls back to `NOVITA_API_KEY` when omitted (an API key from one source or the other is required). |
 | `domain` | (SDK default) | Optional Novita API domain override. |
 | `template` | (SDK default) | Novita sandbox template ID or name. Leave blank to use the SDK's default base template. |
 | `requestedCwd` | `/home/user/paperclip-workspace` | Workspace directory created inside the sandbox lease. Must be an absolute path. |
@@ -135,26 +135,26 @@ The driver's `configSchema` exposes:
 | `requestTimeoutMs` | `30000` | HTTP/RPC request timeout for Novita SDK calls, in milliseconds. Validated `>= 1000`. |
 | `secure` | `true` | Use secure connections when the Novita SDK supports them. |
 | `autoPause` | `false` | Enable Novita's sandbox auto-pause when the selected template supports it. |
-| `reuseLease` | `false` | Pause and later resume the sandbox across Paperclip runs instead of killing it on release. |
+| `reuseLease` | `false` | Pause and later resume the sandbox across ThinkingMach runs instead of killing it on release. |
 
 ---
 
 ## Kubernetes (`driver: "kubernetes"`)
 
-Package: `@paperclipai/plugin-kubernetes` (alpha, currently `v0.1.0`).
+Package: `@thinkingmach/plugin-kubernetes` (alpha, currently `v0.1.0`).
 
 This is the self-hostable sandbox provider. Instead of handing agent runs to a managed cloud service, you run each one as a workload inside your own Kubernetes cluster — one tenant namespace per company, a hardened pod per run, and a deny-all network baseline you open up explicitly. Reach for it when you need agents to execute on infrastructure you control: your own compute, your own network policy, your own isolation guarantees.
 
 Install it like any other plugin from the [Plugins](../../administration/plugins.md) page:
 
 ```text
-@paperclipai/plugin-kubernetes
+@thinkingmach/plugin-kubernetes
 ```
 
 For local development you can install from a workspace path instead:
 
 ```bash
-paperclipai plugin install --local /path/to/paperclip/packages/plugins/sandbox-providers/kubernetes
+thinkingmach plugin install --local /path/to/paperclip/packages/plugins/sandbox-providers/kubernetes
 ```
 
 ### When To Use
@@ -172,9 +172,9 @@ The plugin runs in one of two backend modes, selected with the `backend` field:
 | `sandbox-cr` | Yes | Alpha | Yes | `kubernetes-sigs/agent-sandbox` controller |
 | `job` | No | Stable | No | Nothing beyond Kubernetes 1.27+ |
 
-`sandbox-cr` (the default) creates a `Sandbox` custom resource. Its controller provisions a long-lived pod that Paperclip execs individual commands into — this is the multi-command pattern that adapter installation depends on. When the lease is released, the `Sandbox` CR is deleted and the controller tears the pod down.
+`sandbox-cr` (the default) creates a `Sandbox` custom resource. Its controller provisions a long-lived pod that ThinkingMach execs individual commands into — this is the multi-command pattern that adapter installation depends on. When the lease is released, the `Sandbox` CR is deleted and the controller tears the pod down.
 
-`job` is the stable fallback. It creates a `batch/v1` Job whose container entrypoint runs once and exits, so there's no multi-command exec — Paperclip's adapter-install pattern will not work in job mode. Choose it only when you can't install the agent-sandbox controller, or when you must stick to strictly stable Kubernetes APIs.
+`job` is the stable fallback. It creates a `batch/v1` Job whose container entrypoint runs once and exits, so there's no multi-command exec — ThinkingMach's adapter-install pattern will not work in job mode. Choose it only when you can't install the agent-sandbox controller, or when you must stick to strictly stable Kubernetes APIs.
 
 ### Prerequisites
 
@@ -187,9 +187,9 @@ For the default `sandbox-cr` backend:
    kubectl apply -f https://github.com/kubernetes-sigs/agent-sandbox/releases/latest/download/install.yaml
    ```
 
-3. Paperclip-server with access to the cluster — either in-cluster (`inCluster: true`) or external via a `kubeconfig`.
+3. ThinkingMach-server with access to the cluster — either in-cluster (`inCluster: true`) or external via a `kubeconfig`.
 
-For the `job` backend you only need a 1.27+ cluster and cluster access from Paperclip-server; no extra controllers or CRDs.
+For the `job` backend you only need a 1.27+ cluster and cluster access from ThinkingMach-server; no extra controllers or CRDs.
 
 > The `sandbox-cr` backend is built on agent-sandbox `v1alpha1`. Expect breaking changes as that CRD evolves, and keep the `job` backend in mind as the stable escape hatch.
 
@@ -197,9 +197,9 @@ For the `job` backend you only need a 1.27+ cluster and cluster access from Pape
 
 Create a sandbox environment under **Settings → Instance settings → Environments** with `driver: kubernetes`. Exactly one auth field is required:
 
-- `inCluster: true` — use the in-pod ServiceAccount credentials, when Paperclip-server runs inside the same cluster.
+- `inCluster: true` — use the in-pod ServiceAccount credentials, when ThinkingMach-server runs inside the same cluster.
 - `kubeconfig: <YAML>` — an inline kubeconfig, stored as a company secret.
-- `kubeconfigSecretRef: <secret-uuid>` — a reference to an existing Paperclip secret.
+- `kubeconfigSecretRef: <secret-uuid>` — a reference to an existing ThinkingMach secret.
 
 Common optional fields:
 
@@ -220,7 +220,7 @@ Common optional fields:
 | `jobTtlSecondsAfterFinished` | `900` | Seconds after a Job completes before garbage collection. |
 | `podActivityDeadlineSec` | `3600` | Hard ceiling on a single run's wall-clock time. |
 
-The `adapterType` you pick drives the runtime image and egress defaults. For example, `claude_local` runs `ghcr.io/paperclipai/agent-runtime-claude:v1` and pre-allows egress to `api.anthropic.com`; `codex_local` runs `ghcr.io/paperclipai/agent-runtime-codex:v1` and allows `api.openai.com`. The full JSON Schema lives in `src/manifest.ts` in the parent repo.
+The `adapterType` you pick drives the runtime image and egress defaults. For example, `claude_local` runs `ghcr.io/thinkingmach/agent-runtime-claude:v1` and pre-allows egress to `api.anthropic.com`; `codex_local` runs `ghcr.io/thinkingmach/agent-runtime-codex:v1` and allows `api.openai.com`. The full JSON Schema lives in `src/manifest.ts` in the parent repo.
 
 ### What gets created in your cluster
 
@@ -257,14 +257,14 @@ You set the grant on the task itself, inside its `executionWorkspaceSettings` (o
 }
 ```
 
-Both lists are optional. Paperclip trims each entry, drops blanks and duplicates, and lowercases the FQDNs; CIDRs are kept exactly as you wrote them. If both lists come out empty, nothing extra is created and the run simply uses the namespace's normal egress allow-list.
+Both lists are optional. ThinkingMach trims each entry, drops blanks and duplicates, and lowercases the FQDNs; CIDRs are kept exactly as you wrote them. If both lists come out empty, nothing extra is created and the run simply uses the namespace's normal egress allow-list.
 
 When there is something to grant, the provider creates one more policy alongside the run's other resources, named after the run's workload as `pc-{ulid}-egress`. (If a workload name would push that past Kubernetes' 253-character name limit, the middle is shortened to fit.) Two details make it safe to hand out per task:
 
 - It selects only the pod carrying that run's `paperclip.io/run-id` label, so the extra destinations never become reachable from other agent pods sharing the tenant namespace.
 - It carries an owner reference to the run's `Sandbox` CR or `Job`, so it's cleaned up along with the run.
 
-The per-run policy carries only the granted destinations. DNS and the callback to paperclip-server keep coming from the namespace-level policy, so a grant adds to the baseline rather than replacing it. The grant is read once, when the sandbox is claimed for the run — editing the task afterwards won't rewrite a policy that's already live. And if the policy can't be created, Paperclip releases the workload it just claimed and lease acquisition fails, so a run never starts with a grant that didn't actually get applied.
+The per-run policy carries only the granted destinations. DNS and the callback to paperclip-server keep coming from the namespace-level policy, so a grant adds to the baseline rather than replacing it. The grant is read once, when the sandbox is claimed for the run — editing the task afterwards won't rewrite a policy that's already live. And if the policy can't be created, ThinkingMach releases the workload it just claimed and lease acquisition fails, so a run never starts with a grant that didn't actually get applied.
 
 #### What each egress mode really enforces
 
@@ -288,18 +288,18 @@ First, every sandbox is handed the effective grant through its environment:
 
 | Variable | Value |
 |---|---|
-| `PAPERCLIP_NETWORK_EGRESS_POLICY` | `kubernetes-default-deny` |
-| `PAPERCLIP_NETWORK_EGRESS_GRANT_PATH` | `executionWorkspaceSettings.networkEgress` |
-| `PAPERCLIP_NETWORK_EGRESS_ALLOW_FQDNS` | The granted FQDNs, comma-separated (empty when there are none) |
-| `PAPERCLIP_NETWORK_EGRESS_ALLOW_CIDRS` | The granted CIDRs, comma-separated (empty when there are none) |
+| `THINKINGMACH_NETWORK_EGRESS_POLICY` | `kubernetes-default-deny` |
+| `THINKINGMACH_NETWORK_EGRESS_GRANT_PATH` | `executionWorkspaceSettings.networkEgress` |
+| `THINKINGMACH_NETWORK_EGRESS_ALLOW_FQDNS` | The granted FQDNs, comma-separated (empty when there are none) |
+| `THINKINGMACH_NETWORK_EGRESS_ALLOW_CIDRS` | The granted CIDRs, comma-separated (empty when there are none) |
 
-Second, when a command's stderr looks like a blocked network call — `could not resolve host`, `network is unreachable`, `connection timed out`, `failed to connect`, or `temporary failure in name resolution` — Paperclip appends a note to it saying the network policy denied or couldn't route the request, listing what the task currently has granted (or saying that nothing is granted), and pointing at `executionWorkspaceSettings.networkEgress` as the place to request access. That's usually enough for an agent to tell a flaky endpoint apart from a destination nobody opened for it.
+Second, when a command's stderr looks like a blocked network call — `could not resolve host`, `network is unreachable`, `connection timed out`, `failed to connect`, or `temporary failure in name resolution` — ThinkingMach appends a note to it saying the network policy denied or couldn't route the request, listing what the task currently has granted (or saying that nothing is granted), and pointing at `executionWorkspaceSettings.networkEgress` as the place to request access. That's usually enough for an agent to tell a flaky endpoint apart from a destination nobody opened for it.
 
 ### Workspace file sync
 
-Every agent run moves files both ways: Paperclip pushes the workspace and the run's asset files into the sandbox before the agent starts, then pulls changed files and outputs back to the host afterwards. On the default `sandbox-cr` backend the provider now does that transfer itself, natively over the pod exec channel, and there's nothing for you to switch on.
+Every agent run moves files both ways: ThinkingMach pushes the workspace and the run's asset files into the sandbox before the agent starts, then pulls changed files and outputs back to the host afterwards. On the default `sandbox-cr` backend the provider now does that transfer itself, natively over the pod exec channel, and there's nothing for you to switch on.
 
-The provider implements the two file-sync lifecycle hooks, `onEnvironmentSyncIn` (host → pod) and `onEnvironmentSyncOut` (pod → host). Defining them makes the plugin worker advertise the `environmentSyncIn` and `environmentSyncOut` verbs, and Paperclip then routes each sync operation through **one** pod exec that streams a tar archive — instead of the generic base64 fallback, which pays a fresh exec (a fresh WebSocket to the API server) per chunk. Inbound, the host builds a tarball on disk and streams its raw bytes into the pod's stdin; outbound, the pod tars straight to stdout and the host streams that into a file. Nothing buffers the whole payload, so the fallback's 100 MB in-memory ceiling no longer applies — but the Paperclip host does need ephemeral disk for the archive, which it stages in a `paperclip-k8s-sync-*` directory under the system temp dir.
+The provider implements the two file-sync lifecycle hooks, `onEnvironmentSyncIn` (host → pod) and `onEnvironmentSyncOut` (pod → host). Defining them makes the plugin worker advertise the `environmentSyncIn` and `environmentSyncOut` verbs, and ThinkingMach then routes each sync operation through **one** pod exec that streams a tar archive — instead of the generic base64 fallback, which pays a fresh exec (a fresh WebSocket to the API server) per chunk. Inbound, the host builds a tarball on disk and streams its raw bytes into the pod's stdin; outbound, the pod tars straight to stdout and the host streams that into a file. Nothing buffers the whole payload, so the fallback's 100 MB in-memory ceiling no longer applies — but the ThinkingMach host does need ephemeral disk for the archive, which it stages in a `paperclip-k8s-sync-*` directory under the system temp dir.
 
 Two limits worth knowing about, because the sandbox is untrusted and both fail closed rather than letting a hostile pod exhaust the host:
 
@@ -308,9 +308,9 @@ Two limits worth knowing about, because the sandbox is untrusted and both fail c
 
 Neither is exposed as an environment config field, and there are no new fields in the `Configure` table for this — the one setting that does affect sync is the existing `podActivityDeadlineSec`, which each sync exec inherits (in milliseconds) as its timeout. If you tightened that deadline, remember that large transfers now draw on the same budget as the run itself.
 
-Sync needs a workspace remote dir on the lease (`remoteCwd`, `/workspace` unless you set a `remotePath`), and that directory is the confinement root: every sandbox-side path must resolve inside it. Paperclip checks each path on the host first, then re-checks it in the pod through `realpath` and a `/proc/self/fd` pin so a symlink swapped in mid-transfer can't redirect a write outside the root. Outbound archives are sandbox-authored, so the host inspects every tar member (and every symlink and hardlink target) and refuses the archive before extracting if any of them would land outside the extraction directory.
+Sync needs a workspace remote dir on the lease (`remoteCwd`, `/workspace` unless you set a `remotePath`), and that directory is the confinement root: every sandbox-side path must resolve inside it. ThinkingMach checks each path on the host first, then re-checks it in the pod through `realpath` and a `/proc/self/fd` pin so a symlink swapped in mid-transfer can't redirect a write outside the root. Outbound archives are sandbox-authored, so the host inspects every tar member (and every symlink and hardlink target) and refuses the archive before extracting if any of them would land outside the extraction directory.
 
-The `job` backend has no exec path at all, so it can't do native sync. Those leases are marked `nativeFileSyncUnsupported`, and Paperclip's per-lease capability gate keeps them on the byte-identical base64 fallback — you don't lose file transfer by choosing `job`, it's just slower.
+The `job` backend has no exec path at all, so it can't do native sync. Those leases are marked `nativeFileSyncUnsupported`, and ThinkingMach's per-lease capability gate keeps them on the byte-identical base64 fallback — you don't lose file transfer by choosing `job`, it's just slower.
 
 #### When a transfer fails
 
@@ -321,7 +321,7 @@ Failures are loud. A non-zero exit from the in-pod script fails the whole transf
 - **Scratch is always swept.** Staging directories (named with the reserved `.paperclip-upload` prefix) are removed by a shell `trap` on any exit, including a failed one.
 - **A confinement violation rejects before any byte moves,** as does a source file that gets replaced between validation and copy.
 
-One image prerequisite comes with this: the in-pod scripts need a path canonicalizer, either `realpath` or `readlink -f`. If your image has neither, sync fails closed rather than proceeding with the host check as its only defense. They also use `sh`, `tar`, `head`, `mkdir`, `chmod`, `mv`, `cp`, `dirname`, and `dd`, and read `/proc/self/fd`. The scripts are plain POSIX `sh` and deliberately avoid GNU-only flags, so BusyBox-based images are fine — but an image with no shell or no `tar` can't be a sync target. The first-party `ghcr.io/paperclipai/agent-runtime-*` images build on `ubuntu:22.04` and already carry all of this, so they need no changes.
+One image prerequisite comes with this: the in-pod scripts need a path canonicalizer, either `realpath` or `readlink -f`. If your image has neither, sync fails closed rather than proceeding with the host check as its only defense. They also use `sh`, `tar`, `head`, `mkdir`, `chmod`, `mv`, `cp`, `dirname`, and `dd`, and read `/proc/self/fd`. The scripts are plain POSIX `sh` and deliberately avoid GNU-only flags, so BusyBox-based images are fine — but an image with no shell or no `tar` can't be a sync target. The first-party `ghcr.io/thinkingmach/agent-runtime-*` images build on `ubuntu:22.04` and already carry all of this, so they need no changes.
 
 ### Security baseline
 
@@ -333,7 +333,7 @@ For stronger isolation, install [Kata Containers](https://github.com/kata-contai
 
 ## Fake Sandbox (`provider: "fake-plugin"`)
 
-Package: `@paperclipai/plugin-fake-sandbox`.
+Package: `@thinkingmach/plugin-fake-sandbox`.
 
 A first-party deterministic sandbox provider that runs commands in an isolated local temp directory while exercising the full sandbox-provider plugin lifecycle. It's intended for development, integration testing, and reproducing plugin-runtime issues without an external sandbox service.
 

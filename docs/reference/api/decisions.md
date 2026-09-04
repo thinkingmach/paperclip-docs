@@ -5,7 +5,7 @@ seo_description: How an agent asks when it knows what should happen next but is 
 
 # Decisions
 
-Sometimes an agent gets far enough to know what should happen next, but not far enough to be allowed to do it on its own. A **decision** is how it asks. The agent writes down the question, offers you a short list of options, and attaches the exact changes each option would make. You pick one, and Paperclip runs those changes for you.
+Sometimes an agent gets far enough to know what should happen next, but not far enough to be allowed to do it on its own. A **decision** is how it asks. The agent writes down the question, offers you a short list of options, and attaches the exact changes each option would make. You pick one, and ThinkingMach runs those changes for you.
 
 Everything about that exchange is a record. The decision is stored, the options are signed so they cannot drift, the effects are executed one at a time with an audit entry each, and the outcome is available afterwards. Open decisions also show up in the [Attention](./attention.md) feed as a `decision` source, so you meet them in the same place as everything else that needs you.
 
@@ -19,7 +19,7 @@ Decisions are company-scoped, and company access is enforced on every request. I
 
 ## The shape of a decision
 
-A decision carries a `title`, a Markdown `body`, and between one and eight `options`. Each option is a labelled choice with a list of **effects** — the concrete changes Paperclip applies if you pick it.
+A decision carries a `title`, a Markdown `body`, and between one and eight `options`. Each option is a labelled choice with a list of **effects** — the concrete changes ThinkingMach applies if you pick it.
 
 | Effect `type` | What it does |
 |---|---|
@@ -30,7 +30,7 @@ A decision carries a `title`, a Markdown `body`, and between one and eight `opti
 | `cancel_issue_tree` | Cancels the target issue and everything under it, leaving `reasonComment` behind. |
 | `resolve_blocker` | Removes `removeBlockedByIssueIds` from the target issue's blockers. |
 
-Every effect names a `targetIssueId` and a `staleness` of `strict` or `lenient`. That is the safety valve: when the decision is created, Paperclip snapshots each referenced issue into `targetSnapshots`, and a `strict` effect refuses to run if its target moved in the meantime. `cancel_issue_tree` is always `strict`, and an option containing one must use `style: "destructive"`.
+Every effect names a `targetIssueId` and a `staleness` of `strict` or `lenient`. That is the safety valve: when the decision is created, ThinkingMach snapshots each referenced issue into `targetSnapshots`, and a `strict` effect refuses to run if its target moved in the meantime. `cancel_issue_tree` is always `strict`, and an option containing one must use `style: "destructive"`.
 
 Options can also collect a little typed input. Up to four `inputs` render as fields, and their values are substituted into an effect's comment and reason text wherever you write `{{input.<id>}}`.
 
@@ -47,9 +47,9 @@ Once decided, `executionStatus` tells you how the effects went: `running` while 
 
 ### Signing
 
-The options and target snapshots of a stored decision are covered by an HMAC signature (`signedSpec`, version `decision-spec-v1`). Paperclip re-verifies that signature before it lets you decide or dismiss, so nobody can edit what a decision would do between the moment an agent proposed it and the moment you answer. A mismatch returns `403 Forbidden` with `{ "error": "Decision signature verification failed" }`.
+The options and target snapshots of a stored decision are covered by an HMAC signature (`signedSpec`, version `decision-spec-v1`). ThinkingMach re-verifies that signature before it lets you decide or dismiss, so nobody can edit what a decision would do between the moment an agent proposed it and the moment you answer. A mismatch returns `403 Forbidden` with `{ "error": "Decision signature verification failed" }`.
 
-The signing key comes from `PAPERCLIP_DECISION_SIGNING_SECRET` when you set it — at least 32 characters — and otherwise from a `decision-signing.key` file that the server generates and keeps at `0600` alongside its other secrets.
+The signing key comes from `THINKINGMACH_DECISION_SIGNING_SECRET` when you set it — at least 32 characters — and otherwise from a `decision-signing.key` file that the server generates and keeps at `0600` alongside its other secrets.
 
 ---
 
@@ -79,7 +79,7 @@ Unknown fields are rejected.
 
 Each option takes `id` (1–120), `label` (1–240), optional `description` (up to 2,000) and `style` (`default`, `primary`, or `destructive`), plus up to 10 `effects`. Each input takes `id` (1–120), `label` (1–240), and optional `placeholder`, `required`, and `maxLength` (up to 20,000).
 
-Set `continuationPolicy: "wake_origin_agent"` when the agent should be woken as soon as the decision resolves. Paperclip then sends a heartbeat wakeup carrying `issueId`, `decisionId`, and an `outcome` of `decided`, `expired`, or `cancelled`. Delivery is at-least-once.
+Set `continuationPolicy: "wake_origin_agent"` when the agent should be woken as soon as the decision resolves. ThinkingMach then sends a heartbeat wakeup carrying `issueId`, `decisionId`, and an `outcome` of `decided`, `expired`, or `cancelled`. Delivery is at-least-once.
 
 **Provenance is checked, not trusted.** The run id must belong to the calling agent in this company, or the response is `403 Forbidden` with `{ "error": "Decision provenance requires the origin run" }`. If that run has no issue in its context, you get `422 Unprocessable Entity` with `{ "error": "Origin run is not issue-scoped" }`.
 
@@ -92,7 +92,7 @@ Other responses you may see:
 | `409 Conflict` | `{ "error": "Decision idempotency key already used with a different payload" }` | The key exists with different content. Replaying the identical payload returns the original decision. |
 | `422 Unprocessable Entity` | `{ "error": "All referenced issues must exist in the company" }` | An effect points at an unknown issue. |
 | `422 Unprocessable Entity` | `{ "error": "expiresAt must be within 30 days" }` | The expiry is in the past or too far out. |
-| `429 Too Many Requests` | `{ "error": "Open decision cap reached" }` | The agent already has too many open decisions. The cap defaults to 50 and is set by `PAPERCLIP_DECISIONS_OPEN_CAP`. |
+| `429 Too Many Requests` | `{ "error": "Open decision cap reached" }` | The agent already has too many open decisions. The cap defaults to 50 and is set by `THINKINGMACH_DECISIONS_OPEN_CAP`. |
 
 A successful create records a `decision.created` activity entry.
 
@@ -248,7 +248,7 @@ Each execution row tells you `effectIndex`, `effectType`, `targetIssueId`, a `st
 POST /api/decisions/{id}/decide
 ```
 
-Choose an option and let Paperclip run its effects. Requires board access. Responds with the decision and its executions.
+Choose an option and let ThinkingMach run its effects. Requires board access. Responds with the decision and its executions.
 
 Request body:
 
@@ -270,7 +270,7 @@ Other responses:
 |---|---|---|
 | `403 Forbidden` | `{ "error": "Decision signature verification failed" }` | The stored spec no longer matches its signature. |
 | `409 Conflict` | `{ "error": "decision_already_resolved", "code": "decision_already_resolved", ... }` | Someone got there first. |
-| `409 Conflict` | `{ "error": "decision_expired", "code": "decision_expired", ... }` | The decision aged out. Paperclip marks it `expired` as it answers. |
+| `409 Conflict` | `{ "error": "decision_expired", "code": "decision_expired", ... }` | The decision aged out. ThinkingMach marks it `expired` as it answers. |
 | `422 Unprocessable Entity` | `{ "error": "Unknown optionId" }` | The option id is not on this decision. |
 | `422 Unprocessable Entity` | `{ "error": "Input {id} is required" }` / `{ "error": "Input {id} is too long" }` | A required field was blank, or a value exceeded its `maxLength`. |
 
@@ -300,7 +300,7 @@ POST /api/decisions/{id}/dismiss
 
 Say no without running anything. Requires board access, and takes an optional `reason` of up to 20,000 characters. Unknown fields are rejected.
 
-Dismissal is a real answer, not an absence of one — the stats route counts it as `rejected`, which is exactly what makes it useful feedback. If the decision offers an option with no effects, that option is recorded as the choice. Otherwise Paperclip stores `chosenOptionId: "dismissed"` with `executionStatus: "succeeded"` and `metadata.dismissed: true`. Either way it records a `decision.dismissed` activity entry.
+Dismissal is a real answer, not an absence of one — the stats route counts it as `rejected`, which is exactly what makes it useful feedback. If the decision offers an option with no effects, that option is recorded as the choice. Otherwise ThinkingMach stores `chosenOptionId: "dismissed"` with `executionStatus: "succeeded"` and `metadata.dismissed: true`. Either way it records a `decision.dismissed` activity entry.
 
 ---
 
@@ -332,7 +332,7 @@ Throughout these routes, `sourceKind` is one of the attention source kinds: `app
 GET /api/companies/{companyId}/decision-queue-seed-rules
 ```
 
-Return the built-in queues Paperclip knows how to fill on its own, and the signal behind each one. This is a static catalogue — it tells you what seeding *can* do before any queue exists in your company.
+Return the built-in queues ThinkingMach knows how to fill on its own, and the signal behind each one. This is a static catalogue — it tells you what seeding *can* do before any queue exists in your company.
 
 | Queue `key` | Title | Seeded from |
 |---|---|---|
@@ -342,7 +342,7 @@ Return the built-in queues Paperclip knows how to fill on its own, and the signa
 
 Each entry is `{ key, title, description, rules: [{ key, signal, description }] }`.
 
-Seeding happens as the attention feed is built: when matching items appear, Paperclip creates the queue if it is missing, adds the items, and records `decision_queue.seeded` and `decision_queue_item.seeded` activity. A seeded queue arrives with `seedRulesEnabled: true`; turn that off through the update route and Paperclip stops adding to it, leaving the queue and its existing items as they are.
+Seeding happens as the attention feed is built: when matching items appear, ThinkingMach creates the queue if it is missing, adds the items, and records `decision_queue.seeded` and `decision_queue_item.seeded` activity. A seeded queue arrives with `seedRulesEnabled: true`; turn that off through the update route and ThinkingMach stops adding to it, leaving the queue and its existing items as they are.
 
 ### List queues
 

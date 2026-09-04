@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.707.0
 seo_title: Auto-Restart Dev Server When Idle
-seo_description: For people developing Paperclip itself: let the dev runner watch backend sources and pending migrations, and restart the server when a boot goes stale.
+seo_description: For people developing ThinkingMach itself: let the dev runner watch backend sources and pending migrations, and restart the server when a boot goes stale.
 ---
 
 # Auto-Restart Dev Server When Idle
 
-This flag is for people developing **Paperclip itself**. When you run the app with `pnpm dev:once`, the dev runner watches backend sources and pending database migrations; when the running boot goes stale, it can restart the server for you — but only once the instance is **idle**, so no queued or running local agent run gets killed mid-flight.
+This flag is for people developing **ThinkingMach itself**. When you run the app with `pnpm dev:once`, the dev runner watches backend sources and pending database migrations; when the running boot goes stale, it can restart the server for you — but only once the instance is **idle**, so no queued or running local agent run gets killed mid-flight.
 
 ## Turn it on
 
@@ -23,12 +23,12 @@ This flag is for people developing **Paperclip itself**. When you run the app wi
 
 ## Why it exists
 
-During active development on Paperclip, backend edits and new migrations leave the server on a stale boot. Restarting blindly would interrupt in-flight agent runs; never restarting means testing against stale code. This flag automates the restart at the one moment it's safe: when nothing is running.
+During active development on ThinkingMach, backend edits and new migrations leave the server on a stale boot. Restarting blindly would interrupt in-flight agent runs; never restarting means testing against stale code. This flag automates the restart at the one moment it's safe: when nothing is running.
 
 ## When it's off / caveats
 
 - Off means manual restarts only — detection and the banner still work.
-- The mechanism only exists under `pnpm dev:once`. It has no effect on production deployments or other dev modes; leave it off unless you're hacking on Paperclip.
+- The mechanism only exists under `pnpm dev:once`. It has no effect on production deployments or other dev modes; leave it off unless you're hacking on ThinkingMach.
 - Auto-restart applies pending migrations automatically before rebooting.
 
 ## Where to go next

@@ -337,7 +337,7 @@ Upload rules:
 
 - Exactly one file is accepted; the field name must be `file` (`{ "error": "Missing file field 'file'" }` otherwise).
 - Empty files are rejected with `422 Unprocessable Entity` (`{ "error": "Attachment is empty" }`).
-- Files larger than the deployment-level attachment size limit (`PAPERCLIP_ATTACHMENT_MAX_BYTES`) are rejected with `422 Unprocessable Entity` (`{ "error": "Attachment exceeds {n} bytes" }`). The default limit is 10 MiB. This cap is set per instance, not per company.
+- Files larger than the deployment-level attachment size limit (`THINKINGMACH_ATTACHMENT_MAX_BYTES`) are rejected with `422 Unprocessable Entity` (`{ "error": "Attachment exceeds {n} bytes" }`). The default limit is 10 MiB. This cap is set per instance, not per company.
 
 A successful upload responds `201 Created`, records an `attachment_added` event, and (for agent runs) auto-links the run's issue with role `work`.
 

@@ -236,7 +236,7 @@ function writeFixture(dir, name, payload) {
 function runCompare(args, fixtureDir) {
   const r = spawnSync(process.execPath, [COMPARE_SCRIPT, ...args], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtureDir },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtureDir },
   });
   return { code: r.status, stdout: r.stdout, stderr: r.stderr };
 }
@@ -420,7 +420,7 @@ test("compare-window: rename after prior modification moves old path state", () 
 });
 
 // ----------------------------------------------------------------------------
-// compare-window:integration — live network test against paperclipai/paperclip
+// compare-window:integration — live network test against thinkingmach/paperclip
 // ----------------------------------------------------------------------------
 
 test("compare-window:integration v2026.318.0...v2026.512.0 (live)", () => {
@@ -439,8 +439,8 @@ test("compare-window:integration v2026.318.0...v2026.512.0 (live)", () => {
     "v2026.512.0",
     "--json",
     "--repo",
-    "paperclipai/paperclip",
-  ], { encoding: "utf8", env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: "" } });
+    "thinkingmach/paperclip",
+  ], { encoding: "utf8", env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: "" } });
   if (r.status !== 0) {
     throw new Error(`live run failed (exit ${r.status}). stderr=${r.stderr}`);
   }
@@ -468,7 +468,7 @@ function runDrift(args, fixtureDir, cwd) {
   const r = spawnSync(process.execPath, [DRIFT_SCRIPT, ...args], {
     cwd,
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtureDir },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtureDir },
   });
   return { code: r.status, stdout: r.stdout, stderr: r.stderr };
 }
@@ -506,7 +506,7 @@ test("check-drift: parent path drift caught (high confidence)", () => {
 
   const r = spawnSync(process.execPath, [scriptInRoot, "--json", "--against", "master"], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);
@@ -542,7 +542,7 @@ test("check-drift: env var drift caught (high confidence)", () => {
 
   const r = spawnSync(process.execPath, [scriptInRoot, "--json", "--against", "master"], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);
@@ -584,7 +584,7 @@ test("check-drift: permission catalog + role-grant drift caught (high confidence
 
   const r = spawnSync(process.execPath, [scriptInRoot, "--json", "--against", "master"], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);
@@ -621,7 +621,7 @@ test("check-drift: no permission drift when docs match parent", () => {
 
   const r = spawnSync(process.execPath, [scriptInRoot, "--json", "--against", "master"], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);
@@ -651,7 +651,7 @@ test("check-drift: REST route drift caught (medium confidence)", () => {
 
   const r = spawnSync(process.execPath, [scriptInRoot, "--json", "--against", "master"], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);
@@ -675,7 +675,7 @@ test("check-drift: no false positive when doc uses {id} but parent uses :id", ()
 
   const r = spawnSync(process.execPath, [scriptInRoot, "--json", "--against", "master"], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);
@@ -706,7 +706,7 @@ test("check-drift: table routes can resolve in any parent route file", () => {
 
   const r = spawnSync(process.execPath, [scriptInRoot, "--json", "--against", "master"], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);
@@ -748,7 +748,7 @@ test("check-drift: env vars can verify against tree-discovered package sources",
 
   const r = spawnSync(process.execPath, [scriptInRoot, "--json", "--against", "master"], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);
@@ -777,8 +777,8 @@ test("check-drift: cache is keyed by resolved SHA, never a moving ref name", () 
     encoding: "utf8",
     env: {
       ...process.env,
-      PAPERCLIP_SYNC_FIXTURE_DIR: fixtures,
-      PAPERCLIP_SYNC_CACHE_DIR: cacheDir,
+      THINKINGMACH_SYNC_FIXTURE_DIR: fixtures,
+      THINKINGMACH_SYNC_CACHE_DIR: cacheDir,
     },
   });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
@@ -816,7 +816,7 @@ test("check-drift: ref comes from .sync-state.json when --against is absent", ()
 
   const r = spawnSync(process.execPath, [scriptInRoot, "--json"], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);
@@ -856,14 +856,14 @@ function runVerify(scriptInRoot, docPath, fixtures, extraArgs = []) {
   const r = spawnSync(process.execPath, [scriptInRoot, docPath, "--json", "--against", "master", ...extraArgs], {
     cwd: dirname(dirname(dirname(scriptInRoot))),
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   return { code: r.status, stdout: r.stdout, stderr: r.stderr };
 }
 
 test("verify-edit: CLI command verification — pass", () => {
   const { root, fixtures, scriptInRoot } = makeVerifyFixture();
-  writeFile(root, "docs/reference/cli/foo.md", "# Foo\n\nRun:\n\n```sh\npaperclipai foo\n```\n");
+  writeFile(root, "docs/reference/cli/foo.md", "# Foo\n\nRun:\n\n```sh\nthinkingmach foo\n```\n");
   // Directory listing for cli/src/commands containing foo.ts.
   writeVerifyContents(fixtures, "cli/src/commands", "master", {
     status: 200,
@@ -891,7 +891,7 @@ test("verify-edit: CLI command verification — pass", () => {
 
 test("verify-edit: CLI command verification — fail", () => {
   const { root, fixtures, scriptInRoot } = makeVerifyFixture();
-  writeFile(root, "docs/reference/cli/bar.md", "# Bar\n\n```sh\npaperclipai bar\n```\n");
+  writeFile(root, "docs/reference/cli/bar.md", "# Bar\n\n```sh\nthinkingmach bar\n```\n");
   // No bar in commands.
   writeVerifyContents(fixtures, "cli/src/commands", "master", {
     status: 200,
@@ -1164,7 +1164,7 @@ test("screenshots: instance env does not forward host credentials", () => {
     const env = instanceEnv(home);
 
     assert(env.HOME === home, `HOME should point at scratch home, got ${env.HOME}`);
-    assert(env.PAPERCLIP_HOME === home, `PAPERCLIP_HOME should point at scratch home, got ${env.PAPERCLIP_HOME}`);
+    assert(env.THINKINGMACH_HOME === home, `THINKINGMACH_HOME should point at scratch home, got ${env.THINKINGMACH_HOME}`);
     // DATABASE_URL is pinned to "" (not omitted) so it wins over the parent
     // repo's `.env`, which dotenv loads with `override: false`. The host's real
     // value must never leak through — an empty pin is what forces embedded Postgres.
@@ -1289,7 +1289,7 @@ test("detect-renames: two candidates → file-overlap wins over shared-prefix", 
 
 // ----------------------------------------------------------------------------
 // check-tag-accuracy (hermetic end-to-end: real git fixture repo + stubbed
-// parent via PAPERCLIP_SYNC_FIXTURE_DIR — no network)
+// parent via THINKINGMACH_SYNC_FIXTURE_DIR — no network)
 // ----------------------------------------------------------------------------
 
 const TAGACC_SCRIPT = join(SELF_DIR, "check-tag-accuracy.mjs");
@@ -1354,7 +1354,7 @@ test("check-tag-accuracy: flags a post-tag leak, keeps in-tag page clean, scopes
   const r = spawnSync(
     process.execPath,
     [join(dir, "scripts/sync/check-tag-accuracy.mjs"), "--tag", "faketag", "--base", "HEAD~1", "--head", "HEAD", "--json"],
-    { cwd: dir, encoding: "utf8", env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixDir } },
+    { cwd: dir, encoding: "utf8", env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixDir } },
   );
   assert(r.status === 0, `gate should always exit 0, got ${r.status}. stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);

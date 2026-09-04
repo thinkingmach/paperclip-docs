@@ -27,9 +27,9 @@ export const COMPANY_PREFIX = "ACME";
 export const COMPANY_NAME = "Acme Robotics";
 
 /**
- * PAPERCLIP_INSTANCE_ID for the throw-away screenshot instance. Shared by
+ * THINKINGMACH_INSTANCE_ID for the throw-away screenshot instance. Shared by
  * instanceEnv() (passed to the spawned server) and the DB-seeding helper, which
- * needs it to locate the embedded-postgres data dir under PAPERCLIP_HOME.
+ * needs it to locate the embedded-postgres data dir under THINKINGMACH_HOME.
  */
 export const INSTANCE_ID = "docs-screenshots";
 
@@ -37,7 +37,7 @@ export const INSTANCE_ID = "docs-screenshots";
  * Compiled-in default embedded-postgres port (server/src/config.ts →
  * embeddedPostgresPort). This is only the *starting point* for the free-port
  * scan in `findFreeEmbeddedPostgresPort()` — the screenshot instance never
- * assumes 54329 is free, because a developer's real local Paperclip uses it too.
+ * assumes 54329 is free, because a developer's real local ThinkingMach uses it too.
  */
 export const EMBEDDED_POSTGRES_PORT = 54329;
 
@@ -61,12 +61,12 @@ export const REGISTRY_PATH = resolve(SHOTS_DIR, "registry.json");
 export const SEED_IDS_PATH = resolve(__dirname, ".seed-ids.json");
 
 /**
- * Absolute path to the parent Paperclip repo.
- * Override via PAPERCLIP_REPO env var if your checkout lives elsewhere.
+ * Absolute path to the parent ThinkingMach repo.
+ * Override via THINKINGMACH_REPO env var if your checkout lives elsewhere.
  */
 export const PARENT_REPO = resolve(
-  process.env.PAPERCLIP_REPO ||
-    resolve(os.homedir(), "Documents/PaperclipAI/paperclip"),
+  process.env.THINKINGMACH_REPO ||
+    resolve(os.homedir(), "Documents/ThinkingMachAI/paperclip"),
 );
 
 // ── Isolation helpers ────────────────────────────────────────────────────────
@@ -94,7 +94,7 @@ const PASSTHROUGH_ENV_KEYS = [
 
 /**
  * Returns a scratch home directory path under os.tmpdir().
- * Used as PAPERCLIP_HOME so the real ~/.paperclip is never touched.
+ * Used as THINKINGMACH_HOME so the real ~/.paperclip is never touched.
  */
 export function scratchHome() {
   return resolve(os.tmpdir(), "paperclip-docs-shots-home");
@@ -120,11 +120,11 @@ export function instanceEnv(home) {
     XDG_CACHE_HOME: resolve(home, ".cache"),
     XDG_DATA_HOME: resolve(home, ".local", "share"),
     PORT: String(PORT),
-    PAPERCLIP_HOME: home,
-    PAPERCLIP_INSTANCE_ID: INSTANCE_ID,
-    PAPERCLIP_BIND: "loopback",
-    PAPERCLIP_DEPLOYMENT_MODE: "local_trusted",
-    PAPERCLIP_DEPLOYMENT_EXPOSURE: "private",
+    THINKINGMACH_HOME: home,
+    THINKINGMACH_INSTANCE_ID: INSTANCE_ID,
+    THINKINGMACH_BIND: "loopback",
+    THINKINGMACH_DEPLOYMENT_MODE: "local_trusted",
+    THINKINGMACH_DEPLOYMENT_EXPOSURE: "private",
     // The server loads a `.env` from its cwd (the parent repo) via dotenv with
     // `override: false` — so any key we DON'T set here leaks in from the
     // developer's parent-repo `.env` and defeats this instance's isolation.
@@ -138,19 +138,19 @@ export function instanceEnv(home) {
     SERVE_UI: "true",
     // The server resolves its config by walking UP from cwd for a
     // `.paperclip/config.json` (see server/src/paths.ts) BEFORE honoring
-    // PAPERCLIP_HOME. Since onboard runs with cwd = PARENT_REPO, a developer's
+    // THINKINGMACH_HOME. Since onboard runs with cwd = PARENT_REPO, a developer's
     // real `.paperclip/config.json` in the parent repo would be picked up,
-    // binding the screenshot run to the real instance's DB. Pin PAPERCLIP_CONFIG
+    // binding the screenshot run to the real instance's DB. Pin THINKINGMACH_CONFIG
     // to the scratch instance's config path so onboard reads/writes the
     // isolated config instead.
-    PAPERCLIP_CONFIG: instanceConfigPath(home),
+    THINKINGMACH_CONFIG: instanceConfigPath(home),
   };
 }
 
 /**
  * Absolute path to the throw-away instance's config.json — the file onboard
  * writes and the server reads. Mirrors the parent's
- * `${PAPERCLIP_HOME}/instances/${instanceId}/config.json` layout. We rewrite
+ * `${THINKINGMACH_HOME}/instances/${instanceId}/config.json` layout. We rewrite
  * the embedded-postgres port here so the run lands on a guaranteed-free port.
  */
 export function instanceConfigPath(home = scratchHome()) {
@@ -170,7 +170,7 @@ function isPortFree(port) {
 /**
  * Find a free TCP port for the throw-away instance's embedded Postgres,
  * scanning upward from `start`. Crucially this skips any port a real local
- * Paperclip (or anything else) is already using, so a screenshot run started
+ * ThinkingMach (or anything else) is already using, so a screenshot run started
  * while your real instance is up never collides with — or worse, connects into
  * and seeds — your real database.
  *
@@ -203,7 +203,7 @@ export async function findFreeEmbeddedPostgresPort(
  * read the running value first, then config.json.
  *
  * There is deliberately NO compiled-in fallback to 54329: that is the default a
- * developer's real local Paperclip uses, so guessing it could connect a direct
+ * developer's real local ThinkingMach uses, so guessing it could connect a direct
  * write into the real database. If neither source yields a port we throw — a
  * loud failure is far safer than a silent write to the wrong cluster.
  */
@@ -275,7 +275,7 @@ export function mintAgentJwt(
   let secret;
   try {
     const env = readFileSync(resolve(home, "instances", INSTANCE_ID, ".env"), "utf8");
-    secret = /^PAPERCLIP_AGENT_JWT_SECRET=(.*)$/m.exec(env)?.[1]?.trim();
+    secret = /^THINKINGMACH_AGENT_JWT_SECRET=(.*)$/m.exec(env)?.[1]?.trim();
   } catch {
     return null;
   }

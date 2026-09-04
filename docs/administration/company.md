@@ -6,7 +6,7 @@ seo_description: Set your company name and logo, manage members and invites, rev
 
 # Company Administration
 
-Every Paperclip company has a small cluster of surfaces that control its identity, its membership, and its portability. These pages are where you, as a board user (or a member with the right grants), set the company's name and logo, decide who else can sign in, hand out invite links, review join requests, and move the whole company in and out of a portable package. The CEO agent never touches most of this — it is deliberately human territory.
+Every ThinkingMach company has a small cluster of surfaces that control its identity, its membership, and its portability. These pages are where you, as a board user (or a member with the right grants), set the company's name and logo, decide who else can sign in, hand out invite links, review join requests, and move the whole company in and out of a portable package. The CEO agent never touches most of this — it is deliberately human territory.
 
 This guide walks through each of those surfaces in the order you typically meet them: **General Settings**, **Members** (whose **Invites** tab now lives alongside the member list), **Join Requests**, **Export**, and **Import**. If you are looking for how hiring approvals themselves work, see the [Approvals guide](../guides/day-to-day/approvals.md). If you want to understand the reporting tree that sits underneath the membership model, see [Org Structure](../guides/org/org-structure.md).
 
@@ -35,7 +35,7 @@ The **Appearance** section controls the small square tile that represents your o
 
 - **Logo** — upload a PNG, JPEG, WEBP, GIF, or SVG file. After upload, a **Remove logo** button appears next to the file input so you can clear it again. If an upload fails, the error message is shown inline.
 
-When no logo is set, Paperclip draws an auto-generated pattern icon whose hue is derived from the organization name — there is no separate brand-color setting to pick. A live preview of the tile is rendered to the left of the field so you can see the result before saving.
+When no logo is set, ThinkingMach draws an auto-generated pattern icon whose hue is derived from the organization name — there is no separate brand-color setting to pick. A live preview of the tile is rendered to the left of the field so you can see the result before saving.
 
 ### Hiring
 
@@ -47,7 +47,7 @@ The toggle saves immediately; there is no separate save button for this setting.
 
 ### Feedback Sharing
 
-The **Feedback Sharing** section controls whether AI outputs you explicitly vote on in Paperclip may also be shared with Paperclip Labs. The toggle is labelled **Allow sharing voted AI outputs with Paperclip Labs**.
+The **Feedback Sharing** section controls whether AI outputs you explicitly vote on in ThinkingMach may also be shared with ThinkingMach Labs. The toggle is labelled **Allow sharing voted AI outputs with ThinkingMach Labs**.
 
 Two things to know:
 
@@ -74,7 +74,7 @@ The **Members** page is where you manage human memberships: who belongs to the o
 
 ### Roles
 
-Paperclip uses four human membership roles. The role determines a set of implicit permission grants:
+ThinkingMach uses four human membership roles. The role determines a set of implicit permission grants:
 
 - **Owner** — full company access. Includes creating agents and skills, managing execution environments, inviting humans and agents, managing members and grants, assigning tasks, and approving join requests.
 - **Admin** — an operator with invite and approval powers. Can create agents and skills, manage execution environments, invite users, assign tasks, and approve join requests. The one thing an Admin cannot do that an Owner can is manage other members' permissions.
@@ -85,7 +85,7 @@ The role drop-down in the edit dialog also accepts **Unset**, which leaves the m
 
 For the exact list of what each role grants by default, and what every permission key controls, see [Roles & Permissions](./roles-and-permissions.md).
 
-> **Note:** Paperclip's agent chain of command (CEO, managers, reports) is separate from these human roles. Human roles gate access to the Paperclip UI and company-level actions; agent roles describe the reporting tree inside the company. See [Org Structure](../guides/org/org-structure.md) for the agent side.
+> **Note:** ThinkingMach's agent chain of command (CEO, managers, reports) is separate from these human roles. Human roles gate access to the ThinkingMach UI and company-level actions; agent roles describe the reporting tree inside the company. See [Org Structure](../guides/org/org-structure.md) for the agent side.
 
 ### The members list
 
@@ -97,7 +97,7 @@ The members section shows one row per human member with:
 - **Grants** — a comma-separated summary of any explicit permission grants attached to the member. Shows "No explicit grants" when the member only relies on implicit role grants.
 - **Action** — an **Edit** button that opens the member editor.
 
-If you do not have permission to manage members, Paperclip replaces the page body with a message explaining why. An instance admin who is viewing the page without an active company membership sees a banner noting that the current account has admin-level access but is not a member of this company.
+If you do not have permission to manage members, ThinkingMach replaces the page body with a message explaining why. An instance admin who is viewing the page without an active company membership sees a banner noting that the current account has admin-level access but is not a member of this company.
 
 ### Editing a member
 
@@ -133,11 +133,11 @@ The **Create invite** card has one required choice: which role the invite should
 
 Clicking **Create invite** does three things:
 
-1. Generates a new invite link against the current Paperclip domain.
+1. Generates a new invite link against the current ThinkingMach domain.
 2. Copies the URL to your clipboard if the browser allows it.
 3. Shows the invite in a **Latest invite link** panel below the form.
 
-If the clipboard is unavailable, Paperclip shows a warning toast and you can copy the URL manually from the field. The invite URL is clickable as an **Open invite** button for quick testing in another tab.
+If the clipboard is unavailable, ThinkingMach shows a warning toast and you can copy the URL manually from the field. The invite URL is clickable as an **Open invite** button for quick testing in another tab.
 
 ### Invite expiry and state
 
@@ -158,7 +158,7 @@ The table shows five invites at a time and includes a **View more** button when 
 
 ### What the invited person sees
 
-When a human opens the invite URL, they land on a Paperclip join page that creates a join request tied to the invite. If the invite carries a default role (for example **Operator**), that role is attached to the request so approvers can see it in context. The member does not become active until someone with `joins:approve` approves the request.
+When a human opens the invite URL, they land on a ThinkingMach join page that creates a join request tied to the invite. If the invite carries a default role (for example **Operator**), that role is attached to the request so approvers can see it in context. The member does not become active until someone with `joins:approve` approves the request.
 
 ---
 
@@ -202,12 +202,12 @@ The **Company Export** page turns the current company — its agents, projects, 
 
 ### What gets included
 
-When the page loads, Paperclip builds a preview of everything that would be exported. By default the preview includes the company metadata, every non-terminated agent, every non-archived project, and every issue. The preview is rendered as a left-hand **Package files** tree, with a selected-file preview on the right.
+When the page loads, ThinkingMach builds a preview of everything that would be exported. By default the preview includes the company metadata, every non-terminated agent, every non-archived project, and every issue. The preview is rendered as a left-hand **Package files** tree, with a selected-file preview on the right.
 
 The sticky bar at the top of the page shows:
 
 - The company name and a running count of **selected / total files**.
-- Any warnings Paperclip produced while building the preview.
+- Any warnings ThinkingMach produced while building the preview.
 - A single **Export N files** button that downloads the zip.
 
 ### Selecting what to export
@@ -221,7 +221,7 @@ Every entry in the file tree has a checkbox. Unchecking a file or a directory re
 
 ### Downloading
 
-Click **Export N files** to build the final package. Paperclip assembles the zip with the filtered files (including the regenerated README and `.paperclip.yaml`) and triggers a browser download. A success toast confirms the file count and the zip's root path.
+Click **Export N files** to build the final package. ThinkingMach assembles the zip with the filtered files (including the regenerated README and `.paperclip.yaml`) and triggers a browser download. A success toast confirms the file count and the zip's root path.
 
 For a deeper description of what lives in each file, see [Export & Import](../guides/power/export-import.md).
 
@@ -229,7 +229,7 @@ For a deeper description of what lives in each file, see [Export & Import](../gu
 
 ## Import
 
-The **Company Import** page is the reverse direction: it takes an exported package and loads it into Paperclip, either as a new company or on top of an existing one.
+The **Company Import** page is the reverse direction: it takes an exported package and loads it into ThinkingMach, either as a new company or on top of an existing one.
 
 ![Import dialog](../user-guides/screenshots/light/company/import.png)
 
@@ -238,7 +238,7 @@ The **Company Import** page is the reverse direction: it takes an exported packa
 The **Import source** section supports two source types:
 
 - **GitHub repo** — paste a tree or blob URL pointing at a folder that contains a `COMPANY.md`.
-- **Local zip** — upload a `.zip` package exported from Paperclip. Paperclip warns against re-zipping archives in Finder or Explorer; use the download from the Export page.
+- **Local zip** — upload a `.zip` package exported from ThinkingMach. ThinkingMach warns against re-zipping archives in Finder or Explorer; use the download from the Export page.
 
 ### Choosing a target
 
@@ -251,7 +251,7 @@ The **Target** drop-down has two options:
 
 The **Collision strategy** drop-down controls what happens when an incoming item clashes with something that already exists in the target company:
 
-- **Rename on conflict** — the default. Paperclip proposes a new name (prefixed with the package name, for example `gstack-CEO`) for each conflicting entity.
+- **Rename on conflict** — the default. ThinkingMach proposes a new name (prefixed with the package name, for example `gstack-CEO`) for each conflicting entity.
 - **Skip on conflict** — existing items are kept and the incoming copy is dropped.
 - **Replace existing** — overwrites the current entity with the incoming version.
 
@@ -261,13 +261,13 @@ Click **Preview import** to run the preview without applying anything. The previ
 
 1. A **Renames** list showing every agent and project that collided and what it will be renamed to. Each row has a free-form input for the target name, a **skip** button, and a **confirm rename** button that locks the chosen name in.
 2. An **Adapters** list for every agent in the package, with a drop-down of available adapters. New agents default to the same adapter as the target company's CEO. A **configure adapter** button expands an inline config form so you can set per-agent values (environment, working directory, etc.) before the import runs.
-3. A file tree identical in layout to the export tree, but with an **action badge** on each row (`create`, `update`, `skip`, or `replace`) so you can see what Paperclip plans to do to every file. Directories that will be renamed show an arrow and the target name.
+3. A file tree identical in layout to the export tree, but with an **action badge** on each row (`create`, `update`, `skip`, or `replace`) so you can see what ThinkingMach plans to do to every file. Directories that will be renamed show an arrow and the target name.
 
 The sticky bar at the top counts selected files and surfaces the number of conflicts and errors.
 
 ### Applying the import
 
-When you are happy with the preview, click **Import N files**. The button is disabled if there are errors in the preview or no files selected. On success, Paperclip refreshes the companies list, navigates you to the dashboard of the imported (or updated) company, and restores the imported sidebar order if the package included one.
+When you are happy with the preview, click **Import N files**. The button is disabled if there are errors in the preview or no files selected. On success, ThinkingMach refreshes the companies list, navigates you to the dashboard of the imported (or updated) company, and restores the imported sidebar order if the package included one.
 
 Existing-company imports are non-destructive in the safe import path: incoming issues are always created as new issues, and `replace` is blocked by the server for safe imports. If you need a full replace, use the dedicated instance-admin flow instead.
 
@@ -275,4 +275,4 @@ See [Export & Import](../guides/power/export-import.md) for the structural refer
 
 ---
 
-Company administration covers the pieces of Paperclip that sit around the agents rather than inside them: identity, membership, and portability. Once you have the company set up and people invited in, day-to-day work happens in the approvals queue, the dashboard, and the task surfaces that the rest of this guide set covers.
+Company administration covers the pieces of ThinkingMach that sit around the agents rather than inside them: identity, membership, and portability. Once you have the company set up and people invited in, day-to-day work happens in the approvals queue, the dashboard, and the task surfaces that the rest of this guide set covers.

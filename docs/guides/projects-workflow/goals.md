@@ -5,7 +5,7 @@ seo_description: Goals are outcome statements that anchor everything below them.
 
 # Goals
 
-A goal in Paperclip is an outcome statement — a description of something the company is trying to achieve. Goals sit above projects and issues in the hierarchy: they do not contain code, they do not get "worked on" directly, and they do not have an execution workspace. Instead, they act as anchors. Projects link up to goals, and the CEO's strategy typically justifies itself by pointing at which goals it is advancing.
+A goal in ThinkingMach is an outcome statement — a description of something the company is trying to achieve. Goals sit above projects and issues in the hierarchy: they do not contain code, they do not get "worked on" directly, and they do not have an execution workspace. Instead, they act as anchors. Projects link up to goals, and the CEO's strategy typically justifies itself by pointing at which goals it is advancing.
 
 If issues are the "what to do" and projects are the "where to do it", goals are the "why it matters". A company may have just a handful of goals — long-lived, stable, rarely changing — while underneath them the set of projects and issues churns continuously.
 
@@ -56,7 +56,7 @@ Opening a goal from the tree takes you to its detail page. The layout has three 
 
 The header shows:
 
-- **Level** — the goal's level label in muted uppercase (for example `COMPANY` or `TEAM`). Levels are how Paperclip lets you separate high-level company outcomes from narrower team or workstream goals.
+- **Level** — the goal's level label in muted uppercase (for example `COMPANY` or `TEAM`). Levels are how ThinkingMach lets you separate high-level company outcomes from narrower team or workstream goals.
 - **Status** — a status badge. Goals use the same status vocabulary as projects and issues for visual consistency, so you can tell at a glance whether a goal is active, achieved, or dropped.
 - **Properties toggle** — a small slider icon on the right that re-opens the properties panel if you closed it. The properties panel is where you edit level, status, and other metadata without having to leave the page. The parent goal is shown here but is not editable from the panel — see [Reparenting and flattening](#reparenting-and-flattening).
 
@@ -76,7 +76,7 @@ The counts in the tab labels update as you add, remove, or unlink children and p
 
 ### Progress rollup
 
-Paperclip does not compute a numerical percentage on goals. The goal's status field is the one authoritative signal — set by a human (or by the CEO when the goal is clearly achieved or abandoned). For a qualitative rollup, the Projects tab is the place to look: the shape of the linked projects' statuses (how many are `in_progress` vs `completed` vs `backlog`) tells you how the goal is tracking without forcing the system to invent a synthetic progress number.
+ThinkingMach does not compute a numerical percentage on goals. The goal's status field is the one authoritative signal — set by a human (or by the CEO when the goal is clearly achieved or abandoned). For a qualitative rollup, the Projects tab is the place to look: the shape of the linked projects' statuses (how many are `in_progress` vs `completed` vs `backlog`) tells you how the goal is tracking without forcing the system to invent a synthetic progress number.
 
 If you want more granular signal, drill into individual projects and inspect their Issues tabs.
 
@@ -133,10 +133,10 @@ A goal's parent is set **when you create it** — either by choosing a parent in
 
 ```sh
 # Re-parent a goal under a different parent
-paperclipai goal update <goal-id> --parent-id <new-parent-goal-id>
+thinkingmach goal update <goal-id> --parent-id <new-parent-goal-id>
 
 # Flatten a sub-goal to a top-level goal
-paperclipai goal update <goal-id> --parent-id null
+thinkingmach goal update <goal-id> --parent-id null
 ```
 
 The same change is available on the API via `PATCH /goals/{id}` with a `parentId` field (pass `null` to promote the goal to the root). The tree re-renders once the change lands. See the [Goal CLI reference](../../reference/cli/goal.md#update-a-goal) for the full flag list.
@@ -145,7 +145,7 @@ Deep hierarchies are rarely the right answer. Two or three levels is usually eno
 
 ### Status propagation
 
-Paperclip does not auto-compute a parent goal's status from its children. The status field on each goal is independent. This keeps things predictable — a human (or the CEO) stays in charge of declaring when an outcome is achieved — at the cost of having to update parent statuses by hand when the work underneath is clearly done.
+ThinkingMach does not auto-compute a parent goal's status from its children. The status field on each goal is independent. This keeps things predictable — a human (or the CEO) stays in charge of declaring when an outcome is achieved — at the cost of having to update parent statuses by hand when the work underneath is clearly done.
 
 ---
 

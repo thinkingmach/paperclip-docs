@@ -28,8 +28,8 @@ This is an **optional** catalog skill — opt-in (install when you need it). For
 
 | Field | Value |
 |---|---|
-| Catalog id | `paperclipai:optional:product:design-critique` |
-| Canonical key | `paperclipai/optional/product/design-critique` |
+| Catalog id | `thinkingmach:optional:product:design-critique` |
+| Canonical key | `thinkingmach/optional/product/design-critique` |
 | Catalog path | `catalog/optional/product/design-critique` |
 | Kind | `optional` |
 | Category | `product` |
@@ -43,7 +43,7 @@ This is an **optional** catalog skill — opt-in (install when you need it). For
 | Tags | `design`, `product`, `ux`, `review` |
 | Files | 1 |
 | Content hash | `sha256:429f94df398a0697042b5bbe4755b1ff1a230aa5f41d99118ad37493ac65d21c` |
-| Package | `@paperclipai/skills-catalog@0.3.1` |
+| Package | `@thinkingmach/skills-catalog@0.3.1` |
 
 ## File inventory
 
@@ -59,7 +59,7 @@ The block below is the complete, authoritative `SKILL.md` for this skill — the
 ---
 name: design-critique
 description: Give a structured product design critique — user job clarity, hierarchy, affordance, error states, accessibility, and consistency — focused on what to change, in what order, and why.
-key: paperclipai/optional/product/design-critique
+key: thinkingmach/optional/product/design-critique
 recommendedForRoles:
   - designer
   - product

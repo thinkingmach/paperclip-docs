@@ -30,9 +30,9 @@ That key is created automatically during onboarding and remains local to the mac
 
 ## Provider Vaults
 
-A *provider vault* is a per-company routing record that tells Paperclip how to talk to an external secret store (AWS Secrets Manager today; GCP Secret Manager and HashiCorp Vault save as draft metadata only). Each vault stores the address, namespace, and prefixes the provider needs — never the credentials. Server-side credentials still come from the host's normal chain (env vars, instance role, `~/.aws/credentials`).
+A *provider vault* is a per-company routing record that tells ThinkingMach how to talk to an external secret store (AWS Secrets Manager today; GCP Secret Manager and HashiCorp Vault save as draft metadata only). Each vault stores the address, namespace, and prefixes the provider needs — never the credentials. Server-side credentials still come from the host's normal chain (env vars, instance role, `~/.aws/credentials`).
 
-Vaults live under **Company Settings → Secrets → Provider vaults**. The page exposes one section per provider with an **Add vault** button, and shows health, default status, and removal controls on each card. Removing a vault from the UI drops only the Paperclip-side routing record — for AWS Secrets Manager the confirmation dialog spells this out explicitly: "This does not delete the remote AWS Secrets Manager vault, secrets, or any AWS data."
+Vaults live under **Company Settings → Secrets → Provider vaults**. The page exposes one section per provider with an **Add vault** button, and shows health, default status, and removal controls on each card. Removing a vault from the UI drops only the ThinkingMach-side routing record — for AWS Secrets Manager the confirmation dialog spells this out explicitly: "This does not delete the remote AWS Secrets Manager vault, secrets, or any AWS data."
 
 For AWS Secrets Manager the create form includes a **Find existing AWS values** discovery step that scans `secretsmanager:ListSecrets` metadata in the region you specify and prefills namespace, name prefix, KMS key id, and tag fields from the candidate you pick. Values are not read. The full operator walkthrough is in [Connect an AWS Secrets Manager vault](../../how-to/connect-aws-secrets-vault.md).
 
@@ -45,19 +45,19 @@ The REST surface mirrors the UI: `GET/POST /companies/{companyId}/secret-provide
 The normal setup flow is:
 
 ```sh
-pnpm paperclipai onboard
+pnpm thinkingmach onboard
 ```
 
 To update an existing install:
 
 ```sh
-pnpm paperclipai configure --section secrets
+pnpm thinkingmach configure --section secrets
 ```
 
 To validate the configuration:
 
 ```sh
-pnpm paperclipai doctor
+pnpm thinkingmach doctor
 ```
 
 ---
@@ -66,14 +66,14 @@ pnpm paperclipai doctor
 
 | Variable | Meaning |
 |---|---|
-| `PAPERCLIP_SECRETS_MASTER_KEY` | 32-byte key as base64, hex, or raw string |
-| `PAPERCLIP_SECRETS_MASTER_KEY_FILE` | Custom path to the local key file |
-| `PAPERCLIP_SECRETS_STRICT_MODE` | Require secret refs for server-side env bindings. Does not apply to `paperclipai configure --section llm` or `config.llm.apiKey`. |
+| `THINKINGMACH_SECRETS_MASTER_KEY` | 32-byte key as base64, hex, or raw string |
+| `THINKINGMACH_SECRETS_MASTER_KEY_FILE` | Custom path to the local key file |
+| `THINKINGMACH_SECRETS_STRICT_MODE` | Require secret refs for server-side env bindings. Does not apply to `thinkingmach configure --section llm` or `config.llm.apiKey`. |
 
 Enable strict mode with:
 
 ```sh
-PAPERCLIP_SECRETS_STRICT_MODE=true
+THINKINGMACH_SECRETS_STRICT_MODE=true
 ```
 
 Use strict mode when you want to prevent new inline sensitive values from entering configs.
@@ -93,7 +93,7 @@ It applies when the server persists:
 
 This is the safer choice for anything beyond a local trusted install.
 
-Strict mode does **not** apply to `paperclipai configure --section llm`. That command writes plaintext to `config.llm.apiKey` regardless of `PAPERCLIP_SECRETS_STRICT_MODE`.
+Strict mode does **not** apply to `thinkingmach configure --section llm`. That command writes plaintext to `config.llm.apiKey` regardless of `THINKINGMACH_SECRETS_STRICT_MODE`.
 
 > **Warning:** Strict mode blocks new inline sensitive values. It does not automatically migrate what is already stored.
 
@@ -118,7 +118,7 @@ pnpm secrets:migrate-inline-env --apply
 
 Run the command without `--apply` first if you want a dry run.
 
-> **Note:** `pnpm secrets:migrate-inline-env` is a repository-source script. It is available only from a Paperclip git checkout, not from an installed `paperclipai` CLI.
+> **Note:** `pnpm secrets:migrate-inline-env` is a repository-source script. It is available only from a ThinkingMach git checkout, not from an installed `thinkingmach` CLI.
 
 The script only scans `agent.adapterConfig.env` keys matching a sensitive-keyword regex (for example `api_key`, `token`, `secret`, `password`, `credential`). It does not migrate `config.llm.apiKey`.
 

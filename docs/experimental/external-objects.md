@@ -1,14 +1,14 @@
 ---
 paperclip_version: v2026.707.0
 seo_title: External Objects: Live Links on Issues
-seo_description: Turn dead references to pull requests, tickets, and deployments into live status you can read from inside Paperclip instead of opening another tab.
+seo_description: Turn dead references to pull requests, tickets, and deployments into live status you can read from inside ThinkingMach instead of opening another tab.
 ---
 
 # External Objects
 
-Issues constantly reference work that lives somewhere else — a GitHub pull request, a ticket in another tracker, a deployment. Normally those are dead links: to know whether that PR merged, you leave Paperclip and go look.
+Issues constantly reference work that lives somewhere else — a GitHub pull request, a ticket in another tracker, a deployment. Normally those are dead links: to know whether that PR merged, you leave ThinkingMach and go look.
 
-With **External Objects** on, Paperclip detects external URLs anywhere in an issue — title, description, comments, documents — and renders them as live status pills instead of plain links. A referenced GitHub pull request shows up as *Open*, *Draft*, *Merged*, or *Closed* right where it's mentioned, plus in a rollup panel on the issue.
+With **External Objects** on, ThinkingMach detects external URLs anywhere in an issue — title, description, comments, documents — and renders them as live status pills instead of plain links. A referenced GitHub pull request shows up as *Open*, *Draft*, *Merged*, or *Closed* right where it's mentioned, plus in a rollup panel on the issue.
 
 ![External object status on an issue](../user-guides/screenshots/light/experimental/external-objects.png)
 
@@ -21,14 +21,14 @@ With **External Objects** on, Paperclip detects external URLs anywhere in an iss
 
 There's nothing to configure per issue — just paste URLs where you'd naturally write them:
 
-- **Detection.** Whenever an issue, comment, or document is created or updated, Paperclip extracts its URLs. GitHub pull-request and issue URLs (`github.com/{owner}/{repo}/pull/{n}` or `/issues/{n}`) are recognized as first-class work objects out of the box; anything else becomes a generic link object. Plugins can register additional detectors for other systems.
+- **Detection.** Whenever an issue, comment, or document is created or updated, ThinkingMach extracts its URLs. GitHub pull-request and issue URLs (`github.com/{owner}/{repo}/pull/{n}` or `/issues/{n}`) are recognized as first-class work objects out of the box; anything else becomes a generic link object. Plugins can register additional detectors for other systems.
 - **Status pills.** Recognized references render inline as a pill with a provider icon, the object (e.g. `owner/repo#123`), and its state — with a distinct look for merged PRs, an `×N` counter when the same object is referenced several times, and a dashed border when the status is stale, unreachable, or needs authentication. A newly detected object starts as *"Not yet refreshed"* until it's resolved.
 - **The External objects panel.** The issue's Related Work area gains an **External objects** section — *"Remote work referenced from this issue — pull requests, deployments, tickets in other systems, and more."* — listing every detected object with its status and where it was mentioned, sorted severity-first.
 - **Lists and sidebar.** Issue list rows get a compact status badge and the list toolbar gains an external-object status filter; project rows in the sidebar roll up the dominant status.
 
 ## GitHub access
 
-Public repositories resolve without setup. For private repos (and friendlier rate limits), add a company **secret** named `GITHUB_TOKEN`, `GH_TOKEN`, or `PAPERCLIP_GITHUB_TOKEN`. Without access, private objects show *"Requires auth"*.
+Public repositories resolve without setup. For private repos (and friendlier rate limits), add a company **secret** named `GITHUB_TOKEN`, `GH_TOKEN`, or `THINKINGMACH_GITHUB_TOKEN`. Without access, private objects show *"Requires auth"*.
 
 ## When it's off
 

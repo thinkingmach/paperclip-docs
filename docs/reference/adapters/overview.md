@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.831.1
 seo_title: Adapters Overview
-seo_description: Adapters connect Paperclip's control plane to the runtime that does the work. Start here to compare the options and pick one per agent you hire.
+seo_description: Adapters connect ThinkingMach's control plane to the runtime that does the work. Start here to compare the options and pick one per agent you hire.
 ---
 
 # Adapters Overview
 
-Adapters connect Paperclip's control plane to the runtime that actually does the work. Use this section when you need to choose an adapter, understand what Paperclip expects from one, or build a new adapter package.
+Adapters connect ThinkingMach's control plane to the runtime that actually does the work. Use this section when you need to choose an adapter, understand what ThinkingMach expects from one, or build a new adapter package.
 
 ---
 
@@ -20,7 +20,7 @@ Every adapter is responsible for the same core jobs:
 4. Validate the environment before a run starts.
 5. Optionally provide a custom UI transcript parser and skills sync behavior.
 
-> **Note:** Paperclip orchestrates agents. The adapter decides how the runtime starts, how it keeps state, and how its output is interpreted.
+> **Note:** ThinkingMach orchestrates agents. The adapter decides how the runtime starts, how it keeps state, and how its output is interpreted.
 
 ---
 
@@ -46,7 +46,7 @@ Every adapter is responsible for the same core jobs:
 
 If you are starting from scratch, the most common path is:
 
-1. Pick a local adapter if the agent runs on the same machine as Paperclip.
+1. Pick a local adapter if the agent runs on the same machine as ThinkingMach.
 2. Pick `process` if the runtime is just a command.
 3. Pick `http` if the runtime lives behind an API or webhook.
 4. Use an external adapter plugin when you want independent versioning and installation.
@@ -55,7 +55,7 @@ If you are starting from scratch, the most common path is:
 
 ## Built-In Adapters
 
-These adapters ship with Paperclip and are always available in the host:
+These adapters ship with ThinkingMach and are always available in the host:
 
 | Adapter | Type key | UI availability | Best for |
 |---|---|---|---|
@@ -97,7 +97,7 @@ See:
 | `cwd` | The adapter's working directory. Most local adapters require an absolute path. |
 | `env` | Environment variables passed into the runtime. Secret refs are preferred for sensitive values. |
 | Session state | Lets an adapter resume the same conversation or command state on the next heartbeat. |
-| Skills | Adapter-specific logic for making Paperclip skills visible to the runtime. |
+| Skills | Adapter-specific logic for making ThinkingMach skills visible to the runtime. |
 | `testEnvironment()` | The adapter's readiness check. The UI uses it before you save or run the adapter. |
 | UI parser | Converts stdout into structured transcript entries for the run viewer. |
 
@@ -109,7 +109,7 @@ See:
 
 Want to watch an agent think while it works? How much live detail you get in a run's transcript comes down to which adapter you pick.
 
-Every adapter streams its stdout to the run log, and Paperclip renders it live as the agent works — even runs on sandbox execution targets, whose logs are tailed incrementally so you see them fill in. What differs is the *structure*: the richer the event stream an adapter emits, the more the transcript can show you beyond raw output.
+Every adapter streams its stdout to the run log, and ThinkingMach renders it live as the agent works — even runs on sandbox execution targets, whose logs are tailed incrementally so you see them fill in. What differs is the *structure*: the richer the event stream an adapter emits, the more the transcript can show you beyond raw output.
 
 Here are the rough tiers, richest first:
 
@@ -117,7 +117,7 @@ Here are the rough tiers, richest first:
 - **CLI wrappers (`claude_local` / `codex_local` / `gemini_local` on `engine: cli`, plus `cursor`, `opencode_local`, …) — the CLI's own stream.** These parse each CLI's streaming JSON output: assistant text, tool calls and results, and a final usage/cost summary. You get as much detail as the CLI itself prints.
 - **Generic adapters (`process`, `http`) — plain output.** You see stdout and stderr lines with no structured transcript.
 
-If you're running sandbox workers, leave `engine` on `auto` so the adapter uses ACP when the sandbox provides Paperclip's bidirectional process session. A sandbox that only runs one-shot commands, and non-sandbox remote targets, fall back to the CLI lane. Sandbox run logs stream live either way, but the richer event stream makes the transcript and status line more useful while a remote run is in flight.
+If you're running sandbox workers, leave `engine` on `auto` so the adapter uses ACP when the sandbox provides ThinkingMach's bidirectional process session. A sandbox that only runs one-shot commands, and non-sandbox remote targets, fall back to the CLI lane. Sandbox run logs stream live either way, but the richer event stream makes the transcript and status line more useful while a remote run is in flight.
 
 ---
 

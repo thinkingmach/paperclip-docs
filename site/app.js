@@ -27,12 +27,45 @@ function getSectionKind(section) {
 }
 const TIER_ORDER = ['Learn', 'Administration', 'Reference'];
 
-/* ─── Theme bootstrap (before first paint of body) ──────────────────────── */
+/* ─── Theme management ──────────────────────────────────────────────────── */
+function applyTheme(theme) {
+  const html = document.documentElement;
+  if (theme === 'dark') html.setAttribute('data-theme', 'dark');
+  else html.removeAttribute('data-theme');
+  // Swap all visible screenshot srcs
+  document.querySelectorAll('#article img[data-screenshot]').forEach(img => {
+    applyScreenshotSource(img, img.dataset.screenshot);
+  });
+}
+
+function getSystemTheme() {
+  return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+}
+
+function getEffectiveTheme() {
+  const saved = localStorage.getItem('theme');
+  return (saved === 'dark' || saved === 'light') ? saved : getSystemTheme();
+}
+
 (function() {
-  const saved = localStorage.getItem('pc-guides-theme') || 'dark';
-  if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  const effectiveTheme = getEffectiveTheme();
+  if (effectiveTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
   else document.documentElement.removeAttribute('data-theme');
 })();
+
+if (window.matchMedia) {
+  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  const handleSystemThemeChange = (e) => {
+    if (!localStorage.getItem('theme')) {
+      applyTheme(e.matches ? 'dark' : 'light');
+    }
+  };
+  if (mediaQuery.addEventListener) {
+    mediaQuery.addEventListener('change', handleSystemThemeChange);
+  } else if (mediaQuery.addListener) {
+    mediaQuery.addListener(handleSystemThemeChange);
+  }
+}
 window.addEventListener('load', () => {
   requestAnimationFrame(() => document.documentElement.classList.add('motion-ready'));
 }, { once: true });
@@ -48,9 +81,9 @@ let tocResizeHandler = null;
 let tocDocumentClickHandler = null;
 let tocKeydownHandler = null;
 let markdownRendererPromise = null;
-const SEO_SITE_NAME = 'Paperclip Docs';
-const SEO_DEFAULT_TITLE = 'Paperclip Docs';
-const SEO_DEFAULT_DESCRIPTION = 'Guides, references, and walkthroughs for running Paperclip, an AI company operating system for agent teams, governance, budgets, and workflows.';
+const SEO_SITE_NAME = 'ThinkingMach Docs';
+const SEO_DEFAULT_TITLE = 'ThinkingMach Docs';
+const SEO_DEFAULT_DESCRIPTION = 'Guides, references, and walkthroughs for running ThinkingMach, an AI company operating system for agent teams, governance, budgets, and workflows.';
 const APP_DIR_NAME = 'site';
 const APP_BASE_PATH = (() => {
   const marker = `/${APP_DIR_NAME}`;
@@ -273,7 +306,7 @@ function updatePageSeo(page, md) {
   const authoredTitle = page.frontmatter?.seo_title?.trim();
   const authoredDescription = page.frontmatter?.seo_description?.trim();
   setSeoMetadata({
-    title: `${authoredTitle || page.title} | Paperclip Docs`,
+    title: `${authoredTitle || page.title} | ThinkingMach Docs`,
     description: authoredDescription || markdownToDescription(md),
     url: getAbsolutePageUrl(page),
     type: 'article',
@@ -486,11 +519,11 @@ function decorateCodeBlocks(article) {
   });
 }
 
-/* ─── GitHub star count (mirrors paperclip.ing) ────────────────────────── */
+/* ─── GitHub star count (mirrors thinkingmach.com) ────────────────────────── */
 (function () {
-  const REPO = 'paperclipai/paperclip';
+  const REPO = 'thinkingmach/paperclip';
   const TTL_MS = 6 * 60 * 60 * 1000; // 6h
-  const CACHE_KEY = 'pc-docs-star-count';
+  const CACHE_KEY = 'docs-star-count';
   const els = document.querySelectorAll('[data-star-count]');
   if (!els.length) return;
 
@@ -537,13 +570,8 @@ document.getElementById('theme-toggle').addEventListener('click', () => {
   const html = document.documentElement;
   const isDark = html.getAttribute('data-theme') === 'dark';
   const next = isDark ? 'light' : 'dark';
-  if (next === 'dark') html.setAttribute('data-theme', 'dark');
-  else html.removeAttribute('data-theme');
-  localStorage.setItem('pc-guides-theme', next);
-  // Swap all visible screenshot srcs
-  document.querySelectorAll('#article img[data-screenshot]').forEach(img => {
-    applyScreenshotSource(img, img.dataset.screenshot);
-  });
+  applyTheme(next);
+  localStorage.setItem('theme', next);
 });
 
 /* ─── Mobile drawer ─────────────────────────────────────────────────────── */
@@ -1152,7 +1180,7 @@ async function loadPage(file, targetHeading = null, historyMode = 'push', option
   }
 }
 
-const DOCS_REPO_SLUG = 'paperclipai/paperclip-docs';
+const DOCS_REPO_SLUG = 'thinkingmach/paperclip-docs';
 const DOCS_REPO_BRANCH = 'main';
 
 function appendPageFeedback(article, page, file) {

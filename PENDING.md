@@ -15,7 +15,7 @@
 ## 📝 PR tier — applied this run
 
 - **Onboarding wizard: mission step dropped** → **updated** `docs/guides/getting-started/your-first-company.md`
-  - Parent `3ff636b` ("Drop the mission step from the wizard arc", PR #11935) cleared quarantine this run. For the **Build a new company** path the wizard now skips the "Define your mission" screen: naming the company (step 1) is the moment Paperclip *creates* it (`handleCreateCompany`, `skipsMissionStep = onboardingPath !== "grow"` in `ui/src/components/OnboardingWizard.tsx`), and the walk goes straight to the first-agent step. The mission is collected afterward, on the first task, rather than during onboarding.
+  - Parent `3ff636b` ("Drop the mission step from the wizard arc", PR #11935) cleared quarantine this run. For the **Build a new company** path the wizard now skips the "Define your mission" screen: naming the company (step 1) is the moment ThinkingMach *creates* it (`handleCreateCompany`, `skipsMissionStep = onboardingPath !== "grow"` in `ui/src/components/OnboardingWizard.tsx`), and the walk goes straight to the first-agent step. The mission is collected afterward, on the first task, rather than during onboarding.
   - Edits: removed the old "### 3. Define your mission" step and its Path A/B prose; renumbered the remaining steps (Name → Create agent → Connect model → Review); reframed step 2 so naming creates the company (with a callout explaining the removed mission step); softened the Review "Mission" row note and the "Where you land" paragraph so they no longer claim you wrote a mission in the wizard.
   - Verified (Phase 5.5) against `05b35d4`: **0 unverified, 0 suspicious.**
   - This is the item the prior catch-up (#107) explicitly **deferred** as "volatile at this boundary" — the arc has now settled.
@@ -29,7 +29,7 @@
 
 ## ⏳ Held candidate (carried forward — needs a judgment call)
 
-- **Operator-configurable settings visibility** (`PAPERCLIP_HIDDEN_SETTINGS`, read straight from `process.env`; `HiddenSettingsPageGate.tsx`, `useHiddenSettings.ts`) — a real operator surface that the env-vars watcher misses because the var isn't in `.env.example`. Landed before this slice; still undocumented. Candidate for a PR-tier addition to `docs/reference/deploy/environment-variables.md` + an administration note, once the hidden-page keys and admin flow are confirmed against the UI.
+- **Operator-configurable settings visibility** (`THINKINGMACH_HIDDEN_SETTINGS`, read straight from `process.env`; `HiddenSettingsPageGate.tsx`, `useHiddenSettings.ts`) — a real operator surface that the env-vars watcher misses because the var isn't in `.env.example`. Landed before this slice; still undocumented. Candidate for a PR-tier addition to `docs/reference/deploy/environment-variables.md` + an administration note, once the hidden-page keys and admin flow are confirmed against the UI.
 
 ## ⏳ Quarantined (younger than 24h — will enter the window next run)
 

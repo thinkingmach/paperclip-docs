@@ -5,7 +5,7 @@ seo_description: Set a goal, approve a plan, and the CEO breaks it into tasks an
 
 # Delegation
 
-One of the most powerful things about Paperclip is that you don't have to manage work directly. You set a goal, approve a plan, and the CEO automatically breaks that goal into concrete tasks and assigns them to the right agents. This is delegation — and understanding how it works helps you know when to act and when to let the system run.
+One of the most powerful things about ThinkingMach is that you don't have to manage work directly. You set a goal, approve a plan, and the CEO automatically breaks that goal into concrete tasks and assigns them to the right agents. This is delegation — and understanding how it works helps you know when to act and when to let the system run.
 
 ---
 
@@ -76,7 +76,7 @@ Review each hire request on its merits:
 - Is the proposed budget reasonable for that agent's workload?
 - Does the agent report to the right manager?
 
-If anything looks off, request a revision. If it looks good, approve. Once you approve, Paperclip creates the agent and queues it to wake automatically.
+If anything looks off, request a revision. If it looks good, approve. Once you approve, ThinkingMach creates the agent and queues it to wake automatically.
 
 > **Warning:** Approving a hire creates a new agent and starts spending budget. Only approve hire requests when you're ready for the agent to start working.
 
@@ -128,7 +128,7 @@ This lets you start small and scale the team based on actual work, not upfront p
 
 ## Guardrails on agent-to-agent delegation
 
-Delegation is powerful precisely because you don't have to watch it. That's also the risk: when an agent hands work to the wrong place, the task can sit in a queue nobody will ever pick up, and you won't hear about it. Paperclip refuses a couple of these hand-offs outright, so the agent gets an error it can act on instead of a silent dead end.
+Delegation is powerful precisely because you don't have to watch it. That's also the risk: when an agent hands work to the wrong place, the task can sit in a queue nobody will ever pick up, and you won't hear about it. ThinkingMach refuses a couple of these hand-offs outright, so the agent gets an error it can act on instead of a silent dead end.
 
 Both guardrails apply only when an **agent** is doing the assigning. You can still assign work anywhere you like — staging a task for an agent you plan to unpause later is a perfectly reasonable thing to do, and you can see the agent's state right there in the UI.
 
@@ -136,7 +136,7 @@ Both guardrails apply only when an **agent** is doing the assigning. You can sti
 
 A paused agent never runs. If another agent assigns it a task — typically an escalation routed up the `reports_to` chain to a paused manager — the task is accepted, nothing picks it up, and the work quietly vanishes.
 
-So when the assigning actor is an agent and the assignee is paused, Paperclip refuses the assignment with a conflict and this message:
+So when the assigning actor is an agent and the assignee is paused, ThinkingMach refuses the assignment with a conflict and this message:
 
 > Cannot assign work to a paused agent. Assign an invokable agent, leave the issue unassigned, or escalate to a board operator instead.
 
@@ -146,7 +146,7 @@ The message names the three ways out on purpose: pick an agent that can actually
 
 Here's the shape this catches. Agent A hits something it can't do — say it can't push to GitHub — and creates a child task for agent B. Agent B can't do it either, so it "resolves" its blocker by creating a grandchild task assigned straight back to A. Neither agent gained a capability, the chain of blocked tasks keeps growing, and nothing reaches the human who could actually fix the gap.
 
-When an agent creates a child task and the assignee is the agent that created a **still-open** ancestor in the same chain, Paperclip refuses the creation with a conflict carrying the code `delegation_cycle`. The message names the ancestor task, then spells out the alternatives:
+When an agent creates a child task and the assignee is the agent that created a **still-open** ancestor in the same chain, ThinkingMach refuses the creation with a conflict carrying the code `delegation_cycle`. The message names the ancestor task, then spells out the alternatives:
 
 > Complete the remaining work in your own issue, leave the child unassigned, or escalate to a board operator — do not delegate the work back to the agent that delegated it to you.
 
@@ -164,7 +164,7 @@ The guardrails above fire at the moment an agent tries to do something. There's 
 
 Agents escalate up the `reports_to` chain, and a paused manager doesn't break that chain — the agents beneath it stay perfectly invokable, so nothing looks wrong at a glance. This bites most often after an instance import, which pauses every agent by default: you unpause the workers, get on with your day, and leave the manager paused.
 
-Paperclip now spots this. When an agent that can itself run work reports (directly or further up) to a paused agent, its detail page shows an amber **Escalation path is paused** banner. Unlike the invalid-org-chain banner it sits next to, this one is a warning and doesn't block anything — the agent keeps working, it just has nowhere useful to escalate. The banner text names the paused manager and the two fixes: unpause them, or change who the agent reports to.
+ThinkingMach now spots this. When an agent that can itself run work reports (directly or further up) to a paused agent, its detail page shows an amber **Escalation path is paused** banner. Unlike the invalid-org-chain banner it sits next to, this one is a warning and doesn't block anything — the agent keeps working, it just has nowhere useful to escalate. The banner text names the paused manager and the two fixes: unpause them, or change who the agent reports to.
 
 You'll find more on the banner and where it appears in [Agents → The Agent Detail Page](./agents.md#the-agent-detail-page).
 
@@ -189,7 +189,7 @@ If you've set a goal but nothing seems to be happening, work through these commo
 | **Reports have heartbeats** | Go to each agent's detail page. If heartbeats are disabled, the CEO may skip assigning to them since they won't be able to pick up work. |
 | **Reports are active** | Are any reports paused, terminated, or showing an error state? The CEO won't assign to agents it can't reach — an agent assigning to a paused agent is refused outright. |
 | **Escalation banners** | Open each agent's detail page and look for an amber **Escalation path is paused** banner. A paused manager means escalations from that agent have nowhere to go. |
-| **CEO's budget** | At 80% of its monthly budget, Paperclip warns you. At 100%, it auto-pauses entirely. |
+| **CEO's budget** | At 80% of its monthly budget, ThinkingMach warns you. At 100%, it auto-pauses entirely. |
 
 ### CEO is assigning everything to itself
 
@@ -197,7 +197,7 @@ This is expected behaviour when you have no other active reports. Hire a CTO or 
 
 ### Strategy was approved but nothing happened
 
-After you approve a strategy, Paperclip queues the CEO to wake automatically so follow-up work usually starts shortly after approval. If you want to force it immediately, go to the CEO's detail page and click **Run Heartbeat**.
+After you approve a strategy, ThinkingMach queues the CEO to wake automatically so follow-up work usually starts shortly after approval. If you want to force it immediately, go to the CEO's detail page and click **Run Heartbeat**.
 
 ### A specific task is stuck
 

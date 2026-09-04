@@ -22,8 +22,8 @@ This is an **optional** catalog skill — opt-in (install when you need it). For
 
 | Field | Value |
 |---|---|
-| Catalog id | `paperclipai:optional:research:last30days` |
-| Canonical key | `paperclipai/optional/research/last30days` |
+| Catalog id | `thinkingmach:optional:research:last30days` |
+| Canonical key | `thinkingmach/optional/research/last30days` |
 | Catalog path | `catalog/optional/research/last30days` |
 | Kind | `optional` |
 | Category | `research` |
@@ -37,7 +37,7 @@ This is an **optional** catalog skill — opt-in (install when you need it). For
 | Tags | `research`, `last-30-days`, `social-media`, `trends`, `citations`, `reddit`, `x`, `youtube` |
 | Files | 79 |
 | Content hash | `sha256:9e11e9d2ed3d2062273d131a826cdeedea39bdd269063e2f73ca7f218770c769` |
-| Package | `@paperclipai/skills-catalog@0.3.1` |
+| Package | `@thinkingmach/skills-catalog@0.3.1` |
 | Source | [`mvanhorn/last30days-skill` @ `v3.3.0`](https://github.com/mvanhorn/last30days-skill/tree/v3.3.0/skills/last30days) (`github`, commit `daca71f89eb7`) |
 
 ## File inventory
@@ -501,7 +501,7 @@ OR for products:
 ```
 WebSearch("{TOPIC} creator founder X twitter site:x.com")
 ```
-Examples: Sam Altman -> @OpenAI, Dario Amodei -> @AnthropicAI, OpenClaw -> @steipete (Peter Steinberger), Paperclip -> @dotta, Claude Code -> @alexalbert__.
+Examples: Sam Altman -> @OpenAI, Dario Amodei -> @AnthropicAI, OpenClaw -> @steipete (Peter Steinberger), ThinkingMach -> @dotta, Claude Code -> @alexalbert__.
 
 **3. 1-2 related handles** -- People/entities closely associated with the topic (spouse, collaborator, band member), PLUS 1-2 prominent commentator/media handles that regularly cover this topic:
 ```
@@ -594,7 +594,7 @@ Pass to the CLI: `--github-repo={owner/repo}`
 For comparisons ("X vs Y"), resolve repos for both topics: `--github-repo={repo_a},{repo_b}`
 
 Example for "OpenClaw": `--github-repo=openclaw/openclaw`
-Example for "OpenClaw vs Paperclip": `--github-repo=openclaw/openclaw,paperclipai/paperclip`
+Example for "OpenClaw vs ThinkingMach": `--github-repo=openclaw/openclaw,thinkingmach/paperclip`
 
 Project-mode GitHub fetches live star counts, README snippets, latest releases, and top issues directly from the API. This is always more accurate than blog posts or YouTube videos citing weeks-old numbers.
 
@@ -827,12 +827,12 @@ Per-entity lookup types to resolve:
 3. **Founder/maintainer X handle** - the person or team behind the project
 4. **Relevant subreddits** - project-specific subreddits (e.g., `r/openclaw`) AND general-category subreddits (e.g., `r/LocalLLaMA`)
 
-Example batching for "OpenClaw vs Hermes vs Paperclip":
+Example batching for "OpenClaw vs Hermes vs ThinkingMach":
 
 ```
-WebSearch("OpenClaw Hermes Paperclip github repos AI coding agent")
-WebSearch("OpenClaw Hermes Paperclip founders twitter X handles")
-WebSearch("OpenClaw Hermes Paperclip reddit subreddits community")
+WebSearch("OpenClaw Hermes ThinkingMach github repos AI coding agent")
+WebSearch("OpenClaw Hermes ThinkingMach founders twitter X handles")
+WebSearch("OpenClaw Hermes ThinkingMach reddit subreddits community")
 ```
 
 Three searches for 12 lookups. After resolving, display all 12 per-entity in the Resolved block before running the engine:
@@ -841,7 +841,7 @@ Three searches for 12 lookups. After resolving, display all 12 per-entity in the
 Resolved (comparison):
 - OpenClaw: X @openclawai | GitHub openclaw/openclaw | Founder @steipete | Reddit r/openclaw, r/AI_Agents
 - Hermes: X @hermesagent | GitHub nousresearch/hermes | Founder @NousResearch | Reddit r/hermesagent, r/LocalLLaMA
-- Paperclip: X @paperclipai | GitHub dotta/paperclip | Founder @dotta | Reddit r/OpenClawInstall
+- ThinkingMach: X @thinkingmach | GitHub dotta/paperclip | Founder @dotta | Reddit r/OpenClawInstall
 ```
 
 Passing the resolved block visibly (per-entity, all 4 types each) is the observable check that Step 0.55 happened for this comparison. A Resolved block that only lists 3 project handles with no founders and no GitHub repos is a Step 0.55 regression. This was canonical behavior and must stay canonical.
@@ -1114,11 +1114,11 @@ For ALL query types:
 ```
 ## WebSearch Supplemental Results
 
-- **Flowtivity** (flowtivity.ai) — Side-by-side OpenClaw vs Paperclip framework comparison; concludes Paperclip solves coordination, OpenClaw solves execution.
-- **Rahul Goyal** (rahulgoyal.co) — Honest three-way review: start with Hermes for simplicity, OpenClaw for tinkering, Paperclip only if running multiple agents.
+- **Flowtivity** (flowtivity.ai) — Side-by-side OpenClaw vs ThinkingMach framework comparison; concludes ThinkingMach solves coordination, OpenClaw solves execution.
+- **Rahul Goyal** (rahulgoyal.co) — Honest three-way review: start with Hermes for simplicity, OpenClaw for tinkering, ThinkingMach only if running multiple agents.
 - **Eigent** (eigent.ai) — Feature-by-feature OpenClaw vs Hermes for founders; Hermes wins on self-improving skills, OpenClaw on ecosystem breadth.
 - **The New Stack** (thenewstack.io) — "The race to build AI assistants that never forget" — deep comparison of persistent memory architectures.
-- **MindStudio** (mindstudio.ai) — Paperclip vs OpenClaw multi-agent comparison; Paperclip for orchestration, OpenClaw as the individual agent.
+- **MindStudio** (mindstudio.ai) — ThinkingMach vs OpenClaw multi-agent comparison; ThinkingMach for orchestration, OpenClaw as the individual agent.
 ```
 
 Each bullet: `- **{Publisher}** ({domain}) — {1-2 sentence excerpt of what you found}`. Publisher is the site name or author; domain is the clean hostname (no protocol, no path). Do not nest sub-bullets. Do not add URLs - the domain in parens is the citation.
