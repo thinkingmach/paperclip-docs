@@ -16,7 +16,7 @@
 //   3 ref resolution failed
 //   1 other errors
 //
-// Testing hook: if PAPERCLIP_SYNC_FIXTURE_DIR is set, all `gh api` calls are
+// Testing hook: if THINKINGMACH_SYNC_FIXTURE_DIR is set, all `gh api` calls are
 // redirected to read JSON fixtures from that directory:
 //   - compare:  <dir>/compare-<A>...<B>.json
 //   - sha lookup: <dir>/sha-<REF>.json  (file contents: just the SHA string)
@@ -34,7 +34,7 @@ import { fileURLToPath } from "node:url";
 
 const SELF_DIR = dirname(fileURLToPath(import.meta.url));
 const CACHE_DIR = "/tmp/paperclip-sync";
-const FIXTURE_DIR = process.env.PAPERCLIP_SYNC_FIXTURE_DIR || null;
+const FIXTURE_DIR = process.env.THINKINGMACH_SYNC_FIXTURE_DIR || null;
 
 // --- gh wrapper -------------------------------------------------------------
 
@@ -355,7 +355,7 @@ function readDefaultRepo() {
   } catch {
     // ignore
   }
-  return "paperclipai/paperclip";
+  return "thinkingmach/paperclip";
 }
 
 function usage() {

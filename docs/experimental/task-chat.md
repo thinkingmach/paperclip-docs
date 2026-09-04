@@ -16,7 +16,7 @@ Watching an agent work on a task usually means reading two things at once: the c
 
 The card carries an **Experimental** badge, and under the description the app tells you how reversible this is: *"Turning this off instantly restores the classic task page. No task data is affected."*
 
-This one is yours to decide. Unlike most flags on this page it's classed as a taste setting rather than a fleet setting, so it never picks up a **Managed by Paperclip Cloud** lock badge — see [If a toggle is locked](overview.md#if-a-toggle-is-locked). It's off by default on Cloud and self-hosted instances alike.
+This one is yours to decide. Unlike most flags on this page it's classed as a taste setting rather than a fleet setting, so it never picks up a **Managed by ThinkingMach Cloud** lock badge — see [If a toggle is locked](overview.md#if-a-toggle-is-locked). It's off by default on Cloud and self-hosted instances alike.
 
 Like every experimental flag it's instance-wide: flipping it changes the task page for everyone on the instance, not just for you.
 
@@ -59,7 +59,7 @@ An agent's reasoning renders as a quiet block against a left rail. While it stre
 
 ### Tool calls and diffs
 
-Each tool call is one compact row: an icon for the kind of tool, its name, and the thing it acted on in monospace, with a status marker on the right. Paperclip recognises the common families — terminal, search, read, edit, web, delegation, and MCP tools — and gives each its own glyph; genuinely unknown tools get a wrench.
+Each tool call is one compact row: an icon for the kind of tool, its name, and the thing it acted on in monospace, with a status marker on the right. ThinkingMach recognises the common families — terminal, search, read, edit, web, delegation, and MCP tools — and gives each its own glyph; genuinely unknown tools get a wrench.
 
 Click a row to expand its result. If the call changed a file, a diff panel appears underneath with the path, a `+34 −3` count, and the changed lines.
 

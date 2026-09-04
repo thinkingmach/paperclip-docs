@@ -1,13 +1,13 @@
 ---
 seo_title: iMessage Photon Connector
-seo_description: Let people message a Paperclip agent from Apple Messages using Photon Cloud. Line types, sender enrollment, group support, and troubleshooting.
+seo_description: Let people message a ThinkingMach agent from Apple Messages using Photon Cloud. Line types, sender enrollment, group support, and troubleshooting.
 ---
 
 # iMessage Photon
 
-People message your agent from Apple Messages, and Paperclip starts work. Delivery runs through [Photon Cloud](https://photon.codes/), a third-party service that provides the iMessage line.
+People message your agent from Apple Messages, and ThinkingMach starts work. Delivery runs through [Photon Cloud](https://photon.codes/), a third-party service that provides the iMessage line.
 
-> **Note:** This does not give Paperclip access to your own Messages history, your Apple ID, or a Mac you own. Nothing is installed locally. The agent is reachable at a line Photon operates, and only conversations on that line reach Paperclip.
+> **Note:** This does not give ThinkingMach access to your own Messages history, your Apple ID, or a Mac you own. Nothing is installed locally. The agent is reachable at a line Photon operates, and only conversations on that line reach ThinkingMach.
 
 ## Before you connect
 
@@ -22,7 +22,7 @@ Photon offers two arrangements, and they differ in a way that affects what you c
 
 | Line | Direct messages | Group chats |
 | --- | --- | --- |
-| **Pro (shared line)** | Yes, after each sender is enrolled in Photon and their identity is linked in Paperclip | No |
+| **Pro (shared line)** | Yes, after each sender is enrolled in Photon and their identity is linked in ThinkingMach | No |
 | **Dedicated line** | Yes | Yes, for groups you enable individually |
 
 A shared Pro line needs per-sender setup, so it suits a small known set of people. A dedicated line is the option if you need group conversations or an open audience. Check current line availability and pricing with Photon.
@@ -38,18 +38,18 @@ A shared Pro line needs per-sender setup, so it suits a small known set of peopl
 5. On a dedicated allocation, choose the **line**. Only eligible lines can be selected; if none is offered, the line is not ready on Photon's side.
 6. Choose the agent that will answer.
 
-Paperclip verifies the credentials against Photon at this point. Two failures are worth recognising: *"Photon allocation changed; inspect the project again"* means the project's allocation no longer matches what you chose, and *"Select an eligible dedicated Photon line"* means the line you picked is not usable.
+ThinkingMach verifies the credentials against Photon at this point. Two failures are worth recognising: *"Photon allocation changed; inspect the project again"* means the project's allocation no longer matches what you chose, and *"Select an eligible dedicated Photon line"* means the line you picked is not usable.
 
 ### 2. Link the sender — this is a required step, not an optional one
 
-**A sender who is not linked to a Paperclip person cannot start work on this channel at all.** Other Paperclip channels can run an unlinked sender as a restricted guest in an isolated run; iMessage Photon does not allow that. Until you link, nothing happens.
+**A sender who is not linked to a ThinkingMach person cannot start work on this channel at all.** Other ThinkingMach channels can run an unlinked sender as a restricted guest in an isolated run; iMessage Photon does not allow that. Until you link, nothing happens.
 
-Linking works by discovery — you message the line first so Paperclip can see the sender, then you link what it discovered:
+Linking works by discovery — you message the line first so ThinkingMach can see the sender, then you link what it discovered:
 
-1. **On a shared allocation**, first enroll your sender in the Photon project under **Users**, and find the project's assigned number under **Get started**. On a dedicated allocation, use the line's own number, which Paperclip shows with a **Copy** button.
+1. **On a shared allocation**, first enroll your sender in the Photon project under **Users**, and find the project's assigned number under **Get started**. On a dedicated allocation, use the line's own number, which ThinkingMach shows with a **Copy** button.
 2. From Apple Messages, send a **fresh** message to that number.
-3. That message discovers your phone number or Apple account address. Open **Access** on the connection and link that exact identity to a Paperclip person.
-4. Send **another fresh request**. Paperclip does not replay the message you sent in step 2, and earlier messages do not start work retrospectively.
+3. That message discovers your phone number or Apple account address. Open **Access** on the connection and link that exact identity to a ThinkingMach person.
+4. Send **another fresh request**. ThinkingMach does not replay the message you sent in step 2, and earlier messages do not start work retrospectively.
 5. Wait for the agent's actual reply. Setup completes when that reply is delivered, not when you send.
 
 > **Warning:** Step 4 is the one people miss. Linking does not retroactively turn the discovery message into a task — you must send again afterwards.
@@ -61,15 +61,15 @@ Linking works by discovery — you message the line first so Paperclip can see t
 3. Enable the discovered group in the connection's **Settings**.
 4. Send a fresh request in the group.
 
-On a shared allocation this is unavailable rather than merely unconfigured: Paperclip refuses with *"Photon shared channels support direct messages only; groups require a dedicated channel."*
+On a shared allocation this is unavailable rather than merely unconfigured: ThinkingMach refuses with *"Photon shared channels support direct messages only; groups require a dedicated channel."*
 
 Photon's [connection and routing guide](https://photon.codes/docs/spectrum-ts/providers/imessage/connection-and-routing) covers the provider side.
 
-> **Danger:** The project secret authenticates the whole Photon project. Store it only in Paperclip, and rotate it in Photon if it is ever exposed.
+> **Danger:** The project secret authenticates the whole Photon project. Store it only in ThinkingMach, and rotate it in Photon if it is ever exposed.
 
 ## How a conversation becomes work
 
-| In Messages | In Paperclip |
+| In Messages | In ThinkingMach |
 | --- | --- |
 | An enrolled sender messages the line | A task is created for the connected agent |
 | They keep replying | The conversation continues on the same task |
@@ -81,12 +81,12 @@ Two separate controls apply, on two different sides, and it is worth keeping the
 
 | Control | Where it lives | What it decides |
 | --- | --- | --- |
-| Sender enrollment, line allocation, group membership | **Photon** | Whether a message reaches Paperclip at all |
-| Identity linking, group enablement, the answering agent | **Paperclip** | Whether a message that arrived starts work |
+| Sender enrollment, line allocation, group membership | **Photon** | Whether a message reaches ThinkingMach at all |
+| Identity linking, group enablement, the answering agent | **ThinkingMach** | Whether a message that arrived starts work |
 
-So a message can pass Photon and still do nothing in Paperclip — that is the usual cause of "it is not working" on this connector, and it is a Paperclip-side linking problem rather than a Photon fault.
+So a message can pass Photon and still do nothing in ThinkingMach — that is the usual cause of "it is not working" on this connector, and it is a ThinkingMach-side linking problem rather than a Photon fault.
 
-Identity linking is what lets Paperclip attribute a conversation to a person. **Unlinked senders are refused on this channel specifically**, rather than being run as restricted guests the way they can be elsewhere. That is deliberate: an Apple Messages sender is a phone number, and Paperclip will not start agent work for one it cannot attribute.
+Identity linking is what lets ThinkingMach attribute a conversation to a person. **Unlinked senders are refused on this channel specifically**, rather than being run as restricted guests the way they can be elsewhere. That is deliberate: an Apple Messages sender is a phone number, and ThinkingMach will not start agent work for one it cannot attribute.
 
 The connection's identity and agent settings work as for any connector; see [How connector access works](access-model.md). The answering agent is set on the connection.
 
@@ -96,7 +96,7 @@ Do this only after your own identity is linked — otherwise you are testing the
 
 1. From the Apple device whose identity you linked, send a fresh message to the line: `hello, can you confirm you are connected?`
 2. Expect a reply in Messages within a few moments.
-3. Confirm a matching task appears in Paperclip, assigned to the connected agent.
+3. Confirm a matching task appears in ThinkingMach, assigned to the connected agent.
 
 Use your own linked number first. On a dedicated line, confirm a direct message works before enabling any group.
 
@@ -107,17 +107,17 @@ Use your own linked number first. On a dedicated line, confirm a direct message 
 | Problem | Likely cause | Fix |
 | --- | --- | --- |
 | iMessage Photon does not appear in **Connectors** | **Chat connectors** is off for the instance | Ask an administrator to enable it |
-| A sender's message never starts work | Their identity is not linked in Paperclip. On a shared line they may also not be enrolled in Photon | Enroll them in Photon's **Users** if needed, link the discovered identity in **Access**, then have them send a fresh message |
+| A sender's message never starts work | Their identity is not linked in ThinkingMach. On a shared line they may also not be enrolled in Photon | Enroll them in Photon's **Users** if needed, link the discovered identity in **Access**, then have them send a fresh message |
 | You linked the identity and still nothing happened | The discovery message is not replayed after linking | Send a new message. Only messages sent after linking start work |
 | Setup will not complete | It completes on the agent's delivered reply, not on your sent message | Wait for the reply; if none arrives, work back through linking |
 | *"Photon shared channels support direct messages only"* | Group chats were enabled on a shared allocation | Move to a dedicated line; this is refused rather than degraded |
 | *"Select an eligible dedicated Photon line"* | The chosen line is not eligible on Photon's side | Pick an eligible line, or resolve the line's state in Photon |
 | Group messages are ignored on a dedicated line | The group was discovered but never enabled | Enable it in the connection's **Settings**, then send a fresh request |
 | Messages stop after working | The project secret was rotated in Photon | Reconnect with the current secret |
-| Delivery is delayed or fails for everyone | A Photon-side problem, not Paperclip | Check Photon's status and project configuration |
+| Delivery is delayed or fails for everyone | A Photon-side problem, not ThinkingMach | Check Photon's status and project configuration |
 | The wrong agent answers | The answering agent is set on the connection | Change it on the connection |
 
-Limitations: one Photon project and one agent per connection. No group support on a Pro shared line. Paperclip depends on Photon for delivery, so its availability bounds this connector's. There is no local or native Apple Messages integration.
+Limitations: one Photon project and one agent per connection. No group support on a Pro shared line. ThinkingMach depends on Photon for delivery, so its availability bounds this connector's. There is no local or native Apple Messages integration.
 
 ## Related guides
 

@@ -6,7 +6,7 @@ seo_description: Connect to an OpenClaw instance over the Gateway WebSocket prot
 
 # OpenClaw Gateway
 
-`openclaw_gateway` connects Paperclip to an OpenClaw instance over the OpenClaw Gateway WebSocket protocol. Use it when OpenClaw is running on another machine, inside Docker, or behind a shared gateway and you want Paperclip agents to delegate work to it.
+`openclaw_gateway` connects ThinkingMach to an OpenClaw instance over the OpenClaw Gateway WebSocket protocol. Use it when OpenClaw is running on another machine, inside Docker, or behind a shared gateway and you want ThinkingMach agents to delegate work to it.
 
 > **Info:** `openclaw_gateway` is fully functional in the runtime but currently shown as **"Coming soon"** in the agent-config adapter-type dropdown. It's reached through the OpenClaw invite-prompt flow instead of being picked manually. This page documents the adapter so you can target it via the API or an imported company. Direct UI selection is planned.
 
@@ -15,8 +15,8 @@ seo_description: Connect to an OpenClaw instance over the Gateway WebSocket prot
 ## When To Use
 
 - OpenClaw is reachable over `ws://` or `wss://` (local Docker, remote host, Tailscale).
-- You want a shared OpenClaw instance to serve multiple Paperclip agents.
-- You need device-auth pairing between Paperclip and the gateway.
+- You want a shared OpenClaw instance to serve multiple ThinkingMach agents.
+- You need device-auth pairing between ThinkingMach and the gateway.
 
 ## When Not To Use
 
@@ -33,7 +33,7 @@ The adapter always uses WebSocket gateway transport. The URL must start with `ws
 2. Send `req connect` with protocol, client, auth, and device payload.
 3. Send `req agent`.
 4. Wait for completion via `req agent.wait`.
-5. Stream `event agent` frames into Paperclip's logs and transcript parser.
+5. Stream `event agent` frames into ThinkingMach's logs and transcript parser.
 
 ---
 
@@ -53,7 +53,7 @@ The adapter always uses WebSocket gateway transport. The URL must start with `ws
 | `agentId` | no | Optional OpenClaw agent ID to target. |
 | `role` | no | Gateway identity role sent to OpenClaw. Default `operator`. |
 | `scopes` | no | Gateway capability scopes (an array, e.g. `["operator.admin"]`). In the create UI you enter a comma-separated string that's split into an array. Default `["operator.admin"]`. |
-| `paperclipApiUrl` | no | Optional override for the Paperclip API base URL the gateway/agent calls back into. No default. |
+| `paperclipApiUrl` | no | Optional override for the ThinkingMach API base URL the gateway/agent calls back into. No default. |
 | `workspaceRuntime` | no | Optional workspace runtime services definition (a `{ services: [...] }` object). In the create UI you enter it as `runtimeServicesJson`; it's applied only when it parses to an object with a `services` array. |
 | `payloadTemplate` | no | Fields merged into the agent request. `message`/`text` prefix the wake text. |
 | `timeoutSec` | no | Adapter-level request budget. |
@@ -110,7 +110,7 @@ The agent request is built as:
 
 Required:
 - `message` — the wake text, optionally prefixed with `payloadTemplate.message` or `payloadTemplate.text`.
-- `idempotencyKey` — Paperclip's `runId`.
+- `idempotencyKey` — ThinkingMach's `runId`.
 - `sessionKey` — resolved from strategy.
 
 Optional:
@@ -141,7 +141,7 @@ UI and CLI parsers consume these lines to render the transcript.
 
 ## Running OpenClaw in Docker
 
-Paperclip ships several smoke harnesses that spin up OpenClaw in Docker and wire it to Paperclip for you.
+ThinkingMach ships several smoke harnesses that spin up OpenClaw in Docker and wire it to ThinkingMach for you.
 
 ### Automated join smoke test
 
@@ -170,14 +170,14 @@ Useful knobs:
 | `OPENCLAW_DISABLE_DEVICE_AUTH` | `1` | Disables Control UI device pairing; set `0` to require pairing |
 | `OPENCLAW_MODEL_PRIMARY` | `openai/gpt-5.2` | Primary model |
 | `OPENCLAW_RESET_STATE` | `1` | Resets smoke agent state each run |
-| `PAPERCLIP_HOST_FROM_CONTAINER` | `host.docker.internal` | How the container reaches Paperclip |
+| `THINKINGMACH_HOST_FROM_CONTAINER` | `host.docker.internal` | How the container reaches ThinkingMach |
 
 ### Network tips
 
-Inside OpenClaw Docker, `127.0.0.1` points to the container — not the host. For URLs consumed inside Docker, use `host.docker.internal`. If Paperclip rejects that hostname, allow it:
+Inside OpenClaw Docker, `127.0.0.1` points to the container — not the host. For URLs consumed inside Docker, use `host.docker.internal`. If ThinkingMach rejects that hostname, allow it:
 
 ```sh
-pnpm paperclipai allowed-hostname host.docker.internal
+pnpm thinkingmach allowed-hostname host.docker.internal
 ```
 
 For remote gateways, prefer a reachable hostname (Docker host alias, Tailscale hostname, or public domain).
@@ -186,11 +186,11 @@ For remote gateways, prefer a reachable hostname (Docker host alias, Tailscale h
 
 ## Onboarding Checklist
 
-When you add OpenClaw to a Paperclip company:
+When you add OpenClaw to a ThinkingMach company:
 
-1. Start Paperclip in auth mode and a clean OpenClaw Docker.
+1. Start ThinkingMach in auth mode and a clean OpenClaw Docker.
 2. In the company settings, use **Generate OpenClaw Invite Prompt** and paste it into OpenClaw's main chat.
-3. Approve the resulting join request in Paperclip and confirm the agent appears in your company.
+3. Approve the resulting join request in ThinkingMach and confirm the agent appears in your company.
 4. Preflight the agent config:
    - `adapterType` is `openclaw_gateway` (not `openclaw`).
    - `url` begins with `ws://` or `wss://`.

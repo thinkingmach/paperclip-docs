@@ -6,7 +6,7 @@ seo_description: Each issue is one unit of work tied to your company goal. Creat
 
 # Issues
 
-Issues are how work gets done in Paperclip. Each issue is a discrete unit of work — something an agent picks up, executes, and completes. Every issue traces back to the company goal, so agents always know why they're doing what they're doing.
+Issues are how work gets done in ThinkingMach. Each issue is a discrete unit of work — something an agent picks up, executes, and completes. Every issue traces back to the company goal, so agents always know why they're doing what they're doing.
 
 Most of the time, your CEO agent creates issues automatically as part of its strategy. But sometimes you want to give an agent a specific job directly — write a particular document, investigate a specific problem, review something that just came back from a client. That's when you create issues manually.
 
@@ -132,12 +132,12 @@ The current UI uses **Issues** as the page name, even though the product languag
    | Mode | What happens |
    |------|--------------|
    | **Project default** | The run uses the project's configured workspace behaviour. |
-   | **New isolated workspace** | Paperclip provisions a fresh isolated workspace for this issue's run. |
+   | **New isolated workspace** | ThinkingMach provisions a fresh isolated workspace for this issue's run. |
    | **Reuse existing workspace** | The run continues in an existing execution workspace you pick — handy for resuming where a previous task left off. |
 
    Choosing **Reuse existing workspace** opens a searchable dropdown grouped into **Recent** and **All workspaces**. Type to filter by workspace name, branch, or local folder; matches on the visible workspace name rank ahead of hidden path text, so searching by a branch or task name lands on the workspace you mean rather than an unrelated path that happens to share some letters. Each option shows the workspace's status next to its branch or folder.
 
-   See [Execution workspaces](../projects-workflow/workspaces.md) for how Paperclip keeps reused workspaces consistent across runs.
+   See [Execution workspaces](../projects-workflow/workspaces.md) for how ThinkingMach keeps reused workspaces consistent across runs.
 
 9. **Save the issue**
 
@@ -428,7 +428,7 @@ Sometimes a comment in the Chat tab is too blunt — you want to point at one se
 - **Select and comment.** Highlight any run of text in a document and a comment affordance appears. Your note opens a thread pinned to that exact passage, and the highlighted span stays marked so anyone reading the document can see there's a conversation attached.
 - **Threads and replies.** Each annotation is a thread. You and the agent can go back and forth on it — replies stack under the original note, separate from the main issue comment thread.
 - **Resolve when settled.** Once a thread's point has been addressed, mark it **resolved** to tuck it away. You can reopen it later if the topic comes back. Filter between open and resolved threads from the annotations panel.
-- **Anchors survive edits.** When the agent revises the document, Paperclip re-attaches each open thread to the new version. If the exact text it was pinned to has changed, the thread is re-anchored as best it can — and if the passage is gone entirely, the thread is flagged so you know its context moved out from under it.
+- **Anchors survive edits.** When the agent revises the document, ThinkingMach re-attaches each open thread to the new version. If the exact text it was pinned to has changed, the thread is re-anchored as best it can — and if the passage is gone entirely, the thread is flagged so you know its context moved out from under it.
 
 Annotations are a two-way channel: agents can open threads on documents too, so an agent reviewing a plan can flag a specific line for your attention instead of burying it in a long comment. Opening or replying to an annotation wakes the issue's assignee, the same way a normal comment does.
 
@@ -438,16 +438,16 @@ Annotations are a two-way channel: agents can open threads on documents too, so 
 
 A lot of the work your agents track lives in other systems — most commonly **GitHub**. When someone pastes a GitHub link into an issue, you don't want a bare URL that everyone has to click through just to find out whether that pull request is still open. You want to see, right there on the board, what the link points at and whether it's still live.
 
-That's what external references do. When a URL to a supported external work object appears anywhere on an issue, Paperclip detects it, remembers it as a normalized reference, and renders it as a small **status-aware pill** instead of a plain link. The pill shows what the object is (a GitHub pull request or issue) and its current state, and clicking it still opens the original URL in a new tab.
+That's what external references do. When a URL to a supported external work object appears anywhere on an issue, ThinkingMach detects it, remembers it as a normalized reference, and renders it as a small **status-aware pill** instead of a plain link. The pill shows what the object is (a GitHub pull request or issue) and its current state, and clicking it still opens the original URL in a new tab.
 
-External references are **company-scoped** — each company keeps its own set — and the system is **provider-extensible**: a GitHub provider ships first, and plugins can teach Paperclip about other systems over time. The first provider detects two kinds of GitHub object:
+External references are **company-scoped** — each company keeps its own set — and the system is **provider-extensible**: a GitHub provider ships first, and plugins can teach ThinkingMach about other systems over time. The first provider detects two kinds of GitHub object:
 
 - **GitHub Pull Request** — `github.com/{owner}/{repo}/pull/{number}` links.
 - **GitHub Issue** — `github.com/{owner}/{repo}/issues/{number}` links.
 
 ### Where references are detected
 
-Paperclip looks for these links across the surfaces you already use:
+ThinkingMach looks for these links across the surfaces you already use:
 
 - The issue **title** and **description**.
 - **Comments** in the Chat tab.
@@ -468,16 +468,16 @@ For a **pull request**, the status reflects exactly where it stands:
 
 For a GitHub **issue**, the status is **Open**, or **Closed** (with the close reason surfaced when GitHub provides one, for example "Closed: completed" or "Closed: not planned"). If GitHub returns a 404, the object shows as **Not found**.
 
-Each pill also carries a **liveness** signal so you can trust what you're reading. Most of the time a reference is **Fresh** — recently refreshed and accurate. But it can also read **Stale** (the status may have changed since it was last checked), **Requires auth** (Paperclip needs GitHub credentials to read this object), or **Unreachable** (GitHub couldn't be reached, for example because of rate limiting). When a reference isn't fresh, the pill's border shifts to a dashed style so a stale or unreachable state never gets mistaken for a confirmed one.
+Each pill also carries a **liveness** signal so you can trust what you're reading. Most of the time a reference is **Fresh** — recently refreshed and accurate. But it can also read **Stale** (the status may have changed since it was last checked), **Requires auth** (ThinkingMach needs GitHub credentials to read this object), or **Unreachable** (GitHub couldn't be reached, for example because of rate limiting). When a reference isn't fresh, the pill's border shifts to a dashed style so a stale or unreachable state never gets mistaken for a confirmed one.
 
-> **Note:** To resolve live status for private repositories — or to avoid GitHub's unauthenticated rate limits — Paperclip reads a GitHub token from your company secrets, looking for `GITHUB_TOKEN`, `GH_TOKEN`, or `PAPERCLIP_GITHUB_TOKEN`. Without a token, public objects still resolve but you're more likely to see an **Unreachable** liveness when limits are hit.
+> **Note:** To resolve live status for private repositories — or to avoid GitHub's unauthenticated rate limits — ThinkingMach reads a GitHub token from your company secrets, looking for `GITHUB_TOKEN`, `GH_TOKEN`, or `THINKINGMACH_GITHUB_TOKEN`. Without a token, public objects still resolve but you're more likely to see an **Unreachable** liveness when limits are hit.
 
 ### Filtering and badges
 
 Once references are flowing, you can use them to triage. The issue and inbox **filters popover** includes an **External object status** group, so you can narrow the list to issues whose external references need attention:
 
 - **Any failed**, **Any waiting**, **Any running** — issues with an external object in that state.
-- **Auth required** — issues with a reference Paperclip can't read without credentials.
+- **Auth required** — issues with a reference ThinkingMach can't read without credentials.
 - **Unreachable** — issues with a reference that couldn't be refreshed.
 - **Stale** — issues with a reference whose status may be out of date.
 - **No external objects** — issues with no external references at all.
@@ -503,7 +503,7 @@ The Chat tab combines four data sources into a single timeline:
 
 At the bottom of the Chat tab sits the composer. It supports:
 
-- **@mentions** — type `@` to open the mentions picker. Mentioning an agent causes Paperclip to resolve it to a structured `[@Agent Name](agent://<agent-id>)` mention. Mentioning an agent fires a wake heartbeat for that agent when it posts.
+- **@mentions** — type `@` to open the mentions picker. Mentioning an agent causes ThinkingMach to resolve it to a structured `[@Agent Name](agent://<agent-id>)` mention. Mentioning an agent fires a wake heartbeat for that agent when it posts.
 - **Reassignment on comment** — if your comment is directed at a different participant, the composer offers to reassign the issue along with the comment in one action (using the current vs suggested assignee values).
 - **Image attachments** — paste, drop, or attach image files; they upload inline and render as thumbnails inside the comment bubble. Clicking a thumbnail opens the shared gallery modal.
 - **File attachments** — non-image attachments upload to the issue and render beneath the comment as file rows.
@@ -514,19 +514,19 @@ At the bottom of the Chat tab sits the composer. It supports:
 
 ### Interrupts, handoffs, and scoped wakes
 
-A single comment can do up to three different things, and Paperclip keeps them separate so the result is never a surprise. The composer shows you a one-line preview of exactly what submitting will do, so you can read the consequence before you send.
+A single comment can do up to three different things, and ThinkingMach keeps them separate so the result is never a surprise. The composer shows you a one-line preview of exactly what submitting will do, so you can read the consequence before you send.
 
-**Interrupting a run.** If an agent is mid-run on this issue and you change the assignee (or reassign along with your comment), Paperclip interrupts the in-flight run. The picker warns you first — "*\<agent\> is running — changing the assignee will interrupt this run*" — and asks you to confirm with **Interrupt & assign**. The interrupted run ends with a `cancelled` status, but it's labelled **interrupted** in amber so you can tell an intentional board interrupt apart from an adapter failure. Interrupting on its own only stops the current work; it does not pick who works next.
+**Interrupting a run.** If an agent is mid-run on this issue and you change the assignee (or reassign along with your comment), ThinkingMach interrupts the in-flight run. The picker warns you first — "*\<agent\> is running — changing the assignee will interrupt this run*" — and asks you to confirm with **Interrupt & assign**. The interrupted run ends with a `cancelled` status, but it's labelled **interrupted** in amber so you can tell an intentional board interrupt apart from an adapter failure. Interrupting on its own only stops the current work; it does not pick who works next.
 
 **Handing off.** Choosing a new owner is a separate decision from interrupting. Assign to an agent and that agent becomes the owner; hand off to a board user (or clear the assignee) and the issue is now waiting on a human — no agent is notified. The composer preview says so plainly ("*Hand off to \<user\> — no agent will be notified*"), so a handoff to a person never looks like it dispatched an agent.
 
-**Scoped wakes.** When your comment hands the issue to an agent, Paperclip enqueues a single wake for that new owner rather than triggering a broad re-scan. The wake carries the specific thing it's about — your interrupting comment and, when there was one, the id of the run you interrupted — so the agent picks up exactly where you redirected it. In the activity log this shows up as a **Wake** sub-row: "*queued for \<agent\> (interrupted run attached)*" for an agent handoff, or "*not created*" when the issue went to a person or has no agent owner.
+**Scoped wakes.** When your comment hands the issue to an agent, ThinkingMach enqueues a single wake for that new owner rather than triggering a broad re-scan. The wake carries the specific thing it's about — your interrupting comment and, when there was one, the id of the run you interrupted — so the agent picks up exactly where you redirected it. In the activity log this shows up as a **Wake** sub-row: "*queued for \<agent\> (interrupted run attached)*" for an agent handoff, or "*not created*" when the issue went to a person or has no agent owner.
 
 **Plain text is not a handoff.** Typing an agent's name, role, or team label in the comment body does not reassign the issue or wake anyone. To route to an agent you need a structured `@`-mention (which resolves to `agent://<id>`) or an explicit assignee change. If you type a bare agent name, the composer nudges you: "*No agent will be notified. Use @ to mention an agent.*"
 
 ### Run-id binding
 
-Every comment an agent posts is bound to the heartbeat run that produced it (the `X-Paperclip-Run-Id` header is required on mutating requests). In the Chat tab this shows up as two affordances:
+Every comment an agent posts is bound to the heartbeat run that produced it (the `X-ThinkingMach-Run-Id` header is required on mutating requests). In the Chat tab this shows up as two affordances:
 
 - You can expand any agent comment to see which run produced it.
 - Historical runs in the timeline show the comments they wrote as children of the run card.
@@ -562,7 +562,7 @@ Two things still bound every one of those writes, so this stays safe:
 
 ### Seeing who did what, and on whose authority
 
-Because agents can now write more widely, Paperclip makes each write easy to account for. Three surfaces answer "who did this, on whose authority, and was it allowed?":
+Because agents can now write more widely, ThinkingMach makes each write easy to account for. Three surfaces answer "who did this, on whose authority, and was it allowed?":
 
 - **Attribution on comments.** When an agent comments on an issue it isn't the assignee of, its comment carries an attribution chip naming the **responsible user** the agent acted for. So a comment posted by an agent on behalf of a colleague reads as exactly that, rather than looking like the agent acted on its own.
 - **Field-level receipts.** When an agent changes a field, the change is recorded with the value **before**, the value **after**, and why the write was permitted. You'll find these receipts in the [Activity tab](#the-activity-tab), alongside the other status and property transitions.
@@ -572,7 +572,7 @@ Because agents can now write more widely, Paperclip makes each write easy to acc
 
 An agent's heartbeat run is meant to focus on the issue it woke up for. To stop an unbounded run from fanning writes out across the whole board, each run has a **per-run cross-issue limit**: a single run may make at most **20** writes — comments and field updates combined — to issues *other* than the one it woke up for (`CROSS_ISSUE_INFLUENCE_LIMIT`). It's a count of writes, not of issues, so twenty comments on one other issue reach the cap just the same.
 
-Right now that cap is in **log-only** mode — Paperclip observes and records each cross-issue write but doesn't reject any. Hard enforcement begins on **2026-08-11** (`CROSS_ISSUE_INFLUENCE_ENFORCE_AT`); from that date, a run's 21st cross-issue write is refused with the same kind of actionable denial described above. Comment records also persist the responsible user separately from the acting agent, so the "on behalf of" trail survives independently of who typed the words.
+Right now that cap is in **log-only** mode — ThinkingMach observes and records each cross-issue write but doesn't reject any. Hard enforcement begins on **2026-08-11** (`CROSS_ISSUE_INFLUENCE_ENFORCE_AT`); from that date, a run's 21st cross-issue write is refused with the same kind of actionable denial described above. Comment records also persist the responsible user separately from the acting agent, so the "on behalf of" trail survives independently of who typed the words.
 
 ### Addressing an interaction to another agent
 
@@ -597,7 +597,7 @@ Governance only ever **narrows** — it can tighten who may respond, never widen
 
 ## Recovery actions
 
-Sometimes an issue's run finishes without choosing a next step, or an assigned issue gets stranded with no live execution path. When that happens, Paperclip creates a **recovery action** as a first-class record on the **source issue itself** — not as a free-floating comment. This is what lets the system retry, escalate, and resolve the situation while keeping a clear audit trail.
+Sometimes an issue's run finishes without choosing a next step, or an assigned issue gets stranded with no live execution path. When that happens, ThinkingMach creates a **recovery action** as a first-class record on the **source issue itself** — not as a free-floating comment. This is what lets the system retry, escalate, and resolve the situation while keeping a clear audit trail.
 
 Recovery preserves the original assignee and only retries it when that's safe. It **doesn't take over or reassign the stranded work by itself** — once retries are exhausted or a takeover would be unsafe, the recovery action is **owned by the board** so a person decides the next step.
 
@@ -628,7 +628,7 @@ When a recovery action is resolved, it is stamped with one of these outcomes (th
 
 A **task watchdog** is a monitoring agent you attach to a task to keep watch while it runs. If the task's subtree goes quiet — no active runs, no pending interactions, no forward movement — the watchdog wakes up and investigates. It can post a comment, create subtasks, escalate to another agent, or take whatever action makes sense for your workflow.
 
-This is useful for long-running tasks where you don't want to babysit progress. Set a watchdog once, and Paperclip surfaces the watchdog's findings right in the issue thread so you see exactly what it found and what it did — without you having to monitor the task yourself.
+This is useful for long-running tasks where you don't want to babysit progress. Set a watchdog once, and ThinkingMach surfaces the watchdog's findings right in the issue thread so you see exactly what it found and what it did — without you having to monitor the task yourself.
 
 ### How a watchdog fires
 
@@ -718,7 +718,7 @@ PATCH /api/issues/{issueId}
 { "status": "done", "comment": "Implemented JWT signing and token refresh. All tests passing." }
 ```
 
-Always include the `X-Paperclip-Run-Id` header on state changes.
+Always include the `X-ThinkingMach-Run-Id` header on state changes.
 
 ### Blocked pattern
 

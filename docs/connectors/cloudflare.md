@@ -29,7 +29,7 @@ Prefer the API token path when you want a narrow, auditable boundary. Prefer bro
 
 ## Choose access
 
-Reach is Cloudflare's decision: the account, zones, and resources the credential permits. There is no zone picker in Paperclip.
+Reach is Cloudflare's decision: the account, zones, and resources the credential permits. There is no zone picker in ThinkingMach.
 
 Three categories of action worth separating, because they carry very different consequences:
 
@@ -70,7 +70,7 @@ Do not verify with a DNS or firewall change on a live zone.
 | Unexpected charges appear | A provisioning action created billable resources | Review Cloudflare billing; set provisioning actions to **Off** |
 | **Needs attention** | The token was revoked or the sign-in expired | Select **Reconnect** |
 
-Limitations: one Cloudflare credential per connection. No zone filter inside Paperclip. Paperclip cannot undo a Cloudflare configuration change.
+Limitations: one Cloudflare credential per connection. No zone filter inside ThinkingMach. ThinkingMach cannot undo a Cloudflare configuration change.
 
 ## Related guides
 

@@ -39,7 +39,7 @@ The full tour of the workspace detail screen — tabs, runtime controls, logs �
 
 Isolated workspaces solve concurrency by giving each run its own tree. But runs that stay on the project's **shared** checkout can still collide — two agents editing the same working copy at once corrupt each other's work. The **Shared workspace concurrency** control in **Execution Workspaces** decides what happens then:
 
-- **Auto** *(the default)* — Concurrent runs on local/SSH runners; runs take turns in cloud sandboxes. Paperclip picks the safe behaviour for where the run actually executes.
+- **Auto** *(the default)* — Concurrent runs on local/SSH runners; runs take turns in cloud sandboxes. ThinkingMach picks the safe behaviour for where the run actually executes.
 - **Serialize** — Runs always take turns in the shared project workspace. A second run waits until the first releases the checkout, everywhere.
 - **Allow** — Runs never wait for the workspace; concurrent edits are possible. Choose this only when you know your runs won't step on each other.
 
@@ -47,13 +47,13 @@ The setting lives on the project policy, and if the project allows per-task over
 
 ## When the run happens on an environment
 
-If a task also runs on an [environment](environments.md) — an SSH machine or a provider sandbox — there's one more question to settle: which filesystem the agent actually edits. Paperclip records that as the run's *workspace realization*, and it has two modes.
+If a task also runs on an [environment](environments.md) — an SSH machine or a provider sandbox — there's one more question to settle: which filesystem the agent actually edits. ThinkingMach records that as the run's *workspace realization*, and it has two modes.
 
 In `copy` mode — the familiar one — your isolated workspace is shipped out to the environment, the agent works on that copy, and the result is brought back when the run ends.
 
-In `in_place` mode nothing is copied. The environment already holds the authoritative files and the right toolchain, so the run works directly in the environment's own tree, at the path Paperclip calls the `authoritativeRoot`, and there's no sync-back step afterwards. Your local worktree and branch still exist; the run just isn't the thing editing them.
+In `in_place` mode nothing is copied. The environment already holds the authoritative files and the right toolchain, so the run works directly in the environment's own tree, at the path ThinkingMach calls the `authoritativeRoot`, and there's no sync-back step afterwards. Your local worktree and branch still exist; the run just isn't the thing editing them.
 
-You don't pick this. The environment's driver or sandbox provider declares it, and Paperclip follows — there is no setting for it in project or task configuration. On a Codex run you can tell which mode you got from two places: the run log says `[paperclip] Syncing CODEX_HOME to …` in place mode instead of `[paperclip] Syncing workspace and CODEX_HOME to …`, and the agent's process gets `PAPERCLIP_WORKSPACE_REALIZATION_MODE` and `PAPERCLIP_WORKSPACE_AUTHORITATIVE_ROOT` so your own scripts can check too.
+You don't pick this. The environment's driver or sandbox provider declares it, and ThinkingMach follows — there is no setting for it in project or task configuration. On a Codex run you can tell which mode you got from two places: the run log says `[paperclip] Syncing CODEX_HOME to …` in place mode instead of `[paperclip] Syncing workspace and CODEX_HOME to …`, and the agent's process gets `THINKINGMACH_WORKSPACE_REALIZATION_MODE` and `THINKINGMACH_WORKSPACE_AUTHORITATIVE_ROOT` so your own scripts can check too.
 
 ### Writes outside the workspace now fail out loud
 
@@ -77,7 +77,7 @@ The Workspaces sidebar item disappears (visiting `/workspaces` redirects to your
 - Git worktree is the only implementation — the UI labels it *"Host-managed implementation: Git worktree."*
 - The advanced **Environment** dropdown in the same section needs the [Environments](environments.md) flag and more than one selectable environment.
 - Workspace-scoped sandbox confinement — including the writable-path check above — runs on Linux hosts only.
-- A Codex agent pinned to the ACP engine can't run in an in-place environment: *"In-place workspace realization requires the Codex CLI engine; ACP archive staging is not supported."* Leave the engine unset and Paperclip picks the CLI for you.
+- A Codex agent pinned to the ACP engine can't run in an in-place environment: *"In-place workspace realization requires the Codex CLI engine; ACP archive staging is not supported."* Leave the engine unset and ThinkingMach picks the CLI for you.
 
 ## Where to go next
 

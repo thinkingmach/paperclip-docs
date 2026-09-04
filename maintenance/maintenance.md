@@ -1,6 +1,6 @@
 # Maintenance
 
-Operational notes for maintainers of the Paperclip docs site. Reader-facing instructions live in [README.md](../README.md).
+Operational notes for maintainers of the ThinkingMach docs site. Reader-facing instructions live in [README.md](../README.md).
 
 > For operational instructions on running the `/sync-docs` skill (first-time setup, daily operation, release ceremony, troubleshooting), see [runbook.md](runbook.md).
 
@@ -58,7 +58,7 @@ npm run docs:publish:github
 
 `build-release.mjs` accepts `--base-path <path|auto>`:
 
-- **Production custom domain** — use `/` (the default in `docs:build` and `docs:publish`) for `https://docs.paperclip.ing/`.
+- **Production custom domain** — use `/` (the default in `docs:build` and `docs:publish`) for `https://docs.thinkingmach.com/`.
 - **GitHub Pages repo subpath preview** — use `/paperclip-docs/` via `npm run docs:build:github-subpath`.
 - **Local preview** — use `auto` (`docs:build:auto`). Paths resolve relative to `index.html`, so the site works under any prefix (or none).
 - **Self-hosting under a different prefix** — pass an explicit path, e.g. `--base-path /docs/`.
@@ -118,8 +118,8 @@ Every screenshot used in docs should have an entry in `docs/user-guides/screensh
 
 Every article ends with "Suggest an edit" and "Report an issue" links. These are generated in `loadPage()` in `site/index.html` and point at:
 
-- `github.com/paperclipai/paperclip-docs/edit/main/<path>` — GitHub web editor.
-- `github.com/paperclipai/paperclip-docs/issues/new?template=03-docs-feedback.yml&...` — prefilled docs-feedback issue.
+- `github.com/thinkingmach/paperclip-docs/edit/main/<path>` — GitHub web editor.
+- `github.com/thinkingmach/paperclip-docs/issues/new?template=03-docs-feedback.yml&...` — prefilled docs-feedback issue.
 
 If the repo is ever renamed or mirrored, update `DOCS_REPO_SLUG` / `DOCS_REPO_BRANCH` constants near the top of `appendPageFeedback()`.
 
@@ -133,7 +133,7 @@ If the repo is ever renamed or mirrored, update `DOCS_REPO_SLUG` / `DOCS_REPO_BR
 
 ## Publishing
 
-Primary publishing uses Cloudflare Pages, matching the rest of the public Paperclip sites:
+Primary publishing uses Cloudflare Pages, matching the rest of the public ThinkingMach sites:
 
 ```sh
 npm run docs:publish
@@ -151,11 +151,11 @@ The Cloudflare Pages project name is `paperclip-docs`; production deploys use br
 
 `scripts/publish-gh-pages.sh` clones the repo into a tempdir, checks out (or creates) `gh-pages`, replaces its contents with a fresh build, commits, and pushes. It leaves the working tree untouched, so it's safe to run with uncommitted changes. A `.nojekyll` marker is added so GitHub Pages serves files whose names start with `_`.
 
-By default, the publish script builds for `https://docs.paperclip.ing/` and writes a `CNAME` file containing `docs.paperclip.ing`. Override with `PAGES_BASE_PATH=/paperclip-docs/ PAGES_CUSTOM_DOMAIN= npm run docs:publish:github` only when intentionally publishing a GitHub Pages subpath preview without the custom domain.
+By default, the publish script builds for `https://docs.thinkingmach.com/` and writes a `CNAME` file containing `docs.thinkingmach.com`. Override with `PAGES_BASE_PATH=/paperclip-docs/ PAGES_CUSTOM_DOMAIN= npm run docs:publish:github` only when intentionally publishing a GitHub Pages subpath preview without the custom domain.
 
 ## Sync workflow
 
-These docs follow the parent **paperclipai/paperclip** repo automatically via the [`/sync-docs`](skills/sync-docs/SKILL.md) skill. The skill detects code-surface changes (CLI commands, env vars, REST routes, adapters, plugin SDK, schemas) and produces edits in our friendly-tutorial voice.
+These docs follow the parent **thinkingmach/paperclip** repo automatically via the [`/sync-docs`](skills/sync-docs/SKILL.md) skill. The skill detects code-surface changes (CLI commands, env vars, REST routes, adapters, plugin SDK, schemas) and produces edits in our friendly-tutorial voice.
 
 > Our docs are **not** a translation of the parent's docs. The parent's *code* is the source of truth; its release notes and inline docs are reference data for understanding intent.
 
@@ -167,7 +167,7 @@ Two diagrams summarise the sync workflow. The first shows the **branch model** �
 
 ```mermaid
 flowchart LR
-    subgraph parent["paperclipai/paperclip (parent)"]
+    subgraph parent["thinkingmach/paperclip (parent)"]
         direction TB
         master["master HEAD<br/>(continuously updated)"]
         T1["v2026.318.0"]
@@ -179,7 +179,7 @@ flowchart LR
 
     subgraph docs["paperclip-docs"]
         direction TB
-        docsmain["main<br/>(docs.paperclip.ing — released)"]
+        docsmain["main<br/>(docs.thinkingmach.com — released)"]
         nightly["nightly<br/>(preview URL — draft state)"]
         nightly -- "release PR (squash-merged)<br/>(when parent tags)" --> docsmain
         docsmain -- "realign-nightly.mjs<br/>(required after every release —<br/>squash severs ancestry)" --> nightly
@@ -317,7 +317,7 @@ flowchart TD
 
 | Branch | Tracks | Deploys to | Audience |
 |---|---|---|---|
-| `main` | Latest parent **release tag** (e.g. `v2026.512.0`) | `docs.paperclip.ing` (production) | Everyone — end users to devs |
+| `main` | Latest parent **release tag** (e.g. `v2026.512.0`) | `docs.thinkingmach.com` (production) | Everyone — end users to devs |
 | `nightly` | Parent's `main` HEAD | Cloudflare Pages branch preview | Early adopters, contributors |
 
 End users on the latest *released* paperclip must never see docs for unreleased features. That's why nightly drafts live on a separate branch and never touch `main` until a parent release tag drops.
@@ -394,7 +394,7 @@ How to check, before you touch a page:
 
 ```sh
 # What actually happened to the directory?
-gh api "repos/paperclipai/paperclip/commits?path=<removed-path>/src/index.ts&sha=master&per_page=3" \
+gh api "repos/thinkingmach/paperclip/commits?path=<removed-path>/src/index.ts&sha=master&per_page=3" \
   -q '.[] | "\(.sha[0:9]) \(.commit.message | split("\n")[0])"'
 
 # Did the basename reappear as a nested path elsewhere in the window?
@@ -403,7 +403,7 @@ node -e "require('/tmp/paperclip-sync/window.json').files
   .forEach(f => console.log(f.filename))"
 
 # Is the identifier still registered anywhere?
-gh api "search/code?q=<identifier>+repo:paperclipai/paperclip" -q '.items[].path'
+gh api "search/code?q=<identifier>+repo:thinkingmach/paperclip" -q '.items[].path'
 ```
 
 **When a user-facing surface is retired, keep the page and convert it to a stub.** Do not delete it and do not duplicate its body forward under a new name — retired pages usually document config fields that a migration has already rewritten, so copying them propagates dead config. The stub should say what replaced the surface, link to the pages that now cover it, and describe the migration path. Keep the `content.json` entry and mark the title (e.g. `ACPX Local (retired)`) so someone who meets the old identifier in a runtime error can still find it by browsing.
@@ -412,7 +412,7 @@ gh api "search/code?q=<identifier>+repo:paperclipai/paperclip" -q '.items[].path
 
 ### Hot-fixes on released docs
 
-If you spot a typo or broken example on `main` (released docs), fix it on `main` directly — it deploys to `docs.paperclip.ing` on merge. The sync skill merges `main` back into `nightly` at the start of every nightly run, so the fix isn't lost.
+If you spot a typo or broken example on `main` (released docs), fix it on `main` directly — it deploys to `docs.thinkingmach.com` on merge. The sync skill merges `main` back into `nightly` at the start of every nightly run, so the fix isn't lost.
 
 ### Screenshots in the sync flow
 
@@ -428,7 +428,7 @@ npm run screenshots:refresh
 npm run screenshots:refresh:all
 ```
 
-Both commands spin up an isolated `local_trusted` Paperclip instance on loopback, seed it with demo data, capture light + dark variants at 1440×900 @2x via Playwright, and stamp `captured_sha` / `captured_against` in `registry.json`. The output PNGs go into a PR for human review — never auto-pushed.
+Both commands spin up an isolated `local_trusted` ThinkingMach instance on loopback, seed it with demo data, capture light + dark variants at 1440×900 @2x via Playwright, and stamp `captured_sha` / `captured_against` in `registry.json`. The output PNGs go into a PR for human review — never auto-pushed.
 
 See [Runbook → First-time setup](runbook.md#first-time-setup) for installing the skill locally and seeding `.sync-state.json`. See [Runbook → Helper scripts (full list)](runbook.md#helper-scripts-full-list) for every `sync:*` script with example invocations.
 

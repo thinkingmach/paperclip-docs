@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.525.0
 seo_title: Create a Routine That Runs Daily
-seo_description: Describe recurring work once, attach a cron trigger, and Paperclip mints a fresh issue every tick with the same owner, parent, project, and goal.
+seo_description: Describe recurring work once, attach a cron trigger, and ThinkingMach mints a fresh issue every tick with the same owner, parent, project, and goal.
 ---
 
 # Create a routine that runs daily
 
-A [routine](../guides/welcome/glossary.md) is a recurring task generator. You describe the work once, attach a cron trigger, and Paperclip mints a fresh execution issue on every tick — assigned to one agent, with the same parent, project, and goal each time. The agent picks the issue up through its normal heartbeat, does the work, and the run shows up in the routine's history.
+A [routine](../guides/welcome/glossary.md) is a recurring task generator. You describe the work once, attach a cron trigger, and ThinkingMach mints a fresh execution issue on every tick — assigned to one agent, with the same parent, project, and goal each time. The agent picks the issue up through its normal heartbeat, does the work, and the run shows up in the routine's history.
 
 This recipe covers three day-one patterns — daily standup, inbox triage, and deploy checks — plus the webhook and manual-trigger variants you'll reach for once the basics are in place.
 
@@ -16,7 +16,7 @@ Time to first scheduled run: about 10 minutes.
 
 ## What you'll need
 
-- A board API token in `PAPERCLIP_API_KEY` and the URL in `PAPERCLIP_API_URL` ([CLI auth](../administration/cli-auth.md)).
+- A board API token in `THINKINGMACH_API_KEY` and the URL in `THINKINGMACH_API_URL` ([CLI auth](../administration/cli-auth.md)).
 - The `companyId` you're working in (`COMPANY_ID` below).
 - The id of the agent that should run each tick (`AGENT_ID`). Agents can only create routines they assign to themselves; board callers can target any agent.
 - A `projectId` to anchor the work — every routine is project-scoped, and the runs inherit it.
@@ -28,8 +28,8 @@ If you'd rather click through the UI, the same fields exist on the Routines page
 ## 1. Create the routine
 
 ```bash
-ROUTINE_ID=$(curl -sS -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/routines" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+ROUTINE_ID=$(curl -sS -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/routines" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Daily standup",
@@ -51,8 +51,8 @@ The routine is created `active` because it has an assignee. Without one it falls
 ## 2. Attach a daily schedule trigger
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/routines/$ROUTINE_ID/triggers" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/routines/$ROUTINE_ID/triggers" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "kind": "schedule",
@@ -73,7 +73,7 @@ Cron is the standard 5-field syntax. The five worth memorising:
 | `0 */4 * * *` | Every 4 hours, on the hour |
 | `0 0 1 * *` | First of the month at 00:00 |
 
-`timezone` is an IANA name — `UTC`, `America/New_York`, `Asia/Tokyo`. Paperclip evaluates the cron in that zone, so a 9am routine stays at 9am local through DST switches instead of drifting an hour. The `Next:` countdown on the routine detail page is computed server-side from this combination, not from the browser clock.
+`timezone` is an IANA name — `UTC`, `America/New_York`, `Asia/Tokyo`. ThinkingMach evaluates the cron in that zone, so a 9am routine stays at 9am local through DST switches instead of drifting an hour. The `Next:` countdown on the routine detail page is computed server-side from this combination, not from the browser clock.
 
 A routine can have more than one trigger. Same `POST` route, different bodies — overlap is fine, all triggers fire independently.
 
@@ -107,8 +107,8 @@ Set both at create time (the example in step 1 picks `skip_if_active` + `skip_mi
 Routines carry a `routines.env` map, the same shape as agent adapter env. Each value is either a literal string or a `secret_ref` to a company secret — handy when the routine shells out to a tool that needs an API key, or when you want to flip a flag between staging and prod without editing the agent.
 
 ```bash
-curl -X PATCH "$PAPERCLIP_API_URL/api/routines/$ROUTINE_ID" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X PATCH "$THINKINGMACH_API_URL/api/routines/$ROUTINE_ID" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "env": {
@@ -153,8 +153,8 @@ If the routine doesn't have a schedule trigger yet, you'll see the cards greyed 
 The two fields behind those cards are `activityGatePolicy` and `activityGateScope`, so you can script the whole thing:
 
 ```bash
-curl -X PATCH "$PAPERCLIP_API_URL/api/routines/$ROUTINE_ID" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X PATCH "$THINKINGMACH_API_URL/api/routines/$ROUTINE_ID" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "activityGatePolicy": "require_external_activity",
@@ -187,8 +187,8 @@ The gate only applies to schedule triggers. Webhook firings and `POST /api/routi
 The agent reads what changed since the previous standup and comments on a parent project issue with a short summary. Use `coalesce_if_active`: if the agent is still writing yesterday's standup when today's tick lands, merge the work — there's no value in two standup issues for the same morning.
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/routines" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/routines" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Daily standup — {{project_name}}",
@@ -208,8 +208,8 @@ curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/routines" \
 Then a weekday-only cron:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/routines/$ROUTINE_ID/triggers" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/routines/$ROUTINE_ID/triggers" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "kind": "schedule", "cronExpression": "0 9 * * 1-5", "timezone": "Europe/Amsterdam" }'
 ```
@@ -223,8 +223,8 @@ curl -X POST "$PAPERCLIP_API_URL/api/routines/$ROUTINE_ID/triggers" \
 The agent reads its own assigned `todo` issues, re-prioritises (`critical`/`high`/`medium`/`low`), and rewrites stale titles. The next tick's snapshot is what matters; if the previous tick is still finishing, drop today's. `skip_if_active` is the right call.
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/routines" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/routines" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Inbox triage",
@@ -240,8 +240,8 @@ curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/routines" \
 Trigger every two hours during the working day:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/routines/$ROUTINE_ID/triggers" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/routines/$ROUTINE_ID/triggers" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "kind": "schedule", "cronExpression": "0 9-17/2 * * 1-5", "timezone": "Europe/Amsterdam" }'
 ```
@@ -255,8 +255,8 @@ The 30-issue cap in the description is the kind of guard worth writing in plain 
 The agent runs a smoke test against staging or prod every 30 minutes. On failure, it creates a `critical` issue with the failure output and assigns it to the on-call engineer. Each run is independently meaningful — you don't want to coalesce a 09:00 failure into the 09:30 issue and lose the timing — so use `always_enqueue`.
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/routines" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/routines" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Smoke test — staging",
@@ -272,8 +272,8 @@ curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/routines" \
 Trigger every 30 minutes around the clock:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/routines/$ROUTINE_ID/triggers" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/routines/$ROUTINE_ID/triggers" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "kind": "schedule", "cronExpression": "*/30 * * * *", "timezone": "UTC" }'
 ```
@@ -294,8 +294,8 @@ Schedule isn't the only trigger. The same routine can carry any combination of `
 Use when an external system should kick the routine off. GitHub PR opened, Stripe invoice paid, monitoring alert fired.
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/routines/$ROUTINE_ID/triggers" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/routines/$ROUTINE_ID/triggers" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "kind": "webhook",
@@ -323,16 +323,16 @@ Signing modes: `bearer` (default), `hmac_sha256`, `github_hmac`, or `none`. Pick
 Use when you want the routine in the run history but no automatic trigger. Useful for "run on demand from a button" or scripting from CI.
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/routines/$ROUTINE_ID/triggers" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/routines/$ROUTINE_ID/triggers" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -d '{ "kind": "api" }'
 ```
 
 Then fire on demand:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/routines/$ROUTINE_ID/run" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/routines/$ROUTINE_ID/run" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "source": "manual",
@@ -352,8 +352,8 @@ The `/run` endpoint also works on routines that *only* have schedule or webhook 
 Don't trust the routine until you've seen one run. List the most recent runs:
 
 ```bash
-curl -sS "$PAPERCLIP_API_URL/api/routines/$ROUTINE_ID/runs?limit=10" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY"
+curl -sS "$THINKINGMACH_API_URL/api/routines/$ROUTINE_ID/runs?limit=10" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY"
 ```
 
 The runs you'll see:
@@ -382,8 +382,8 @@ For a deeper look at what the agent actually did, follow `linkedIssueId` to the 
 To force one tick now without waiting for the cron:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/routines/$ROUTINE_ID/run" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/routines/$ROUTINE_ID/run" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -d '{ "source": "manual" }'
 ```
 

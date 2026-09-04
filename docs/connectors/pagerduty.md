@@ -30,11 +30,11 @@ The token carries that user's permissions. If an agent should only read, issue t
 1. Open **Connectors** and select **PagerDuty**.
 2. On the **Access** step, choose the identity and which agents may use the connection.
 3. Choose **US service region** or **EU service region**.
-4. Paste the **PagerDuty API key**. Paperclip stores it as a secret.
+4. Paste the **PagerDuty API key**. ThinkingMach stores it as a secret.
 
 ### Which PagerDuty token to create
 
-Paperclip's field asks for a **user API token**, not a general REST API key. The two are different credentials in PagerDuty:
+ThinkingMach's field asks for a **user API token**, not a general REST API key. The two are different credentials in PagerDuty:
 
 - A **user API token** acts as one person, and inherits that user's own PagerDuty role and team access. Create one under your PagerDuty user settings.
 - A **general REST API key** is account-wide and is not what this field expects.
@@ -45,7 +45,7 @@ PagerDuty's own reference is the [PagerDuty MCP server documentation](https://su
 
 ## Choose access
 
-Reach is the token's: the services, teams, and incidents the issuing user can see, subject to PagerDuty's own roles and team membership. There is no service or team picker in Paperclip.
+Reach is the token's: the services, teams, and incidents the issuing user can see, subject to PagerDuty's own roles and team membership. There is no service or team picker in ThinkingMach.
 
 Incident operations are consequential in a way that is easy to underestimate. Acknowledging or resolving an incident changes who gets paged and stops escalation — during a real outage that has immediate human consequences.
 
@@ -76,7 +76,7 @@ Do not verify by creating a test incident — that pages whoever is on call.
 | An incident was resolved unexpectedly | A mutation was set to **Allowed** | Re-open it in PagerDuty and tighten the action settings |
 | **Needs attention** | The token was revoked | Issue a new token and reconnect |
 
-Limitations: one account and one region per connection. No service or team filter inside Paperclip. PagerDuty's API rate limits apply.
+Limitations: one account and one region per connection. No service or team filter inside ThinkingMach. PagerDuty's API rate limits apply.
 
 ## Related guides
 

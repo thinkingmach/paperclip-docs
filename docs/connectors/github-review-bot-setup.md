@@ -5,7 +5,7 @@ seo_description: Build an experimental agent-powered Storybook reviewer, connect
 
 # Set up a GitHub review bot
 
-> **Experimental chat feature:** This tutorial uses Paperclip's experimental **Chat connectors** feature. An instance administrator must enable it under experimental settings. The setup and behavior may change. If your installation does not show this journey, update to a version that includes GitHub review bots before following it.
+> **Experimental chat feature:** This tutorial uses ThinkingMach's experimental **Chat connectors** feature. An instance administrator must enable it under experimental settings. The setup and behavior may change. If your installation does not show this journey, update to a version that includes GitHub review bots before following it.
 
 Let's build a bot that does something easy to verify: for each eligible pull
 request, it generates Storybook stories, builds them, opens the rendered pages,
@@ -22,19 +22,19 @@ Installing the App, choosing when it runs, and requiring its result before
 merging are three independent choices. This tutorial makes each choice explicitly.
 We will get the bot working before optionally making it a merge requirement.
 
-The bot is one assigned Paperclip agent. GitHub comments and PR events start or
-continue ordinary Paperclip tasks; the same budgets, tools, responsible-user
+The bot is one assigned ThinkingMach agent. GitHub comments and PR events start or
+continue ordinary ThinkingMach tasks; the same budgets, tools, responsible-user
 rules, and activity history apply. You can always follow the work back into
-Paperclip.
+ThinkingMach.
 
 ## What you need
 
-- An instance with **Chat connectors** enabled and a **public HTTPS address** reachable by GitHub. A localhost address alone cannot receive webhooks. For local development, first configure an authorized HTTPS ingress; use the URLs Paperclip generates for your instance.
-- Permission to manage connections in your Paperclip company, create a GitHub App, and install it on the chosen account or organization.
+- An instance with **Chat connectors** enabled and a **public HTTPS address** reachable by GitHub. A localhost address alone cannot receive webhooks. For local development, first configure an authorized HTTPS ingress; use the URLs ThinkingMach generates for your instance.
+- Permission to manage connections in your ThinkingMach company, create a GitHub App, and install it on the chosen account or organization.
 - A disposable GitHub repository you can open PRs in. A private repository is fine. Requiring checks in a private repository depends on your GitHub plan.
 - A working React/Storybook project in that repository, with its dependencies committed through the normal package manifest and lockfile. For the example below, `npm ci` and `npm run build-storybook` must work. Use your repository's equivalent commands if it uses another package manager.
 - An agent runtime with an AI connection, an isolated sandbox, repository access, Node.js, and browser tools that can open the Storybook build. Prove the runtime can execute a small task before adding automatic reviews.
-- Your own regular personal GitHub connection in Paperclip. This identifies the person requesting work; the bot will publish using its own App identity.
+- Your own regular personal GitHub connection in ThinkingMach. This identifies the person requesting work; the bot will publish using its own App identity.
 
 The review bot's governed GitHub tools do not automatically clone a private repo,
 install Node.js, or provide a browser. Configure the agent's project/workspace
@@ -52,11 +52,11 @@ with a concrete work boundary and an isolated sandbox. A private PR can still
 contain hostile instructions or code.
 
 Open **Apps → GitHub → Chat with an agent** and choose that agent. The assignment
-is permanent for this bot. Paperclip warns when the selected agent is not
+is permanent for this bot. ThinkingMach warns when the selected agent is not
 configured for low-trust review; continuing does not reduce its existing access.
 
 The opening step also has **Copy setup prompt**. You can paste it into Codex or
-Claude with browser tools to get help with setup. It includes your Paperclip
+Claude with browser tools to get help with setup. It includes your ThinkingMach
 instance URL and asks about the agent, repositories, triggers, and permitted
 requesters before configuring them. You still complete account login and any
 GitHub authorization decisions.
@@ -68,9 +68,9 @@ You can use **Save & exit** and resume this setup later.
 On **Connect GitHub App**, check that the public HTTPS prerequisite is satisfied.
 For a new bot, select **Create an App**, enter a unique name, then select
 **Prepare registration** and **Create App on GitHub**. This is the manifest
-registration flow: Paperclip supplies the permissions,
+registration flow: ThinkingMach supplies the permissions,
 events, and return URLs; GitHub asks you to confirm the App's owner and name.
-Return to Paperclip after creation. App names must be available on GitHub, so
+Return to ThinkingMach after creation. App names must be available on GitHub, so
 your final bot handle may differ from `storybook-bot`.
 
 ![GitHub App registration step with Create App on GitHub and the existing-App alternative](../user-guides/screenshots/light/github-review/connect.png)
@@ -80,27 +80,27 @@ simulated connection responses. They illustrate the controls; they are not proof
 of a live installation or agent run.*
 
 Use **Use an existing App** if you already own a suitable bot App. Enter its
-credentials only in Paperclip's setup form. An existing chat App may need
+credentials only in ThinkingMach's setup form. An existing chat App may need
 **Contents: read**, **Pull requests: write**, and **Checks: write**, alongside
 its chat permissions and pull-request event subscriptions. Accept any requested
 installation permission upgrade in GitHub before verifying again.
 
-If manifest registration expires, restart it from Paperclip. Do not reuse an
+If manifest registration expires, restart it from ThinkingMach. Do not reuse an
 old callback link or manually guess a callback URL.
 
-## 3. Install the App, then enable repositories in Paperclip
+## 3. Install the App, then enable repositories in ThinkingMach
 
 These are separate steps because they answer different questions:
 
 1. **Install GitHub App:** choose **Install App on GitHub**. Grant access to only
    the disposable repository for this walkthrough. This is GitHub's permission
    boundary: which repositories may the App access at all?
-2. Return to Paperclip and choose **I’ve installed the App**.
+2. Return to ThinkingMach and choose **I’ve installed the App**.
 3. **Select repositories:** choose **Refresh access**. The list comes from the
    bot App's GitHub installation, not your personal connection or a search of
    every repository you can see.
 4. Enable the disposable repository and choose **Save repositories**. This is
-   Paperclip's routing choice: which accessible repositories should this bot handle?
+   ThinkingMach's routing choice: which accessible repositories should this bot handle?
 
 ![Repository picker with Refresh access, Configure access on GitHub, and a separately enabled repository](../user-guides/screenshots/light/github-review/repositories.png)
 
@@ -110,7 +110,7 @@ newly accessible repository is not automatically enabled for the bot.
 
 ## 4. Verify the connection and the agent's tools
 
-Choose **Verify connection**. Paperclip checks signed webhook delivery, App
+Choose **Verify connection**. ThinkingMach checks signed webhook delivery, App
 identity, repository access, and the assigned agent's effective GitHub tools
 and runtime separately.
 
@@ -132,7 +132,7 @@ use **Connect GitHub**, finish the normal sign-in, and return to this step.
 
 ![Account linking through an existing personal GitHub connection and explicit ownership confirmation](../user-guides/screenshots/light/github-review/identity.png)
 
-This lets Paperclip recognize who asked the bot to work. It does not give the
+This lets ThinkingMach recognize who asked the bot to work. It does not give the
 bot your personal credentials; the bot's App remains its publication identity.
 
 For the first test, allow linked members and leave external guests off. Teammates
@@ -146,7 +146,7 @@ company membership or personal credentials.
 
 On **Configure behavior**, choose the member responsible for automatic events.
 Use yourself for this walkthrough. The PR author and webhook sender are recorded
-separately; they do not automatically become the responsible Paperclip user.
+separately; they do not automatically become the responsible ThinkingMach user.
 
 Set the review policy as follows:
 
@@ -168,7 +168,7 @@ covers that distinction.
 ## 7. Give the Storybook bot a concrete review instruction
 
 Paste this into **Review instructions**, adjusting the build command and story
-scope to your repository. Keep the policy in Paperclip; PR text is untrusted
+scope to your repository. Keep the policy in ThinkingMach; PR text is untrusted
 input and cannot rewrite these instructions or grant new permissions.
 
 ```text
@@ -226,18 +226,18 @@ recheck earlier findings, and submit a new assessment. Do not reuse the
 previous commit's passing result as evidence for this commit.
 ```
 
-Paperclip supplies typed repository, PR, commit, sender, and prior-review
+ThinkingMach supplies typed repository, PR, commit, sender, and prior-review
 context. These prompts supplement the assigned agent's instructions; they do
 not configure authority. Select **Save behavior**.
 
 ## 8. Try a mention before testing automatic reviews
 
-On **Try it**, copy the mention Paperclip gives you. Use that handle, not the
+On **Try it**, copy the mention ThinkingMach gives you. Use that handle, not the
 agent's display name or an example handle from this guide.
 
 In a scratch issue in the enabled repository, post the mention with a simple
 request such as “confirm you can read this issue.” Follow the resulting
-Paperclip task. Check the assigned agent, responsible user, and GitHub response.
+ThinkingMach task. Check the assigned agent, responsible user, and GitHub response.
 An issue conversation should not produce a PR rating check.
 
 You can finish without the optional test, but that leaves execution unverified.
@@ -248,18 +248,18 @@ For this walkthrough, verify the response and finish setup.
 Make the first PR a non-draft UI change whose rendered page does **not** contain
 `oogabooga`. Open it from your linked GitHub account in the enabled repository.
 
-1. Opening the PR should create a Paperclip task/run on **Storybook Bot**.
+1. Opening the PR should create a ThinkingMach task/run on **Storybook Bot**.
 2. Follow the run and verify that it used the bot's GitHub tools, generated
    stories, completed the build, and inspected the browser pages.
 3. A complete assessment with no matching page should submit 3/5. GitHub should
-   show the summary and a failed **Paperclip Review** check for that PR head.
-4. In Paperclip, open the connection's **Reviews** tab. Follow its task/run link.
+   show the summary and a failed **ThinkingMach Review** check for that PR head.
+4. In ThinkingMach, open the connection's **Reviews** tab. Follow its task/run link.
    This is review history attached to the ordinary task, not another execution engine.
 5. Add visible `oogabooga` to the product component and push a new commit to the
    same PR. Keep **Updated commits** enabled. The push should start a new
    assessment in the existing task conversation.
 6. Verify a fresh build/browser inspection and a complete 5/5 assessment. The
-   **Paperclip Review** check for the new head should now pass.
+   **ThinkingMach Review** check for the new head should now pass.
 
 Check the commit SHA as well as the color. A result from an older head does not
 prove the newly pushed code was reviewed. A manually posted comment does not
@@ -269,7 +269,7 @@ Then try these variations:
 
 | Action | Expected result |
 | --- | --- |
-| Comment with the copied bot mention and “please review this PR again” | A fresh assessment of the current head, with the same Paperclip task conversation and retained review history. |
+| Comment with the copied bot mention and “please review this PR again” | A fresh assessment of the current head, with the same ThinkingMach task conversation and retained review history. |
 | Disable **Updated commits**, save, then push another change | No automatic assessment from that push. An authorized review mention can start one. If the check is required, the new head still needs its own acceptable result. |
 | Remove the visible word and request a review | A complete 3/5 assessment and failed check. |
 | Break the Storybook build and request a review | An incomplete, non-passing assessment with an explanation. |
@@ -289,7 +289,7 @@ GitHub repository rule:
 1. Let the bot publish its check first, so GitHub can offer it for selection.
 2. Open **Settings → Rules → Rulesets** and create or edit a branch ruleset
    targeting the intended branch, such as `main`.
-3. Add **Require status checks to pass** and select **Paperclip Review**.
+3. Add **Require status checks to pass** and select **ThinkingMach Review**.
 4. Select this bot's GitHub App as the expected source where GitHub offers it.
    Preserve other required checks and choose bypass permissions deliberately.
 5. Set enforcement to **Active**. A classic branch-protection rule can also
@@ -311,7 +311,7 @@ For the reason this is a separate step, return to
 
 | What you see | What to check |
 | --- | --- |
-| Repository missing from the picker | Bot App installation access on GitHub, then **Refresh access** in Paperclip. |
+| Repository missing from the picker | Bot App installation access on GitHub, then **Refresh access** in ThinkingMach. |
 | Verification fails | The specific signed-delivery, App, installation permission, tool-policy, or runtime repair reported in setup. |
 | Mention produces no task | Correct bot handle, enabled repository, current account link, and requester access. |
 | New PR or push produces no assessment | Event toggles, linked/allowed author, drafts, bot authors, filters, repository overrides, and the responsible member's current authority. |

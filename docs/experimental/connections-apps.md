@@ -1,6 +1,6 @@
 ---
 seo_title: Connections v3 Foundation
-seo_description: The rebuilt connection storage and authorization layer under Paperclip Connectors: stable identities, subject-aware grants, and the mcp_remote rename.
+seo_description: The rebuilt connection storage and authorization layer under ThinkingMach Connectors: stable identities, subject-aware grants, and the mcp_remote rename.
 ---
 
 # Connections v3 (the foundation under Connectors)
@@ -16,7 +16,7 @@ seo_description: The rebuilt connection storage and authorization layer under Pa
 | **Apps** had to be turned on in **Settings → Instance settings → Experimental**. | Always enabled. `enableApps` is a deprecated compatibility key: *"Apps is always enabled; stored and managed values are ignored."* The Experimental settings page no longer renders the toggle. |
 | The navigation item was **Apps**. | The sidebar item is **Connectors**. The route is still `/apps`. |
 | A Wave 1 catalog, described as plumbing rather than a store. | A full catalog with setup flows, per-action permissions, and a review queue. See [Connectors](../connectors.md). |
-| "Setup flows are partial." | Setup flows are the product surface. Each provider page documents the exact paths Paperclip supports for it. |
+| "Setup flows are partial." | Setup flows are the product surface. Each provider page documents the exact paths ThinkingMach supports for it. |
 
 One experimental flag in this area is still real and still off by default: **Chat connectors**, described as *"Show experimental chat connector setup and Board surfaces. Existing connections keep running when hidden; GitHub and other tool connectors are unaffected."* That flag governs the [chat channels](../connectors.md#chat-channels) — Slack, Discord, Microsoft Teams, Telegram, iMessage — and AgentMail's email inboxes with them. It does not govern app integrations, so the Slack and GitHub agent tools are unaffected even when their chat halves are hidden.
 
@@ -24,7 +24,7 @@ One experimental flag in this area is still real and still off by default: **Cha
 
 Connecting an external service used to mean a loose bundle of config and secrets with no clear owner and no stable name. Connections v3 replaced that with an explicit model, and that model is still how connectors work today:
 
-- **A stable connection identity.** Every connection has a company-scoped `uid` (like `google-sheets/finance-sheet-1a2b3c4d`) that stays put as names change, so the rest of Paperclip can reference it reliably. Renaming a connection does not break a policy pointed at it.
+- **A stable connection identity.** Every connection has a company-scoped `uid` (like `google-sheets/finance-sheet-1a2b3c4d`) that stays put as names change, so the rest of ThinkingMach can reference it reliably. Renaming a connection does not break a policy pointed at it.
 - **Explicit ownership, auth, and transport.** Each connection records who owns it, how it authenticates (`oauth`, `api_key`, or `none`), and how it talks to the service.
 - **Subject-aware grants.** A `connection_grants` table separates *the connection* from *who may use it*. A grant is scoped to the organization, to one user, or to one agent, so a single connection can serve a shared default and per-subject authorizations at the same time. This is what the identity choices in [How connector access works](../connectors/access-model.md) are built on.
 - **Multi-key credentials.** A connection can hold more than one credential reference, which real-world apps with several keys or scopes need.

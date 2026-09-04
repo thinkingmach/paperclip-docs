@@ -6,7 +6,7 @@ seo_description: Real, working features shipped behind opt-in flags while they a
 
 # Experimental features
 
-Paperclip ships some features behind opt-in flags before they become default behavior. They're real, working features — you can turn them on today — but they're still being evaluated against real usage, so they live on a dedicated **Experimental** settings page instead of being on for everyone.
+ThinkingMach ships some features behind opt-in flags before they become default behavior. They're real, working features — you can turn them on today — but they're still being evaluated against real usage, so they live on a dedicated **Experimental** settings page instead of being on for everyone.
 
 This section has one page per experimental feature: why it exists, how to turn it on, and how to use it.
 
@@ -14,7 +14,7 @@ This section has one page per experimental feature: why it exists, how to turn i
 
 ## What "experimental" means
 
-An experimental feature in Paperclip:
+An experimental feature in ThinkingMach:
 
 - **Has shipped and works.** These aren't stubs — each flag gates a complete surface.
 - **Is opt-in.** Everything stays hidden until you flip the flag, so the UI stays out of your way if you don't use it.
@@ -24,7 +24,7 @@ Turning a flag on is not dangerous in the "this will corrupt your data" sense, a
 
 ## Turning a feature on
 
-All experimental flags live in one place, and they're instance-wide (they apply to every company on your Paperclip instance):
+All experimental flags live in one place, and they're instance-wide (they apply to every company on your ThinkingMach instance):
 
 1. Open **Settings → Instance settings → Experimental**.
 2. Find the feature's card and flip its toggle.
@@ -33,13 +33,13 @@ Changes take effect immediately — no restart, no migration. Each feature page 
 
 ## If a toggle is locked
 
-On an instance managed by Paperclip Cloud, some of these features are decided for you. Open the Experimental page there and you'll see a small lock badge reading **Managed by Paperclip Cloud** next to the feature's name, and its toggle greyed out — the switch still shows you whether the feature is on or off, you just can't move it. Clicking it does nothing.
+On an instance managed by ThinkingMach Cloud, some of these features are decided for you. Open the Experimental page there and you'll see a small lock badge reading **Managed by ThinkingMach Cloud** next to the feature's name, and its toggle greyed out — the switch still shows you whether the feature is on or off, you just can't move it. Clicking it does nothing.
 
-That's not a permission problem with your account. Paperclip Cloud sets those values for the fleet your instance runs in, and the app re-applies them every time it reads the settings, so the answer can't drift — nothing you or anyone else does inside the instance changes a managed value. If you need one of these features turned on or off, that's a change on the Paperclip Cloud side rather than something you flip on this page.
+That's not a permission problem with your account. ThinkingMach Cloud sets those values for the fleet your instance runs in, and the app re-applies them every time it reads the settings, so the answer can't drift — nothing you or anyone else does inside the instance changes a managed value. If you need one of these features turned on or off, that's a change on the ThinkingMach Cloud side rather than something you flip on this page.
 
 Only some features are managed this way. Anything without the badge is still yours to turn on and off exactly as described above, and the two kinds sit side by side in the same list — so the badge is what tells you which is which, on any given release.
 
-**Self-hosted instances are unaffected.** If you run Paperclip yourself, there is no managed configuration, no lock badge, and every card on the page stays editable. What makes the difference is a single environment variable, [`PAPERCLIP_MANAGED_CONFIG`](../reference/deploy/environment-variables.md#cloud-managed-instances), which only the Paperclip Cloud harness sets.
+**Self-hosted instances are unaffected.** If you run ThinkingMach yourself, there is no managed configuration, no lock badge, and every card on the page stays editable. What makes the difference is a single environment variable, [`THINKINGMACH_MANAGED_CONFIG`](../reference/deploy/environment-variables.md#cloud-managed-instances), which only the ThinkingMach Cloud harness sets.
 
 ## The features
 
@@ -55,7 +55,7 @@ Only some features are managed this way. Anything without the badge is still you
 | [Status Cards](status-cards.md) | A shared board of living summaries: one message per card, compiled into a watch query and kept current by the Summarizer. |
 | [Cloud Sync](cloud-sync.md) | **Retired.** Host-to-host Cloud Sync has been removed upstream, toggle included — you won't find it on the Experimental page any more. Use [company Import/Export](../how-to/back-up-and-restore-a-company.md) to move a company between instances. |
 | [Server Info Debug View](server-info-debug-view.md) | A "Server" section in the account drawer with the server restart time and running commit. |
-| [Auto-Restart Dev Server When Idle](auto-restart-dev-server.md) | For Paperclip developers: restarts a stale `pnpm dev:once` boot once all local runs finish. |
+| [Auto-Restart Dev Server When Idle](auto-restart-dev-server.md) | For ThinkingMach developers: restarts a stale `pnpm dev:once` boot once all local runs finish. |
 | [Auto-Create Recovery Tasks](auto-create-recovery-tasks.md) | Lets the scheduler create recovery tasks for stalled task dependency chains. |
 
 ## Where to go next

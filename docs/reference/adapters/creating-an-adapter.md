@@ -15,12 +15,12 @@ Build a custom adapter when the built-in local adapters do not fit your runtime.
 
 | Area | Built-in | External |
 |---|---|---|
-| Source | Lives in the Paperclip repo | Lives in its own package |
+| Source | Lives in the ThinkingMach repo | Lives in its own package |
 | Registration | Added to the host registry | Loaded through the adapter plugin store |
 | UI parser | Static import | Optional `./ui-parser` export |
 | Best for | Core adapters and host-owned runtimes | Independent distribution and local plugins |
 
-For most new runtime integrations, start as an external adapter package. Move to a built-in only if Paperclip itself needs to ship it.
+For most new runtime integrations, start as an external adapter package. Move to a built-in only if ThinkingMach itself needs to ship it.
 
 ---
 
@@ -43,7 +43,7 @@ my-adapter/
 
 The important rule is simple: keep the package self-contained and make the package root export the metadata and server factory.
 
-The `cli/format-event.ts` file is optional. Add it only if you want a custom live-watch formatter for `paperclipai run --watch`.
+The `cli/format-event.ts` file is optional. Add it only if you want a custom live-watch formatter for `thinkingmach run --watch`.
 
 ---
 
@@ -79,7 +79,7 @@ The `agentConfigurationDoc` string is what the UI shows when a user configures t
 `createServerAdapter()` is the server-side entrypoint. It should return a `ServerAdapterModule` that wires execution and environment tests together.
 
 ```ts
-import type { ServerAdapterModule } from "@paperclipai/adapter-utils";
+import type { ServerAdapterModule } from "@thinkingmach/adapter-utils";
 import { execute } from "./execute.js";
 import { testEnvironment } from "./test.js";
 
@@ -94,7 +94,7 @@ export function createServerAdapter(): ServerAdapterModule {
 }
 ```
 
-That module is the contract Paperclip relies on for the adapter lifecycle.
+That module is the contract ThinkingMach relies on for the adapter lifecycle.
 
 ---
 
@@ -104,8 +104,8 @@ That module is the contract Paperclip relies on for the adapter lifecycle.
 
 Use it to:
 
-1. Read config with the safe helpers from `@paperclipai/adapter-utils/server-utils`.
-2. Build the runtime environment with `buildPaperclipEnv(agent)`.
+1. Read config with the safe helpers from `@thinkingmach/adapter-utils/server-utils`.
+2. Build the runtime environment with `buildThinkingMachEnv(agent)`.
 3. Resolve or resume session state from `runtime.sessionParams`.
 4. Render any prompt template with `renderTemplate()`.
 5. Spawn the command or call the remote service.
@@ -116,7 +116,7 @@ Key helpers you are likely to use:
 | Helper | Use |
 |---|---|
 | `runChildProcess()` | Spawn a local command with streaming logs and timeouts. |
-| `buildPaperclipEnv()` | Inject the standard `PAPERCLIP_*` variables. |
+| `buildThinkingMachEnv()` | Inject the standard `THINKINGMACH_*` variables. |
 | `renderTemplate()` | Substitute template variables like `{{agentId}}`. |
 | `asString()`, `asNumber()`, `asBoolean()` | Read config values safely. |
 
@@ -163,7 +163,7 @@ Use `clearSession: true` when the runtime reports that the previous session cann
 
 ## Skills Injection
 
-Your adapter should make Paperclip skills visible to the runtime without polluting the user's workspace.
+Your adapter should make ThinkingMach skills visible to the runtime without polluting the user's workspace.
 
 Preferred options:
 
@@ -184,7 +184,7 @@ See:
 
 - [Adapter UI Parser Contract](./adapter-ui-parser.md)
 
-For built-in adapters, the UI parser can live inside Paperclip source. For external adapters, it must be standalone and browser-safe.
+For built-in adapters, the UI parser can live inside ThinkingMach source. For external adapters, it must be standalone and browser-safe.
 
 ---
 

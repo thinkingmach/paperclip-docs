@@ -17,7 +17,7 @@ If the question you're really asking is "what did my *agents* do, and on whose b
 
 ## What Gets Logged
 
-Every mutation in Paperclip produces an activity record. This includes:
+Every mutation in ThinkingMach produces an activity record. This includes:
 
 - **Task events** — created, status changed, assigned, reassigned, commented on, closed, cancelled
 - **Agent events** — created, updated, paused, resumed, terminated, heartbeat triggered, heartbeat completed
@@ -91,13 +91,13 @@ Everyone on your team can open Activity, but there are two tiers of detail:
 - **Any company member** can read the feed with the scope set to **All actors**. You'll see every kind of actor — human, agent, plugin, and system — but the sensitive attribution fields (which agent, which run, and the responsible person) are stripped out.
 - **Members with the `audit:view_agent_actions` permission** see complete rows. They can turn on the attribution filters — agent, responsible user, and actor type — and they can export the feed to CSV. No role hands this permission out by default, so it's always a deliberate grant; see [Roles & Permissions](../../administration/roles-and-permissions.md).
 
-If you set an attribution filter without the permission, Paperclip tells you the filter needs `audit:view_agent_actions` rather than silently returning stripped-down rows.
+If you set an attribution filter without the permission, ThinkingMach tells you the filter needs `audit:view_agent_actions` rather than silently returning stripped-down rows.
 
 ### Exporting
 
-With the `audit:view_agent_actions` permission you'll see an **Export CSV** button. It downloads whatever the current filters are showing, one row per action, with the timestamp, action name, actor, agent, run, responsible user, entity, and the task identifier and title where there is one — the shape you want when you're handing evidence to someone outside Paperclip. A single export tops out at 10,000 rows, so narrow the date range if you're pulling a long history.
+With the `audit:view_agent_actions` permission you'll see an **Export CSV** button. It downloads whatever the current filters are showing, one row per action, with the timestamp, action name, actor, agent, run, responsible user, entity, and the task identifier and title where there is one — the shape you want when you're handing evidence to someone outside ThinkingMach. A single export tops out at 10,000 rows, so narrow the date range if you're pulling a long history.
 
-One thing to know before you press it: the export is itself logged as an `audit.exported` event. Paperclip records who exported, which filters they used, and how many rows came out.
+One thing to know before you press it: the export is itself logged as an `audit.exported` event. ThinkingMach records who exported, which filters they used, and how many rows came out.
 
 ---
 

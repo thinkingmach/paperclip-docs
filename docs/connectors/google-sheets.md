@@ -1,24 +1,24 @@
 ---
 seo_title: Google Sheets Connector
-seo_description: Two ways to connect Google Sheets: a Google sign-in, or sharing named spreadsheets with the Paperclip robot account. Groups, a read test, and fixes.
+seo_description: Two ways to connect Google Sheets: a Google sign-in, or sharing named spreadsheets with the ThinkingMach robot account. Groups, a read test, and fixes.
 ---
 
 # Google Sheets
 
-> **Warning:** **Google verification pending.** Paperclip has not yet completed Google app verification. You may see an unverified-app warning during authorization. If Google offers an **Advanced** option to continue to Paperclip, you can choose to proceed after reviewing the requested access. This option is not available for every account; Workspace administrator restrictions and other Google access requirements still apply. Contact [support@paperclip.ing](mailto:support@paperclip.ing) if you cannot connect.
+> **Warning:** **Google verification pending.** ThinkingMach has not yet completed Google app verification. You may see an unverified-app warning during authorization. If Google offers an **Advanced** option to continue to ThinkingMach, you can choose to proceed after reviewing the requested access. This option is not available for every account; Workspace administrator restrictions and other Google access requirements still apply. Contact [support@thinkingmach.com](mailto:support@thinkingmach.com) if you cannot connect.
 
 Agents can read spreadsheet values and structure, and on a writing connection update them.
 
-Sheets is the one connector with two genuinely different setups: sign in with Google, or share named spreadsheets with a Paperclip robot account. They differ in what agents can reach and what they can do, so choose before you start.
+Sheets is the one connector with two genuinely different setups: sign in with Google, or share named spreadsheets with a ThinkingMach robot account. They differ in what agents can reach and what they can do, so choose before you start.
 
 ## Which setup do you want?
 
 | If you want | Use | Reach |
 | --- | --- | --- |
 | Agents to work across the spreadsheets your Google account can already open | **Google sign-in** | Everything that account can open |
-| Agents limited to a short, explicit list of spreadsheets | **The Paperclip robot account** | Only the spreadsheets you paste in |
+| Agents limited to a short, explicit list of spreadsheets | **The ThinkingMach robot account** | Only the spreadsheets you paste in |
 
-The robot account is the stronger boundary: Paperclip checks each call against the connection's spreadsheet list, so reach does not depend on the provider's consent screen. It also exposes a wider set of operations, including row deletion. The Google sign-in path reaches more spreadsheets but cannot delete anything.
+The robot account is the stronger boundary: ThinkingMach checks each call against the connection's spreadsheet list, so reach does not depend on the provider's consent screen. It also exposes a wider set of operations, including row deletion. The Google sign-in path reaches more spreadsheets but cannot delete anything.
 
 > **Note:** The robot path's spreadsheet allowlist is specific to that method. Do not assume other connectors provide the same resource filter.
 
@@ -44,26 +44,26 @@ Reviewed operations: `get-spreadsheet` and `get-values` in both groups; `update-
 
 1. Open **Connectors** and select **Google Sheets**.
 2. On the **Access** step, choose the identity and which agents may use the connection.
-3. Choose the capability group, then **Connect with Paperclip** or **Use your own Google OAuth app**.
+3. Choose the capability group, then **Connect with ThinkingMach** or **Use your own Google OAuth app**.
 4. Complete Google's consent screen with the registered Workspace account.
 
 > **Note:** The connector's guidance is that spreadsheet updates should be approved. Leave the write operations on **Ask first**.
 
-## Option B: the Paperclip robot account
+## Option B: the ThinkingMach robot account
 
 Instead of connecting a Google identity, you share individual spreadsheets with a robot account that the instance owns. Agents then reach exactly those spreadsheets and nothing else.
 
-This path requires the instance administrator to have configured a service account. If they have not, Paperclip reports *"Google Sheets is not available on this instance yet."* and the option cannot be used. It needs no Developer Preview registration.
+This path requires the instance administrator to have configured a service account. If they have not, ThinkingMach reports *"Google Sheets is not available on this instance yet."* and the option cannot be used. It needs no Developer Preview registration.
 
 ### Steps
 
-1. Open **Connectors** and select **Google Sheets**, then choose **Use the Paperclip robot account**.
+1. Open **Connectors** and select **Google Sheets**, then choose **Use the ThinkingMach robot account**.
 2. On the **Access** step, choose which agents may use the connection. This method does not ask for a personal Google identity.
-3. Paperclip shows the robot account's email address. In Google Sheets, share each spreadsheet with that address:
+3. ThinkingMach shows the robot account's email address. In Google Sheets, share each spreadsheet with that address:
    - **Viewer** is enough for reading.
    - **Editor** is required for appending, updating, adding tabs, clearing values, or deleting rows.
-4. Paste the link to each shared spreadsheet. At least one link is required, and Paperclip rejects anything that is not a Google Sheets link.
-5. Finish setup. Paperclip verifies it can reach each spreadsheet you listed.
+4. Paste the link to each shared spreadsheet. At least one link is required, and ThinkingMach rejects anything that is not a Google Sheets link.
+5. Finish setup. ThinkingMach verifies it can reach each spreadsheet you listed.
 
 ### What agents can do on this path
 
@@ -75,11 +75,11 @@ This path requires the instance administrator to have configured a service accou
 
 Every one of these is restricted to the spreadsheets on the connection's list. Adding a spreadsheet later means editing the connection's list — sharing it with the robot account alone is not enough.
 
-> **Warning:** `clear_values` and `delete_rows` remove data and are not reversible from Paperclip. Leave them **Off** unless an agent genuinely needs them, and rely on Google Sheets version history for recovery.
+> **Warning:** `clear_values` and `delete_rows` remove data and are not reversible from ThinkingMach. Leave them **Off** unless an agent genuinely needs them, and rely on Google Sheets version history for recovery.
 
 ## Choose access
 
-On the Google sign-in path, reach is whatever the authorizing account can open, and Paperclip does not narrow it. On the robot path, reach is the pasted list and Paperclip does enforce it.
+On the Google sign-in path, reach is whatever the authorizing account can open, and ThinkingMach does not narrow it. On the robot path, reach is the pasted list and ThinkingMach does enforce it.
 
 Choose which agents may use either connection. The Google sign-in method also asks who may use the credential; the robot-account method uses the instance's configured service account rather than a personal Google sign-in. See [How connector access works](access-model.md).
 
@@ -102,7 +102,7 @@ On the robot path, run `list_spreadsheets` first as a cheaper smoke test — but
 
 | Problem | Likely cause | Fix |
 | --- | --- | --- |
-| **Use the Paperclip robot account** is unavailable | No service account is configured on the instance | Ask an administrator; the message is *"Google Sheets is not available on this instance yet."* |
+| **Use the ThinkingMach robot account** is unavailable | No service account is configured on the instance | Ask an administrator; the message is *"Google Sheets is not available on this instance yet."* |
 | A pasted link is rejected | It is not a Google Sheets link | Use the spreadsheet's own URL, not a Drive folder or a published-to-web link |
 | Robot path: the agent cannot see a spreadsheet you shared | It is not on the connection's list | Add the link to the connection; sharing alone does not grant reach |
 | Robot path: reads work but writes fail | The robot account has **Viewer**, not **Editor** | Change the sharing role in Google Sheets |

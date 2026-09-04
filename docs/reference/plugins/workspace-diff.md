@@ -6,25 +6,25 @@ seo_description: See exactly what agents changed inside a workspace: files moved
 
 # Workspace diff viewer
 
-If you want to see what your agents actually changed inside a workspace — which files moved, what got added, the staged-versus-unstaged split, the line-level patch — without leaving the Paperclip dashboard, the `@paperclipai/plugin-workspace-diff` plugin is the surface that does it. It adds a **Changes** tab to execution and project workspaces, computes the diff locally with Git on the host running Paperclip, and renders it with `@pierre/diffs`.
+If you want to see what your agents actually changed inside a workspace — which files moved, what got added, the staged-versus-unstaged split, the line-level patch — without leaving the ThinkingMach dashboard, the `@thinkingmach/plugin-workspace-diff` plugin is the surface that does it. It adds a **Changes** tab to execution and project workspaces, computes the diff locally with Git on the host running ThinkingMach, and renders it with `@pierre/diffs`.
 
 This page is for **operators and developers** who want to enable, configure, or understand the limits of that Changes tab.
 
-> The Workspace diff plugin is in alpha alongside the plugin runtime itself. Expect breaking changes between Paperclip releases and pin your version when you depend on it.
+> The Workspace diff plugin is in alpha alongside the plugin runtime itself. Expect breaking changes between ThinkingMach releases and pin your version when you depend on it.
 
 ---
 
 ## Quick install
 
-The plugin ships as a published npm package, so any Paperclip install (Docker, systemd, bare-metal — all the same) can pull it in with one command from a host that has your Paperclip CLI configured:
+The plugin ships as a published npm package, so any ThinkingMach install (Docker, systemd, bare-metal — all the same) can pull it in with one command from a host that has your ThinkingMach CLI configured:
 
 ```sh
-paperclipai plugin install @paperclipai/plugin-workspace-diff
+thinkingmach plugin install @thinkingmach/plugin-workspace-diff
 ```
 
-Or from the dashboard: **Settings → Plugins → Install Plugin**, paste `@paperclipai/plugin-workspace-diff`, submit.
+Or from the dashboard: **Settings → Plugins → Install Plugin**, paste `@thinkingmach/plugin-workspace-diff`, submit.
 
-The plugin won't appear in `paperclipai plugin examples` — that command only lists the four built-in reference *example* plugins, not the full catalogue of first-party plugins. Install Workspace diff viewer by full package name.
+The plugin won't appear in `thinkingmach plugin examples` — that command only lists the four built-in reference *example* plugins, not the full catalogue of first-party plugins. Install Workspace diff viewer by full package name.
 
 If you're running from a monorepo checkout, see [Develop a plugin locally](../../how-to/develop-a-plugin-locally.md) and point the installer at `packages/plugins/plugin-workspace-diff` instead.
 
@@ -34,7 +34,7 @@ On first enable the plugin asks for a small, focused capability set: `ui.detailT
 
 ## What you get
 
-Once the plugin is installed and enabled, one thing shows up in the Paperclip UI:
+Once the plugin is installed and enabled, one thing shows up in the ThinkingMach UI:
 
 - **A Changes tab** on every execution workspace and project workspace detail page (slot id `workspace-changes-tab`, slot type `detailTab`, order `25`, entity types `execution_workspace` and `project_workspace`). Open any workspace and the tab is right there in the row of detail tabs.
 
@@ -102,7 +102,7 @@ These warnings render in the Changes tab so operators can see exactly why someth
 
 ## Tips and common use cases
 
-- **Use it for agent code review.** When an agent finishes work in an execution workspace, open the Changes tab to see the patch before you merge or hand off — same flow you'd use in a code-review UI, without leaving Paperclip.
+- **Use it for agent code review.** When an agent finishes work in an execution workspace, open the Changes tab to see the patch before you merge or hand off — same flow you'd use in a code-review UI, without leaving ThinkingMach.
 - **Set a `baseRef` on your project workspace.** The plugin falls back to the project workspace's `defaultRef` then `repoRef`, so configuring those once means every execution workspace under that project gets a sensible diff baseline for free.
 - **The workspace must be a real Git repo.** Non-Git workspaces are not supported — you'll get a `non_git_workspace` warning. If you keep an execution workspace as a plain folder, the Changes tab will tell you to either initialise Git or skip the plugin for that workspace.
 - **The plugin only reads.** It never stages, commits, resets, or otherwise touches your repository. If you need to act on a diff, do it from the host shell or from another plugin.
@@ -112,5 +112,5 @@ These warnings render in the Changes tab so operators can see exactly why someth
 ## Related
 
 - [Administration → Plugins](../../administration/plugins.md) — the operator-facing Plugin Manager.
-- [How-to → Develop a plugin locally](../../how-to/develop-a-plugin-locally.md) — point Paperclip at a local checkout of the plugin.
+- [How-to → Develop a plugin locally](../../how-to/develop-a-plugin-locally.md) — point ThinkingMach at a local checkout of the plugin.
 - [Reference → Plugin SDK](./sdk.md) — the authoring surface, if you want to extend the diff viewer or write your own detail-tab plugin.

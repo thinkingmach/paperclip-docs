@@ -16,11 +16,11 @@ Do not assume a specific capability from the name. What an agent can do is exact
 - A Stripe account. Use a **test mode** account or test keys for the first connection.
 - If using a key, create a **restricted key** with only the permissions agents need, rather than a full secret key.
 
-Restricted keys are the main control on this connector. Stripe lets you grant read-only access to specific resource types, which is far more precise than anything Paperclip can apply afterwards.
+Restricted keys are the main control on this connector. Stripe lets you grant read-only access to specific resource types, which is far more precise than anything ThinkingMach can apply afterwards.
 
-> **Warning:** Paperclip's key field shows the placeholder `sk_...`, which is a standard secret key carrying your account's full API access. A **restricted key** — its id begins `rk_` — works in the same field and is what you should use. Do not read the placeholder as a recommendation.
+> **Warning:** ThinkingMach's key field shows the placeholder `sk_...`, which is a standard secret key carrying your account's full API access. A **restricted key** — its id begins `rk_` — works in the same field and is what you should use. Do not read the placeholder as a recommendation.
 
-> **Note:** Whether a key is a test-mode or live-mode key is decided in Stripe when you create it, and it determines whether an agent is touching real money. Nothing in Paperclip displays or changes that, so label your connections clearly and check the key's mode in Stripe before connecting anything to production.
+> **Note:** Whether a key is a test-mode or live-mode key is decided in Stripe when you create it, and it determines whether an agent is touching real money. Nothing in ThinkingMach displays or changes that, so label your connections clearly and check the key's mode in Stripe before connecting anything to production.
 
 ## Connect Stripe
 
@@ -40,11 +40,11 @@ Two layers, and the Stripe-side one is stronger:
 | Layer | Controlled in | Precision |
 | --- | --- | --- |
 | Which API operations the credential can perform | Stripe, on the restricted key | Per resource, read or write |
-| Whether an agent may call an exposed action | Paperclip, on the **Permissions** tab | Per action, with approval |
+| Whether an agent may call an exposed action | ThinkingMach, on the **Permissions** tab | Per action, with approval |
 
-Use the restricted key to remove capability, and Paperclip's settings to require review on what remains.
+Use the restricted key to remove capability, and ThinkingMach's settings to require review on what remains.
 
-Test mode versus live mode is decided entirely by which credential you connect. A test-mode key reaches test data only. There is no toggle in Paperclip that switches a live connection into test mode, so if you want both, make two connections and name them clearly.
+Test mode versus live mode is decided entirely by which credential you connect. A test-mode key reaches test data only. There is no toggle in ThinkingMach that switches a live connection into test mode, so if you want both, make two connections and name them clearly.
 
 > **Warning:** Stripe's own guidance is that financial and destructive actions require explicit approval before execution. Keep every write on **Ask first** or **Off**. An **Allowed** write here means an agent can change financial records without a person seeing it first.
 
@@ -70,10 +70,10 @@ Compare against the Stripe dashboard in the same mode. Never verify this connect
 | An action is refused by Stripe | The restricted key does not include that permission | Widen the key deliberately in Stripe, or leave the capability off |
 | An action is missing from the list | Stripe's server does not expose it to this credential | Use **Refresh actions**; otherwise it is not available |
 | A financial action ran without review | It was set to **Allowed** | Set writes to **Ask first** or **Off** |
-| Behaviour changes without a Paperclip change | The hosted server is in public preview and evolving | Re-read the action list after provider changes |
+| Behaviour changes without a ThinkingMach change | The hosted server is in public preview and evolving | Re-read the action list after provider changes |
 | **Needs attention** | The key was rolled or the sign-in expired | Select **Reconnect** |
 
-Limitations: one Stripe account and one mode per connection. Paperclip cannot reverse a financial operation. Public preview means the surface can change.
+Limitations: one Stripe account and one mode per connection. ThinkingMach cannot reverse a financial operation. Public preview means the surface can change.
 
 ## Related guides
 

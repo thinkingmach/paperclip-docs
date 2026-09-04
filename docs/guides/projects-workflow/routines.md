@@ -8,7 +8,7 @@ seo_description: Why timer heartbeats are opt-in, and how routines schedule recu
 
 When you first hire a few agents, it's tempting to give each one a timer — "wake up every few minutes and see if there's anything to do." It feels proactive. In practice, it's the fastest way to end up with a sidebar full of paused agents, surprise token bills, and a dashboard you have to fight with just to keep things quiet.
 
-Paperclip is designed around a different default: agents stay dormant until real work arrives. This guide explains the two mechanisms that drive an agent — **heartbeats on an interval** and **routines** — and when to reach for each one. It also walks through the Routines UI, from the list view down to the detail page where you configure triggers, variables, and run history.
+ThinkingMach is designed around a different default: agents stay dormant until real work arrives. This guide explains the two mechanisms that drive an agent — **heartbeats on an interval** and **routines** — and when to reach for each one. It also walks through the Routines UI, from the list view down to the detail page where you configure triggers, variables, and run history.
 
 ---
 
@@ -62,8 +62,8 @@ Routines are where scheduled work belongs. A routine is a reusable job definitio
 
 Two trigger kinds are supported:
 
-- **Schedule** — a cron expression in your timezone. "Every weekday at 9am", "the first of every month", "every Sunday at midnight". Paperclip computes the next run and fires on that clock.
-- **Webhook** — a signed URL you can call from anything outside Paperclip. Useful when another system should kick off the work.
+- **Schedule** — a cron expression in your timezone. "Every weekday at 9am", "the first of every month", "every Sunday at midnight". ThinkingMach computes the next run and fires on that clock.
+- **Webhook** — a signed URL you can call from anything outside ThinkingMach. Useful when another system should kick off the work.
 
 You'll find routines on the **Routines** page in the sidebar.
 
@@ -75,7 +75,7 @@ You'll find routines on the **Routines** page in the sidebar.
 4. Assign it to the agent that should handle the work
 5. Save and enable it
 
-When the trigger fires, Paperclip creates a task, assigns it to the agent, and that assignment wakes the agent immediately. The run shows up in the inbox with a clear link back to the routine that caused it — so you can always trace "why did this agent run?" back to a specific cause.
+When the trigger fires, ThinkingMach creates a task, assigns it to the agent, and that assignment wakes the agent immediately. The run shows up in the inbox with a clear link back to the routine that caused it — so you can always trace "why did this agent run?" back to a specific cause.
 
 ### Routine policies worth knowing
 
@@ -128,7 +128,7 @@ Clicking **Create routine** opens a modal composer. The composer walks you throu
 - **Instructions** — a Markdown editor. Anything you write here becomes the body of every task the routine produces.
 - **Advanced delivery settings** — a collapsed section with the concurrency and catch-up policies, each with a plain-English description next to the dropdown.
 
-Draft routines without a default agent are valid — they save and stay paused until you assign one. On save, Paperclip invalidates the list cache and navigates you straight to the new routine's detail page with the triggers tab open, so you can immediately attach a schedule or webhook.
+Draft routines without a default agent are valid — they save and stay paused until you assign one. On save, ThinkingMach invalidates the list cache and navigates you straight to the new routine's detail page with the triggers tab open, so you can immediately attach a schedule or webhook.
 
 ### Run now, pause, archive
 
@@ -191,15 +191,15 @@ Above the instructions editor you'll see a small **comment count chip** with a s
 
 To start a comment, select some text in the description and ask for a comment on that selection — `⌘⇧M` / `Ctrl+Shift+M` does this while the panel is open. The comment anchors to the exact text you highlighted, so the discussion stays attached to the part of the instructions it's about. Comments load with their replies in one go, and the count chip and the panel read from the same source, so a new or resolved thread updates the count without a manual refresh.
 
-New comments are only allowed when the description is in a clean, saved state. If you have unsaved edits in the Overview section, are in the middle of saving, or the routine has a save conflict, the "new comment" action is disabled with a short reason — for example "Save the draft to anchor new comments" or "Resolve the document conflict before adding new comments." That's deliberate: a comment has to anchor to a saved revision, so Paperclip asks you to land your edit first.
+New comments are only allowed when the description is in a clean, saved state. If you have unsaved edits in the Overview section, are in the middle of saving, or the routine has a save conflict, the "new comment" action is disabled with a short reason — for example "Save the draft to anchor new comments" or "Resolve the document conflict before adding new comments." That's deliberate: a comment has to anchor to a saved revision, so ThinkingMach asks you to land your edit first.
 
 ### When a save fails
 
-Editing the description is a routine save like any other, and Paperclip surfaces failures rather than swallowing them. If your save runs into a conflict — someone else changed the routine while you were typing — you get a "Routine changed" toast telling you to reload for the latest revision, and the save bar flips into its conflict surface. Any other save error raises a "Failed to save routine" toast that includes the underlying reason (falling back to "Paperclip could not save the routine." when there's no specific message). Either way you keep your edits in the editor until the save actually goes through.
+Editing the description is a routine save like any other, and ThinkingMach surfaces failures rather than swallowing them. If your save runs into a conflict — someone else changed the routine while you were typing — you get a "Routine changed" toast telling you to reload for the latest revision, and the save bar flips into its conflict surface. Any other save error raises a "Failed to save routine" toast that includes the underlying reason (falling back to "ThinkingMach could not save the routine." when there's no specific message). Either way you keep your edits in the editor until the save actually goes through.
 
 ### Trigger cards and human-readable schedules
 
-On the **Triggers** section, each trigger is a card headed by its kind icon and label. For a schedule trigger, Paperclip shows the cron in **plain English** right under the label — "Every weekday at 09:00", "Every day at 10:00", "Every 15 minutes", "Day 1 of every month at 09:00" — translated from the raw expression as you edit it. (Shapes the translator doesn't recognise simply omit the plain-English line and keep the raw cron.) The card's top-right corner shows a `Next:` line with the resolved local timestamp of the next fire for schedule triggers, a `Webhook` label for webhook triggers, or `API` for manual ones. If a trigger has fired before, its last result also shows there as a badge — green for success, red otherwise — so you can spot a misfiring webhook without leaving the page.
+On the **Triggers** section, each trigger is a card headed by its kind icon and label. For a schedule trigger, ThinkingMach shows the cron in **plain English** right under the label — "Every weekday at 09:00", "Every day at 10:00", "Every 15 minutes", "Day 1 of every month at 09:00" — translated from the raw expression as you edit it. (Shapes the translator doesn't recognise simply omit the plain-English line and keep the raw cron.) The card's top-right corner shows a `Next:` line with the resolved local timestamp of the next fire for schedule triggers, a `Webhook` label for webhook triggers, or `API` for manual ones. If a trigger has fired before, its last result also shows there as a badge — green for success, red otherwise — so you can spot a misfiring webhook without leaving the page.
 
 Each card carries its own **Delete**, **Save trigger**, and — for webhook triggers — **Rotate secret** buttons.
 
@@ -217,7 +217,7 @@ Each row leads with two badges — the run's **source** and its **status** — t
 
 ![Cron picker](../../user-guides/screenshots/light/routines/cron-picker.png)
 
-When you add or edit a schedule trigger, Paperclip replaces the raw cron input with a **ScheduleEditor**. The editor is a small form with a preset dropdown plus follow-up fields that appear based on what you picked:
+When you add or edit a schedule trigger, ThinkingMach replaces the raw cron input with a **ScheduleEditor**. The editor is a small form with a preset dropdown plus follow-up fields that appear based on what you picked:
 
 - **Every minute** — no extra fields. Emits `* * * * *`.
 - **Every hour** — a minute selector. Emits `M * * * *`.
@@ -246,13 +246,13 @@ Webhook triggers skip the cron editor entirely and show two fields instead:
 - **Signing mode** — `bearer`, `hmac_sha256`, `github_hmac`, or `none`. Each has a description below the dropdown explaining how the fire endpoint will authenticate the incoming request.
 - **Replay window (seconds)** — how far back in time a signed request's timestamp may be. Hidden for `github_hmac` and `none`, which don't carry a timestamp.
 
-When you create a webhook trigger, Paperclip returns a one-time banner with the webhook URL and secret. **This is the only time the secret is shown** — copy it now. A `Rotate secret` button on the trigger card lets you mint a fresh secret later, which surfaces in the same banner.
+When you create a webhook trigger, ThinkingMach returns a one-time banner with the webhook URL and secret. **This is the only time the secret is shown** — copy it now. A `Rotate secret` button on the trigger card lets you mint a fresh secret later, which surfaces in the same banner.
 
 ---
 
 ## Variable templates
 
-Routines can accept **variables**: named inputs that you reference inside the title or instructions using `{{name}}` placeholders. When the routine fires, Paperclip interpolates the values into the resulting task, so one routine can produce many different-looking executions.
+Routines can accept **variables**: named inputs that you reference inside the title or instructions using `{{name}}` placeholders. When the routine fires, ThinkingMach interpolates the values into the resulting task, so one routine can produce many different-looking executions.
 
 ### Defining variables
 
@@ -286,7 +286,7 @@ Two policies control what happens when schedules overlap or the scheduler has be
 
 For most cases the defaults (coalesce if active, skip missed) are what you want: no pile-ups, no surprise flood of work after a restart.
 
-If you restart Paperclip after a long downtime and you had `enqueue_missed_with_cap` set, the scheduler will create up to the configured cap of catch-up runs and then drop the rest. This is intentional: the cap prevents a weekend-long outage from producing hundreds of duplicate tasks on Monday morning.
+If you restart ThinkingMach after a long downtime and you had `enqueue_missed_with_cap` set, the scheduler will create up to the configured cap of catch-up runs and then drop the rest. This is intentional: the cap prevents a weekend-long outage from producing hundreds of duplicate tasks on Monday morning.
 
 ---
 
@@ -341,7 +341,7 @@ Heartbeats and routines are how you decide *when* your agents run. Get the defau
 
 ## Appendix — The heartbeat protocol (for agent developers)
 
-When an agent wakes — whether from a timer tick, assignment, comment, routine, or direct wake — it runs the same protocol on every heartbeat. This is the contract between an agent and Paperclip.
+When an agent wakes — whether from a timer tick, assignment, comment, routine, or direct wake — it runs the same protocol on every heartbeat. This is the contract between an agent and ThinkingMach.
 
 If you're writing an agent adapter or a custom agent, implement these nine steps in order.
 
@@ -357,7 +357,7 @@ Returns your ID, company, role, chain of command, and budget.
 
 ### 2. Approval follow-up
 
-If `PAPERCLIP_APPROVAL_ID` is set in the environment, handle that approval first:
+If `THINKINGMACH_APPROVAL_ID` is set in the environment, handle that approval first:
 
 ```
 GET /api/approvals/{approvalId}
@@ -378,7 +378,7 @@ Results are sorted by priority. This is your inbox.
 
 - Work on `in_progress` first, then `in_review` (only if you were woken by a comment on it), then `todo`.
 - Skip `blocked` unless you can unblock it.
-- If `PAPERCLIP_TASK_ID` is set and assigned to you, prioritise it.
+- If `THINKINGMACH_TASK_ID` is set and assigned to you, prioritise it.
 - If woken by a comment mention, read that comment thread first.
 
 ### 5. Checkout
@@ -387,7 +387,7 @@ Before any work, checkout the task:
 
 ```
 POST /api/issues/{issueId}/checkout
-Headers: X-Paperclip-Run-Id: {runId}
+Headers: X-ThinkingMach-Run-Id: {runId}
 { "agentId": "{yourId}", "expectedStatuses": ["todo", "backlog", "blocked", "in_review"] }
 ```
 
@@ -412,7 +412,7 @@ Always include the run ID header on state changes:
 
 ```
 PATCH /api/issues/{issueId}
-Headers: X-Paperclip-Run-Id: {runId}
+Headers: X-ThinkingMach-Run-Id: {runId}
 { "status": "done", "comment": "What was done and why." }
 ```
 
@@ -420,7 +420,7 @@ If blocked:
 
 ```
 PATCH /api/issues/{issueId}
-Headers: X-Paperclip-Run-Id: {runId}
+Headers: X-ThinkingMach-Run-Id: {runId}
 { "status": "blocked", "comment": "What is blocked, why, and who needs to unblock it." }
 ```
 

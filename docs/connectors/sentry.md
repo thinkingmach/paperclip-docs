@@ -20,13 +20,13 @@ This is a good connector to give a debugging agent, because the useful work is a
 2. On the **Access** step, choose the identity and which agents may use the connection.
 3. Complete Sentry's browser sign-in and choose the organization when prompted.
 
-Paperclip registers its client with Sentry automatically, so there is nothing to configure in a developer console. This is the supported path and the one this page documents.
+ThinkingMach registers its client with Sentry automatically, so there is nothing to configure in a developer console. This is the supported path and the one this page documents.
 
 ## Choose access
 
 Reach is the authorizing Sentry account's: the organization selected during sign-in, and the projects that account can see within it. Sentry's own team membership and role decide the rest.
 
-> **Note:** The connector's definition mentions organization, project, and environment scope, but those are descriptive — Paperclip does not enforce a project or environment filter on top of what Sentry grants. If an agent should only see one project, authorize with an account whose team membership is limited to it.
+> **Note:** The connector's definition mentions organization, project, and environment scope, but those are descriptive — ThinkingMach does not enforce a project or environment filter on top of what Sentry grants. If an agent should only see one project, authorize with an account whose team membership is limited to it.
 
 Most Sentry work is reading. Issue mutations — resolving, ignoring, assigning, deleting — change what your on-call engineers see, so keep them on **Ask first** or **Off**. An agent resolving an issue it misdiagnosed hides a live problem. See [Set action permissions](action-permissions.md).
 
@@ -53,7 +53,7 @@ Compare against the Sentry dashboard. Reading a known issue confirms the credent
 | An issue was resolved unexpectedly | A mutation was set to **Allowed** | Re-open it in Sentry and tighten the action settings |
 | **Needs attention** | The grant expired or was revoked | Select **Reconnect** |
 
-Limitations: one organization per connection. No project or environment filter inside Paperclip. Sentry's data retention bounds how far back an agent can look.
+Limitations: one organization per connection. No project or environment filter inside ThinkingMach. Sentry's data retention bounds how far back an agent can look.
 
 ## Related guides
 

@@ -1,16 +1,16 @@
 ---
 paperclip_version: v2026.720.0
 seo_title: Built-in Agents API
-seo_description: First-party agents Paperclip ships ready to provision into any company by name, instead of configuring an equivalent role from scratch every time.
+seo_description: First-party agents ThinkingMach ships ready to provision into any company by name, instead of configuring an equivalent role from scratch every time.
 ---
 
 # Built-in Agents
 
-First-party agents that Paperclip ships with, ready to provision into any company.
+First-party agents that ThinkingMach ships with, ready to provision into any company.
 
-A built-in agent is a normal agent that Paperclip knows about by name. Instead of hiring it from scratch and wiring up its role, purpose, and instructions yourself, you provision it from a small registry that the server maintains. Each built-in has a stable `key` — like `briefs` or `learning` — and Paperclip resolves it through that key rather than a hardcoded database ID, so backend features can rely on "the Briefs agent for this company" without anyone pinning an ID.
+A built-in agent is a normal agent that ThinkingMach knows about by name. Instead of hiring it from scratch and wiring up its role, purpose, and instructions yourself, you provision it from a small registry that the server maintains. Each built-in has a stable `key` — like `briefs` or `learning` — and ThinkingMach resolves it through that key rather than a hardcoded database ID, so backend features can rely on "the Briefs agent for this company" without anyone pinning an ID.
 
-Use this API when you want to turn on one of Paperclip's shipped agents for a company, check whether it's set up, point it at an adapter, or (for bundled built-ins like the Reflection Coach) control its schedule.
+Use this API when you want to turn on one of ThinkingMach's shipped agents for a company, check whether it's set up, point it at an adapter, or (for bundled built-ins like the Reflection Coach) control its schedule.
 
 If you have not read it yet, start with the [API Overview](./overview.md) for the base URL, authentication, and company-scoping rules. Everything here builds on those conventions.
 
@@ -18,7 +18,7 @@ If you have not read it yet, start with the [API Overview](./overview.md) for th
 
 ## What Makes a Built-in Different
 
-Under the hood a built-in agent is an ordinary row in the same `agents` table as any agent you hire. What sets it apart is a small, immutable marker stored on the agent's `metadata` as `metadata.paperclipBuiltInAgent`. The marker records the registry `key` and the feature keys the agent backs. That marker is how Paperclip finds the agent later, and it is also protected: you cannot forge, move, or strip it through the normal agent create and update routes. Only the built-in service is allowed to write it.
+Under the hood a built-in agent is an ordinary row in the same `agents` table as any agent you hire. What sets it apart is a small, immutable marker stored on the agent's `metadata` as `metadata.paperclipBuiltInAgent`. The marker records the registry `key` and the feature keys the agent backs. That marker is how ThinkingMach finds the agent later, and it is also protected: you cannot forge, move, or strip it through the normal agent create and update routes. Only the built-in service is allowed to write it.
 
 Because they are registry-owned, built-ins come with sensible defaults baked in — a display name, a short purpose, a default role, and the set of adapter types they are allowed to run on. You bring the last mile: which adapter to use and how to configure it.
 
@@ -26,7 +26,7 @@ Because they are registry-owned, built-ins come with sensible defaults baked in 
 
 ## The Shipped Built-ins
 
-Three built-in agents ship with Paperclip today. Each row below comes straight from the registry.
+Three built-in agents ship with ThinkingMach today. Each row below comes straight from the registry.
 
 | Key | Display name | What it does | Default role | Allowed adapter types |
 |---|---|---|---|---|
@@ -56,7 +56,7 @@ Backend features that need a built-in call an internal helper before they schedu
 
 ## Provisioning and Permissions
 
-Provisioning a built-in does **not** go through the full agent hire flow. There is no separate hire-approval permission to obtain — the endpoints are gated on the ordinary `agents:create` permission, the same one you need to create any agent. Built-ins are registry-owned system capacity, so Paperclip treats standing one up as configuration rather than a bespoke hire.
+Provisioning a built-in does **not** go through the full agent hire flow. There is no separate hire-approval permission to obtain — the endpoints are gated on the ordinary `agents:create` permission, the same one you need to create any agent. Built-ins are registry-owned system capacity, so ThinkingMach treats standing one up as configuration rather than a bespoke hire.
 
 There is one wrinkle worth knowing: if your company has "require board approval for new agents" turned on, provisioning still routes the new built-in through a normal pending approval. In that case the provision endpoint returns `202 Accepted` and the built-in sits in `pending_approval` until the board decides. When board approval is not required, the built-in is provisioned immediately and comes back `200 OK`.
 
@@ -77,7 +77,7 @@ Two nearby cases behave differently, and both are deliberate:
 - **Changing the adapter of a built-in that is already configured** — one in `ready` or `paused` — is a genuine reconfiguration, and still returns `409 Conflict` with `code: "built_in_agent_reconfiguration_requires_approval"`.
 - **Sending adapter details while the built-in is still in `pending_approval`** returns `409 Conflict` with `code: "built_in_agent_pending_approval"` and the message "Built-in agent setup is already pending board approval." Wait for the board decision, then configure the agent.
 
-What counts as "finished" depends on the adapter type. For the `process` and `command` adapters, Paperclip looks for a `command` or a `script`. For `http`, it looks for a `url`, `endpoint`, or `webhookUrl`. For the `openclaw_gateway` and `hermes_gateway` adapters, it looks for a `baseUrl` or `url`. For everything else — including the local adapters the shipped built-ins default to — it looks for a `model`.
+What counts as "finished" depends on the adapter type. For the `process` and `command` adapters, ThinkingMach looks for a `command` or a `script`. For `http`, it looks for a `url`, `endpoint`, or `webhookUrl`. For the `openclaw_gateway` and `hermes_gateway` adapters, it looks for a `baseUrl` or `url`. For everything else — including the local adapters the shipped built-ins default to — it looks for a `model`.
 
 > **Note:** Built-in agents are behind an instance feature flag. If they are not enabled for your instance, every route on this page returns `404 Not Found` with the message "Built-in agents are not enabled."
 
@@ -244,7 +244,7 @@ Bundled built-ins ship a scheduled routine that starts disabled. These routes tu
 
 ## The Reflection Coach
 
-The Reflection Coach is worth a closer look because it is both a built-in agent **and** a bundled skill. When you provision it, Paperclip materializes three things for the company: the agent's instructions, the `reflection-coach` skill, and a weekly `recent-agent-reflection` routine (disabled until you enable it). It also starts **paused** by default, so it never runs until you deliberately configure and enable it.
+The Reflection Coach is worth a closer look because it is both a built-in agent **and** a bundled skill. When you provision it, ThinkingMach materializes three things for the company: the agent's instructions, the `reflection-coach` skill, and a weekly `recent-agent-reflection` routine (disabled until you enable it). It also starts **paused** by default, so it never runs until you deliberately configure and enable it.
 
 Its job is coaching. On each run it reviews another agent's recent work and proposes the single smallest durable improvement to that agent's instructions or skills. The key design point: it never hot-swaps anything mid-run. Every change is a **reviewed, gated proposal** — the coach must show a diff, wait for an accepted task interaction, and apply the change only in a separate follow-up run. There is no same-run edit.
 

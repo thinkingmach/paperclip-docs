@@ -1,34 +1,34 @@
 ---
 seo_title: Quickstart: Your First Agent in 5 Minutes
-seo_description: Install Paperclip, create a company, hire a CEO agent, and approve its first strategy — a working AI company in about five minutes.
+seo_description: Install ThinkingMach, create a company, hire a CEO agent, and approve its first strategy — a working AI company in about five minutes.
 paperclip_version: v2026.831.1
 ---
 
 # Quickstart Path
 
-The shortest route from a running Paperclip instance to an agent that has just completed work for you. After Paperclip is installed, the path takes about 5 minutes: create a company, hire a CEO agent, approve its first strategy, watch tasks land on the board.
+The shortest route from a running ThinkingMach instance to an agent that has just completed work for you. After ThinkingMach is installed, the path takes about 5 minutes: create a company, hire a CEO agent, approve its first strategy, watch tasks land on the board.
 
-![The Paperclip dashboard showing an active CEO agent, a budget bar, and recent activity](../../user-guides/screenshots/light/dashboard/dashboard-overview.png)
+![The ThinkingMach dashboard showing an active CEO agent, a budget bar, and recent activity](../../user-guides/screenshots/light/dashboard/dashboard-overview.png)
 
 ---
 
 ## What this is, briefly
 
-A Paperclip company is a self-contained AI organisation — one goal, a team of agents, a task board, a budget. The CEO is the first agent you hire. It reads your goal, proposes a strategy, and — once you approve it — starts creating tasks and moving them across the board.
+A ThinkingMach company is a self-contained AI organisation — one goal, a team of agents, a task board, a budget. The CEO is the first agent you hire. It reads your goal, proposes a strategy, and — once you approve it — starts creating tasks and moving them across the board.
 
 You'll see all four ideas (company, agent, task, heartbeat) in the next few minutes. The full mental model lives in [Key Concepts](../welcome/key-concepts.md); you don't need it before starting.
 
 ---
 
-## Before the path: install Paperclip
+## Before the path: install ThinkingMach
 
-Install Paperclip and grab an AI provider key. This is one-time setup and lives outside the 5-minute clock — depending on what you already have, expect 3–10 minutes.
+Install ThinkingMach and grab an AI provider key. This is one-time setup and lives outside the 5-minute clock — depending on what you already have, expect 3–10 minutes.
 
 - Any machine with Node.js 24+ — the terminal install is one command.
 - An API key from [Anthropic](https://console.anthropic.com) (for `claude_local`) or [OpenAI](https://platform.openai.com) (for `codex_local`). The installation guide walks through getting one.
 - For the `claude_local` adapter: [Claude Code](https://docs.anthropic.com/en/docs/claude-code) installed on the same machine. Install this *before* you start the path; you'll need it in step 2.
 
-> **Warning:** Agents make API calls that cost money. Plan on spending $5–20 to play with the product, $20–100/month for an active company. Set per-agent and company budgets before enabling heartbeats — Paperclip pauses agents automatically when they hit 100%.
+> **Warning:** Agents make API calls that cost money. Plan on spending $5–20 to play with the product, $20–100/month for an active company. Set per-agent and company budgets before enabling heartbeats — ThinkingMach pauses agents automatically when they hit 100%.
 
 [Walk through Installation →](./installation.md)
 
@@ -36,7 +36,7 @@ Install Paperclip and grab an AI provider key. This is one-time setup and lives 
 
 ## The 5-minute path
 
-Three steps after Paperclip is running. Allow ~5–11 minutes total.
+Three steps after ThinkingMach is running. Allow ~5–11 minutes total.
 
 | Step | Page | What you'll have at the end | Approx. time |
 |------|------|-----------------------------|--------------|

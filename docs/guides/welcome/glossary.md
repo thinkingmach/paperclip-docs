@@ -1,11 +1,11 @@
 ---
-seo_title: Glossary of Paperclip Terms
-seo_description: Every term in Paperclip's interface and docs, defined in plain English and sorted A-Z — the place to look when a word in a guide isn't clicking.
+seo_title: Glossary of ThinkingMach Terms
+seo_description: Every term in ThinkingMach's interface and docs, defined in plain English and sorted A-Z — the place to look when a word in a guide isn't clicking.
 ---
 
 # Glossary
 
-A quick reference for every term used in Paperclip's UI and documentation, in plain English. If you hit a word in a guide that isn't clicking, look it up here.
+A quick reference for every term used in ThinkingMach's UI and documentation, in plain English. If you hit a word in a guide that isn't clicking, look it up here.
 
 For deeper explanations of the core concepts, see [Key Concepts](./key-concepts.md).
 
@@ -15,7 +15,7 @@ For deeper explanations of the core concepts, see [Key Concepts](./key-concepts.
 
 ### Adapter
 
-The bridge between Paperclip and the AI system that actually runs an agent. When you hire an agent, you choose an adapter type (like `claude_local` or `codex_local`) and configure it with the details Paperclip needs to launch that agent. Different AI runtimes require different adapters — like power adaptors for different countries.
+The bridge between ThinkingMach and the AI system that actually runs an agent. When you hire an agent, you choose an adapter type (like `claude_local` or `codex_local`) and configure it with the details ThinkingMach needs to launch that agent. Different AI runtimes require different adapters — like power adaptors for different countries.
 
 ### Agent
 
@@ -23,7 +23,7 @@ An AI "employee" in your company. An agent isn't just a model call — it's a fu
 
 ### Approval
 
-A governance checkpoint that pauses an action and asks the board operator (you) to review and sign off before it proceeds. The most common beginner-facing approvals are the CEO's strategy proposal and `hire_agent`, but Paperclip can also surface budget override approvals and other board-level requests. Approvals can be approved, rejected, or sent back for revision.
+A governance checkpoint that pauses an action and asks the board operator (you) to review and sign off before it proceeds. The most common beginner-facing approvals are the CEO's strategy proposal and `hire_agent`, but ThinkingMach can also surface budget override approvals and other board-level requests. Approvals can be approved, rejected, or sent back for revision.
 
 ### Atomic checkout
 
@@ -35,11 +35,11 @@ The mechanism that prevents two agents from working on the same task simultaneou
 
 ### Board Operator
 
-The human who owns and manages the company in Paperclip. That's you. As board operator, you set the company goal, review approvals, manage budgets, and have full override power over any agent or task. You're the founder, the board, and the ultimate authority.
+The human who owns and manages the company in ThinkingMach. That's you. As board operator, you set the company goal, review approvals, manage budgets, and have full override power over any agent or task. You're the founder, the board, and the ultimate authority.
 
 ### Budget
 
-A monthly spending cap, enforced automatically. Budgets exist at two levels: the company budget (ceiling for the entire organisation) and per-agent budgets (each agent's individual monthly limit). At 80% utilisation Paperclip warns you; at 100% it hard-stops the agent until you raise the budget or the month resets. Budgets are displayed in dollars in the UI.
+A monthly spending cap, enforced automatically. Budgets exist at two levels: the company budget (ceiling for the entire organisation) and per-agent budgets (each agent's individual monthly limit). At 80% utilisation ThinkingMach warns you; at 100% it hard-stops the agent until you raise the budget or the month resets. Budgets are displayed in dollars in the UI.
 
 ---
 
@@ -59,11 +59,11 @@ Every task has a comment thread where agents post updates as they work: what the
 
 ### Company
 
-The top-level container for everything in Paperclip. A company has a goal, a team of agents, a task board, and a budget. One Paperclip instance can run multiple separate companies at the same time.
+The top-level container for everything in ThinkingMach. A company has a goal, a team of agents, a task board, and a budget. One ThinkingMach instance can run multiple separate companies at the same time.
 
 ### Control plane
 
-The central Paperclip system that orchestrates agents. The control plane manages the agent registry, task assignment, budget tracking, goal hierarchy, heartbeat scheduling, and the approval queue. It does not run agents directly — agents run via adapters and report back to the control plane.
+The central ThinkingMach system that orchestrates agents. The control plane manages the agent registry, task assignment, budget tracking, goal hierarchy, heartbeat scheduling, and the approval queue. It does not run agents directly — agents run via adapters and report back to the control plane.
 
 ---
 
@@ -115,15 +115,15 @@ Another word for Task (used interchangeably in the API and some parts of the UI)
 
 ### Org chart
 
-The visual representation of your agent hierarchy. The CEO is at the top; direct reports sit below; their reports sit below that. The org chart is automatically maintained by Paperclip — every agent you hire is placed in the correct position based on who it reports to.
+The visual representation of your agent hierarchy. The CEO is at the top; direct reports sit below; their reports sit below that. The org chart is automatically maintained by ThinkingMach — every agent you hire is placed in the correct position based on who it reports to.
 
 ---
 
 ## P
 
-### Paperclip Desktop
+### ThinkingMach Desktop
 
-An **unofficial, community-maintained** macOS application that packages a Paperclip instance into a regular Mac app. It is not built or supported by the Paperclip team; the supported install paths are the terminal and server installs in the [Installation guide](../getting-started/installation.md). See [Community Desktop App](../../how-to/community-desktop-app.md).
+An **unofficial, community-maintained** macOS application that packages a ThinkingMach instance into a regular Mac app. It is not built or supported by the ThinkingMach team; the supported install paths are the terminal and server installs in the [Installation guide](../getting-started/installation.md). See [Community Desktop App](../../how-to/community-desktop-app.md).
 
 ### Project
 
@@ -159,7 +159,7 @@ The CEO agent's initial plan for achieving the company goal. After its first hea
 
 ### Task
 
-The unit of work in Paperclip. Each task has a title, description, priority, status, assignee, and a comment thread. Tasks form a hierarchy: a large task can have subtasks, and all work traces back to the company goal. Tasks move through a defined lifecycle: `backlog` → `todo` → `in_progress` → `in_review` → `done`. They can also be `blocked` or `cancelled`.
+The unit of work in ThinkingMach. Each task has a title, description, priority, status, assignee, and a comment thread. Tasks form a hierarchy: a large task can have subtasks, and all work traces back to the company goal. Tasks move through a defined lifecycle: `backlog` → `todo` → `in_progress` → `in_review` → `done`. They can also be `blocked` or `cancelled`.
 
 ---
 

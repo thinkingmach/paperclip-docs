@@ -5,7 +5,7 @@ seo_description: Two separate GitHub setups: repository tools for agents, or peo
 
 # GitHub
 
-GitHub supports repository tools and an experimental chat/review bot in Paperclip. Choose the setup for the work you want to do.
+GitHub supports repository tools and an experimental chat/review bot in ThinkingMach. Choose the setup for the work you want to do.
 
 ## Which do you want?
 
@@ -20,9 +20,9 @@ Before you give an agent a GitHub identity, read the shell exception — it is t
 
 ## The shell exception
 
-Paperclip's per-action **Allowed** / **Ask first** / **Off** switches govern tool calls that go through Paperclip's tool gateway. When a GitHub connection is bound to an agent as a dedicated identity, that same identity is also handed to the agent's workspace shell, and shell commands do not go through the gateway.
+ThinkingMach's per-action **Allowed** / **Ask first** / **Off** switches govern tool calls that go through ThinkingMach's tool gateway. When a GitHub connection is bound to an agent as a dedicated identity, that same identity is also handed to the agent's workspace shell, and shell commands do not go through the gateway.
 
-Paperclip states this when you change a GitHub permission:
+ThinkingMach states this when you change a GitHub permission:
 
 > **Danger:** Shell Git and `gh` use this account for the run and are not constrained by per-tool Ask-first controls.
 
@@ -32,7 +32,7 @@ Three things this does **not** mean:
 - **It is not a claim that the agent is unrestricted.** The ceiling is whatever the GitHub account can do: the repositories selected on the installation, and that account's permissions on them. Narrow the account, not the switches.
 - **Human approval is not code review.** An approved **Ask first** call means a person said yes to one API call. A pull request review is a separate control, on GitHub, done by a reviewer. Neither substitutes for the other.
 
-The practical consequence: for an agent that will push code, the limits that matter are GitHub-side — selected repositories, branch protection, required reviews — not Paperclip's per-tool switches.
+The practical consequence: for an agent that will push code, the limits that matter are GitHub-side — selected repositories, branch protection, required reviews — not ThinkingMach's per-tool switches.
 
 ---
 
@@ -42,7 +42,7 @@ The practical consequence: for an agent that will push code, the limits that mat
 
 | Path | When to use it | Availability |
 | --- | --- | --- |
-| **Use this connection as an agent tool** | The default. Paperclip manages the GitHub App authorization, and the identity is also available to shell Git and `gh` | Only when the instance is enrolled with Paperclip Cloud and Cloud advertises the GitHub connector profile |
+| **Use this connection as an agent tool** | The default. ThinkingMach manages the GitHub App authorization, and the identity is also available to shell Git and `gh` | Only when the instance is enrolled with ThinkingMach Cloud and Cloud advertises the GitHub connector profile |
 | **Personal access token (advanced)** | No Cloud enrollment, or you want a token you control directly | Always |
 
 The two are not equivalent. A fine-grained personal access token carries the permissions you select on the token. The managed path's permissions come from the GitHub App registration and the repositories chosen on the installation — GitHub returns no OAuth scope list for it, so there is no scope string to inspect. If you need to reason precisely about permissions, a fine-grained token is easier to audit; if you need a durable identity for shell work, the managed path is the one that provides it.
@@ -72,7 +72,7 @@ For a personal access token, review the token's resource owner, selected reposit
 
 ### Actions
 
-GitHub's hosted server supplies the action list, so Paperclip does not ship a frozen copy. Read the live list on the connection's **Permissions** tab and use **Refresh actions** after GitHub changes it.
+GitHub's hosted server supplies the action list, so ThinkingMach does not ship a frozen copy. Read the live list on the connection's **Permissions** tab and use **Refresh actions** after GitHub changes it.
 
 What happens to an action GitHub adds depends on which credential path you took. On the **managed** path new and changed actions are held back until you turn them on. On a **personal access token** connection they become active under the policies already in force — so review the list after a refresh rather than assuming it can only narrow. [Set action permissions](action-permissions.md) has the full rule.
 
@@ -94,7 +94,7 @@ Compare the heading with the repository and inspect the task's connector call. F
 
 ## GitHub as a channel
 
-People comment in an issue or pull request, mentioning the agent, and Paperclip creates a task.
+People comment in an issue or pull request, mentioning the agent, and ThinkingMach creates a task.
 
 ### Before you connect
 
@@ -117,13 +117,13 @@ access is configured separately.
 
 ### Access
 
-Provider channel or repository access determines where a message can reach the integration; it does not by itself authorize agent work. Paperclip also checks the sender's linked identity and company membership. Linked users must be active non-viewer members. Unlinked senders depend on the connection's **Allow unlinked people** setting and any sponsor requirements. Review these controls before inviting people to use the agent.
+Provider channel or repository access determines where a message can reach the integration; it does not by itself authorize agent work. ThinkingMach also checks the sender's linked identity and company membership. Linked users must be active non-viewer members. Unlinked senders depend on the connection's **Allow unlinked people** setting and any sponsor requirements. Review these controls before inviting people to use the agent.
 
 ### Try it
 
 1. In a repository where the App is installed, open a scratch issue.
 2. Comment, mentioning the agent, and ask it to confirm it is connected.
-3. Expect a reply comment and a matching task in Paperclip.
+3. Expect a reply comment and a matching task in ThinkingMach.
 
 > **Note:** Procedure, not a recorded test result. Use a scratch repository or issue.
 
@@ -131,24 +131,24 @@ Provider channel or repository access determines where a message can reach the i
 
 ## Not the same as the workspace git setup
 
-[Connect an agent to a GitHub repo](../how-to/connect-agent-to-github.md) is a different job: pointing a project workspace at a remote, and matching Paperclip's review stage to GitHub's. That page remains the right one for the git and `gh` workflow itself. This connector is how the credential gets there. Use both.
+[Connect an agent to a GitHub repo](../how-to/connect-agent-to-github.md) is a different job: pointing a project workspace at a remote, and matching ThinkingMach's review stage to GitHub's. That page remains the right one for the git and `gh` workflow itself. This connector is how the credential gets there. Use both.
 
 ## Troubleshooting
 
 | Problem | Likely cause | Fix |
 | --- | --- | --- |
-| **Use this connection as an agent tool** is not offered | The instance is not enrolled with Paperclip Cloud, or Cloud is not advertising the GitHub profile | Use **Personal access token (advanced)** |
+| **Use this connection as an agent tool** is not offered | The instance is not enrolled with ThinkingMach Cloud, or Cloud is not advertising the GitHub profile | Use **Personal access token (advanced)** |
 | **Chat with an agent** is not offered | **Chat connectors** is off for the instance | Ask an administrator to enable it |
 | The agent sees fewer repositories than expected | The installation does not include them | **Add More Repos on GitHub**, then **Refresh access** |
 | *"You don't have permission to reconnect this identity."* | The identity belongs to another person or agent | Ask its owner, or use your own |
 | Tool calls succeed but shell `git push` fails | The account's repository permissions, or branch protection | Check both on GitHub |
 | Comments do not create tasks | The App is not installed on that repository, or the events are not selected | Install it there and confirm the two comment events |
-| Webhook deliveries fail in GitHub | The webhook secret or URL does not match | Regenerate the secret in Paperclip and update the App |
+| Webhook deliveries fail in GitHub | The webhook secret or URL does not match | Regenerate the secret in ThinkingMach and update the App |
 | **Needs attention** | The token expired or the installation was removed | Select **Reconnect** |
 
 ## Limitations
 
-The managed repository-tool path depends on Cloud enrollment. The chat/review-bot path depends on the experimental chat setting and uses its own App. Both require appropriate GitHub repository access; review bots also have an enabled-repository subset in Paperclip. Paperclip cannot constrain shell Git or `gh` with per-action settings.
+The managed repository-tool path depends on Cloud enrollment. The chat/review-bot path depends on the experimental chat setting and uses its own App. Both require appropriate GitHub repository access; review bots also have an enabled-repository subset in ThinkingMach. ThinkingMach cannot constrain shell Git or `gh` with per-action settings.
 
 ## Related guides
 

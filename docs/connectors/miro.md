@@ -18,11 +18,11 @@ Agents can work with your Miro boards — finding them, reading their contents, 
 2. On the **Access** step, choose the identity and which agents may use the connection.
 3. Select **Sign in with Miro** and complete browser sign-in, choosing the team when Miro asks.
 
-Paperclip registers its client automatically, so there is nothing to configure in a developer console.
+ThinkingMach registers its client automatically, so there is nothing to configure in a developer console.
 
 ## Choose access
 
-Reach is the authorizing Miro account's: the teams it belongs to and the boards it can open. There is no board picker in Paperclip.
+Reach is the authorizing Miro account's: the teams it belongs to and the boards it can open. There is no board picker in ThinkingMach.
 
 Be realistic about what an agent can do with a board. Miro's connection works with structured board objects rather than the canvas as a person experiences it. Which object types are exposed is Miro's decision and it changes — read the live list on the connection's **Permissions** tab before planning work around a particular item type, rather than trusting any list in documentation, including this page:
 
@@ -56,7 +56,7 @@ Compare against the board. Reading a board you can open yourself confirms the cr
 | An item appeared in an odd place | Programmatic placement | Move it in Miro, and keep writes on **Ask first** |
 | **Needs attention** | The grant was revoked | Select **Reconnect** |
 
-Limitations: one Miro account per connection. No board filter inside Paperclip. Structured board objects only.
+Limitations: one Miro account per connection. No board filter inside ThinkingMach. Structured board objects only.
 
 ## Related guides
 

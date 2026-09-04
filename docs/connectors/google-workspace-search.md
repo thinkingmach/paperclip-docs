@@ -5,7 +5,7 @@ seo_description: One read-only search across Gmail, Drive, Calendar, and Chat. W
 
 # Google Workspace Search
 
-> **Warning:** **Google verification pending.** Paperclip has not yet completed Google app verification. You may see an unverified-app warning during authorization. If Google offers an **Advanced** option to continue to Paperclip, you can choose to proceed after reviewing the requested access. This option is not available for every account; Workspace administrator restrictions and other Google access requirements still apply. Contact [support@paperclip.ing](mailto:support@paperclip.ing) if you cannot connect.
+> **Warning:** **Google verification pending.** ThinkingMach has not yet completed Google app verification. You may see an unverified-app warning during authorization. If Google offers an **Advanced** option to continue to ThinkingMach, you can choose to proceed after reviewing the requested access. This option is not available for every account; Workspace administrator restrictions and other Google access requirements still apply. Contact [support@thinkingmach.com](mailto:support@thinkingmach.com) if you cannot connect.
 
 One read-only search that spans Gmail, Drive, Calendar, and Chat together, so an agent can answer "where did we discuss this?" without knowing which app holds the answer.
 
@@ -27,20 +27,20 @@ This connector only searches. It returns results with links; it does not read a 
 
 - A Google Workspace account whose mail, files, calendar, and chat you are willing to make searchable.
 - Google Workspace Developer Preview registration for that account, confirmed by Google. Apply at [Google Workspace Developer Preview](https://developers.google.com/workspace/preview).
-- Without Paperclip Cloud enrollment, your own Google OAuth client with the **Gmail API**, **Drive API**, **Calendar API**, **Chat API**, and **Workspace MCP API** enabled — five APIs, more than any single-app connector needs. [Set up your own Google OAuth app](google-setup.md) is the complete procedure.
+- Without ThinkingMach Cloud enrollment, your own Google OAuth client with the **Gmail API**, **Drive API**, **Calendar API**, **Chat API**, and **Workspace MCP API** enabled — five APIs, more than any single-app connector needs. [Set up your own Google OAuth app](google-setup.md) is the complete procedure.
 
 ## Connect Google Workspace Search
 
 1. Open **Connectors** and select **Google Workspace Search**.
 2. On the **Access** step, choose the identity and which agents may use the connection.
-3. Select **Connect with Paperclip**, or **Use your own Google OAuth app** — the latter needs the client ID and secret from [Set up your own Google OAuth app](google-setup.md).
+3. Select **Connect with ThinkingMach**, or **Use your own Google OAuth app** — the latter needs the client ID and secret from [Set up your own Google OAuth app](google-setup.md).
 4. Complete Google's consent screen with the registered Workspace account.
 
 One capability group, **Search Workspace**, requesting `gmail.readonly`, `drive.readonly`, `calendar.readonly`, and `chat.messages.readonly`. There is a single operation, `search-corpus`.
 
 ## Choose access
 
-What the search covers is what the authorizing account can already see across those four apps — its own mail, files shared with it, calendars on its list, and spaces it belongs to. Paperclip does not narrow it, and there is no per-app or per-folder filter.
+What the search covers is what the authorizing account can already see across those four apps — its own mail, files shared with it, calendars on its list, and spaces it belongs to. ThinkingMach does not narrow it, and there is no per-app or per-folder filter.
 
 Because the scope is wide, the agent-selection choice matters more than usual. Prefer **Just agents I pick**. An **Organization identity** here lets eligible agents search the connected account on runs whose responsible person is in the credential's human audience — rarely what you want.
 
@@ -63,7 +63,7 @@ Expect a handful of results, each identifying its source app with a link. Compar
 | Problem | Likely cause | Fix |
 | --- | --- | --- |
 | Google refuses before the consent screen | Developer Preview registration is incomplete | Finish registration and retry |
-| **Connect with Paperclip** is not offered | The instance is not enrolled with Paperclip Cloud, or Cloud is not advertising the search profile | Use your own Google OAuth app |
+| **Connect with ThinkingMach** is not offered | The instance is not enrolled with ThinkingMach Cloud, or Cloud is not advertising the search profile | Use your own Google OAuth app |
 | Results only ever come from one app | The query matches in one corpus, or the account has little content in the others | Try a phrase you know appears elsewhere |
 | A result is found but the agent cannot read the whole item | Expected — this connector searches, it does not read | Add the relevant app connector |
 | You need a connection dedicated to Drive | This connection requests access across multiple Workspace services | Use [Google Drive](google-drive.md) and review its scopes and actions |

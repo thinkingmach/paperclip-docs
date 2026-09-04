@@ -7,7 +7,7 @@ seo_description: Let agents analyze product usage, errors, and feature flags in 
 
 Agents can query product analytics, investigate errors, and inspect feature flags and experiments in PostHog.
 
-PostHog has a large and fast-moving tool catalog, which shapes how Paperclip handles it: a tool PostHog does not annotate as read-only is classified as a **write**, and `exec` is always **destructive**. That conservative classification is deliberate, and it is explained below.
+PostHog has a large and fast-moving tool catalog, which shapes how ThinkingMach handles it: a tool PostHog does not annotate as read-only is classified as a **write**, and `exec` is always **destructive**. That conservative classification is deliberate, and it is explained below.
 
 ## Before you connect
 
@@ -37,7 +37,7 @@ PostHog offers more scoping controls at setup than most connectors, and they are
 | **Individual tools** | Leave blank for all tools, or name exactly the ones to expose |
 | **Tool response mode** | How much detail tool responses carry |
 
-> **Note:** These are **requests Paperclip sends to PostHog**, not boundaries Paperclip enforces. The pinned project travels as a request header and the rest as query parameters, so PostHog is what honours them. The effect you will see is a narrower tool list and project scope, and it is worth configuring — but if you need a boundary that does not depend on the provider, use an account or key that cannot reach the other projects in the first place, and set the action permissions.
+> **Note:** These are **requests ThinkingMach sends to PostHog**, not boundaries ThinkingMach enforces. The pinned project travels as a request header and the rest as query parameters, so PostHog is what honours them. The effect you will see is a narrower tool list and project scope, and it is worth configuring — but if you need a boundary that does not depend on the provider, use an account or key that cannot reach the other projects in the first place, and set the action permissions.
 
 Pinning to a project is still the most useful setting here. Without it, the connection's reach is every project the authorizing account can see.
 
@@ -45,7 +45,7 @@ For an analysis-only agent, pin the project and turn on read-only mode.
 
 ## Choose access
 
-Project reach is the PostHog account's, narrowed by the pin you set and honoured by PostHog. On top of that, Paperclip's action settings apply as usual — and those are enforced on Paperclip's side.
+Project reach is the PostHog account's, narrowed by the pin you set and honoured by PostHog. On top of that, ThinkingMach's action settings apply as usual — and those are enforced on ThinkingMach's side.
 
 Risk classification is deliberately conservative for this provider:
 
@@ -77,7 +77,7 @@ Compare against the same figure in the PostHog UI. A small, bounded query is the
 | `exec` cannot be allowed casually | It is always classified destructive | Leave it **Off** unless you have a specific, reviewed reason |
 | Write tools are missing | **Read-only mode** is on | Turn it off, or make a connection without it |
 | A new PostHog tool is missing from the list | The list is stale; PostHog changed its catalog | Use **Refresh actions**, then check the new tool's setting — on a self-credentialed connection it arrives active under existing policy, so confirm it is where you want it |
-| Queries time out or are throttled | PostHog's own query limits, not Paperclip's | Narrow the time range or the query |
+| Queries time out or are throttled | PostHog's own query limits, not ThinkingMach's | Narrow the time range or the query |
 
 Limitations: one PostHog account per connection. Pinning restricts the project but not what the account could otherwise reach if you unpin. Query cost and rate limits are PostHog's.
 

@@ -29,7 +29,7 @@ Use **both**. The cap is your safety net — it catches what slips through the c
 
 ## 2. Make it the agent's contract
 
-Paperclip does not auto-detect "this code is about to spend money." There is no interceptor on the OpenAI client. The gate lives in the agent's own playbook — usually `HEARTBEAT.md` or a dedicated skill — and it has two halves.
+ThinkingMach does not auto-detect "this code is about to spend money." There is no interceptor on the OpenAI client. The gate lives in the agent's own playbook — usually `HEARTBEAT.md` or a dedicated skill — and it has two halves.
 
 **Half one: the rule.** Add a short, mechanical clause to the agent's instructions describing what crosses the line:
 
@@ -38,7 +38,7 @@ Paperclip does not auto-detect "this code is about to spend money." There is no 
 
 Before any of the following, you MUST stop and create a `request_board_approval` on the
 current issue. Do not commit, sign up, charge a card, or change a paid plan until you have
-been woken with `PAPERCLIP_APPROVAL_STATUS=approved` for that approval.
+been woken with `THINKINGMACH_APPROVAL_STATUS=approved` for that approval.
 
 - Any one-time spend ≥ $25
 - Any new recurring subscription, regardless of cost
@@ -51,7 +51,7 @@ reason. Do not retry without new direction.
 
 **Half two: the helper.** Most agents resolve the rule with a tiny shared procedure that creates the approval, marks the issue blocked, and exits. The exact shape depends on your runtime — bash if you wrote a webhook handler, Python or TypeScript if you wrote a custom script, a skill file if you ride on `claude_local`. Section 3 shows the shape end-to-end.
 
-> **Why instructions, not code?** A real spend interceptor would have to wrap every HTTP client an agent might use, plus filesystem writes that touch credentials, plus shell calls. Paperclip is not in that path. Putting the gate in the agent's instructions keeps it in the same surface as everything else the agent decides — auditable in the run transcript, editable on the Instructions tab, the same shape as every other procedure the agent follows.
+> **Why instructions, not code?** A real spend interceptor would have to wrap every HTTP client an agent might use, plus filesystem writes that touch credentials, plus shell calls. ThinkingMach is not in that path. Putting the gate in the agent's instructions keeps it in the same surface as everything else the agent decides — auditable in the run transcript, editable on the Instructions tab, the same shape as every other procedure the agent follows.
 
 ---
 
@@ -62,8 +62,8 @@ The agent posts to the company approvals route with `type: request_board_approva
 ```bash
 ISSUE_ID="<the-issue-driving-the-spend>"
 
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/approvals" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/approvals" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d @- <<JSON
 {
@@ -101,14 +101,14 @@ A few things about that payload:
 After submitting, the agent should park the source issue and exit:
 
 ```bash
-APPROVAL_ID=$(curl -s -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/approvals" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+APPROVAL_ID=$(curl -s -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/approvals" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d @approval.json | jq -r .id)
 
-curl -X PATCH "$PAPERCLIP_API_URL/api/issues/$ISSUE_ID" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
-  -H "X-Paperclip-Run-Id: $PAPERCLIP_RUN_ID" \
+curl -X PATCH "$THINKINGMACH_API_URL/api/issues/$ISSUE_ID" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
+  -H "X-ThinkingMach-Run-Id: $THINKINGMACH_RUN_ID" \
   -H "Content-Type: application/json" \
   -d "{
     \"status\": \"blocked\",
@@ -121,8 +121,8 @@ curl -X PATCH "$PAPERCLIP_API_URL/api/issues/$ISSUE_ID" \
 > **Idempotency.** Heartbeats can re-fire. Before posting a new approval, the agent should check whether one already exists for the same `issueId` and is still `pending`/`revision_requested`. The cheapest check is a list call:
 >
 > ```bash
-> curl "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/approvals?status=pending,revision_requested" \
->   -H "Authorization: Bearer $PAPERCLIP_API_KEY" | jq '[.[] | select(.payload.title=="Approve Vercel Pro for the staging deploy")] | length'
+> curl "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/approvals?status=pending,revision_requested" \
+>   -H "Authorization: Bearer $THINKINGMACH_API_KEY" | jq '[.[] | select(.payload.title=="Approve Vercel Pro for the staging deploy")] | length'
 > ```
 >
 > If the count is non-zero, do not re-submit; just exit.
@@ -141,25 +141,25 @@ The decision buttons sit at the bottom — same three buttons every approval get
 
 ![Approve, Reject, and Request Revision buttons](../user-guides/screenshots/light/approvals/approve-reject-revision-buttons.png)
 
-- **Approve** — the agent is woken with `PAPERCLIP_APPROVAL_STATUS=approved` and proceeds with the spend.
-- **Reject** — the agent is woken with `PAPERCLIP_APPROVAL_STATUS=rejected` and abandons the spend per its instructions.
+- **Approve** — the agent is woken with `THINKINGMACH_APPROVAL_STATUS=approved` and proceeds with the spend.
+- **Reject** — the agent is woken with `THINKINGMACH_APPROVAL_STATUS=rejected` and abandons the spend per its instructions.
 - **Request Revision** — the approval enters `revision_requested`, your `decisionNote` is stored, and the agent is *not* automatically woken (see the gotcha at the end of Section 5).
 
 The same actions are available on the API:
 
 ```bash
 # Approve
-curl -X POST "$PAPERCLIP_API_URL/api/approvals/$APPROVAL_ID/approve" \
+curl -X POST "$THINKINGMACH_API_URL/api/approvals/$APPROVAL_ID/approve" \
   -H "Authorization: Bearer $BOARD_TOKEN"
 
 # Reject with a reason — the reason lands on the approval and is visible to the agent on wake
-curl -X POST "$PAPERCLIP_API_URL/api/approvals/$APPROVAL_ID/reject" \
+curl -X POST "$THINKINGMACH_API_URL/api/approvals/$APPROVAL_ID/reject" \
   -H "Authorization: Bearer $BOARD_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"decisionNote": "Wait until we have customer commitment before paid hosting."}'
 
 # Send back for changes
-curl -X POST "$PAPERCLIP_API_URL/api/approvals/$APPROVAL_ID/request-revision" \
+curl -X POST "$THINKINGMACH_API_URL/api/approvals/$APPROVAL_ID/request-revision" \
   -H "Authorization: Bearer $BOARD_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"decisionNote": "Same intent, but try the Hobby tier first ($0). Resubmit with that as the action."}'
@@ -171,27 +171,27 @@ For the full UI walkthrough, including queue filters and the comments thread, se
 
 ## 5. Agent wake on resolution
 
-When you approve or reject, Paperclip wakes the requesting agent with two extra environment variables:
+When you approve or reject, ThinkingMach wakes the requesting agent with two extra environment variables:
 
 | Var | Value |
 |---|---|
-| `PAPERCLIP_APPROVAL_ID` | UUID of the resolved approval. |
-| `PAPERCLIP_APPROVAL_STATUS` | `approved` or `rejected`. |
+| `THINKINGMACH_APPROVAL_ID` | UUID of the resolved approval. |
+| `THINKINGMACH_APPROVAL_STATUS` | `approved` or `rejected`. |
 
 The agent's heartbeat looks at these first, before checking the inbox:
 
 ```python
 import os, requests
 
-API   = os.environ["PAPERCLIP_API_URL"]
-TOKEN = os.environ["PAPERCLIP_API_KEY"]
-RUN_ID = os.environ.get("PAPERCLIP_RUN_ID", "")
+API   = os.environ["THINKINGMACH_API_URL"]
+TOKEN = os.environ["THINKINGMACH_API_KEY"]
+RUN_ID = os.environ.get("THINKINGMACH_RUN_ID", "")
 H = {"Authorization": f"Bearer {TOKEN}", "Content-Type": "application/json"}
-RH = {**H, "X-Paperclip-Run-Id": RUN_ID}
+RH = {**H, "X-ThinkingMach-Run-Id": RUN_ID}
 
 def heartbeat():
-    approval_id = os.environ.get("PAPERCLIP_APPROVAL_ID")
-    status      = os.environ.get("PAPERCLIP_APPROVAL_STATUS")
+    approval_id = os.environ.get("THINKINGMACH_APPROVAL_ID")
+    status      = os.environ.get("THINKINGMACH_APPROVAL_STATUS")
 
     if approval_id:
         return handle_approval(approval_id, status)
@@ -235,10 +235,10 @@ def handle_approval(approval_id, status):
 
 Two important details about the wake:
 
-- **The wake covers `approved` and `rejected` only.** `request-revision` does not fire `PAPERCLIP_APPROVAL_ID`. The board's `decisionNote` is stored on the approval; the agent learns about it on its next normal heartbeat (or sooner if you also leave a comment on the source issue, which *does* fire a wake — see [Debug a stuck heartbeat](./debug-stuck-heartbeat.md) for the full set of wake reasons).
+- **The wake covers `approved` and `rejected` only.** `request-revision` does not fire `THINKINGMACH_APPROVAL_ID`. The board's `decisionNote` is stored on the approval; the agent learns about it on its next normal heartbeat (or sooner if you also leave a comment on the source issue, which *does* fire a wake — see [Debug a stuck heartbeat](./debug-stuck-heartbeat.md) for the full set of wake reasons).
 - **Re-fetch the approval and the linked issues.** The env vars only carry the id and the verdict. The payload, the `decisionNote`, and the linked-issue list all live on the API and may have changed since the agent submitted the request — particularly after a revision round.
 
-For BYO-agent runtimes that don't get Paperclip-driven wakes at all (the polling pattern in [Bring your own agent → Option C](./bring-your-own-agent.md#option-c--custom-script-no-paperclip-adapter)), poll the approval directly: `GET /api/approvals/$APPROVAL_ID` returns the current status. Loop with backoff and bail when `status != "pending"`.
+For BYO-agent runtimes that don't get ThinkingMach-driven wakes at all (the polling pattern in [Bring your own agent → Option C](./bring-your-own-agent.md#option-c--custom-script-no-paperclip-adapter)), poll the approval directly: `GET /api/approvals/$APPROVAL_ID` returns the current status. Loop with backoff and bail when `status != "pending"`.
 
 ---
 

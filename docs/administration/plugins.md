@@ -1,14 +1,14 @@
 ---
 paperclip_version: v2026.529.0
-seo_title: Plugins: Extending Paperclip
+seo_title: Plugins: Extending ThinkingMach
 seo_description: Add dashboard widgets, file browsers, and custom tooling. Covers the Plugin Manager, installing, self-installing plugins, enabling, and handling upgrades.
 ---
 
 # Plugins
 
-Some things Paperclip does out of the box — run agents, manage tasks, call adapters. Plenty of other things it does not, because they're too specific to your setup: a Hello World widget on the dashboard, a file browser for your project workspaces, a smoke-test runner for a third-party service you happen to use. Plugins are how you add those.
+Some things ThinkingMach does out of the box — run agents, manage tasks, call adapters. Plenty of other things it does not, because they're too specific to your setup: a Hello World widget on the dashboard, a file browser for your project workspaces, a smoke-test runner for a third-party service you happen to use. Plugins are how you add those.
 
-A plugin is a self-contained package that installs into Paperclip, runs its own background worker, and can contribute its own pages, widgets, and settings into the Paperclip UI. Unlike an [agent adapter](../guides/org/agent-adapters.md) — which teaches Paperclip how to talk to a new AI model — and unlike a [skill](../guides/org/skills.md) — which is a reusable instruction document an agent loads into its prompt — a plugin is a piece of software that extends Paperclip itself. It has its own code, its own process, and its own surface in the UI.
+A plugin is a self-contained package that installs into ThinkingMach, runs its own background worker, and can contribute its own pages, widgets, and settings into the ThinkingMach UI. Unlike an [agent adapter](../guides/org/agent-adapters.md) — which teaches ThinkingMach how to talk to a new AI model — and unlike a [skill](../guides/org/skills.md) — which is a reusable instruction document an agent loads into its prompt — a plugin is a piece of software that extends ThinkingMach itself. It has its own code, its own process, and its own surface in the UI.
 
 > Plugins are in alpha. The runtime and APIs are still shifting, so expect breaking changes for now and pin versions where you can.
 
@@ -22,8 +22,8 @@ The Plugin Manager lives under **Settings → Plugins**. It's the single place w
 
 The page has two sections:
 
-- **Available Plugins** — the plugins bundled with your Paperclip checkout, discovered automatically from the packages on disk. This includes the reference example plugins *and* first-party plugins like the LLM Wiki when they're part of your checkout. Each is labelled **Bundled**, and ones that aren't production-ready yet carry an **Experimental** badge. Useful for seeing what plugins can do and for smoke-testing the plugin runtime on a fresh instance.
-- **Installed Plugins** — everything you've installed on this Paperclip instance. Each row shows the plugin name, its package and version, a short description, a status badge, and quick actions.
+- **Available Plugins** — the plugins bundled with your ThinkingMach checkout, discovered automatically from the packages on disk. This includes the reference example plugins *and* first-party plugins like the LLM Wiki when they're part of your checkout. Each is labelled **Bundled**, and ones that aren't production-ready yet carry an **Experimental** badge. Useful for seeing what plugins can do and for smoke-testing the plugin runtime on a fresh instance.
+- **Installed Plugins** — everything you've installed on this ThinkingMach instance. Each row shows the plugin name, its package and version, a short description, a status badge, and quick actions.
 
 ### Status badges
 
@@ -34,7 +34,7 @@ Every installed plugin has a status that tells you what the runtime is doing wit
 | **ready** | The plugin is installed, enabled, and its worker is running. This is the steady state you want. |
 | **disabled** | You (or another operator) turned the plugin off. Its worker is stopped, scheduled jobs don't fire, and any UI contributions are hidden. Config and data are preserved. |
 | **error** | Something went wrong — the worker crashed on startup, a health check failed, or an upgrade broke. The plugin row shows a short error summary and a **View full error** button for the full stack trace. |
-| **upgrade_pending** | A new version of the plugin has been staged, and it asks for capabilities the installed version didn't have. Paperclip is holding it offline until you approve the new permissions. |
+| **upgrade_pending** | A new version of the plugin has been staged, and it asks for capabilities the installed version didn't have. ThinkingMach is holding it offline until you approve the new permissions. |
 | **installed** | A transient state right after install, before the first successful load. You usually won't see it for long — the plugin moves to `ready` (or `error`) within a second or two. |
 | **uninstalled** | The plugin has been removed. It won't appear in the list anymore unless you reinstall it. |
 
@@ -50,7 +50,7 @@ The summary is usually enough to know what to do:
 - **"Worker exited with code 1"** — the worker crashed on startup. The full error has the stack trace. Most common causes: missing configuration (go fill in the settings form), a secret that hasn't been provided, or an external service the plugin depends on being unreachable.
 - **"Health check failed: ..."** — the worker started but a health check didn't pass. The message names which check failed; fix the underlying issue, then click the power button to re-enable the plugin.
 
-An errored plugin stays installed — you don't need to uninstall and reinstall to try again. Once you've addressed the cause, clicking **Enable** puts it through the `error → ready` transition and Paperclip tries to start the worker again.
+An errored plugin stays installed — you don't need to uninstall and reinstall to try again. Once you've addressed the cause, clicking **Enable** puts it through the `error → ready` transition and ThinkingMach tries to start the worker again.
 
 ---
 
@@ -60,9 +60,9 @@ An errored plugin stays installed — you don't need to uninstall and reinstall 
 
 There are two ways to install a plugin yourself. (A small set of sandbox provider plugins also arrives on its own at startup — see *Plugins that install themselves* below.)
 
-**From the Available Plugins list.** Bundled plugins ship inside the Paperclip repository. On the Plugin Manager page, scroll to the **Available Plugins** section and click **Install** next to the one you want. Paperclip installs it straight from the local checkout — no registry round trip.
+**From the Available Plugins list.** Bundled plugins ship inside the ThinkingMach repository. On the Plugin Manager page, scroll to the **Available Plugins** section and click **Install** next to the one you want. ThinkingMach installs it straight from the local checkout — no registry round trip.
 
-Paperclip builds this list by scanning the plugin packages in your checkout, so what you see depends on what's bundled. Two kinds of plugin show up here:
+ThinkingMach builds this list by scanning the plugin packages in your checkout, so what you see depends on what's bundled. Two kinds of plugin show up here:
 
 - **Reference examples** — small, self-contained plugins that exist to demonstrate the runtime.
 - **First-party plugins** — real plugins like the [LLM Wiki](../reference/plugins/llm-wiki.md) when they're vendored into your checkout. These are also published to npm, so on instances that don't bundle them you'd install by full package name instead; see *By npm package name* below.
@@ -75,9 +75,9 @@ The reference examples that ship today:
 - **plugin-file-browser-example** — adds a Files link to project sidebars and a file-browser tab to the project detail page, scoped to the project's workspace.
 - **plugin-kitchen-sink-example** — demonstrates the full plugin surface in one package: pages, widgets, settings forms, scheduled jobs, webhooks. Good for exploring what a plugin can do.
 - **plugin-authoring-smoke-example** — a thin smoke test for the plugin authoring workflow. Useful if you're working on a plugin of your own and want to confirm the runtime picks it up.
-- **plugin-orchestration-smoke-example** — a smoke plugin that exercises Paperclip's orchestration-grade plugin APIs (scheduled jobs, webhooks, plugin-driven agent interactions). Useful as a reference when you're building a plugin that needs to coordinate work over time, not just render a widget.
+- **plugin-orchestration-smoke-example** — a smoke plugin that exercises ThinkingMach's orchestration-grade plugin APIs (scheduled jobs, webhooks, plugin-driven agent interactions). Useful as a reference when you're building a plugin that needs to coordinate work over time, not just render a widget.
 
-**By npm package name.** Click the **Install Plugin** button at the top right of the Plugin Manager. Paperclip asks for an npm package name (for example, `@paperclipai/plugin-example`). Submit it and Paperclip fetches, installs, and loads the package. Success or failure appears as a toast, and the plugin shows up in the installed list with its current status.
+**By npm package name.** Click the **Install Plugin** button at the top right of the Plugin Manager. ThinkingMach asks for an npm package name (for example, `@thinkingmach/plugin-example`). Submit it and ThinkingMach fetches, installs, and loads the package. Success or failure appears as a toast, and the plugin shows up in the installed list with its current status.
 
 In both cases the install flow does the same underlying work: download the package, validate its manifest, persist the plugin record, then attempt to move it through `installed → ready` by starting its worker. If anything in that chain fails, the plugin is parked in `error` with the failure message attached — it stays installed so you can inspect what happened instead of silently disappearing.
 
@@ -85,7 +85,7 @@ In both cases the install flow does the same underlying work: download the packa
 
 ## Plugins that install themselves
 
-A few plugins never wait for you to click **Install**. Sandbox provider plugins — the ones that let an agent run on external compute instead of on the machine hosting Paperclip — need to be present before the first agent run, so Paperclip provisions them while the server is starting up. If you open the Plugin Manager on a fresh instance and find a provider already sitting in **Installed Plugins** that you didn't put there, this is why.
+A few plugins never wait for you to click **Install**. Sandbox provider plugins — the ones that let an agent run on external compute instead of on the machine hosting ThinkingMach — need to be present before the first agent run, so ThinkingMach provisions them while the server is starting up. If you open the Plugin Manager on a fresh instance and find a provider already sitting in **Installed Plugins** that you didn't put there, this is why.
 
 This used to be a Kubernetes-only shortcut. It's now a general path with a fixed list of plugins it's allowed to provision:
 
@@ -105,12 +105,12 @@ Once provisioned, these behave like any other installed plugin: same status badg
 
 ### When it runs, and what you might not see
 
-Provisioning happens once per boot, before Paperclip activates the plugins that are already marked ready — so by the time the instance is serving requests, a newly provisioned provider is installed, `ready`, and running its worker.
+Provisioning happens once per boot, before ThinkingMach activates the plugins that are already marked ready — so by the time the instance is serving requests, a newly provisioned provider is installed, `ready`, and running its worker.
 
 Two quiet outcomes are worth knowing about:
 
-- **The bundle isn't on disk.** Paperclip looks for the plugin's built bundle (a `dist/manifest.js` inside the bundle folder) and skips the entry without complaint when it isn't there. A local development checkout, or an image built without a particular provider, both land here. Nothing is broken — the plugin simply doesn't appear.
-- **The install or load failed.** The failure is logged and boot carries on. Paperclip will never crash-loop over a plugin it couldn't provision; the cost is that this one provider is unavailable until you sort it out. So if a provider you expected is missing from the list, the server log is where the reason is.
+- **The bundle isn't on disk.** ThinkingMach looks for the plugin's built bundle (a `dist/manifest.js` inside the bundle folder) and skips the entry without complaint when it isn't there. A local development checkout, or an image built without a particular provider, both land here. Nothing is broken — the plugin simply doesn't appear.
+- **The install or load failed.** The failure is logged and boot carries on. ThinkingMach will never crash-loop over a plugin it couldn't provision; the cost is that this one provider is unavailable until you sort it out. So if a provider you expected is missing from the list, the server log is where the reason is.
 
 ### What it won't undo
 
@@ -122,12 +122,12 @@ Auto-provisioning is deliberately careful about decisions you've already made:
 
 ### If you self-host
 
-A self-hosted instance auto-provisions exactly one key: `kubernetes`. Every other provider in the table is yours to install when you actually want it, either from **Available Plugins** or by npm package name. That's unchanged from how Paperclip behaved before this path was generalised.
+A self-hosted instance auto-provisions exactly one key: `kubernetes`. Every other provider in the table is yours to install when you actually want it, either from **Available Plugins** or by npm package name. That's unchanged from how ThinkingMach behaved before this path was generalised.
 
 Two environment variables let you point provisioning somewhere else on disk, which is mostly useful for development images and tests:
 
-- `PAPERCLIP_BUNDLED_PLUGIN_ROOT` — relocates the bundled plugin catalog root. It defaults to `/app/packages/plugins`, the location inside the release image.
-- `PAPERCLIP_KUBERNETES_PLUGIN_PATH` — points the `kubernetes` entry at a specific bundle path wherever it lives. This one predates the catalog and is kept for compatibility.
+- `THINKINGMACH_BUNDLED_PLUGIN_ROOT` — relocates the bundled plugin catalog root. It defaults to `/app/packages/plugins`, the location inside the release image.
+- `THINKINGMACH_KUBERNETES_PLUGIN_PATH` — points the `kubernetes` entry at a specific bundle path wherever it lives. This one predates the catalog and is kept for compatibility.
 
 On a cloud-managed instance the list comes from the fleet instead, as part of the managed configuration document the harness hands the instance ([Cloud-managed instances](../reference/deploy/environment-variables.md#cloud-managed-instances) has the details). That list is checked strictly: a key that isn't in the table above, or a bundle path that resolves outside the catalog root, makes the instance refuse to start rather than load something unexpected into the host. Failing loudly at boot is the point.
 
@@ -137,14 +137,14 @@ On a cloud-managed instance the list comes from the fleet instead, as part of th
 
 Each installed plugin has a power button in the actions column. The button toggles between two lifecycle transitions:
 
-- **Disable** (when the plugin is `ready`) — Paperclip stops the worker, cancels any in-flight scheduled jobs the plugin owns, and hides the plugin's UI contributions. Your configuration and any data the plugin has stored are preserved.
-- **Enable** (when the plugin is `disabled`, `error`, or `upgrade_pending`) — Paperclip starts the worker again and, if startup succeeds, moves the plugin back to `ready`.
+- **Disable** (when the plugin is `ready`) — ThinkingMach stops the worker, cancels any in-flight scheduled jobs the plugin owns, and hides the plugin's UI contributions. Your configuration and any data the plugin has stored are preserved.
+- **Enable** (when the plugin is `disabled`, `error`, or `upgrade_pending`) — ThinkingMach starts the worker again and, if startup succeeds, moves the plugin back to `ready`.
 
 Disabling is the right move when a plugin is misbehaving, when you want to pause its scheduled jobs temporarily, or when you're about to change some external dependency and you'd rather the plugin not fire in the meantime. It's a safe, reversible operation — think of it as a "sleep" rather than a "remove".
 
 ### Uninstalling
 
-The trash icon next to the power button removes a plugin. Paperclip asks you to confirm, because the action is not reversible from the UI: the plugin package is removed from disk, the installation artifacts are cleaned up, and the plugin is marked uninstalled. To get the plugin back, you'd reinstall it fresh.
+The trash icon next to the power button removes a plugin. ThinkingMach asks you to confirm, because the action is not reversible from the UI: the plugin package is removed from disk, the installation artifacts are cleaned up, and the plugin is marked uninstalled. To get the plugin back, you'd reinstall it fresh.
 
 Uninstalling stops the worker first, the same way disable does, so in-flight work is drained cleanly before the package is removed.
 
@@ -161,10 +161,10 @@ This matters for plugins that integrate with billed services. Disabling stops th
 
 ## Upgrades
 
-When a plugin is upgraded to a new version, Paperclip compares the capabilities declared in the new manifest against the ones you originally approved.
+When a plugin is upgraded to a new version, ThinkingMach compares the capabilities declared in the new manifest against the ones you originally approved.
 
-- If the new version asks for the same capabilities or fewer, Paperclip upgrades it in place and the plugin returns to `ready` on the new version.
-- If the new version asks for **new** capabilities that weren't there before — access to a new data surface, a new integration point — Paperclip parks the plugin in `upgrade_pending`. The worker stays stopped until an operator looks at what changed.
+- If the new version asks for the same capabilities or fewer, ThinkingMach upgrades it in place and the plugin returns to `ready` on the new version.
+- If the new version asks for **new** capabilities that weren't there before — access to a new data surface, a new integration point — ThinkingMach parks the plugin in `upgrade_pending`. The worker stays stopped until an operator looks at what changed.
 
 To apply an upgrade pending approval, open the plugin's detail page, review the updated capabilities and description, and click **Enable**. That moves the plugin back to `ready` on the new version. If you're not happy with the new capabilities, you can leave the plugin in `upgrade_pending` indefinitely, or uninstall it.
 
@@ -174,7 +174,7 @@ This gate exists so plugins can't quietly grow permissions on you between versio
 
 ## The plugin detail page
 
-Clicking a plugin's name — or the **Configure** button — opens the plugin detail page. This is where a plugin gets to show you its own surface inside Paperclip.
+Clicking a plugin's name — or the **Configure** button — opens the plugin detail page. This is where a plugin gets to show you its own surface inside ThinkingMach.
 
 ![Plugin detail page](../user-guides/screenshots/light/plugins/detail.png)
 
@@ -185,23 +185,23 @@ The detail page has two tabs:
 
 A plugin can also declare a **page slot**. When it does, the plugin gets its own route at `/<company-prefix>/plugins/<plugin-id>` and renders whatever it wants there — a full page, a dashboard, a multi-step flow. This is how something like the file-browser example adds a Files tab to project pages, or how a hypothetical CRM plugin might add a Contacts view to the sidebar.
 
-From your perspective as an operator, plugin pages behave like any other Paperclip page: they're scoped to the currently selected company, they show up in breadcrumbs, and they respect your permissions. The plugin just gets a canvas to render on.
+From your perspective as an operator, plugin pages behave like any other ThinkingMach page: they're scoped to the currently selected company, they show up in breadcrumbs, and they respect your permissions. The plugin just gets a canvas to render on.
 
 Plugins can also contribute smaller pieces — a widget on the dashboard, a tab on the project detail page, a link in a sidebar — rather than a full standalone page. These show up inline in the surfaces you already use, so you don't always have to navigate to the plugin detail page to get value out of it. The Hello World example adds a dashboard widget; the file-browser example adds a project tab; the kitchen-sink example scatters contributions across several surfaces so you can see what's possible.
 
-If two plugins happen to contribute a page on the same route, Paperclip refuses to choose between them and surfaces a conflict message instead. Uninstall one of the colliding plugins, or use the plugin-id URL directly (`/<prefix>/plugins/<plugin-id>`) to reach a specific one while you sort it out.
+If two plugins happen to contribute a page on the same route, ThinkingMach refuses to choose between them and surfaces a conflict message instead. Uninstall one of the colliding plugins, or use the plugin-id URL directly (`/<prefix>/plugins/<plugin-id>`) to reach a specific one while you sort it out.
 
 ---
 
 ## Plugin settings
 
-Most plugins have some configuration: an API key, a base URL, a default folder, a list of watched repositories. Paperclip gives plugins two ways to expose that to you.
+Most plugins have some configuration: an API key, a base URL, a default folder, a list of watched repositories. ThinkingMach gives plugins two ways to expose that to you.
 
 ![Plugin settings](../user-guides/screenshots/light/plugins/settings.png)
 
-**Auto-generated forms.** If the plugin ships a JSON Schema describing its configuration, Paperclip renders a form automatically on the Configuration tab. You fill in the fields, click **Save Configuration**, and Paperclip stores the values securely. For plugins that support it, a **Test Configuration** button appears alongside save — it sends the current form values to the plugin's worker and reports back whether the config works, without persisting anything.
+**Auto-generated forms.** If the plugin ships a JSON Schema describing its configuration, ThinkingMach renders a form automatically on the Configuration tab. You fill in the fields, click **Save Configuration**, and ThinkingMach stores the values securely. For plugins that support it, a **Test Configuration** button appears alongside save — it sends the current form values to the plugin's worker and reports back whether the config works, without persisting anything.
 
-**Custom settings pages.** A plugin can also contribute its own settings UI — a multi-step wizard, a visual editor, a connection builder — via a `settingsPage` slot. When that's present, Paperclip renders the plugin's custom UI instead of the auto-generated form. Everything still lives under the same Configuration tab so you always know where to look.
+**Custom settings pages.** A plugin can also contribute its own settings UI — a multi-step wizard, a visual editor, a connection builder — via a `settingsPage` slot. When that's present, ThinkingMach renders the plugin's custom UI instead of the auto-generated form. Everything still lives under the same Configuration tab so you always know where to look.
 
 ### Secrets
 
@@ -227,7 +227,7 @@ The tab shows:
 - **Health status** — aggregate check results, polled every 30 seconds while the plugin is `ready`. If a specific check is failing (for example, "can reach external API"), you'll see it called out here long before it becomes a crash.
 - **Recent logs** — the last 50 log entries the worker emitted, colour-coded by level. This is your first stop when something looks off.
 
-The whole tab refreshes on a 30-second cycle, so you can leave it open while you tweak config or trigger a manual run elsewhere in Paperclip.
+The whole tab refreshes on a 30-second cycle, so you can leave it open while you tweak config or trigger a manual run elsewhere in ThinkingMach.
 
 ### Interpreting job status dots
 
@@ -250,23 +250,23 @@ If none of the installed plugins do what you need, you can write one. Plugins ar
 The full authoring path lives outside this guide:
 
 - The `paperclip-create-plugin` skill scaffolds a new plugin package, including the manifest, worker, and a minimal UI surface.
-- The Paperclip CLI (`paperclipai`) wraps common authoring tasks — scaffolding, dev serving, building, and publishing. See the [CLI overview](../guides/getting-started/your-first-agent.md) and the plugin adapter documentation in the main Paperclip repository for details.
+- The ThinkingMach CLI (`thinkingmach`) wraps common authoring tasks — scaffolding, dev serving, building, and publishing. See the [CLI overview](../guides/getting-started/your-first-agent.md) and the plugin adapter documentation in the main ThinkingMach repository for details.
 
 Once your plugin builds, install it with **Install Plugin** on the Plugin Manager page the same way you'd install anything else. During development you can also point the installer at a local path — the bundled **Install** flow is the same mechanism, just targeted at a package inside your checkout.
 
 ### Developing plugins locally
 
-If you're iterating on your own plugin rather than running a published one, the friendliest loop is the CLI-driven local-path install: `paperclipai plugin init` scaffolds the package, `pnpm dev` runs a watch build, and `paperclipai plugin install <path>` points Paperclip at the folder so the worker reloads each time `dist/` is rewritten.
+If you're iterating on your own plugin rather than running a published one, the friendliest loop is the CLI-driven local-path install: `thinkingmach plugin init` scaffolds the package, `pnpm dev` runs a watch build, and `thinkingmach plugin install <path>` points ThinkingMach at the folder so the worker reloads each time `dist/` is rewritten.
 
-See **[Develop a plugin locally](../how-to/develop-a-plugin-locally.md)** for the full walkthrough — scaffolding flags, the reload semantics, when to switch back to an npm install, and the troubleshooting checklist for the moments edits stop reaching Paperclip.
+See **[Develop a plugin locally](../how-to/develop-a-plugin-locally.md)** for the full walkthrough — scaffolding flags, the reload semantics, when to switch back to an npm install, and the troubleshooting checklist for the moments edits stop reaching ThinkingMach.
 
 ---
 
 ## You're set
 
-Plugins give you a way to extend Paperclip itself — new pages, new widgets, new scheduled work — without forking the codebase. Install what you need, keep disabled what you don't, and let the detail page tell you when something needs attention.
+Plugins give you a way to extend ThinkingMach itself — new pages, new widgets, new scheduled work — without forking the codebase. Install what you need, keep disabled what you don't, and let the detail page tell you when something needs attention.
 
-If you're looking to extend what an individual agent can *do* rather than what Paperclip can *show*, see [Skills](../guides/org/skills.md) and [Agent Adapters](../guides/org/agent-adapters.md) next.
+If you're looking to extend what an individual agent can *do* rather than what ThinkingMach can *show*, see [Skills](../guides/org/skills.md) and [Agent Adapters](../guides/org/agent-adapters.md) next.
 
 ---
 

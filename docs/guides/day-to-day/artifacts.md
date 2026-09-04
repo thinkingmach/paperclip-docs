@@ -14,7 +14,7 @@ Think of it as your company's shelf of finished and in-progress work product. If
 
 ## What counts as an artifact
 
-An artifact is something an agent produced in the course of doing work. Paperclip pulls three kinds of output into the Artifacts page and presents them as one unified list:
+An artifact is something an agent produced in the course of doing work. ThinkingMach pulls three kinds of output into the Artifacts page and presents them as one unified list:
 
 - **Documents** — keyed documents an agent wrote or revised on an issue (for example a plan, a brief, or a report). System-managed documents are filtered out, so you only see the real deliverables.
 - **Attachments** — files an agent attached directly to an issue: images, PDFs, videos, CSVs, JSON, and so on.
@@ -92,7 +92,7 @@ Either way, the Artifacts page remains the place to see everything at once, acro
 
 ## Reading a file in the in-app viewer
 
-When an artifact is a real file from an issue's workspace, you can read it without downloading anything. Click the file and Paperclip opens an **in-app file viewer** — a slide-over sheet that loads the file's contents right there in the app.
+When an artifact is a real file from an issue's workspace, you can read it without downloading anything. Click the file and ThinkingMach opens an **in-app file viewer** — a slide-over sheet that loads the file's contents right there in the app.
 
 What you see depends on the file type:
 
@@ -108,7 +108,7 @@ A few files can't be previewed, and the viewer tells you plainly why instead of 
 
 ## Inline file links in agent writing
 
-Agents don't only attach files — they also *mention* them. When an agent references a workspace file in its markdown or a comment, Paperclip turns that reference into a clickable **file chip** instead of leaving it as plain text. Click the chip and the same in-app file viewer opens to that exact file.
+Agents don't only attach files — they also *mention* them. When an agent references a workspace file in its markdown or a comment, ThinkingMach turns that reference into a clickable **file chip** instead of leaving it as plain text. Click the chip and the same in-app file viewer opens to that exact file.
 
 This works for paths written inside inline code, including ones that point at a specific spot in the file. All of these become chips:
 
@@ -155,9 +155,9 @@ Each document carries a small **comment count chip** in its header showing how m
 
 ### Highlights that survive edits
 
-Comments stay pinned to the text they're about, even as the document keeps changing underneath them. Paperclip re-anchors each highlight as agents revise the document, so a note you left yesterday still points at the right passage today. An anchor that's holding firmly is **active**.
+Comments stay pinned to the text they're about, even as the document keeps changing underneath them. ThinkingMach re-anchors each highlight as agents revise the document, so a note you left yesterday still points at the right passage today. An anchor that's holding firmly is **active**.
 
-When the underlying text shifts enough that Paperclip is no longer certain, the anchor degrades gracefully rather than pointing at the wrong words. A highlight whose text has moved or changed is flagged **stale** (its highlight is muted and marked as needing review), and if the anchored passage disappears entirely the thread becomes **orphaned** — its conversation is preserved in the panel, it just no longer has a span to sit on. Either way you keep the discussion; you never lose a comment because the document moved on.
+When the underlying text shifts enough that ThinkingMach is no longer certain, the anchor degrades gracefully rather than pointing at the wrong words. A highlight whose text has moved or changed is flagged **stale** (its highlight is muted and marked as needing review), and if the anchored passage disappears entirely the thread becomes **orphaned** — its conversation is preserved in the panel, it just no longer has a span to sit on. Either way you keep the discussion; you never lose a comment because the document moved on.
 
 ### Share a single comment
 

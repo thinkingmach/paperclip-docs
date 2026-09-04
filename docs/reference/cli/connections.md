@@ -9,11 +9,11 @@ seo_description: Search the connections catalog or request access to a service f
 The `connections` commands let an agent look up connectable services and ask for access to them — from *inside* a running heartbeat run. They are how an agent discovers "is there a connector for this service?" and then raises the intent to connect it, without leaving the terminal environment the runtime hands it.
 
 ```sh
-paperclipai connections search "<query>"
-paperclipai connections request <service>
+thinkingmach connections search "<query>"
+thinkingmach connections request <service>
 ```
 
-> **Note:** These commands only work during an active heartbeat run. They call runtime connection tools whose endpoints and token are injected into the run's environment (`PAPERCLIP_RUNTIME_TOOLS_CONNECTIONS_SEARCH_URL`, `PAPERCLIP_RUNTIME_TOOLS_CONNECTION_REQUEST_URL`, and `PAPERCLIP_RUNTIME_TOOLS_TOKEN`). Run them anywhere else and they stop with an error explaining they need the runtime connection environment from an active run.
+> **Note:** These commands only work during an active heartbeat run. They call runtime connection tools whose endpoints and token are injected into the run's environment (`THINKINGMACH_RUNTIME_TOOLS_CONNECTIONS_SEARCH_URL`, `THINKINGMACH_RUNTIME_TOOLS_CONNECTION_REQUEST_URL`, and `THINKINGMACH_RUNTIME_TOOLS_TOKEN`). Run them anywhere else and they stop with an error explaining they need the runtime connection environment from an active run.
 
 ---
 
@@ -22,9 +22,9 @@ paperclipai connections request <service>
 `connections search` looks up services or capabilities in the connections catalog. The query is optional — omit it to browse.
 
 ```sh
-paperclipai connections search "google calendar"
-paperclipai connections search github
-paperclipai connections search
+thinkingmach connections search "google calendar"
+thinkingmach connections search github
+thinkingmach connections search
 ```
 
 | Argument / flag | Use |
@@ -41,8 +41,8 @@ The result is written to stdout as JSON. Without `--json` it is compact single-l
 `connections request` raises a connection request for a specific service, identified by its slug — the kind of value `connections search` returns.
 
 ```sh
-paperclipai connections request google-calendar
-paperclipai connections request github --json
+thinkingmach connections request google-calendar
+thinkingmach connections request github --json
 ```
 
 | Argument / flag | Use |

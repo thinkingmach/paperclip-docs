@@ -1,14 +1,14 @@
 ---
 paperclip_version: v2026.916.0
 seo_title: Documentation Changelog
-seo_description: What changed in these docs — pages added, rewritten, or expanded — with every documentation update. For product releases, see the Paperclip changelog.
+seo_description: What changed in these docs — pages added, rewritten, or expanded — with every documentation update. For product releases, see the ThinkingMach changelog.
 ---
 
 # Documentation Changelog
 
-What changed in **these docs** — pages added, rewritten, or expanded — with each documentation update. This is a changelog for the documentation itself, not for Paperclip the product.
+What changed in **these docs** — pages added, rewritten, or expanded — with each documentation update. This is a changelog for the documentation itself, not for ThinkingMach the product.
 
-The docs track Paperclip's [calendar-versioned](https://github.com/paperclipai/paperclip/releases) releases (`YYYY.MDD.P`), so each entry is tagged with the Paperclip release the docs were brought in line with. For the product's own release notes — the actual feature and fix history — see the [Paperclip releases page](https://github.com/paperclipai/paperclip/releases). To update your install, see [Update Paperclip](../how-to/update-paperclip.md).
+The docs track ThinkingMach's [calendar-versioned](https://github.com/thinkingmach/paperclip/releases) releases (`YYYY.MDD.P`), so each entry is tagged with the ThinkingMach release the docs were brought in line with. For the product's own release notes — the actual feature and fix history — see the [ThinkingMach releases page](https://github.com/thinkingmach/paperclip/releases). To update your install, see [Update ThinkingMach](../how-to/update-paperclip.md).
 
 ---
 
@@ -20,19 +20,19 @@ The docs track Paperclip's [calendar-versioned](https://github.com/paperclipai/p
 
 - [Connection Intents API](api/connection-intents.md) — how an agent asks a person to hook up a service it can't reach: the connection card that lands in the task thread, the `requested` → `connected` lifecycle, and the split between the runtime tools an agent calls and the board routes the person answers.
 - [The connections Command](cli/connections.md) — `connections search` and `connections request`, how an agent discovers a connectable service and raises the intent to connect it from inside a running heartbeat.
-- [The managed-agent Command](cli/managed-agent.md) — provision and qualify a locked-down Anthropic managed agent and environment, then save the company profile Paperclip reads when it dispatches work to it.
-- [The test-drive Command](cli/test-drive.md) — one command spins up an isolated local instance with a ready-made company and CEO agent, seeds the provider credential, and opens the dashboard, so you can try Paperclip without wiring anything up.
+- [The managed-agent Command](cli/managed-agent.md) — provision and qualify a locked-down Anthropic managed agent and environment, then save the company profile ThinkingMach reads when it dispatches work to it.
+- [The test-drive Command](cli/test-drive.md) — one command spins up an isolated local instance with a ready-made company and CEO agent, seeds the provider credential, and opens the dashboard, so you can try ThinkingMach without wiring anything up.
 
 **Updated pages**
 
 - [Roles & Permissions](../administration/roles-and-permissions.md) and [Company Administration](../administration/company.md) — the four everyday `tools:*` keys (`manage_connections`, `manage_runtime`, `use`, and `admin`) now ride along with the Owner and Admin roles by default; `tools:view_audit` and `tools:manage_profiles` stay explicit-grant-only, and `tools:admin` is not a superset, so it doesn't imply the other three.
-- [Connect an Agent to GitHub](../how-to/connect-agent-to-github.md) — a new **Option C: managed GitHub connection** through Connectors, where Paperclip resolves a per-run credential you never mint or rotate, authors commits as the connected GitHub identity automatically, fails closed rather than falling back to a PAT, and keeps the linked PR's status in sync over the connection's webhook.
+- [Connect an Agent to GitHub](../how-to/connect-agent-to-github.md) — a new **Option C: managed GitHub connection** through Connectors, where ThinkingMach resolves a per-run credential you never mint or rotate, authors commits as the connected GitHub identity automatically, fails closed rather than falling back to a PAT, and keeps the linked PR's status in sync over the connection's webhook.
 - [Agents API](api/agents.md) — a new **Managed and Remote Agent Profiles** section (board-only, company-scoped, upsert by `profileKey`); every serialized agent now redacts plaintext `adapterConfig.env` values as `***REDACTED***` while `secret_ref` bindings pass through; plus a route to rediscover your own active setup-token login session.
 - [Tool Gateway API](api/tool-gateway.md) — an agent can now authorize its own connection with `start-authorization` (kick off an OAuth flow) and `token` (mint a short-lived upstream credential) under `/api/agents/me/connections/...`, both scoped to its active run.
 - [Instance Admin API](api/instance-admin.md) — documents the instance-settings read/patch routes with their cloud-managed floors, and the task-drain endpoints that pause new work for a clean wind-down.
 - [Plugin SDK](plugins/sdk.md) — two new capability-gated context clients: `ctx.access` (company members and invites) and `ctx.authorization` (grants, policy summaries, and the authorization audit trail), plus login-PTY and duplex-channel streaming for environment-driver workers.
-- [Environment Variables](deploy/environment-variables.md) — a new **Paperclip ID Connector** block for the Gmail/Workspace OAuth broker (`PAPERCLIP_ID_CONNECTOR_BASE_URL`, `_ENVIRONMENT`, `_INSTANCE_ID`, and the sign/seal private keys), and the HTTP adapter's `PAPERCLIP_HTTP_ADAPTER_PRIVATE_ENDPOINT_ALLOWLIST`.
-- [Codex Adapter](adapters/codex.md) — the default model is now the concrete `gpt-5.6-sol` (the bare `gpt-5.6` alias is rewritten automatically), Fast mode via `fastMode`, `modelReasoningEffort` tiers, and interactive sandbox device login backed by a company-scoped credential cache you can disable with `PAPERCLIP_CODEX_AUTH_CACHE`.
+- [Environment Variables](deploy/environment-variables.md) — a new **ThinkingMach ID Connector** block for the Gmail/Workspace OAuth broker (`THINKINGMACH_ID_CONNECTOR_BASE_URL`, `_ENVIRONMENT`, `_INSTANCE_ID`, and the sign/seal private keys), and the HTTP adapter's `THINKINGMACH_HTTP_ADAPTER_PRIVATE_ENDPOINT_ALLOWLIST`.
+- [Codex Adapter](adapters/codex.md) — the default model is now the concrete `gpt-5.6-sol` (the bare `gpt-5.6` alias is rewritten automatically), Fast mode via `fastMode`, `modelReasoningEffort` tiers, and interactive sandbox device login backed by a company-scoped credential cache you can disable with `THINKINGMACH_CODEX_AUTH_CACHE`.
 - [Claude Code Adapter](adapters/claude-code.md) — Claude Fable 5.1 support with a Claude Code `2.1.251` CLI floor that fails fast as `claude_cli_version_incompatible`, and graceful `--effort` degradation on older CLIs.
 - [Grok Local Adapter](adapters/grok-local.md) — subscription (SuperGrok) authentication through a per-company `GROK_HOME` and a sandbox device-login flow, alongside the existing `XAI_API_KEY` metered mode.
 - [HTTP Adapter](adapters/http.md) — an SSRF guard that checks every request at the socket boundary with pinned DNS, blocks private, loopback, and link-local origins by default, and only reaches a private origin when it exactly matches the allowlist.
@@ -53,14 +53,14 @@ The docs track Paperclip's [calendar-versioned](https://github.com/paperclipai/p
 **Updated pages**
 
 - [Adapters Overview](adapters/overview.md) — Kimi Code added to the built-in adapter tables and the ACP engine tier.
-- [Environment Variables](deploy/environment-variables.md) — new deployment settings: `PAPERCLIP_WORKSPACE_REAPER_COOLDOWN_DAYS` (how long a terminal workspace waits before it's archived), opt-in Sentry error monitoring via `SENTRY_DSN`, and the operator controls `PAPERCLIP_HIDDEN_SETTINGS` and `PAPERCLIP_SETTING_DEFAULTS`.
-- [Instance Settings](../administration/settings.md) — a new section for operators hosting Paperclip for others: hiding settings surfaces by key and overriding setting defaults, neither of which is ever persisted.
+- [Environment Variables](deploy/environment-variables.md) — new deployment settings: `THINKINGMACH_WORKSPACE_REAPER_COOLDOWN_DAYS` (how long a terminal workspace waits before it's archived), opt-in Sentry error monitoring via `SENTRY_DSN`, and the operator controls `THINKINGMACH_HIDDEN_SETTINGS` and `THINKINGMACH_SETTING_DEFAULTS`.
+- [Instance Settings](../administration/settings.md) — a new section for operators hosting ThinkingMach for others: hiding settings surfaces by key and overriding setting defaults, neither of which is ever persisted.
 - [Company Administration](../administration/company.md), [Members & Access](../guides/org/members-and-access.md), and [Roles & Permissions](../administration/roles-and-permissions.md) — settings are now one shared navigation, Invites moved into a tab of the Members page, and the company brand color and per-company attachment size limit were removed.
 - [Grok Local Adapter](adapters/grok-local.md) — `permissionMode` no longer defaults to `dontAsk`; when unset no permission-mode flag is passed, and `--always-approve` is the unattended policy.
 - [First company](../guides/getting-started/your-first-company.md) and the [five-minute path](../guides/getting-started/five-minute-path.md) — onboarding is rebuilt around a single-card wizard that opens on creating your agent; the separate mission step is gone and you set the goal afterward.
 - [Task Watchdogs](../guides/projects-workflow/task-watchdogs.md), [Auto-Create Recovery Tasks](../experimental/auto-create-recovery-tasks.md), and [Issues](../guides/day-to-day/issues.md) — silent-run detection now only surfaces a UI level rather than creating issues, comments, or wakes; stranded-task recovery hands off to a board-owned action instead of taking work over; and automatic run-summary comments carry only the final output, never agent thinking.
 - [Authentication API](api/authentication.md) — an invalid agent token now returns a `401` naming the cause instead of falling through to an anonymous actor.
-- [Companies API](api/companies.md) and [Cases API](api/cases.md) — `brandColor` removed from the company shape and branding routes; the attachment cap is the deployment-level `PAPERCLIP_ATTACHMENT_MAX_BYTES`, not a per-company field.
+- [Companies API](api/companies.md) and [Cases API](api/cases.md) — `brandColor` removed from the company shape and branding routes; the attachment cap is the deployment-level `THINKINGMACH_ATTACHMENT_MAX_BYTES`, not a per-company field.
 - The CLI [installation](cli/installation.md) and [setup](cli/setup-commands.md) pages, [local development](deploy/local-development.md), the [Modal adapter](adapters/modal.md), and several guides now state the raised **Node.js 24.11.0** floor.
 
 </div>
@@ -72,7 +72,7 @@ The docs track Paperclip's [calendar-versioned](https://github.com/paperclipai/p
 
 **Updated pages**
 
-- [CLI Setup Commands](cli/setup-commands.md) — after `onboard` installs the background service, it now hands you off to the running instance: it waits for the port the service actually bound, prints the dashboard URL, and opens it in your browser. Headless runs print the URL, and `PAPERCLIP_NO_BROWSER=1` opts out of the browser launch.
+- [CLI Setup Commands](cli/setup-commands.md) — after `onboard` installs the background service, it now hands you off to the running instance: it waits for the port the service actually bound, prints the dashboard URL, and opens it in your browser. Headless runs print the URL, and `THINKINGMACH_NO_BROWSER=1` opts out of the browser launch.
 
 </div>
 </details>
@@ -88,7 +88,7 @@ The docs track Paperclip's [calendar-versioned](https://github.com/paperclipai/p
 **Updated pages**
 
 - [Workspaces](../guides/projects-workflow/workspaces.md) — exposing a workspace's dev server as an HTTPS preview on your tailnet, opt-in per service, and what that looks like from the board.
-- [Update Paperclip](../how-to/update-paperclip.md) and [CLI installation](cli/installation.md) — the four release channels (`stable`, `beta`, `nightly`, `canary`) and the new `paperclipai channels` command that shows which one your install follows.
+- [Update ThinkingMach](../how-to/update-paperclip.md) and [CLI installation](cli/installation.md) — the four release channels (`stable`, `beta`, `nightly`, `canary`) and the new `thinkingmach channels` command that shows which one your install follows.
 - [Export & Import](../guides/power/export-import.md) — large packages now upload in resumable parts, so an interrupted import picks up from the parts it already has instead of starting over.
 - [Companies API](api/companies.md) — the chunked import-transfer routes (`/api/companies/import/transfers`) that back resumable imports.
 - [Secrets API](api/secrets.md) — the agent-callable secret catalog route for picking a secret to reference without exposing full metadata.
@@ -112,7 +112,7 @@ The docs track Paperclip's [calendar-versioned](https://github.com/paperclipai/p
 - [Status Cards API](api/status-cards.md) — the shared status-card board: creating cards, the compiled query, summary writes and revisions, refresh policy, and the agent-authoring limits.
 - [Status Cards](../experimental/status-cards.md) — the experimental board itself: writing the one message that drives a card, reading the tiles, the five card states, what counts as a change, and what it costs.
 - [Chat-Style Tasks](../experimental/task-chat.md) — the experimental task page as a live conversation: bubbles, folding turns, inline tool calls and diffs, the three-mode composer, and the resizable side pane.
-- [`service` CLI](cli/service.md) — installing, starting, and inspecting Paperclip as a background service.
+- [`service` CLI](cli/service.md) — installing, starting, and inspecting ThinkingMach as a background service.
 - [Status Card Query skill](skills/bundled/paperclip-operations/status-card-query.md) — the bundled skill that teaches an agent to manage status cards.
 - [Simplified English skill](skills/optional/content/simplified-english.md) and [Prepare MCP Integration skill](skills/optional/software-development/prepare-mcp-integration.md) — two new optional catalog skills.
 
@@ -123,7 +123,7 @@ The docs track Paperclip's [calendar-versioned](https://github.com/paperclipai/p
 - [Activity Log API](api/activity.md) — the audit feed of agent actions, its two-tier access model, and CSV export. `/audit` has merged into the single Activity page.
 - [Plugin SDK](plugins/sdk.md) — responding to interactions and approvals, and the rules for handling adapter-authored `command` operations and re-validating `cwd` before executing.
 - [Back up and restore a company](../how-to/back-up-and-restore-a-company.md) — what the bundle deliberately leaves behind, uploading the zip instead of inline JSON, and running large imports as a background job.
-- [Update Paperclip](../how-to/update-paperclip.md) — rewritten around checking before you commit, switching channels, rolling back, and the pre-update backup.
+- [Update ThinkingMach](../how-to/update-paperclip.md) — rewritten around checking before you commit, switching channels, rolling back, and the pre-update backup.
 - [Cloud CLI](cli/cloud.md) — the cloud-upstream commands are retired; the page now points at what replaced them.
 - [Issues API](api/issues.md), [Attention API](api/attention.md), [Environment Variables](deploy/environment-variables.md), [CLI installation](cli/installation.md), [Export & import](../guides/power/export-import.md), [Sandbox providers](adapters/sandbox-providers.md), [Skills reference](skills.md), and [Issues](../guides/day-to-day/issues.md) — brought in line with the release.
 
@@ -148,7 +148,7 @@ The docs track Paperclip's [calendar-versioned](https://github.com/paperclipai/p
 
 - [Secrets API](api/secrets.md) and [Agents API](api/agents.md) — documented run-bound agent secret access (`GET /api/agents/me/secrets/:key/value`).
 - [Local Agents (ACPX)](adapters/acpx-local.md) — native Windows execution (no Bash wrapper).
-- [Environment Variables](deploy/environment-variables.md) — `PAPERCLIP_*` binding pass-through and opt-outs.
+- [Environment Variables](deploy/environment-variables.md) — `THINKINGMACH_*` binding pass-through and opt-outs.
 - [Codex Adapter](adapters/codex.md) — the narrower `CODEX_HOME` sandbox-sync allowlist.
 - [Plugin SDK](plugins/sdk.md) — environment-sync exports and the `onEnvironmentSyncIn` / `onEnvironmentSyncOut` hooks.
 - [`company` CLI](cli/company.md) — the `export --force` flag.
@@ -292,7 +292,7 @@ The docs track Paperclip's [calendar-versioned](https://github.com/paperclipai/p
 
 **New pages**
 
-- [Develop a plugin locally](../how-to/develop-a-plugin-locally.md) — a walkthrough of `paperclipai plugin init`, local-path install, the dev watcher, and reload.
+- [Develop a plugin locally](../how-to/develop-a-plugin-locally.md) — a walkthrough of `thinkingmach plugin init`, local-path install, the dev watcher, and reload.
 - [Blocked Inbox](../guides/day-to-day/blocked-inbox.md) — the Blocked Inbox tab, chip variants, filters, sort, and triage.
 
 **Updated pages**
@@ -307,4 +307,4 @@ The docs track Paperclip's [calendar-versioned](https://github.com/paperclipai/p
 
 ---
 
-_This changelog begins at v2026.513.0, the first release tracked in this repo. For the product's full feature and fix history, see the [Paperclip releases page](https://github.com/paperclipai/paperclip/releases)._
+_This changelog begins at v2026.513.0, the first release tracked in this repo. For the product's full feature and fix history, see the [ThinkingMach releases page](https://github.com/thinkingmach/paperclip/releases)._

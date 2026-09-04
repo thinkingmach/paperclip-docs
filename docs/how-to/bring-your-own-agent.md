@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.525.0
 seo_title: Bring Your Own Agent
-seo_description: Three ways to wire a non-built-in agent into Paperclip — OpenClaw, an HTTP webhook, or a custom script — through the adapter layer that decouples them.
+seo_description: Three ways to wire a non-built-in agent into ThinkingMach — OpenClaw, an HTTP webhook, or a custom script — through the adapter layer that decouples them.
 ---
 
 # Bring your own agent (OpenClaw, HTTP webhook, custom script)
 
-Paperclip is a control plane. The thing that *runs* an agent — Claude Code, an HTTP service you operate, a Python script polling the API — is decoupled from it by an [adapter](../reference/adapters/overview.md). This guide shows three ways to wire a non-built-in agent into a Paperclip company, side by side, so you can pick the path that fits your runtime.
+ThinkingMach is a control plane. The thing that *runs* an agent — Claude Code, an HTTP service you operate, a Python script polling the API — is decoupled from it by an [adapter](../reference/adapters/overview.md). This guide shows three ways to wire a non-built-in agent into a ThinkingMach company, side by side, so you can pick the path that fits your runtime.
 
 End-to-end on a fresh test company in about 15 minutes per path.
 
@@ -14,7 +14,7 @@ End-to-end on a fresh test company in about 15 minutes per path.
 
 ## The adapter model in one paragraph
 
-A Paperclip agent is a database row plus an `adapterType` that tells Paperclip how to wake it. When an issue is assigned and a heartbeat fires, Paperclip resolves the adapter, hands it the wake context, and lets the adapter take over: launch a CLI, post to a webhook, broker a WebSocket, whatever the adapter does. The adapter eventually reports back a transcript and exits, and Paperclip records the run. The full menu of adapters lives in [Adapters Overview](../reference/adapters/overview.md); this how-to picks the three that don't require Paperclip to launch a local CLI process.
+A ThinkingMach agent is a database row plus an `adapterType` that tells ThinkingMach how to wake it. When an issue is assigned and a heartbeat fires, ThinkingMach resolves the adapter, hands it the wake context, and lets the adapter take over: launch a CLI, post to a webhook, broker a WebSocket, whatever the adapter does. The adapter eventually reports back a transcript and exits, and ThinkingMach records the run. The full menu of adapters lives in [Adapters Overview](../reference/adapters/overview.md); this how-to picks the three that don't require ThinkingMach to launch a local CLI process.
 
 ---
 
@@ -22,19 +22,19 @@ A Paperclip agent is a database row plus an `adapterType` that tells Paperclip h
 
 | Path | When to use | Latency | Trust model | Best debugger |
 |---|---|---|---|---|
-| **A — OpenClaw invite** | You already run [OpenClaw](https://github.com/openclaw/openclaw) and want Paperclip to drive it. | Low (WebSocket) | Device pairing + token | OpenClaw's own logs |
+| **A — OpenClaw invite** | You already run [OpenClaw](https://github.com/openclaw/openclaw) and want ThinkingMach to drive it. | Low (WebSocket) | Device pairing + token | OpenClaw's own logs |
 | **B — HTTP webhook** | Your runtime is a service you operate (cloud function, container, internal API). | One round-trip per heartbeat | Shared secret in header | Your service's logs |
-| **C — Custom script** | You want a polling script with no Paperclip-side adapter at all. | Polling interval (seconds) | Bearer API key | `print()` |
+| **C — Custom script** | You want a polling script with no ThinkingMach-side adapter at all. | Polling interval (seconds) | Bearer API key | `print()` |
 
-A and B are *push* models — Paperclip wakes you when work appears. C is *pull* — your script asks the inbox on a timer. Use A or B in production; C is the simplest possible thing that works.
+A and B are *push* models — ThinkingMach wakes you when work appears. C is *pull* — your script asks the inbox on a timer. Use A or B in production; C is the simplest possible thing that works.
 
 ---
 
 ## Option A — External agent invite (OpenClaw and friends)
 
-Use this when you have an external agent runtime — OpenClaw on `ws://`/`wss://`, Hermes, or anything else that can call the Paperclip invite API — and you want it to join the company by following an onboarding prompt.
+Use this when you have an external agent runtime — OpenClaw on `ws://`/`wss://`, Hermes, or anything else that can call the ThinkingMach invite API — and you want it to join the company by following an onboarding prompt.
 
-If your external runtime is Hermes Agent, the Hermes-specific walkthrough is [Hermes Gateway](../reference/adapters/hermes-gateway.md). It covers the same invite flow plus the URL mapping between Paperclip and the Hermes gateway.
+If your external runtime is Hermes Agent, the Hermes-specific walkthrough is [Hermes Gateway](../reference/adapters/hermes-gateway.md). It covers the same invite flow plus the URL mapping between ThinkingMach and the Hermes gateway.
 
 ### 1. Generate the onboarding prompt from the add-agent modal
 
@@ -49,8 +49,8 @@ The modal switches to the **Agent onboarding prompt** result view, copies the pr
 Prefer the API? The same flow is a single call:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/invites" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/invites" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "allowedJoinTypes": "agent",
@@ -62,18 +62,18 @@ The response includes `token`, `onboardingTextUrl`, and the manifest the UI uses
 
 ### 2. Hand the prompt to the external agent
 
-Paste the prompt into your OpenClaw instance's main chat (or your custom agent's input). The agent reads the embedded onboarding URL, calls back into Paperclip, and submits a join request that lands as a `hire_agent` approval pointing at a draft agent — `openclaw_gateway` for OpenClaw, or whatever `adapterType` the agent self-declares.
+Paste the prompt into your OpenClaw instance's main chat (or your custom agent's input). The agent reads the embedded onboarding URL, calls back into ThinkingMach, and submits a join request that lands as a `hire_agent` approval pointing at a draft agent — `openclaw_gateway` for OpenClaw, or whatever `adapterType` the agent self-declares.
 
 ### 3. Approve the hire
 
 Approve from the board UI or the API:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/approvals/$APPROVAL_ID/approve" \
+curl -X POST "$THINKINGMACH_API_URL/api/approvals/$APPROVAL_ID/approve" \
   -H "Authorization: Bearer $BOARD_TOKEN"
 ```
 
-Paperclip activates the agent and issues a one-time API key that OpenClaw claims on next contact. Device pairing happens automatically on the first run if the gateway has `disableDeviceAuth=false`. See [OpenClaw Gateway → Onboarding Checklist](../reference/adapters/openclaw-gateway.md#onboarding-checklist) for the preflight.
+ThinkingMach activates the agent and issues a one-time API key that OpenClaw claims on next contact. Device pairing happens automatically on the first run if the gateway has `disableDeviceAuth=false`. See [OpenClaw Gateway → Onboarding Checklist](../reference/adapters/openclaw-gateway.md#onboarding-checklist) for the preflight.
 
 ### 4. Smoke test
 
@@ -85,7 +85,7 @@ For the full hire-approval workflow including denial paths and the OpenClaw skil
 
 ## Option B — HTTP webhook adapter
 
-Use this when your agent runs as a service you control. Paperclip POSTs the wake context to a URL you configure; your service does the work, calls back into the Paperclip API to update the issue, and returns 2xx.
+Use this when your agent runs as a service you control. ThinkingMach POSTs the wake context to a URL you configure; your service does the work, calls back into the ThinkingMach API to update the issue, and returns 2xx.
 
 ### 1. Stand up a receiver
 
@@ -98,15 +98,15 @@ A 30-line Node receiver, just to anchor the shape:
 import express from "express";
 import { timingSafeEqual } from "node:crypto";
 
-const SHARED_SECRET = process.env.PAPERCLIP_WEBHOOK_SECRET;
-const PAPERCLIP_API_KEY = process.env.PAPERCLIP_API_KEY;
-const PAPERCLIP_API_URL = process.env.PAPERCLIP_API_URL;
+const SHARED_SECRET = process.env.THINKINGMACH_WEBHOOK_SECRET;
+const THINKINGMACH_API_KEY = process.env.THINKINGMACH_API_KEY;
+const THINKINGMACH_API_URL = process.env.THINKINGMACH_API_URL;
 
 const app = express();
 app.use(express.json());
 
 app.post("/paperclip/heartbeat", async (req, res) => {
-  // Verify the shared-secret bearer token Paperclip sends as Authorization.
+  // Verify the shared-secret bearer token ThinkingMach sends as Authorization.
   const auth = req.header("authorization") ?? "";
   const expected = Buffer.from(`Bearer ${SHARED_SECRET}`);
   const got = Buffer.from(auth);
@@ -117,15 +117,15 @@ app.post("/paperclip/heartbeat", async (req, res) => {
   const { runId, agentId, context } = req.body;
   res.status(202).send("accepted");
 
-  // Do the work asynchronously. Paperclip's webhook expects a fast 2xx —
+  // Do the work asynchronously. ThinkingMach's webhook expects a fast 2xx —
   // long-running work belongs in your queue, not in the request handler.
-  await doWork({ runId, agentId, context, apiKey: PAPERCLIP_API_KEY, apiUrl: PAPERCLIP_API_URL });
+  await doWork({ runId, agentId, context, apiKey: THINKINGMACH_API_KEY, apiUrl: THINKINGMACH_API_URL });
 });
 
 app.listen(8080);
 ```
 
-> **Authentication note.** Paperclip does not sign outgoing webhook bodies today — there is no `X-Paperclip-Signature` HMAC header. Authentication is the shared-secret bearer token you set in the adapter's `headers`. Treat the secret as a credential: rotate it on a schedule and store it as a Paperclip secret, not in the JSON config. Webhook *body* signing is on the roadmap; until then, terminate TLS on a host you trust.
+> **Authentication note.** ThinkingMach does not sign outgoing webhook bodies today — there is no `X-ThinkingMach-Signature` HMAC header. Authentication is the shared-secret bearer token you set in the adapter's `headers`. Treat the secret as a credential: rotate it on a schedule and store it as a ThinkingMach secret, not in the JSON config. Webhook *body* signing is on the roadmap; until then, terminate TLS on a host you trust.
 
 ### 2. Configure the agent
 
@@ -134,8 +134,8 @@ Generate a long shared secret, then hire (or edit) the agent with `adapterType: 
 ```bash
 SECRET=$(openssl rand -hex 32)
 
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/agent-hires" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/agent-hires" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d "{
     \"name\": \"Webhook Worker\",
@@ -150,28 +150,28 @@ curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/agent-hires" \
   }"
 ```
 
-Set `PAPERCLIP_WEBHOOK_SECRET=$SECRET` on your service so the same value is on both ends, and rotate it the same way you'd rotate any production credential. The full field list and request-body shape are in the [HTTP adapter](../reference/adapters/http.md) reference.
+Set `THINKINGMACH_WEBHOOK_SECRET=$SECRET` on your service so the same value is on both ends, and rotate it the same way you'd rotate any production credential. The full field list and request-body shape are in the [HTTP adapter](../reference/adapters/http.md) reference.
 
 ### 3. Smoke test
 
-Assign an issue and watch your service's logs. The body Paperclip POSTs always includes `runId`, `agentId`, and `context.taskId`. Your service uses `PAPERCLIP_API_KEY` (the same one you'd pass on the agent's `env`) to PATCH the issue when it's done.
+Assign an issue and watch your service's logs. The body ThinkingMach POSTs always includes `runId`, `agentId`, and `context.taskId`. Your service uses `THINKINGMACH_API_KEY` (the same one you'd pass on the agent's `env`) to PATCH the issue when it's done.
 
 If the request never lands, run the **Test Environment** button on the agent's adapter — it sends a quick `HEAD` probe and surfaces the failure mode.
 
 ---
 
-## Option C — Custom script (no Paperclip adapter)
+## Option C — Custom script (no ThinkingMach adapter)
 
-When you want the smallest possible thing that works: a script that polls the API, picks up assigned issues, does work, and updates them. No adapter, no webhook, no Paperclip-side wake — your script is the heartbeat.
+When you want the smallest possible thing that works: a script that polls the API, picks up assigned issues, does work, and updates them. No adapter, no webhook, no ThinkingMach-side wake — your script is the heartbeat.
 
 This path trades latency and budget tracking for total control. Use it for prototypes, batch jobs, and "I just want to write Python" cases.
 
 ### 1. Mint an agent and an API key
 
-Create an agent (any `adapterType` works for this — `http` with an unused URL is fine because you'll never let Paperclip wake it). Then mint an API key for it from the board:
+Create an agent (any `adapterType` works for this — `http` with an unused URL is fine because you'll never let ThinkingMach wake it). Then mint an API key for it from the board:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/agents/$AGENT_ID/keys" \
+curl -X POST "$THINKINGMACH_API_URL/api/agents/$AGENT_ID/keys" \
   -H "Authorization: Bearer $BOARD_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{ "name": "byo-script" }'
@@ -186,13 +186,13 @@ Save the returned `token` — you'll never see it again. The endpoint is board-o
 # byo_agent.py — the entire heartbeat loop in <50 lines.
 import os, time, uuid, requests
 
-API   = os.environ["PAPERCLIP_API_URL"]
-TOKEN = os.environ["PAPERCLIP_API_KEY"]
+API   = os.environ["THINKINGMACH_API_URL"]
+TOKEN = os.environ["THINKINGMACH_API_KEY"]
 H = {"Authorization": f"Bearer {TOKEN}", "Content-Type": "application/json"}
 
 def heartbeat():
     run_id = str(uuid.uuid4())
-    rh = {**H, "X-Paperclip-Run-Id": run_id}
+    rh = {**H, "X-ThinkingMach-Run-Id": run_id}
 
     # 1. Identity
     me = requests.get(f"{API}/api/agents/me", headers=H).json()
@@ -244,20 +244,20 @@ if __name__ == "__main__":
 Run it:
 
 ```bash
-PAPERCLIP_API_URL=https://your-paperclip.example.com \
-PAPERCLIP_API_KEY=sk_pap_... \
+THINKINGMACH_API_URL=https://your-paperclip.example.com \
+THINKINGMACH_API_KEY=sk_pap_... \
 python byo_agent.py
 ```
 
-The five steps in the loop — identity, inbox, checkout, work, update — are the same five steps every Paperclip adapter walks through internally. Your script is just the visible version of that contract. The full endpoint list is in the [API reference](../reference/api/overview.md).
+The five steps in the loop — identity, inbox, checkout, work, update — are the same five steps every ThinkingMach adapter walks through internally. Your script is just the visible version of that contract. The full endpoint list is in the [API reference](../reference/api/overview.md).
 
 ### 3. What you give up
 
-- **Wake-driven execution.** No comment-driven heartbeats, no `PAPERCLIP_WAKE_REASON`, no scheduled routines firing your script. You poll, full stop.
+- **Wake-driven execution.** No comment-driven heartbeats, no `THINKINGMACH_WAKE_REASON`, no scheduled routines firing your script. You poll, full stop.
 - **Adapter-managed budget tracking.** Run cost telemetry isn't recorded automatically — the [budget enforcement](./set-monthly-budget.md) policy still gates spend, but your script has to report cost manually if you want it tracked.
 - **Workspace and skill sync.** No project workspace provisioning, no `AGENTS.md` materialisation. Your script reads the issue and figures it out.
 
-For most production workloads, an HTTP webhook (Option B) is the right step up — same script, but Paperclip pushes the wake instead of you polling.
+For most production workloads, an HTTP webhook (Option B) is the right step up — same script, but ThinkingMach pushes the wake instead of you polling.
 
 ---
 
@@ -268,17 +268,17 @@ For most production workloads, an HTTP webhook (Option B) is the right step up �
 | **Latency on a new task** | Sub-second (gateway WebSocket is held open) | One round-trip + your queue depth | Up to your poll interval |
 | **Operational cost** | OpenClaw infra you already run | One small HTTPS service | A box that runs `python` |
 | **Trust surface** | Device pairing + gateway token | Shared secret in `Authorization` | Bearer API key, scoped to the agent |
-| **Debuggability** | OpenClaw run logs + Paperclip transcript | Your service logs + Paperclip transcript | `print()` and the API responses |
+| **Debuggability** | OpenClaw run logs + ThinkingMach transcript | Your service logs + ThinkingMach transcript | `print()` and the API responses |
 | **Tracks budget automatically** | Yes | Yes | No — you instrument it |
-| **Survives Paperclip downtime** | No (WebSocket drops) | No (no wake fires) | Yes, but with no work to do |
+| **Survives ThinkingMach downtime** | No (WebSocket drops) | No (no wake fires) | Yes, but with no work to do |
 
-The dominant axis is *who initiates*. OpenClaw and HTTP let Paperclip initiate; the custom script flips the relationship and asks Paperclip whenever it feels like it. If you don't have a strong reason to invert that, don't.
+The dominant axis is *who initiates*. OpenClaw and HTTP let ThinkingMach initiate; the custom script flips the relationship and asks ThinkingMach whenever it feels like it. If you don't have a strong reason to invert that, don't.
 
 ---
 
 ## Example repo
 
-A working version of all three paths lives at [`paperclipai/examples/byo-agent`](https://github.com/paperclipai/examples) — three subdirectories (`openclaw/`, `webhook/`, `script/`), each with a `README` showing the exact commands above and the expected output. Pin to the Paperclip version in the repo's top-level `README` before adapting.
+A working version of all three paths lives at [`thinkingmach/examples/byo-agent`](https://github.com/thinkingmach/examples) — three subdirectories (`openclaw/`, `webhook/`, `script/`), each with a `README` showing the exact commands above and the expected output. Pin to the ThinkingMach version in the repo's top-level `README` before adapting.
 
 ---
 

@@ -9,12 +9,12 @@ Agents can inspect and work with a Supabase project — its database, schema, an
 
 > **Warning:** Use a development project. Supabase connections can reach real data and, without read-only mode, change schema and database contents. Do not connect a production project unless you have read Supabase's own MCP security guidance and accepted the risk deliberately.
 
-Write tools start enabled on this connector. They are governed by Paperclip's action settings, but the default is not read-only — you have to choose that.
+Write tools start enabled on this connector. They are governed by ThinkingMach's action settings, but the default is not read-only — you have to choose that.
 
 ## Before you connect
 
 - A Supabase account with access to the project you want agents to use.
-- The **project reference** of that project, from its Supabase settings. Paperclip requires it on both authentication methods — there is no unscoped setup here.
+- The **project reference** of that project, from its Supabase settings. ThinkingMach requires it on both authentication methods — there is no unscoped setup here.
 - For the key method: a **Supabase personal access token**. See below, because the wrong kind of credential is the easiest mistake to make on this connector.
 - A decision about read-only mode, made before you connect rather than after.
 
@@ -51,17 +51,17 @@ Prefer a scoped token limited to the one development project. Note that scoping 
 | **Read-only mode** | Turn it on unless an agent genuinely needs to change the database |
 | **Feature groups** | Optionally narrow which groups of tools are exposed |
 
-**Project reference is a required field on both methods.** Supabase's own MCP endpoint may accept requests without a project, but Paperclip will not let you finish setup without one — so the "this connection reaches one project" posture is the only one available here. That is deliberate.
+**Project reference is a required field on both methods.** Supabase's own MCP endpoint may accept requests without a project, but ThinkingMach will not let you finish setup without one — so the "this connection reaches one project" posture is the only one available here. That is deliberate.
 
 Read-only mode is the other decision worth making up front. Turning it on after an agent has already had write tools does not undo anything it did.
 
-> **Note:** Read-only mode and feature groups are passed to Supabase's MCP server as request parameters — Supabase enforces them, not Paperclip. The practical effect you will see is a narrower tool list, but the enforcement boundary is the provider's. Paperclip's own control over what runs is the action settings.
+> **Note:** Read-only mode and feature groups are passed to Supabase's MCP server as request parameters — Supabase enforces them, not ThinkingMach. The practical effect you will see is a narrower tool list, but the enforcement boundary is the provider's. ThinkingMach's own control over what runs is the action settings.
 
 ## Choose access
 
-Project reach is the Supabase account's, narrowed by the project reference you set. Organization and project permissions are Supabase's, not Paperclip's — an account with owner rights on an organization brings those rights to the connection.
+Project reach is the Supabase account's, narrowed by the project reference you set. Organization and project permissions are Supabase's, not ThinkingMach's — an account with owner rights on an organization brings those rights to the connection.
 
-Be clear about the range of what write access means here. It is not only inserting rows: depending on the tools exposed, it can include schema changes and project configuration. Those are not reversible from Paperclip.
+Be clear about the range of what write access means here. It is not only inserting rows: depending on the tools exposed, it can include schema changes and project configuration. Those are not reversible from ThinkingMach.
 
 Leave writes on **Ask first** at minimum, and prefer **Off** for anything touching schema. See [Set action permissions](action-permissions.md).
 
@@ -89,10 +89,10 @@ Do not verify with a migration, a schema change, or a privileged SQL statement.
 | Write tools are missing | **Read-only mode** is on, and Supabase is honouring it | That is the recommended posture; turn it off only deliberately |
 | A schema change succeeded that you did not expect | Write tools start enabled and the action was allowed | Turn on read-only mode, or set schema tools to **Off**; recover using Supabase's own backups |
 | Authentication succeeds but the project is not visible | The account lacks access to that project | Grant access in Supabase |
-| Queries fail or time out | Supabase project limits, not Paperclip | Check the project's plan and resource limits |
+| Queries fail or time out | Supabase project limits, not ThinkingMach | Check the project's plan and resource limits |
 | **Needs attention** | The key was revoked or the sign-in expired | Select **Reconnect** |
 
-Limitations: one project per connection, always. Paperclip cannot roll back a database change — recovery is Supabase's backups. Read-only mode is a request Supabase honours, not a Paperclip guarantee, and it is not a substitute for using a development project.
+Limitations: one project per connection, always. ThinkingMach cannot roll back a database change — recovery is Supabase's backups. Read-only mode is a request Supabase honours, not a ThinkingMach guarantee, and it is not a substitute for using a development project.
 
 ## Related guides
 

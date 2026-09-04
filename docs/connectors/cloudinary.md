@@ -20,7 +20,7 @@ This connection is Cloudinary's asset-management surface. It is about finding an
 2. On the **Access** step, choose the identity and which agents may use the connection.
 3. Select **Sign in with Cloudinary** and complete browser sign-in.
 
-Paperclip registers its client automatically, so there is nothing to configure in a developer console.
+ThinkingMach registers its client automatically, so there is nothing to configure in a developer console.
 
 ## Choose access
 
@@ -34,9 +34,9 @@ Separate three kinds of operation when you set permissions:
 | Uploading or modifying assets | Changes your asset library |
 | Deleting assets | Removes media that live sites may reference |
 
-> **Warning:** Deleting an asset can break every page that embeds it, and deletions are not reversible from Paperclip. Keep deletion **Off**. Uploads and transformations consume storage and transformation quota, which has a billing effect on your Cloudinary plan.
+> **Warning:** Deleting an asset can break every page that embeds it, and deletions are not reversible from ThinkingMach. Keep deletion **Off**. Uploads and transformations consume storage and transformation quota, which has a billing effect on your Cloudinary plan.
 
-> **Note:** Reads change nothing, but do not assume they are free. API calls count against your Cloudinary plan's own rate and usage limits, and how those are metered is Cloudinary's business, not Paperclip's. Check your plan if an agent will be reading at volume.
+> **Note:** Reads change nothing, but do not assume they are free. API calls count against your Cloudinary plan's own rate and usage limits, and how those are metered is Cloudinary's business, not ThinkingMach's. Check your plan if an agent will be reading at volume.
 
 See [Set action permissions](action-permissions.md).
 
@@ -61,7 +61,7 @@ Compare against the Cloudinary media library. Check the returned IDs against kno
 | Quota or billing rose unexpectedly | Uploads or transformations consumed plan resources | Review usage in Cloudinary and restrict those actions |
 | **Needs attention** | The grant was revoked | Select **Reconnect** |
 
-Limitations: one product environment per connection. Role-based limits are Cloudinary's, not Paperclip's. Deletion is not recoverable from Paperclip.
+Limitations: one product environment per connection. Role-based limits are Cloudinary's, not ThinkingMach's. Deletion is not recoverable from ThinkingMach.
 
 ## Related guides
 

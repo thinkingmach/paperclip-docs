@@ -18,15 +18,15 @@ Open it from the sidebar, or go directly to `/decisions`.
 
 Each row explains why it needs you now and links to the work behind it. You may see approvals, questions from agents, join requests, recovery actions, blocked dependency chains, reviews, failed runs, budget alerts, agent-error alerts, or a decision an agent has proposed.
 
-Paperclip ranks the visible queue by recent activity and urgency. That makes it a good starting point for your operating day, but it is not a permanent event archive: a row leaves when its underlying work no longer needs attention.
+ThinkingMach ranks the visible queue by recent activity and urgency. That makes it a good starting point for your operating day, but it is not a permanent event archive: a row leaves when its underlying work no longer needs attention.
 
-Rows that Paperclip can complete in place — approvals, issue-thread interactions, join requests, and proposed decisions — give you the relevant decision controls. Other rows take you to the original issue, alert, or record so you can inspect the context before you act.
+Rows that ThinkingMach can complete in place — approvals, issue-thread interactions, join requests, and proposed decisions — give you the relevant decision controls. Other rows take you to the original issue, alert, or record so you can inspect the context before you act.
 
 ---
 
 ## Answer a decision an agent proposed
 
-Some rows are more than a notification. When an agent works out what should happen next but isn't allowed to do it alone, it raises a **decision**: a short question, an explanation, and up to eight options. Each option spells out exactly what Paperclip would do if you picked it — post a comment, create an issue, change a status, reassign work, clear a blocker, or cancel an issue and everything under it.
+Some rows are more than a notification. When an agent works out what should happen next but isn't allowed to do it alone, it raises a **decision**: a short question, an explanation, and up to eight options. Each option spells out exactly what ThinkingMach would do if you picked it — post a comment, create an issue, change a status, reassign work, clear a blocker, or cancel an issue and everything under it.
 
 You answer it right in the row. Options that need a little context from you show up to four fields first; a required field is marked, and the options stay disabled until you fill it in.
 
@@ -34,12 +34,12 @@ You answer it right in the row. Options that need a little context from you show
 
 A few things make this safe to do quickly:
 
-- **Nothing has drifted behind your back.** When the agent proposed the decision, Paperclip recorded what the affected issues looked like. If one of them has moved since, the row says so — *"1 target changed since this was proposed"* — and disables any option that depends on the old state.
+- **Nothing has drifted behind your back.** When the agent proposed the decision, ThinkingMach recorded what the affected issues looked like. If one of them has moved since, the row says so — *"1 target changed since this was proposed"* — and disables any option that depends on the old state.
 - **Destructive options ask twice.** Choosing an option that cancels an issue tree opens a confirmation panel listing every issue that would be cancelled, and asks you to type the issue identifier before it will run.
-- **Saying no is a real answer.** **Dismiss — no effects** closes the decision without changing anything, and records it as a "no" rather than letting it quietly time out. Paperclip counts dismissals separately from expiries, so agents get honest feedback about which proposals are worth making.
+- **Saying no is a real answer.** **Dismiss — no effects** closes the decision without changing anything, and records it as a "no" rather than letting it quietly time out. ThinkingMach counts dismissals separately from expiries, so agents get honest feedback about which proposals are worth making.
 - **Decisions expire on their own.** A proposal that nobody answers lapses — after seven days by default — and so does one whose target issue has since been cancelled.
 
-Once you answer, Paperclip runs the option's changes one at a time and shows you the outcome, including anything it had to skip because a target had moved. If an agent asked to be woken when the decision resolves, that happens automatically.
+Once you answer, ThinkingMach runs the option's changes one at a time and shows you the outcome, including anything it had to skip because a target had moved. If an agent asked to be woken when the decision resolves, that happens automatically.
 
 Two collapsible sections at the bottom of the page, **Decided** and **Expired**, keep the recent history so you can look back at what was chosen and what it did.
 
@@ -69,7 +69,7 @@ A busy queue mixes very different kinds of work. **Queues** let you split it int
 
 A queue is a label that points at items. Adding an item to a queue doesn't move it, doesn't change its status, and doesn't remove it from anywhere else: an item can sit in several queues at once, and taking it out again leaves the underlying approval, question, or run exactly as it was.
 
-Paperclip fills three queues for you as it builds the feed, creating each one the first time something matches:
+ThinkingMach fills three queues for you as it builds the feed, creating each one the first time something matches:
 
 | Queue | What lands in it |
 |---|---|
@@ -77,7 +77,7 @@ Paperclip fills three queues for you as it builds the feed, creating each one th
 | **Plans** | Plan revisions waiting for you to confirm them. |
 | **Questions** | Structured questions an agent has asked and is waiting on. |
 
-You can turn that automatic filling off per queue if you would rather curate a lane by hand. Turning it off leaves the queue and everything already in it alone — Paperclip just stops adding more.
+You can turn that automatic filling off per queue if you would rather curate a lane by hand. Turning it off leaves the queue and everything already in it alone — ThinkingMach just stops adding more.
 
 You can also create queues of your own, add and remove items, and read a queue's contents through the [Decisions API](../../reference/api/decisions.md). One thing worth knowing: a queue only ever shows you items you are allowed to see, and its item count is counted the same way, so two people can look at the same queue and see different totals.
 
@@ -89,7 +89,7 @@ You can also create queues of your own, add and remove items, and read a queue's
 
 Filters tidy your view. **Triage** does something different: it records, for everyone, when a piece of work actually needs a decision.
 
-You can give any item a decide-by target of **today**, **this week**, **whenever**, or a specific calendar date, and you can snooze it until a moment in the future. Both stick to the item itself rather than to your browser, so the deadline your colleague set is the deadline you see. Paperclip keeps a history of who changed what.
+You can give any item a decide-by target of **today**, **this week**, **whenever**, or a specific calendar date, and you can snooze it until a moment in the future. Both stick to the item itself rather than to your browser, so the deadline your colleague set is the deadline you see. ThinkingMach keeps a history of who changed what.
 
 ![The triage strip on an expanded row: a When to decide row offering Today, This week, Whenever, and Pick date, alongside Queues and Snooze controls](../../user-guides/screenshots/light/decisions/triage-chips.png)
 
@@ -105,7 +105,7 @@ Set triage in the UI with the **When to decide** row on an expanded item. You ca
 
 If a row is real but not for this moment, you can dismiss it or snooze it. Dismissal removes it from your active queue until newer activity makes it relevant again. Snooze hides it until the time you choose.
 
-The built-in choices are **1 hour**, **4 hours**, **tomorrow morning**, and **next week**. Dismissed and snoozed rows stay available in their own expandable sections, where you can restore them. Right after a dismissal, Paperclip also shows an **Undo** action for eight seconds.
+The built-in choices are **1 hour**, **4 hours**, **tomorrow morning**, and **next week**. Dismissed and snoozed rows stay available in their own expandable sections, where you can restore them. Right after a dismissal, ThinkingMach also shows an **Undo** action for eight seconds.
 
 These choices are personal to your board user. They tidy your queue without changing the underlying issue, approval, run, or budget policy.
 
@@ -113,7 +113,7 @@ These choices are personal to your board user. They tidy your queue without chan
 
 ## When the queue is empty
 
-**You're all caught up** means Paperclip has no visible item that needs a decision from you. If you have filters turned on, **No decisions match your filters** means the work may still exist — broaden the filters before assuming nothing needs attention.
+**You're all caught up** means ThinkingMach has no visible item that needs a decision from you. If you have filters turned on, **No decisions match your filters** means the work may still exist — broaden the filters before assuming nothing needs attention.
 
 ![The empty Decisions queue reading You're all caught up](../../user-guides/screenshots/light/decisions/empty-state.png)
 

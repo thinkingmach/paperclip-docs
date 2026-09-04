@@ -20,11 +20,11 @@ The practical case is CMS content: an agent drafting, checking, or updating coll
 2. On the **Access** step, choose the identity and which agents may use the connection.
 3. Select **Sign in with Webflow** and complete browser sign-in, authorizing the sites you want when Webflow asks.
 
-Paperclip registers its client automatically, so there is nothing to configure in a developer console.
+ThinkingMach registers its client automatically, so there is nothing to configure in a developer console.
 
 ## Choose access
 
-Site reach is Webflow's decision: the sites the authorizing account can access under its workspace and site roles, plus whatever you authorized. Paperclip has no site picker.
+Site reach is Webflow's decision: the sites the authorizing account can access under its workspace and site roles, plus whatever you authorized. ThinkingMach has no site picker.
 
 The distinction that matters most is between changing content and making it live:
 
@@ -46,7 +46,7 @@ The condition is a companion app. Webflow states that "the MCP Companion App mus
 
 That prerequisite is a poor fit for unattended agent work, because it requires a person to have the Designer open for the duration. Plan Designer work as something a person drives, and use this connector for CMS content.
 
-> **Note:** We have not run Webflow Designer tools through Paperclip. What is established here is the provider's own requirement, not a tested Paperclip result — so if you do try it, treat it as unverified and start on a site that does not matter. Webflow's [MCP getting started](https://developers.webflow.com/mcp/reference/getting-started) is the authority on the current tool surface.
+> **Note:** We have not run Webflow Designer tools through ThinkingMach. What is established here is the provider's own requirement, not a tested ThinkingMach result — so if you do try it, treat it as unverified and start on a site that does not matter. Webflow's [MCP getting started](https://developers.webflow.com/mcp/reference/getting-started) is the authority on the current tool surface.
 
 ## Try it
 
@@ -69,7 +69,7 @@ Compare against the Webflow dashboard. Reading collection structure confirms the
 | A Designer tool fails or is unavailable | The MCP Companion App is not open in the Webflow Designer; it must stay open for Designer tools to work | Open it from the Apps panel, or do the design work in the Designer directly |
 | **Needs attention** | The grant was revoked | Select **Reconnect** |
 
-Limitations: one Webflow account per connection. No site filter inside Paperclip. Designer tools need a companion app kept open in the Designer, so they do not suit unattended work. Webflow's plan limits apply to CMS item counts and API rates.
+Limitations: one Webflow account per connection. No site filter inside ThinkingMach. Designer tools need a companion app kept open in the Designer, so they do not suit unattended work. Webflow's plan limits apply to CMS item counts and API rates.
 
 ## Related guides
 

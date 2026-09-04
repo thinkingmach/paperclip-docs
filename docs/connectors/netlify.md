@@ -10,7 +10,7 @@ Agents can work with your Netlify teams and sites — checking deploy status, in
 ## Before you connect
 
 - A Netlify account with access to the team and sites you want agents to use.
-- If you belong to several Netlify teams, know which one you want. Reach follows the account, and there is no team picker in Paperclip.
+- If you belong to several Netlify teams, know which one you want. Reach follows the account, and there is no team picker in ThinkingMach.
 
 ## Connect Netlify
 
@@ -18,7 +18,7 @@ Agents can work with your Netlify teams and sites — checking deploy status, in
 2. On the **Access** step, choose the identity and which agents may use the connection.
 3. Select **Sign in with Netlify** and complete browser sign-in.
 
-Paperclip registers its client with Netlify automatically, so there is nothing to set up in a developer console.
+ThinkingMach registers its client with Netlify automatically, so there is nothing to set up in a developer console.
 
 ## Choose access
 
@@ -55,12 +55,12 @@ Compare against the Netlify dashboard. A deploy-status read is the natural first
 | --- | --- | --- |
 | A site is missing | The authorizing account is not a member of that team | Add it to the team in Netlify; no reconnect needed |
 | An action is refused | The account's Netlify role does not permit it | Adjust the role in Netlify, or leave the capability off |
-| A deploy started unexpectedly | A deploy action was set to **Allowed** | Set it to **Ask first**. Recovery is yours to do in Netlify — cancel the running build, or publish a previous deploy. Paperclip does not roll anything back |
+| A deploy started unexpectedly | A deploy action was set to **Allowed** | Set it to **Ask first**. Recovery is yours to do in Netlify — cancel the running build, or publish a previous deploy. ThinkingMach does not roll anything back |
 | Build logs are truncated | Netlify's own log retention and size limits | Check the full log in the Netlify dashboard |
 | An expected capability is absent | Netlify's server does not expose it | Use **Refresh actions**; otherwise it is unavailable |
 | **Needs attention** | The grant expired or was revoked | Select **Reconnect** |
 
-Limitations: one Netlify account per connection. No team or site filter inside Paperclip. Paperclip cannot roll back a deploy — do that in Netlify.
+Limitations: one Netlify account per connection. No team or site filter inside ThinkingMach. ThinkingMach cannot roll back a deploy — do that in Netlify.
 
 ## Related guides
 

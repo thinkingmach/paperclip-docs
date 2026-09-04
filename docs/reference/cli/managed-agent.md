@@ -1,15 +1,15 @@
 ---
 paperclip_version: v2026.916.0
 seo_title: The managed-agent Command
-seo_description: Provision and qualify a locked-down Anthropic managed agent and environment, then save the company profile Paperclip uses to run it.
+seo_description: Provision and qualify a locked-down Anthropic managed agent and environment, then save the company profile ThinkingMach uses to run it.
 ---
 
 # Managed Agent Command
 
-`managed-agent` provisions the remote, provider-hosted runtime a company can use in place of a locally executed adapter. Today it targets Anthropic's Managed Agents beta: it creates (or adopts) a locked-down Agent and Environment on Anthropic's side, checks that both match Paperclip's strict no-network, no-tools safety profile, and then stores a **managed-agent profile** on your company that the runtime reads when it dispatches work.
+`managed-agent` provisions the remote, provider-hosted runtime a company can use in place of a locally executed adapter. Today it targets Anthropic's Managed Agents beta: it creates (or adopts) a locked-down Agent and Environment on Anthropic's side, checks that both match ThinkingMach's strict no-network, no-tools safety profile, and then stores a **managed-agent profile** on your company that the runtime reads when it dispatches work.
 
 ```sh
-paperclipai managed-agent setup --company-id <company-id> \
+thinkingmach managed-agent setup --company-id <company-id> \
   --profile-key <key> \
   --display-name "<name>" \
   --api-key-secret-id <uuid>
@@ -29,14 +29,14 @@ Under the hood it either finds existing Anthropic resources tagged with your `--
 
 ```sh
 # Provision from scratch, acknowledging the beta's retention terms
-paperclipai managed-agent setup --company-id <company-id> \
+thinkingmach managed-agent setup --company-id <company-id> \
   --profile-key acme-prod \
   --display-name "Acme Production" \
   --api-key-secret-id 6f1c2e3a-1b2c-4d5e-8f90-0a1b2c3d4e5f \
   --acknowledge-retention
 
 # Adopt an Anthropic Agent and Environment you already created
-paperclipai managed-agent setup --company-id <company-id> \
+thinkingmach managed-agent setup --company-id <company-id> \
   --profile-key acme-prod \
   --display-name "Acme Production" \
   --api-key-secret-id 6f1c2e3a-1b2c-4d5e-8f90-0a1b2c3d4e5f \

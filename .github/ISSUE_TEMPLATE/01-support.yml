@@ -20,7 +20,7 @@ body:
     attributes:
       label: Install path
       options:
-        - Paperclip Desktop
+        - ThinkingMach Desktop
         - Terminal / local dev
         - Docker
         - Other

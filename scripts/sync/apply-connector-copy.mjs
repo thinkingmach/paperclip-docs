@@ -9,7 +9,7 @@
  * have to agree with docs/connectors.md:
  *
  *   - the page lede and seo_description, which say what the service is and
- *     what Paperclip supports doing with it;
+ *     what ThinkingMach supports doing with it;
  *   - the Category row, using the hub's group names;
  *   - the connection-method name, using the hub's six names rather than a
  *     separate per-page sign-in vocabulary.
@@ -62,7 +62,7 @@ const COPY = {
   },
   "google-calendar": {
     lede: "Google's calendar. Agents read calendars, and on a write connection create and change events.",
-    seo: "Google's calendar. Agents read calendars, and on a write connection create and change events. Set up access and per-action permissions in Paperclip.",
+    seo: "Google's calendar. Agents read calendars, and on a write connection create and change events. Set up access and per-action permissions in ThinkingMach.",
   },
   "google-chat": {
     lede: "Google Workspace's team messaging. Agents search and read conversations, and on a write connection post messages. This is an agent tool, not a way for people to talk to an agent.",
@@ -70,23 +70,23 @@ const COPY = {
   },
   "google-docs": {
     lede: "Google's word processor. Agents read documents, and on a write connection edit them.",
-    seo: "Google's word processor. Agents read documents, and on a write connection edit them. Set up access and per-action permissions in Paperclip.",
+    seo: "Google's word processor. Agents read documents, and on a write connection edit them. Set up access and per-action permissions in ThinkingMach.",
   },
   "google-drive": {
     lede: "Google's file storage. Agents search and read files, and on a write connection create and copy them.",
-    seo: "Google's file storage. Agents search and read files, and on a write connection create and copy them. Set up access and permissions in Paperclip.",
+    seo: "Google's file storage. Agents search and read files, and on a write connection create and copy them. Set up access and permissions in ThinkingMach.",
   },
   "google-people": {
     lede: "The contacts and directory behind a Google account. Agents look up people and profiles. Read-only; there is no write connection.",
     seo: "The contacts and directory behind a Google account. Agents look up people and profiles. Read-only: this connector has no write connection at all.",
   },
   "google-sheets": {
-    lede: "Google's spreadsheets. Agents read sheets, and on a write connection update them. A third path shares individual spreadsheets with a Paperclip robot account instead of connecting a Google identity at all.",
-    seo: "Google's spreadsheets. Agents read sheets, or update them on a write connection, or reach only the files you share with a Paperclip robot account.",
+    lede: "Google's spreadsheets. Agents read sheets, and on a write connection update them. A third path shares individual spreadsheets with a ThinkingMach robot account instead of connecting a Google identity at all.",
+    seo: "Google's spreadsheets. Agents read sheets, or update them on a write connection, or reach only the files you share with a ThinkingMach robot account.",
   },
   "google-slides": {
     lede: "Google's presentations. Agents read decks, and on a write connection edit them.",
-    seo: "Google's presentations. Agents read decks, and on a write connection edit them. Set up access and per-action permissions in Paperclip.",
+    seo: "Google's presentations. Agents read decks, and on a write connection edit them. Set up access and per-action permissions in ThinkingMach.",
   },
   "google-workspace-search": {
     lede: "One read-only search that spans Gmail, Drive, Calendar, and Chat in a single Google account. Use it when an agent needs to find something without knowing which app holds it.",
@@ -121,8 +121,8 @@ const COPY = {
 
   // ── Communication ─────────────────────────────────────────────────────
   agentmail: {
-    lede: "Email inboxes built for software agents. Gives an agent its own inbox and turns each email conversation into a Paperclip task.",
-    seo: "Email inboxes built for software agents. Gives an agent its own inbox and turns each email conversation into a Paperclip task you can follow.",
+    lede: "Email inboxes built for software agents. Gives an agent its own inbox and turns each email conversation into a ThinkingMach task.",
+    seo: "Email inboxes built for software agents. Gives an agent its own inbox and turns each email conversation into a ThinkingMach task you can follow.",
   },
   resend: {
     lede: "Transactional email delivery for developers. Agents work with the sending domains and delivery records your Resend account can reach.",
@@ -136,7 +136,7 @@ const COPY = {
   // ── Developer tools ───────────────────────────────────────────────────
   cloudflare: {
     lede: "DNS, CDN, and edge compute. Agents work with the account your Cloudflare sign-in can reach.",
-    seo: "DNS, CDN, and edge compute. Agents work with the account your Cloudflare sign-in can reach, under per-action permissions you set in Paperclip.",
+    seo: "DNS, CDN, and edge compute. Agents work with the account your Cloudflare sign-in can reach, under per-action permissions you set in ThinkingMach.",
   },
   github: {
     lede: "Code hosting and review. Two separate purposes: as an app integration agents read and act on the organizations and repositories you pick; as a chat channel people work with one agent from issue and pull-request comments.",
@@ -200,7 +200,7 @@ const COPY = {
   },
   wix: {
     lede: "Website builder and hosting. Agents work with the sites your Wix account can reach.",
-    seo: "Website builder and hosting. Agents work with the sites your Wix account can reach, under per-action permissions you set in Paperclip.",
+    seo: "Website builder and hosting. Agents work with the sites your Wix account can reach, under per-action permissions you set in ThinkingMach.",
   },
 
   // ── Commerce and finance ──────────────────────────────────────────────
@@ -226,11 +226,11 @@ const COPY = {
   // ── Model providers ───────────────────────────────────────────────────
   anthropic: {
     lede: "Run Claude models. A subscription signs in with your Claude plan; an API key can be scoped and rotated separately.",
-    seo: "Supplies the credential Paperclip uses to run Claude models. A subscription signs in with your plan; an API key can be scoped and rotated.",
+    seo: "Supplies the credential ThinkingMach uses to run Claude models. A subscription signs in with your plan; an API key can be scoped and rotated.",
   },
   openai: {
     lede: "Run OpenAI models.",
-    seo: "Supplies the credential Paperclip uses to run OpenAI models. It is not an agent tool, so it adds no actions to any permission list.",
+    seo: "Supplies the credential ThinkingMach uses to run OpenAI models. It is not an agent tool, so it adds no actions to any permission list.",
   },
   openrouter: {
     lede: "Run models from many vendors through one credential and one bill.",
@@ -238,25 +238,25 @@ const COPY = {
   },
   xai: {
     lede: "Run xAI's Grok models.",
-    seo: "Supplies the credential Paperclip uses to run xAI's Grok models. It is not an agent tool, so it adds no actions to any permission list.",
+    seo: "Supplies the credential ThinkingMach uses to run xAI's Grok models. It is not an agent tool, so it adds no actions to any permission list.",
   },
 
   // ── Chat channels ─────────────────────────────────────────────────────
   discord: {
-    lede: "Mention the agent in a server channel and Paperclip opens a thread, keeping it tied to one task.",
-    seo: "Lets people work with a Paperclip agent from Discord. Mention the agent in a channel and Paperclip opens a thread tied to one task.",
+    lede: "Mention the agent in a server channel and ThinkingMach opens a thread, keeping it tied to one task.",
+    seo: "Lets people work with a ThinkingMach agent from Discord. Mention the agent in a channel and ThinkingMach opens a thread tied to one task.",
   },
   "imessage-photon": {
     lede: "Message the agent from Apple Messages through a Photon Cloud project. Shared Pro lines carry direct messages; a dedicated line also carries groups you enable.",
-    seo: "Lets people message a Paperclip agent from Apple Messages through Photon Cloud. Shared Pro lines carry DMs; a dedicated line also carries groups.",
+    seo: "Lets people message a ThinkingMach agent from Apple Messages through Photon Cloud. Shared Pro lines carry DMs; a dedicated line also carries groups.",
   },
   "microsoft-teams": {
     lede: "Message the agent in a chat, a team channel, or a group chat. Needs a work or school Microsoft 365 organization; personal Teams accounts cannot complete the setup.",
-    seo: "Lets people work with a Paperclip agent from Microsoft Teams. Needs a work or school Microsoft 365 organization; personal accounts cannot set it up.",
+    seo: "Lets people work with a ThinkingMach agent from Microsoft Teams. Needs a work or school Microsoft 365 organization; personal accounts cannot set it up.",
   },
   telegram: {
     lede: "Message the agent through a bot you create with BotFather.",
-    seo: "Lets people work with a Paperclip agent from Telegram, through a bot you create with BotFather and connect to Paperclip's webhook.",
+    seo: "Lets people work with a ThinkingMach agent from Telegram, through a bot you create with BotFather and connect to ThinkingMach's webhook.",
   },
 };
 
@@ -269,8 +269,8 @@ function connectionMethodName({ signInStyle, oauthClient, isChatSection }) {
   if (signInStyle === "API key") {
     return isChatSection ? "Provider app registration" : "API key";
   }
-  if (oauthClient === "Paperclip's managed client") return "Connect with Paperclip";
-  if (oauthClient === "registered on demand by Paperclip") return "Sign in with the provider";
+  if (oauthClient === "ThinkingMach's managed client") return "Connect with ThinkingMach";
+  if (oauthClient === "registered on demand by ThinkingMach") return "Sign in with the provider";
   if (oauthClient?.startsWith("registered on demand, or your own OAuth app")) {
     return "Sign in with the provider, or your own OAuth app";
   }

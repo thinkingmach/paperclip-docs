@@ -20,9 +20,9 @@ The same Atlassian server also covers Confluence, so a connection made here may 
 1. Open **Connectors** and select **Jira**.
 2. On the **Access** step, choose the identity and which agents may use the connection.
 3. Select **Sign in with Jira** and complete Atlassian's authorization in the browser.
-4. If your Atlassian account has more than one site, choose the site you want during Atlassian's flow. This is the decision to get right — it is made at Atlassian, not in Paperclip.
+4. If your Atlassian account has more than one site, choose the site you want during Atlassian's flow. This is the decision to get right — it is made at Atlassian, not in ThinkingMach.
 
-Paperclip registers its client with Atlassian automatically, so there is nothing to configure in a developer console.
+ThinkingMach registers its client with Atlassian automatically, so there is nothing to configure in a developer console.
 
 ## Choose access
 
@@ -55,7 +55,7 @@ Compare against the issue in Jira. If it comes back empty, check the site first.
 | A transition is rejected | The Jira workflow does not allow that transition for this account | Check the workflow in Jira |
 | **Needs attention** | The Atlassian grant expired or was revoked | Select **Reconnect** |
 
-Limitations: this guide covers Atlassian Cloud. Paperclip does not add a project picker; reach follows the authorized account and Atlassian's permissions. Check which sites and projects the connected account can actually access before assigning work. A successful read on one site does not verify access to another.
+Limitations: this guide covers Atlassian Cloud. ThinkingMach does not add a project picker; reach follows the authorized account and Atlassian's permissions. Check which sites and projects the connected account can actually access before assigning work. A successful read on one site does not verify access to another.
 
 ## Related guides
 

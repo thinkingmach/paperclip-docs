@@ -1,11 +1,11 @@
 ---
 name: sync-docs
-description: Keep paperclip-docs in lockstep with the parent paperclipai/paperclip codebase. Detects code-surface changes (CLI, env vars, API routes, adapters, plugin SDK, schemas) and produces friendly-tutorial-voice doc updates. Two modes — `nightly` (tracks parent's default branch (currently `master`), targets the `nightly` branch, preview deploy) and `release` (on parent tag, merges nightly → main, tags, ships live). Trigger phrases:  "sync docs", "update docs from paperclip", "/sync-docs", "check for paperclip changes", "is docs current".
+description: Keep paperclip-docs in lockstep with the parent thinkingmach/paperclip codebase. Detects code-surface changes (CLI, env vars, API routes, adapters, plugin SDK, schemas) and produces friendly-tutorial-voice doc updates. Two modes — `nightly` (tracks parent's default branch (currently `master`), targets the `nightly` branch, preview deploy) and `release` (on parent tag, merges nightly → main, tags, ships live). Trigger phrases:  "sync docs", "update docs from paperclip", "/sync-docs", "check for paperclip changes", "is docs current".
 ---
 
-# /sync-docs — Paperclip docs sync skill
+# /sync-docs — ThinkingMach docs sync skill
 
-This skill keeps **paperclip-docs** in lockstep with the parent code repo **paperclipai/paperclip**, rewriting changes in our friendly-tutorial voice for an audience that spans end users, operators, and developers.
+This skill keeps **paperclip-docs** in lockstep with the parent code repo **thinkingmach/paperclip**, rewriting changes in our friendly-tutorial voice for an audience that spans end users, operators, and developers.
 
 > Our docs are not a translation of the parent's docs. The **parent's code** is the source of truth. The parent's release notes and inline docs are reference data for understanding intent.
 
@@ -17,7 +17,7 @@ This skill keeps **paperclip-docs** in lockstep with the parent code repo **pape
 |---|---|---|
 | Tracks | parent `<parent-default>` HEAD (currently `master`) | parent's latest **release tag** |
 | Targets | `nightly` branch of this repo | `main` branch of this repo (via PR from `nightly`) |
-| Deploys to | Cloudflare Pages branch preview | docs.paperclip.ing |
+| Deploys to | Cloudflare Pages branch preview | docs.thinkingmach.com |
 | Audience | early adopters, contributors | everyone — end users to devs |
 | Run cadence | daily (cron / `/loop 24h`) | when a new parent tag appears |
 | Touches live? | No | Yes |
@@ -31,7 +31,7 @@ The branch model is non-negotiable: end users on the latest *released* paperclip
 - `docs/user-guides/screenshots/registry.json` — read/write: screenshot dependency tracking.
 - `PENDING.md` (on `nightly` branch only) — **regenerated** from scratch each run (not appended) so it always reflects the current cumulative manifest. Stale entries from reverted commits never linger.
 - `SCREENSHOTS_PENDING.md` (committed) — regenerated each run, lists screenshots whose `depends_on` paths changed in the diff window.
-- `docs/reference/changelog.md` — **release mode only**: append one accordion entry per release (Phase 6.5). User-facing and linked from the nav; nothing else writes it. Writing the entry is only half the job — it is not done until `docs.paperclip.ing` is serving it (Phase 9).
+- `docs/reference/changelog.md` — **release mode only**: append one accordion entry per release (Phase 6.5). User-facing and linked from the nav; nothing else writes it. Writing the entry is only half the job — it is not done until `docs.thinkingmach.com` is serving it (Phase 9).
 
 **Helper scripts called during the run:**
 
@@ -68,14 +68,14 @@ The branch model is non-negotiable: end users on the latest *released* paperclip
 2. Working tree is clean (`git status`). If dirty, abort and tell the user — never stash their work.
 3. `.sync-state.json` exists and parses. If missing, abort and tell the user to seed it from `scripts/sync/state.example.json`.
 4. `scripts/sync/anchor-map.json` exists and parses.
-5. **Resolve parent default branch.** Call `gh api repos/paperclipai/paperclip -q '.default_branch'` once at the start of the run and store the result in a local variable referenced below as `<parent-default>`. As of this writing it returns `master`, but capturing it dynamically means the skill keeps working if the parent ever renames to `main`. All subsequent references to "parent's main HEAD" / "parent main HEAD" in this skill resolve to `<parent-default>`.
-6. **Preflight watcher paths.** For every concrete (non-glob) path in `anchor-map.json` watchers' `parent_paths`, call `gh api repos/paperclipai/paperclip/contents/<path> --silent` and **warn** (do not fail) on 404. This catches stale path entries like the `server/src/env.ts` case found in the design dry-run — surface them in the run summary so the human can update `anchor-map.json`.
+5. **Resolve parent default branch.** Call `gh api repos/thinkingmach/paperclip -q '.default_branch'` once at the start of the run and store the result in a local variable referenced below as `<parent-default>`. As of this writing it returns `master`, but capturing it dynamically means the skill keeps working if the parent ever renames to `main`. All subsequent references to "parent's main HEAD" / "parent main HEAD" in this skill resolve to `<parent-default>`.
+6. **Preflight watcher paths.** For every concrete (non-glob) path in `anchor-map.json` watchers' `parent_paths`, call `gh api repos/thinkingmach/paperclip/contents/<path> --silent` and **warn** (do not fail) on 404. This catches stale path entries like the `server/src/env.ts` case found in the design dry-run — surface them in the run summary so the human can update `anchor-map.json`.
 
 ## Step-by-step
 
 ### Phase 1 — Decide mode and target branch
 
-> **Release channels — read this first.** Paperclip publishes on four lanes:
+> **Release channels — read this first.** ThinkingMach publishes on four lanes:
 > `canary` (every merge to `<parent-default>`) → `nightly` (a green `master` build,
 > smoke-tested nightly) → `beta` (a promoted nightly, soaks ≥3 days) → `stable`
 > (the manually cut release). **Only `stable` has git tags and GitHub Releases**
@@ -87,7 +87,7 @@ The branch model is non-negotiable: end users on the latest *released* paperclip
 > catches those. See `maintenance/release-channels-plan.md`.
 
 1. Read `.sync-state.json`. Note `branch_mode` and `base_release_tag`.
-2. Fetch parent's latest **stable** release: `gh api repos/paperclipai/paperclip/releases/latest -q '.tag_name'`. `releases/latest` already excludes prereleases, but **guard defensively**: the release target MUST match `^v?\d{4}\.\d{1,4}\.\d+$` (clean CalVer). Any `-beta`/`-nightly`/`-canary` tag is never a release target — if the API ever returns one, treat the run as nightly mode and note it in the summary.
+2. Fetch parent's latest **stable** release: `gh api repos/thinkingmach/paperclip/releases/latest -q '.tag_name'`. `releases/latest` already excludes prereleases, but **guard defensively**: the release target MUST match `^v?\d{4}\.\d{1,4}\.\d+$` (clean CalVer). Any `-beta`/`-nightly`/`-canary` tag is never a release target — if the API ever returns one, treat the run as nightly mode and note it in the summary.
 3. Auto-detect mode (unless overridden):
    - If a new stable release tag exists AND `base_release_tag` is older → **release mode**.
    - Otherwise → **nightly mode**.
@@ -107,7 +107,7 @@ Both modes use **cumulative diffs** — always from a stable base, never increme
 For each window:
 
 ```
-gh api repos/paperclipai/paperclip/compare/$PREV...$NEXT \
+gh api repos/thinkingmach/paperclip/compare/$PREV...$NEXT \
   -q '.files[] | {filename, status, additions, deletions, patch}'
 ```
 
@@ -145,7 +145,7 @@ The script scans `docs/**` for four reference classes and verifies each one stil
 | Class | What we scan | Confidence |
 |---|---|---|
 | parent-path-missing | `cli/src/...`, `server/src/...`, `packages/<name>/...`, `skills/paperclip/...` references with `.ts`/`.mjs`/`.js` extensions | high |
-| cli-command-missing | `paperclipai <subcommand>` invocations under `docs/reference/cli/**` | high |
+| cli-command-missing | `thinkingmach <subcommand>` invocations under `docs/reference/cli/**` | high |
 | env-var-missing | Rows in `docs/reference/deploy/environment-variables.md` | high |
 | rest-route-missing | `GET/POST/PUT/PATCH/DELETE /api/...` headers under `docs/reference/api/**` | medium |
 
@@ -185,7 +185,7 @@ For each watcher in `anchor-map.json`:
 - watcher: cli-commands
   parent_files: [cli/src/commands/worktree.ts]
   change_kind: added            # added | modified | renamed | removed
-  surface: "paperclipai worktree prune"
+  surface: "thinkingmach worktree prune"
   evidence: "New program.command('prune') call at line 84"
   docs_targets: [docs/reference/cli/worktree.md]
   tier: pr
@@ -289,7 +289,7 @@ Routing rules:
 
 ### Phase 5.7 — Tag-accuracy gate (release mode only)
 
-Phase 5.5 verifies the edits *this run* authored. This phase verifies **everything the release would ship** — including drafts nightly authored in earlier runs — against the stable tag. It exists because our `nightly` branch tracks parent `master` (≈ canary), which runs far ahead of the stable tag, so a release branch cut from `nightly` inherits post-tag `master` drafts as leaks (this is exactly how Kimi, `PAPERCLIP_WORKSPACE_REAPER_COOLDOWN_DAYS`, and a mission-less onboarding rewrite reached a release branch). Skip entirely in nightly mode.
+Phase 5.5 verifies the edits *this run* authored. This phase verifies **everything the release would ship** — including drafts nightly authored in earlier runs — against the stable tag. It exists because our `nightly` branch tracks parent `master` (≈ canary), which runs far ahead of the stable tag, so a release branch cut from `nightly` inherits post-tag `master` drafts as leaks (this is exactly how Kimi, `THINKINGMACH_WORKSPACE_REAPER_COOLDOWN_DAYS`, and a mission-less onboarding rewrite reached a release branch). Skip entirely in nightly mode.
 
 Run the gate over the pages the release changes vs the live baseline:
 
@@ -325,7 +325,7 @@ Capture is now automatable via the screenshot pipeline:
   npm run screenshots:refresh:all
   ```
 
-Both commands spin up an isolated `local_trusted` / `loopback` Paperclip instance, seed it with demo data, capture light + dark variants at 1440×900 @2x, and stamp `captured_sha` / `captured_against` in `registry.json`. The output PNGs land in a PR for human review — they are **never auto-pushed**. See [`scripts/screenshots/README.md`](../../scripts/screenshots/README.md) for prerequisites and full details.
+Both commands spin up an isolated `local_trusted` / `loopback` ThinkingMach instance, seed it with demo data, capture light + dark variants at 1440×900 @2x, and stamp `captured_sha` / `captured_against` in `registry.json`. The output PNGs land in a PR for human review — they are **never auto-pushed**. See [`scripts/screenshots/README.md`](../../scripts/screenshots/README.md) for prerequisites and full details.
 
 ### Phase 6.5 — Documentation changelog (release mode only)
 
@@ -443,7 +443,7 @@ rather than shipping.
 
 ### Phase 9 — Publish & verify live (release mode only)
 
-**A release is done when `docs.paperclip.ing` serves it, not when the PR merges.**
+**A release is done when `docs.thinkingmach.com` serves it, not when the PR merges.**
 Everything up to here is invisible to readers: Phase 7 builds into `.site`, which
 is gitignored, so no built site is ever committed. Cloudflare Pages rebuilding on
 push to `main` is the single point of failure for the whole run, and it has
@@ -473,9 +473,9 @@ Skip in nightly mode (Cloudflare branch previews are best-effort, not reader-fac
    claim that is new on an existing page, and the changelog entry:
 
    ```sh
-   curl -s -o /dev/null -w '%{http_code}\n' https://docs.paperclip.ing/<new-page-route>/
-   curl -s https://docs.paperclip.ing/<changed-page-route>/ | grep -c '<new claim>'
-   curl -s https://docs.paperclip.ing/reference/changelog/ | grep -o 'Docs for v[0-9.]*' | head -1
+   curl -s -o /dev/null -w '%{http_code}\n' https://docs.thinkingmach.com/<new-page-route>/
+   curl -s https://docs.thinkingmach.com/<changed-page-route>/ | grep -c '<new claim>'
+   curl -s https://docs.thinkingmach.com/reference/changelog/ | grep -o 'Docs for v[0-9.]*' | head -1
    ```
 
    Expected: `200`, a non-zero count, and the tag you just shipped. A `404`, a
@@ -521,7 +521,7 @@ seo_description: Standard mode wants work done; Ask mode wants a question answer
 
 | Field | Rule |
 |---|---|
-| `seo_title` | Required. Unique across all pages. ≤ 43 chars, because the build appends `" \| Paperclip Docs"` and the total must stay ≤ 60. Must not contain `\|`. |
+| `seo_title` | Required. Unique across all pages. ≤ 43 chars, because the build appends `" \| ThinkingMach Docs"` and the total must stay ≤ 60. Must not contain `\|`. |
 | `seo_description` | Required. Unique across all pages. 110–158 characters. Must end on a complete sentence — the check rejects anything not ending in `.`, `!`, `?`, or `)`. |
 | Both | Single line. Must not start with `"` or `'` — the frontmatter parser strips wrapping quotes. Colons, em-dashes and commas inside the value are fine. |
 
@@ -557,7 +557,7 @@ Anchor-map watchers will report "no changes detected" for many runs even though 
 Symptom: the next nightly run's "merge `main` into `nightly`" fails with add/add conflicts on pages both branches created (nightly's unstamped drafts vs main's release-stamped copies). Cause: this repo is squash-only, so the release squash commit has no ancestry link back to nightly, and the realign step (Phase 7) was skipped. Recovery: abort the merge (`git merge --abort`), then run `node scripts/sync/realign-nightly.mjs <release-branch> --push`. If the local release branch was already deleted, recreate it from the last pre-merge SHA (`git branch release/vX.Y.Z <sha>` — find it in the merged PR's head) or, if main has had no commits since the squash, `git checkout nightly && git merge origin/main -X theirs` is NOT safe (it can silently drop post-tag nightly drafts) — prefer recreating the branch. Never `git reset --hard origin/main` on nightly: it destroys drafts for parent features that shipped after the release tag.
 
 ### Release merged but the site never rebuilt
-Symptom: the release PR is on `main`, `docs/reference/changelog.md` has the new entry, and `docs.paperclip.ing` still shows the previous release — new pages 404 and the changelog's top accordion is one release behind. This is a publication failure, not a docs failure, and it is invisible from inside the repo because the built site is gitignored. Diagnose in this order: (1) `npm run docs:build` on a clean checkout of `main` — if it fails, that's the cause and Phase 7 let it through; (2) check the Cloudflare Pages project for a failed or missing build for the merge commit; (3) republish manually per Phase 9 step 3. Note that the `main`-branch preview host is stale in the same way, so comparing against it proves nothing — check `docs.paperclip.ing` itself.
+Symptom: the release PR is on `main`, `docs/reference/changelog.md` has the new entry, and `docs.thinkingmach.com` still shows the previous release — new pages 404 and the changelog's top accordion is one release behind. This is a publication failure, not a docs failure, and it is invisible from inside the repo because the built site is gitignored. Diagnose in this order: (1) `npm run docs:build` on a clean checkout of `main` — if it fails, that's the cause and Phase 7 let it through; (2) check the Cloudflare Pages project for a failed or missing build for the merge commit; (3) republish manually per Phase 9 step 3. Note that the `main`-branch preview host is stale in the same way, so comparing against it proves nothing — check `docs.thinkingmach.com` itself.
 
 ### Nightly branch has open PRs against it when a release ships
 The release PR merges `nightly` → `main`. If there are open nightly-draft PRs, they get included in the release if merged into `nightly` first, or remain on `nightly` for the next release cycle if not. The skill should list open `nightly-draft/*` PRs in the release-PR body so the human reviewer can decide.
@@ -583,7 +583,7 @@ The release PR merges `nightly` → `main`. If there are open nightly-draft PRs,
 | Conflict merging `main` into `nightly` | Abort with clear conflict report, ask user to resolve. |
 | Anchor-map watcher pattern matches nothing for many runs | Note in run summary — likely a parent refactor moved files; suggest user updates `anchor-map.json`. |
 | Reconciliation flags pending (Phase 3.5) | Surface in run summary and PR body. Do not auto-resolve. The next run still proceeds for non-reconciliation entries. |
-| Release merged but `docs.paperclip.ing` still serves the previous build | Phase 9. Confirm `npm run docs:build` succeeds on `main` (rules out a build break), then republish with `npx wrangler pages deploy .site --project-name paperclip-docs --branch main`. If that fails too, escalate — the Pages project or its GitHub connection is broken. Never report the release as shipped on the strength of the merge alone. |
+| Release merged but `docs.thinkingmach.com` still serves the previous build | Phase 9. Confirm `npm run docs:build` succeeds on `main` (rules out a build break), then republish with `npx wrangler pages deploy .site --project-name paperclip-docs --branch main`. If that fails too, escalate — the Pages project or its GitHub connection is broken. Never report the release as shipped on the strength of the merge alone. |
 | `base_release_tag` is older than the parent's oldest available release | Parent may have deleted ancient tags. Abort with instructions to manually update `.sync-state.json` to the oldest available tag. |
 
 ## Maintenance of this skill

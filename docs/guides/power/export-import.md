@@ -6,7 +6,7 @@ seo_description: Capture a configured company as a portable package to back up, 
 
 # Export & Import
 
-Once you've built a company — given it a goal, hired agents, configured their adapters, and set up projects — that configuration has real value. Export and import let you capture that configuration as a portable package you can back up, share with others, move to another Paperclip instance, or reuse as a starting point for a new company.
+Once you've built a company — given it a goal, hired agents, configured their adapters, and set up projects — that configuration has real value. Export and import let you capture that configuration as a portable package you can back up, share with others, move to another ThinkingMach instance, or reuse as a starting point for a new company.
 
 Exports are human-readable markdown files. Anyone with the package can understand the company's structure without reading a database dump.
 
@@ -65,7 +65,7 @@ Everything except `blobs/` is text, so a package diffs cleanly in Git and reads 
 
 ## Exporting a company
 
-You can export and import from the Paperclip UI now. The terminal commands still exist if you prefer them, but they're no longer the only path.
+You can export and import from the ThinkingMach UI now. The terminal commands still exist if you prefer them, but they're no longer the only path.
 
 ### In the UI
 
@@ -73,9 +73,9 @@ Open **Company Settings** and look for the **Company Packages** section. It has 
 
 The export page lets you pick what to include with a small set of toggles — **Agents**, **Projects**, **Skills**, **Routines**, **Tasks**, and **Attachments** — and everything is on by default. Attachments ride along with the tasks and routines that reference them, so the Attachments toggle only applies while Tasks or Routines is still selected.
 
-Paperclip shows you the package contents before you download them, and you can uncheck individual files if you want to trim the bundle further. When you're happy, the export downloads as a single `.zip` named after the package.
+ThinkingMach shows you the package contents before you download them, and you can uncheck individual files if you want to trim the bundle further. When you're happy, the export downloads as a single `.zip` named after the package.
 
-On import, Paperclip previews what will be created, renamed, or skipped before anything is applied.
+On import, ThinkingMach previews what will be created, renamed, or skipped before anything is applied.
 
 If the company has data the bundle can't carry — approvals, cost events, or activity log entries — the export page shows a **Not included in this export** panel listing exactly how many of each are being left behind. It's not an error; it's there so nothing surprises you six months later when you restore.
 
@@ -84,16 +84,16 @@ If the company has data the bundle can't carry — approvals, cost events, or ac
 To export your company to a folder:
 
 ```sh
-paperclipai company export <company-id> --out ./my-export
+thinkingmach company export <company-id> --out ./my-export
 ```
 
-Replace `<company-id>` with your company's ID (visible in the URL when you're viewing the company in Paperclip).
+Replace `<company-id>` with your company's ID (visible in the URL when you're viewing the company in ThinkingMach).
 
 By default, this exports the company metadata and agents. To include more:
 
 ```sh
 # Export everything: company, agents, projects, skills, and tasks
-paperclipai company export <company-id> --out ./full-export \
+thinkingmach company export <company-id> --out ./full-export \
   --include company,agents,projects,tasks,skills
 ```
 
@@ -120,34 +120,34 @@ An import can come from three kinds of source: a local path, a URL, or GitHub.
 
 ```sh
 # From a local folder
-paperclipai company import ./my-export
+thinkingmach company import ./my-export
 
 # From a local .zip package
-paperclipai company import ./my-export.zip
+thinkingmach company import ./my-export.zip
 
 # From a GitHub repository URL
-paperclipai company import https://github.com/org/repo
+thinkingmach company import https://github.com/org/repo
 
 # From a GitHub subfolder, using owner/repo shorthand
-paperclipai company import org/repo/companies/acme
+thinkingmach company import org/repo/companies/acme
 ```
 
 For GitHub sources you can pin an exact version with `--ref`, which takes a branch, a tag, or a commit:
 
 ```sh
-paperclipai company import https://github.com/org/repo --ref v1.2.0
+thinkingmach company import https://github.com/org/repo --ref v1.2.0
 ```
 
 `--ref` only applies to GitHub sources — pass it with a local path and the command stops and tells you so. URLs must point at GitHub or GitHub Enterprise; a plain HTTP link to some other host is rejected rather than fetched.
 
-> **Note:** When you import a local package from the UI, choose a `.zip` that Paperclip exported. An archive you re-zipped yourself in Finder or Explorer may not import correctly. The CLI is happy with either a `.zip` or an unpacked folder.
+> **Note:** When you import a local package from the UI, choose a `.zip` that ThinkingMach exported. An archive you re-zipped yourself in Finder or Explorer may not import correctly. The CLI is happy with either a `.zip` or an unpacked folder.
 
 ### Creating a new company from a package
 
-When you import without specifying an existing company, Paperclip creates a fresh one:
+When you import without specifying an existing company, ThinkingMach creates a fresh one:
 
 ```sh
-paperclipai company import ./my-export --target new --new-company-name "My Restored Company"
+thinkingmach company import ./my-export --target new --new-company-name "My Restored Company"
 ```
 
 ### Merging into an existing company
@@ -155,7 +155,7 @@ paperclipai company import ./my-export --target new --new-company-name "My Resto
 If you want to add agents or projects from a package into a company you already have running:
 
 ```sh
-paperclipai company import ./shared-agents \
+thinkingmach company import ./shared-agents \
   --target existing \
   --company-id <your-company-id> \
   --include agents
@@ -166,14 +166,14 @@ paperclipai company import ./shared-agents \
 If you're using the CLI, always preview an import before applying it, especially when merging into an existing company:
 
 ```sh
-paperclipai company import ./my-export --target new --dry-run
+thinkingmach company import ./my-export --target new --dry-run
 ```
 
 The preview shows you exactly what will be created, renamed, skipped, or replaced — without actually doing anything. Read it carefully before proceeding.
 
 ### Handling name conflicts
 
-When importing into an existing company, agent or project names may conflict with existing ones. Paperclip offers three strategies:
+When importing into an existing company, agent or project names may conflict with existing ones. ThinkingMach offers three strategies:
 
 | Strategy | What happens |
 |---|---|
@@ -185,13 +185,13 @@ When importing into an existing company, agent or project names may conflict wit
 
 ### Importing a large company
 
-A busy company with years of tasks and attachments makes a big package, and Paperclip handles that for you. The UI uploads the package as its compressed `.zip` rather than unpacking it in your browser first, and the server runs the import as a background job while the page watches its progress — so a slow network or a proxy dropping the connection doesn't lose the import.
+A busy company with years of tasks and attachments makes a big package, and ThinkingMach handles that for you. The UI uploads the package as its compressed `.zip` rather than unpacking it in your browser first, and the server runs the import as a background job while the page watches its progress — so a slow network or a proxy dropping the connection doesn't lose the import.
 
 Two guards protect you along the way. If any part of the upload goes missing in transit, the import refuses to run rather than importing a fragment, and asks you to retry. And every attachment in the package is checked against its content hash before a single record is written, so a corrupted or tampered-with package can't leave you with a half-imported company.
 
-Large packages don't need a single, fragile upload. When an export is big enough, Paperclip slices the `.zip` into parts and uploads them one at a time, showing progress like `Uploading part X of Y — N MB of M MB uploaded.` as it goes. This happens automatically whether you import from the UI or with `paperclipai company import` — there's no flag to set. If the upload is interrupted — a refresh, a dropped connection, a failed part, even a server restart — just retry or refresh the same import. Paperclip picks up the same transfer and re-sends only the parts it's still missing, so you never start over. Once a transfer finishes, that exact package is done: importing it again short-circuits with `This exact package was already imported by a completed transfer. Re-export the package to import it again.` — so if a re-import seems to do nothing, that's why. Re-export the company to import a fresh copy.
+Large packages don't need a single, fragile upload. When an export is big enough, ThinkingMach slices the `.zip` into parts and uploads them one at a time, showing progress like `Uploading part X of Y — N MB of M MB uploaded.` as it goes. This happens automatically whether you import from the UI or with `thinkingmach company import` — there's no flag to set. If the upload is interrupted — a refresh, a dropped connection, a failed part, even a server restart — just retry or refresh the same import. ThinkingMach picks up the same transfer and re-sends only the parts it's still missing, so you never start over. Once a transfer finishes, that exact package is done: importing it again short-circuits with `This exact package was already imported by a completed transfer. Re-export the package to import it again.` — so if a re-import seems to do nothing, that's why. Re-export the company to import a fresh copy.
 
-By default the server accepts import packages up to **1 GB**. If your export is bigger, an operator can raise the cap by setting the `PAPERCLIP_IMPORT_ZIP_MAX_BYTES` environment variable (in bytes, up to 64 GiB) — see [Environment Variables](../../reference/deploy/environment-variables.md).
+By default the server accepts import packages up to **1 GB**. If your export is bigger, an operator can raise the cap by setting the `THINKINGMACH_IMPORT_ZIP_MAX_BYTES` environment variable (in bytes, up to 64 GiB) — see [Environment Variables](../../reference/deploy/environment-variables.md).
 
 ---
 
@@ -203,7 +203,7 @@ Run a full export periodically and store it in a safe place — a cloud drive, a
 
 **Moving a company to another instance**
 
-Export on the instance you're leaving, then import the package on the instance you're moving to — a laptop to a server, a self-hosted box to Paperclip Cloud, or the other way around. Because the package carries tasks, routines, and attachments as well as configuration, the company picks up roughly where it left off. This is the supported path now that host-to-host Cloud Sync has been retired.
+Export on the instance you're leaving, then import the package on the instance you're moving to — a laptop to a server, a self-hosted box to ThinkingMach Cloud, or the other way around. Because the package carries tasks, routines, and attachments as well as configuration, the company picks up roughly where it left off. This is the supported path now that host-to-host Cloud Sync has been retired.
 
 **Starting a new company from a template**
 
@@ -215,10 +215,10 @@ If you've built a well-configured team of agents (say, a standard engineering te
 
 ```sh
 # Share: export agents only
-paperclipai company export <company-id> --out ./engineering-team --include agents
+thinkingmach company export <company-id> --out ./engineering-team --include agents
 
 # Receive: import into a new company
-paperclipai company import org/shared-templates/engineering-team \
+thinkingmach company import org/shared-templates/engineering-team \
   --target new \
   --new-company-name "My Engineering Team"
 ```
@@ -228,7 +228,7 @@ paperclipai company import org/shared-templates/engineering-team \
 Community-published company templates live in public GitHub repositories. Import directly:
 
 ```sh
-paperclipai company import org/company-templates/research-team \
+thinkingmach company import org/company-templates/research-team \
   --target new \
   --dry-run
 ```
@@ -253,6 +253,6 @@ After an import:
 
 ## You're set
 
-Export and import give you durable, shareable backups of everything you've built. The final guide covers terminal setup — for developers who want deeper control over how Paperclip runs.
+Export and import give you durable, shareable backups of everything you've built. The final guide covers terminal setup — for developers who want deeper control over how ThinkingMach runs.
 
 [Terminal Setup →](./terminal-setup.md)

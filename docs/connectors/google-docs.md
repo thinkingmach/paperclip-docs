@@ -5,7 +5,7 @@ seo_description: Let agents read Google Docs documents and optionally update the
 
 # Google Docs
 
-> **Warning:** **Google verification pending.** Paperclip has not yet completed Google app verification. You may see an unverified-app warning during authorization. If Google offers an **Advanced** option to continue to Paperclip, you can choose to proceed after reviewing the requested access. This option is not available for every account; Workspace administrator restrictions and other Google access requirements still apply. Contact [support@paperclip.ing](mailto:support@paperclip.ing) if you cannot connect.
+> **Warning:** **Google verification pending.** ThinkingMach has not yet completed Google app verification. You may see an unverified-app warning during authorization. If Google offers an **Advanced** option to continue to ThinkingMach, you can choose to proceed after reviewing the requested access. This option is not available for every account; Workspace administrator restrictions and other Google access requirements still apply. Contact [support@thinkingmach.com](mailto:support@thinkingmach.com) if you cannot connect.
 
 Agents can read the text and structure of Google Docs documents, and on an editing connection update them.
 
@@ -15,7 +15,7 @@ Agents can read the text and structure of Google Docs documents, and on an editi
 
 - A Google Workspace account that can already open the documents you want agents to use.
 - Developer Preview registration for that account, confirmed by Google.
-- Without Paperclip Cloud enrollment, you need your own Google OAuth client with the **Drive API**, **Docs API**, and **Docs MCP API** enabled. [Set up your own Google OAuth app](google-setup.md) is the complete procedure — do it before you start here.
+- Without ThinkingMach Cloud enrollment, you need your own Google OAuth client with the **Drive API**, **Docs API**, and **Docs MCP API** enabled. [Set up your own Google OAuth app](google-setup.md) is the complete procedure — do it before you start here.
 
 ## Pick a capability group
 
@@ -30,12 +30,12 @@ The group is fixed for the life of the connection.
 
 1. Open **Connectors** and select **Google Docs**.
 2. On the **Access** step, choose the identity and which agents may use the connection.
-3. Choose the capability group, then **Connect with Paperclip** or **Use your own Google OAuth app** — the latter needs the client ID and secret from [Set up your own Google OAuth app](google-setup.md).
+3. Choose the capability group, then **Connect with ThinkingMach** or **Use your own Google OAuth app** — the latter needs the client ID and secret from [Set up your own Google OAuth app](google-setup.md).
 4. Complete Google's consent screen with the registered Workspace account.
 
 ## Choose access
 
-Document reach comes from Google: the connection can open what the authorizing account can open. There is no document picker in Paperclip.
+Document reach comes from Google: the connection can open what the authorizing account can open. There is no document picker in ThinkingMach.
 
 Reviewed operations:
 
@@ -72,7 +72,7 @@ If you want to confirm editing, do it on a scratch document you created for the 
 | Problem | Likely cause | Fix |
 | --- | --- | --- |
 | Google refuses before the consent screen | Developer Preview registration is incomplete | Finish registration and retry |
-| **Connect with Paperclip** is not offered | The instance is not enrolled with Paperclip Cloud, or Cloud is not advertising the Docs profile | Use your own Google OAuth app |
+| **Connect with ThinkingMach** is not offered | The instance is not enrolled with ThinkingMach Cloud, or Cloud is not advertising the Docs profile | Use your own Google OAuth app |
 | A document cannot be found | It is not shared with the authorizing account | Share it in Google Drive; no reconnect needed |
 | `update-doc` is missing | The connection was made with **Read only** | Make a connection with **Read & edit** |
 | An edit did not produce the formatting you expected | The update goes through the Docs API, which does not cover every editor feature | Finish the formatting in Google Docs |

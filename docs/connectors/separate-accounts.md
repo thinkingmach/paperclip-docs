@@ -5,7 +5,7 @@ seo_description: Pick between a personal credential, one shared organization ide
 
 # Use separate accounts for people and agents
 
-Paperclip supports personal, organization-shared, and dedicated-agent credentials. The choices shown during setup depend on the connector and connection method; not every method supports all three.
+ThinkingMach supports personal, organization-shared, and dedicated-agent credentials. The choices shown during setup depend on the connector and connection method; not every method supports all three.
 
 For example, managed GitHub offers **My GitHub account** or **A dedicated account for an agent**. Gmail offers personal or organization-shared access, not a dedicated-agent identity. A no-credential method has no account identity to choose. Assigning a connection to one agent does not change its credential type.
 
@@ -23,7 +23,7 @@ Any active member can create one. Use it for a first connector, for anything tou
 
 One account shared with eligible people in the company. Setup can label this **Any human in the company**; the connection's human audience determines whose runs may use it. You separately choose which agents may use the connection. Sharing a credential does not bypass either audience.
 
-Creating one is a manager operation. Paperclip enforces this on the server: *"Only a connection manager can share this credential with the organization."*
+Creating one is a manager operation. ThinkingMach enforces this on the server: *"Only a connection manager can share this credential with the organization."*
 
 Use it for a service where a shared bot account is the intended model, and where you want one place to revoke.
 
@@ -31,7 +31,7 @@ Use it for a service where a shared bot account is the intended model, and where
 
 *"That agent always uses this account, regardless of who starts the run."*
 
-For a method that supports it, such as managed GitHub, this is an account belonging to one agent. Paperclip asks *"Which agent owns this GitHub account?"* and binds the credential to it. Runs started by anyone use that account when that agent acts.
+For a method that supports it, such as managed GitHub, this is an account belonging to one agent. ThinkingMach asks *"Which agent owns this GitHub account?"* and binds the credential to it. Runs started by anyone use that account when that agent acts.
 
 Also a manager operation: *"Only connection managers can authorize a dedicated agent identity."*
 
@@ -56,7 +56,7 @@ Use it when the provider's own audit trail matters. A dedicated GitHub account m
 
 ## Changing later
 
-The identity is fixed for a connection once it exists. On resume or reconnect, Paperclip treats the stored identity as authoritative and will not accept a contradictory grant kind from the client — that guard exists so a reconnect cannot quietly replace the credential behind an organization grant.
+The identity is fixed for a connection once it exists. On resume or reconnect, ThinkingMach treats the stored identity as authoritative and will not accept a contradictory grant kind from the client — that guard exists so a reconnect cannot quietly replace the credential behind an organization grant.
 
 To move to a different identity, create a second connection with the identity you want, move agent access across, then delete the old one. [Reauthorize, revoke, or disconnect](reauthorize-and-disconnect.md) covers the deletion.
 

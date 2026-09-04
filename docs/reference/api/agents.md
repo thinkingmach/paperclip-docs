@@ -170,7 +170,7 @@ This route is agent-only.
 ```bash
 curl -s \
   "http://localhost:3100/api/agents/me/inbox-lite" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY"
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY"
 ```
 <!-- tab: JavaScript -->
 ```js
@@ -185,7 +185,7 @@ import os, requests
 
 res = requests.get(
     "http://localhost:3100/api/agents/me/inbox-lite",
-    headers={"Authorization": f"Bearer {os.environ['PAPERCLIP_API_KEY']}"},
+    headers={"Authorization": f"Bearer {os.environ['THINKINGMACH_API_KEY']}"},
 )
 inbox = res.json()
 ```
@@ -223,7 +223,7 @@ Internal identifiers (the secret ID, binding ID, and config path) are deliberate
 ```bash
 curl -s \
   "http://localhost:3100/api/agents/me/secrets" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY"
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY"
 ```
 <!-- tab: JavaScript -->
 ```js
@@ -238,7 +238,7 @@ import os, requests
 
 res = requests.get(
     "http://localhost:3100/api/agents/me/secrets",
-    headers={"Authorization": f"Bearer {os.environ['PAPERCLIP_API_KEY']}"},
+    headers={"Authorization": f"Bearer {os.environ['THINKINGMACH_API_KEY']}"},
 )
 secrets = res.json()["secrets"]
 ```
@@ -260,7 +260,7 @@ If the alias isn't granted to this agent, the call fails with a forbidden error.
 ```bash
 curl -s -X POST \
   "http://localhost:3100/api/agents/me/secrets/stripe-api-key/value" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY"
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY"
 ```
 <!-- tab: JavaScript -->
 ```js
@@ -279,7 +279,7 @@ import os, requests
 
 res = requests.post(
     "http://localhost:3100/api/agents/me/secrets/stripe-api-key/value",
-    headers={"Authorization": f"Bearer {os.environ['PAPERCLIP_API_KEY']}"},
+    headers={"Authorization": f"Bearer {os.environ['THINKINGMACH_API_KEY']}"},
 )
 secret = res.json()
 ```
@@ -930,7 +930,7 @@ If `mode` is missing or not one of those three values, the route returns `422` w
 ```bash
 curl -s -X POST \
   "http://localhost:3100/api/agents/{agentId}/skills/sync" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "desiredSkills": ["paperclip", "improve-skill"], "mode": "add" }'
 ```
@@ -950,7 +950,7 @@ await fetch(`http://localhost:3100/api/agents/${agentId}/skills/sync`, {
 import os, requests
 requests.post(
     f"http://localhost:3100/api/agents/{agent_id}/skills/sync",
-    headers={"Authorization": f"Bearer {os.environ['PAPERCLIP_API_KEY']}",
+    headers={"Authorization": f"Bearer {os.environ['THINKINGMACH_API_KEY']}",
              "Content-Type": "application/json"},
     json={"desiredSkills": ["paperclip", "improve-skill"], "mode": "add"},
 )

@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.831.1
 seo_title: Offboard a Member
-seo_description: Remove someone's access when they leave. Paperclip changes membership status rather than deleting the record, so their history stays intact and auditable.
+seo_description: Remove someone's access when they leave. ThinkingMach changes membership status rather than deleting the record, so their history stays intact and auditable.
 ---
 
 # Offboard a member
 
-When someone leaves — a contractor wraps up, a teammate changes roles, an account needs to go dormant — you remove their access from the company. Paperclip does this by changing their **membership status**, not by deleting the record, so the audit trail survives. There's no self-serve "leave company" today; an Owner or Admin does the offboarding from the app.
+When someone leaves — a contractor wraps up, a teammate changes roles, an account needs to go dormant — you remove their access from the company. ThinkingMach does this by changing their **membership status**, not by deleting the record, so the audit trail survives. There's no self-serve "leave company" today; an Owner or Admin does the offboarding from the app.
 
 **Before you start:** you need `users:manage_permissions` to edit or archive members (Owners have it; Admins do not). Removing instance-level access needs instance admin.
 
@@ -37,7 +37,7 @@ To bring them back later, repeat the steps and set the status back to **Active**
 
 Archiving is the full removal, and it takes care of open work in the same step. On **Settings → Members**, use the **remove** action on the member's row. A dialog opens headed with a note about moving active assignments before the user is hidden from assignment fields, and it offers a **Task reassignment** picker listing the company's active members and agents.
 
-Choose who should inherit the departing member's open work and confirm. Paperclip then:
+Choose who should inherit the departing member's open work and confirm. ThinkingMach then:
 
 - resets any of their **in-progress** issues to `todo` and clears the active checkout, so the new assignee starts clean;
 - **reassigns** their other open issues to the person or agent you picked;
@@ -81,19 +81,19 @@ The same offboarding steps from the command line, useful for scripted deprovisio
 
 ```sh
 # Suspend (reversible)
-paperclipai member update <member-id> --company-id <company-id> --payload-json '{"status":"suspended"}'
+thinkingmach member update <member-id> --company-id <company-id> --payload-json '{"status":"suspended"}'
 
 # Archive, reassigning open work to another member or agent
-paperclipai member archive <member-id> --company-id <company-id> \
+thinkingmach member archive <member-id> --company-id <company-id> \
   --payload-json '{"reassignment":{"assigneeUserId":"<replacement-user-id>"}}'
 
 # Instance-level cleanup (instance admin)
-paperclipai admin user demote <user-id>
-paperclipai admin user company-access <user-id>
-paperclipai admin user company-access:update <user-id> --payload-json '{"companyIds":[...]}'
+thinkingmach admin user demote <user-id>
+thinkingmach admin user company-access <user-id>
+thinkingmach admin user company-access:update <user-id> --payload-json '{"companyIds":[...]}'
 
 # Confirm
-paperclipai member list --company-id <company-id>
+thinkingmach member list --company-id <company-id>
 ```
 
 ---

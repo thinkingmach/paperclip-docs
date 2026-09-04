@@ -1,14 +1,14 @@
 ---
 paperclip_version: v2026.831.1
-seo_title: Installing the Paperclip CLI
-seo_description: Get the single paperclipai binary onto your machine, point it at an instance, and bring up a working local install from the terminal.
+seo_title: Installing the ThinkingMach CLI
+seo_description: Get the single thinkingmach binary onto your machine, point it at an instance, and bring up a working local install from the terminal.
 ---
 
 # Installing the CLI
 
-The Paperclip CLI ships as a single binary, `paperclipai`. Use this page to get that binary on your machine, point it at an instance, and bring up a working local instance from a cold start. The shortest route from "nothing installed" to "a healthy server you can operate against" is two commands: `paperclipai onboard` to write a config, then `paperclipai run` to launch it.
+The ThinkingMach CLI ships as a single binary, `thinkingmach`. Use this page to get that binary on your machine, point it at an instance, and bring up a working local instance from a cold start. The shortest route from "nothing installed" to "a healthy server you can operate against" is two commands: `thinkingmach onboard` to write a config, then `thinkingmach run` to launch it.
 
-If you already know Paperclip is going to live on this machine for a while, skip straight to [the managed install](#the-managed-install) — it is the version of the CLI you can update, roll back, and run as a background service.
+If you already know ThinkingMach is going to live on this machine for a while, skip straight to [the managed install](#the-managed-install) — it is the version of the CLI you can update, roll back, and run as a background service.
 
 ---
 
@@ -20,41 +20,41 @@ The CLI is a Node program. You need Node.js 24 or newer (specifically 24.11.0 or
 node --version   # must report v24.11.0 or higher
 ```
 
-That single requirement covers the common local install: `paperclipai run` can stand up an embedded PostgreSQL instance for you, so you do not need a separate database server to start. If you intend to point the CLI at your own PostgreSQL, have its connection string ready and the CLI will use it instead.
+That single requirement covers the common local install: `thinkingmach run` can stand up an embedded PostgreSQL instance for you, so you do not need a separate database server to start. If you intend to point the CLI at your own PostgreSQL, have its connection string ready and the CLI will use it instead.
 
 ---
 
-## Getting the `paperclipai` binary
+## Getting the `thinkingmach` binary
 
-`paperclipai` is published to npm, so the fastest path needs no install at all — run it with `npx`:
+`thinkingmach` is published to npm, so the fastest path needs no install at all — run it with `npx`:
 
 ```sh
-npx paperclipai onboard --yes
+npx thinkingmach onboard --yes
 ```
 
-That is the canonical way to *start*, and it always runs the latest published version. For a `paperclipai` command that persists, you have two choices: the [managed install](#the-managed-install) described in the next section, which is the one to prefer, or a plain global npm install:
+That is the canonical way to *start*, and it always runs the latest published version. For a `thinkingmach` command that persists, you have two choices: the [managed install](#the-managed-install) described in the next section, which is the one to prefer, or a plain global npm install:
 
 ```sh
-npm install -g paperclipai
+npm install -g thinkingmach
 # verify it is on your PATH
-paperclipai --help
+thinkingmach --help
 ```
 
-The package exposes exactly one binary, `paperclipai`. **Every example in this documentation is written in the form `paperclipai <command>`.** If you have not installed it, prepend `npx` — running it through `npx` is equivalent to calling the installed binary directly.
+The package exposes exactly one binary, `thinkingmach`. **Every example in this documentation is written in the form `thinkingmach <command>`.** If you have not installed it, prepend `npx` — running it through `npx` is equivalent to calling the installed binary directly.
 
-> **Note:** If you are working inside a clone of the Paperclip monorepo, use the in-repo development alias `pnpm paperclipai <command>` instead. It runs the same CLI straight from source via `tsx`, which is what you want while developing the CLI itself. The monorepo also documents `npx paperclipai onboard --yes` as the standard quickstart for a packaged install.
+> **Note:** If you are working inside a clone of the ThinkingMach monorepo, use the in-repo development alias `pnpm thinkingmach <command>` instead. It runs the same CLI straight from source via `tsx`, which is what you want while developing the CLI itself. The monorepo also documents `npx thinkingmach onboard --yes` as the standard quickstart for a packaged install.
 
 ---
 
 ## The managed install
 
-`npx` is perfect for trying Paperclip out, but it is temporary — every run resolves whatever happens to be cached, and there is nothing to update or roll back. When you want Paperclip to stay, install it into the **managed CLI store**:
+`npx` is perfect for trying ThinkingMach out, but it is temporary — every run resolves whatever happens to be cached, and there is nothing to update or roll back. When you want ThinkingMach to stay, install it into the **managed CLI store**:
 
 ```sh
-npx paperclipai install
+npx thinkingmach install
 ```
 
-That one command downloads the latest published release, verifies it, and installs a `paperclipai` command into `~/.local/bin`. From then on you type `paperclipai` directly, and you get three things `npx` cannot give you: one-command updates, instant rollback to the previous version, and the ability to run Paperclip as a [background service](./service.md).
+That one command downloads the latest published release, verifies it, and installs a `thinkingmach` command into `~/.local/bin`. From then on you type `thinkingmach` directly, and you get three things `npx` cannot give you: one-command updates, instant rollback to the previous version, and the ability to run ThinkingMach as a [background service](./service.md).
 
 The managed install needs Node.js 24 or newer, the same as the rest of the CLI — and unlike an `npx` install, it refuses outright on anything older.
 
@@ -68,9 +68,9 @@ A managed install keeps every version it has downloaded as its own self-containe
 | Downloaded payloads | `~/.paperclip/cli/installs` |
 | Install manifest | `~/.paperclip/cli/install.json` |
 | Link to the active payload | `~/.paperclip/cli/current` |
-| The `paperclipai` command itself | `~/.local/bin/paperclipai` |
+| The `thinkingmach` command itself | `~/.local/bin/thinkingmach` |
 
-The manifest also remembers the two payloads you were on before, which is what makes `paperclipai update --rollback` instant. Payloads older than that are pruned on the next successful update.
+The manifest also remembers the two payloads you were on before, which is what makes `thinkingmach update --rollback` instant. Payloads older than that are pruned on the next successful update.
 
 If `~/.local/bin` is not already on your `PATH`, `install` offers to add it to your `~/.bashrc` or `~/.zshrc` for you, inside a clearly marked block it knows how to remove again later. Decline the prompt (or use a different shell) and it prints the line to add yourself:
 
@@ -83,10 +83,10 @@ export PATH="$HOME/.local/bin:$PATH"
 By default you get the latest stable release. Pass a flag to pick something else:
 
 ```sh
-paperclipai install                          # latest stable
-paperclipai install --canary                 # the canary channel
-paperclipai install --version 2026.609.0     # one exact published version
-paperclipai install --ref main               # built from GitHub source
+thinkingmach install                          # latest stable
+thinkingmach install --canary                 # the canary channel
+thinkingmach install --version 2026.609.0     # one exact published version
+thinkingmach install --ref main               # built from GitHub source
 ```
 
 | Flag | Use |
@@ -94,7 +94,7 @@ paperclipai install --ref main               # built from GitHub source
 | `--canary` | Install the npm canary channel — newer features, rougher edges. |
 | `--version <version>` | Install an exact published npm version. It has to be a complete `x.y.z` version; `latest` and partial versions are rejected. |
 | `--ref <ref>` | Install a GitHub branch, tag, or commit SHA, built from source on your machine. |
-| `--repo <owner/name>` | Override the GitHub repository used with `--ref` (default `paperclipai/paperclip`). Requires `--ref`. |
+| `--repo <owner/name>` | Override the GitHub repository used with `--ref` (default `thinkingmach/paperclip`). Requires `--ref`. |
 | `-y`, `--yes` | Consent to git-ref code execution and supported shell `PATH` updates without prompting. Use it in scripts and CI. |
 
 `--canary` and `--version` are mutually exclusive, and `--ref` cannot be combined with either — each install picks exactly one channel.
@@ -106,28 +106,28 @@ Whichever route you take, the CLI runs a smoke check on the new payload — it e
 Verify the result at any time:
 
 ```sh
-paperclipai --version
+thinkingmach --version
 ```
 
-Not sure which channel to pick? Run `paperclipai channels` to see all four release channels — `stable`, `beta`, `nightly`, and `canary` — with their currently published versions and which one this install follows. Add `--json` for machine-readable output. See [See which channel you're on](../../how-to/update-paperclip.md#see-which-channel-youre-on) for the full rundown.
+Not sure which channel to pick? Run `thinkingmach channels` to see all four release channels — `stable`, `beta`, `nightly`, and `canary` — with their currently published versions and which one this install follows. Add `--json` for machine-readable output. See [See which channel you're on](../../how-to/update-paperclip.md#see-which-channel-youre-on) for the full rundown.
 
-To move between channels or versions later, you do not need to reinstall — see [`paperclipai update`](../../how-to/update-paperclip.md).
+To move between channels or versions later, you do not need to reinstall — see [`thinkingmach update`](../../how-to/update-paperclip.md).
 
 ---
 
 ## Removing the managed install
 
-`paperclipai uninstall` removes the managed CLI and leaves every piece of your data alone.
+`thinkingmach uninstall` removes the managed CLI and leaves every piece of your data alone.
 
 ```sh
-paperclipai uninstall
+thinkingmach uninstall
 ```
 
-It takes no options. In order, it stops and removes the [background service](./service.md) if one is installed, deletes the `paperclipai` command from `~/.local/bin`, removes the `PATH` block it added to your `~/.bashrc` and `~/.zshrc`, and deletes the managed store at `~/.paperclip/cli`.
+It takes no options. In order, it stops and removes the [background service](./service.md) if one is installed, deletes the `thinkingmach` command from `~/.local/bin`, removes the `PATH` block it added to your `~/.bashrc` and `~/.zshrc`, and deletes the managed store at `~/.paperclip/cli`.
 
 Your companies, config, database, logs, and secrets all live elsewhere under `~/.paperclip` and are untouched — reinstall later and you pick up exactly where you left off.
 
-> **Note:** If `~/.local/bin/paperclipai` turns out not to be a Paperclip-managed shim (for example you replaced it by hand), `uninstall` leaves that file alone and tells you so rather than deleting someone else's command. It also refuses to run while services for *other* instances are still installed; uninstall those with [`paperclipai service uninstall --instance <id>`](./service.md) first.
+> **Note:** If `~/.local/bin/thinkingmach` turns out not to be a ThinkingMach-managed shim (for example you replaced it by hand), `uninstall` leaves that file alone and tells you so rather than deleting someone else's command. It also refuses to run while services for *other* instances are still installed; uninstall those with [`thinkingmach service uninstall --instance <id>`](./service.md) first.
 
 ---
 
@@ -136,20 +136,20 @@ Your companies, config, database, logs, and secrets all live elsewhere under `~/
 Two commands take you from an empty machine to a running server.
 
 ```sh
-paperclipai onboard
-paperclipai run
+thinkingmach onboard
+thinkingmach run
 ```
 
 `onboard` writes the instance config; `run` validates it and starts the server. You can also let `run` do everything — if no config exists yet and you are in an interactive terminal, `run` calls onboarding for you before it boots.
 
 ---
 
-### `paperclipai onboard`
+### `thinkingmach onboard`
 
-`onboard` is the interactive first-run wizard. It writes a config file plus the local key material the server needs, then offers to start Paperclip immediately. Reach for it when you are setting up a new local install or rebuilding a config from guided prompts.
+`onboard` is the interactive first-run wizard. It writes a config file plus the local key material the server needs, then offers to start ThinkingMach immediately. Reach for it when you are setting up a new local install or rebuilding a config from guided prompts.
 
 ```sh
-paperclipai onboard
+thinkingmach onboard
 ```
 
 The first prompt asks you to choose a setup path:
@@ -159,7 +159,7 @@ The first prompt asks you to choose a setup path:
 | **Quickstart** | Local defaults that are ready to run: an embedded PostgreSQL database, local-disk file storage, and local encrypted secrets. This is the recommended path. |
 | **Advanced setup** | Step-by-step prompts for the database, LLM provider, logging, server binding, storage, and secrets. Use this when you need explicit control over any of those. |
 
-During onboarding the CLI also ensures the agent JWT secret (`PAPERCLIP_AGENT_JWT_SECRET`) and the local secrets key file exist, creating them if they are missing. On Advanced setup, if you supply a PostgreSQL connection string or an LLM API key, the wizard will test the connection and validate the key inline so you find problems before the server starts.
+During onboarding the CLI also ensures the agent JWT secret (`THINKINGMACH_AGENT_JWT_SECRET`) and the local secrets key file exist, creating them if they are missing. On Advanced setup, if you supply a PostgreSQL connection string or an LLM API key, the wizard will test the connection and validate the key inline so you find problems before the server starts.
 
 When it finishes, onboarding prints the resolved configuration and the next commands to run.
 
@@ -171,36 +171,36 @@ When it finishes, onboarding prints the resolved configuration and the next comm
 | `--install-service` | Install and start the background service after onboarding, without asking. |
 | `--no-install-service` | Do not install or suggest the background service. |
 | `--config <path>`, `-c` | Write the config to a specific path instead of the default instance config. |
-| `--data-dir <path>`, `-d` | Isolate all local Paperclip state away from `~/.paperclip` — handy for clean test instances and worktrees. |
+| `--data-dir <path>`, `-d` | Isolate all local ThinkingMach state away from `~/.paperclip` — handy for clean test instances and worktrees. |
 
 ```sh
 # Non-interactive Quickstart that boots immediately
-paperclipai onboard --yes
+thinkingmach onboard --yes
 
 # Save the config and start, but keep interactive prompts
-paperclipai onboard --run
+thinkingmach onboard --run
 
 # Quickstart bound to the LAN instead of loopback
-paperclipai onboard --bind lan
+thinkingmach onboard --bind lan
 ```
 
-In an interactive terminal, onboarding also asks whether you want to install Paperclip as a background service so it starts on login and keeps running after you close the terminal. Say yes and it installs and starts the service for you instead of running in the foreground. `--install-service` skips the question and does it; `--no-install-service` skips it and doesn't. See [service](./service.md) for what gets installed.
+In an interactive terminal, onboarding also asks whether you want to install ThinkingMach as a background service so it starts on login and keeps running after you close the terminal. Say yes and it installs and starts the service for you instead of running in the foreground. `--install-service` skips the question and does it; `--no-install-service` skips it and doesn't. See [service](./service.md) for what gets installed.
 
-> **Note:** If Paperclip is already configured at the target path, rerunning `onboard` detects the existing install and keeps the current configuration unchanged. It still tops up the agent JWT secret and secrets key file if needed, then offers to start. To change settings on an existing install, use `paperclipai configure` rather than re-onboarding.
+> **Note:** If ThinkingMach is already configured at the target path, rerunning `onboard` detects the existing install and keeps the current configuration unchanged. It still tops up the agent JWT secret and secrets key file if needed, then offers to start. To change settings on an existing install, use `thinkingmach configure` rather than re-onboarding.
 
 ---
 
-### `paperclipai run`
+### `thinkingmach run`
 
 `run` is the one-command path to a healthy local instance. It bootstraps and launches in sequence:
 
 1. Resolves the active instance and config path, and loads the instance env file.
 2. If no config exists and the terminal is interactive, hands off to onboarding first.
 3. Runs the `doctor` checks with repair enabled by default. If any check fails, it stops before starting the server.
-4. Starts the Paperclip server.
+4. Starts the ThinkingMach server.
 
 ```sh
-paperclipai run
+thinkingmach run
 ```
 
 | Flag | Use |
@@ -214,18 +214,18 @@ paperclipai run
 
 ```sh
 # Run a second, isolated instance
-paperclipai run --instance dev
+thinkingmach run --instance dev
 
 # Keep all state inside a worktree
-paperclipai run --data-dir ./tmp/paperclip-dev
+thinkingmach run --data-dir ./tmp/paperclip-dev
 
 # Diagnose without letting doctor modify anything
-paperclipai run --no-repair
+thinkingmach run --no-repair
 ```
 
-> **Tip:** In a non-interactive environment (no TTY), `run` will not start onboarding for you. Run `paperclipai onboard` once first, then retry `paperclipai run`.
+> **Tip:** In a non-interactive environment (no TTY), `run` will not start onboarding for you. Run `thinkingmach onboard` once first, then retry `thinkingmach run`.
 
-> **Note:** If the same instance is already running as a background service, `run` stops with an error rather than starting a second copy on the same port. Check on the running one with `paperclipai service status`, or pass `--force` if you really do want a foreground process alongside it.
+> **Note:** If the same instance is already running as a background service, `run` stops with an error rather than starting a second copy on the same port. Check on the running one with `thinkingmach service status`, or pass `--force` if you really do want a foreground process alongside it.
 
 > **Warning:** `run` (with no subcommand) is a *local bootstrap* command — it stands up a server on your machine. The `run` *subcommands* (`run list`, `run live`, `run get`, `run events`, `run log`, and the rest) are a different concept entirely: they inspect and control heartbeat runs through the API on an already-running instance. Do not confuse the two. See [run](./run.md) for the subcommands.
 
@@ -235,26 +235,26 @@ paperclipai run --no-repair
 
 `onboard` and `run` write everything under a per-instance home directory. The default instance lives at `~/.paperclip`, with the config, embedded database, logs, storage, and secrets key kept beneath it. Pass `--data-dir <path>` to relocate that root, or `--instance <id>` to keep multiple instances cleanly separated.
 
-The CLI also handles two pieces of credential material during setup so you never wire them by hand: the agent JWT secret (stored in the instance env file as `PAPERCLIP_AGENT_JWT_SECRET`) and the local secrets master key file. Both are created on first onboarding and reused thereafter.
+The CLI also handles two pieces of credential material during setup so you never wire them by hand: the agent JWT secret (stored in the instance env file as `THINKINGMACH_AGENT_JWT_SECRET`) and the local secrets master key file. Both are created on first onboarding and reused thereafter.
 
 ---
 
 ## After the server is up
 
-Bringing the server up does not yet give the CLI an authenticated identity to operate a company. Once `run` reports that Paperclip is listening, connect the CLI to the instance and pick a persona:
+Bringing the server up does not yet give the CLI an authenticated identity to operate a company. Once `run` reports that ThinkingMach is listening, connect the CLI to the instance and pick a persona:
 
 - On a fresh interactive machine, run the connection wizard, which resolves the API base, health-checks it, logs you in as the board, mints a token, and saves a profile.
 - For headless and CI setups, mint a board token or an agent key and point the CLI at it explicitly.
 
-That step is covered in [authentication](./authentication.md). For how the CLI finds your server (the `--api-base` / `PAPERCLIP_API_URL` resolution order) and the flags shared by every client command, see [common options](common-options.md).
+That step is covered in [authentication](./authentication.md). For how the CLI finds your server (the `--api-base` / `THINKINGMACH_API_URL` resolution order) and the flags shared by every client command, see [common options](common-options.md).
 
 ---
 
 ## Next steps
 
 - [Authentication](./authentication.md) — connect the CLI, choose a persona, and mint board tokens or agent keys.
-- [Service](./service.md) — keep Paperclip running in the background instead of holding a terminal open.
-- [Update Paperclip](../../how-to/update-paperclip.md) — check for, apply, and roll back new versions.
+- [Service](./service.md) — keep ThinkingMach running in the background instead of holding a terminal open.
+- [Update ThinkingMach](../../how-to/update-paperclip.md) — check for, apply, and roll back new versions.
 - [Setup commands](./setup-commands.md) — `doctor`, `configure`, `env`, and `allowed-hostname` for repairing and tuning an instance.
 - [Common options](common-options.md) — shared flags and how the CLI resolves which server to talk to.
 - [run](./run.md) — the `run` subcommands for inspecting heartbeat runs on a live instance.

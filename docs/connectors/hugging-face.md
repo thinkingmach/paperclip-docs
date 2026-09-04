@@ -23,7 +23,7 @@ That is genuinely all for public content. Connect with an account that belongs t
 2. On the **Access** step, choose the identity and which agents may use the connection.
 3. Select **Sign in with Hugging Face** and complete browser sign-in.
 
-Paperclip registers its client automatically, so there is nothing to configure in a developer console.
+ThinkingMach registers its client automatically, so there is nothing to configure in a developer console.
 
 ## Choose access
 
@@ -36,9 +36,9 @@ Two tiers of content, and the difference is worth stating:
 
 Because most of the value here is public content, this is one of the lower-risk connectors to give an agent. The exception is an account with access to private organization repositories — that account's reach becomes the agent's.
 
-Paperclip asks Hugging Face for the `read-mcp` scope, which is what makes this a low-risk connector to start with. Treat that as the intent rather than a guarantee you need not check: the action list is the provider's, so read it on the **Permissions** tab and set anything that is not a read appropriately. See [Set action permissions](action-permissions.md).
+ThinkingMach asks Hugging Face for the `read-mcp` scope, which is what makes this a low-risk connector to start with. Treat that as the intent rather than a guarantee you need not check: the action list is the provider's, so read it on the **Permissions** tab and set anything that is not a read appropriately. See [Set action permissions](action-permissions.md).
 
-> **Note:** The connection targets the Hub's own tools, and Paperclip requests the endpoint with Gradio tooling switched off — so the interactive applications hosted on Spaces are not part of this connection's surface.
+> **Note:** The connection targets the Hub's own tools, and ThinkingMach requests the endpoint with Gradio tooling switched off — so the interactive applications hosted on Spaces are not part of this connection's surface.
 
 ## Try it
 

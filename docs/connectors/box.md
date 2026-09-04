@@ -11,19 +11,19 @@ Agents can search and work with files and folders in Box.
 
 ## Before you connect
 
-- A Box administrator who will create the OAuth integration and enable AI access for the enterprise. If that is not you, start by asking them — no amount of work in Paperclip substitutes for it.
-- The client ID and secret from that Box integration, and Paperclip's callback URI registered on it. Paperclip shows the URI during setup.
+- A Box administrator who will create the OAuth integration and enable AI access for the enterprise. If that is not you, start by asking them — no amount of work in ThinkingMach substitutes for it.
+- The client ID and secret from that Box integration, and ThinkingMach's callback URI registered on it. ThinkingMach shows the URI during setup.
 - A Box account with access to the content you want agents to use.
 
 Box does not support automatic client registration for this server, so your own OAuth integration is required rather than optional.
 
 ## Connect Box
 
-Most of this happens in Box's Admin Console and needs an administrator. Start in Paperclip only to read the callback URI.
+Most of this happens in Box's Admin Console and needs an administrator. Start in ThinkingMach only to read the callback URI.
 
-### 1. Read Paperclip's callback URI
+### 1. Read ThinkingMach's callback URI
 
-Open **Connectors** → **Box** → the **Access** step → **Use your own OAuth app**. Paperclip displays the callback URI; copy it and give it to whoever does step 3.
+Open **Connectors** → **Box** → the **Access** step → **Use your own OAuth app**. ThinkingMach displays the callback URI; copy it and give it to whoever does step 3.
 
 ### 2. Turn on Box AI for the enterprise
 
@@ -33,7 +33,7 @@ In the Box **Admin Console**:
 2. Ensure **AI API** is enabled.
 3. Ensure **Official Box Integrations is enabled for all users** is selected.
 
-> **Warning:** Without these, authorization can succeed and still leave agents unable to do anything useful. If the connection looks healthy but every call fails or returns nothing, come back to this step before debugging anything in Paperclip.
+> **Warning:** Without these, authorization can succeed and still leave agents unable to do anything useful. If the connection looks healthy but every call fails or returns nothing, come back to this step before debugging anything in ThinkingMach.
 
 ### 3. Create the integration credentials
 
@@ -48,7 +48,7 @@ Still in the Admin Console:
 7. Enter the **Redirect URI** from step 1.
 8. Under **Scopes**, ensure **Manage AI** is selected.
 
-### 4. Finish in Paperclip
+### 4. Finish in ThinkingMach
 
 Return to the setup screen, supply the client ID and secret, then authorize in Box as the account whose content the agents should reach.
 
@@ -56,11 +56,11 @@ Box's own reference is [Managing Box MCP Servers](https://support.box.com/hc/en-
 
 ## Choose access
 
-Reach is the authorizing Box account's: the files, folders, and shared content that account can already open. Paperclip has no folder picker, so narrow access by authorizing with an account that has access to less.
+Reach is the authorizing Box account's: the files, folders, and shared content that account can already open. ThinkingMach has no folder picker, so narrow access by authorizing with an account that has access to less.
 
 Box enterprises often apply further restrictions on top — classification labels, shared-link policies, and app-access rules can all keep content out of an integration even when the user can see it in the Box web app. This is the usual reason an agent finds nothing after an apparently clean setup.
 
-File writes and deletions are consequential and not always recoverable from Paperclip. Leave them on **Ask first** or **Off**, and rely on Box's trash and version history for recovery. See [Set action permissions](action-permissions.md).
+File writes and deletions are consequential and not always recoverable from ThinkingMach. Leave them on **Ask first** or **Off**, and rely on Box's trash and version history for recovery. See [Set action permissions](action-permissions.md).
 
 ## Try it
 
@@ -83,7 +83,7 @@ Compare against Box. A metadata read confirms the credential and the enterprise'
 | A delete or move happened unexpectedly | A write action was set to **Allowed** | Restore from Box trash, then tighten the action settings |
 | **Needs attention** | The grant was revoked, or the integration was disabled | Select **Reconnect**; check the integration still exists |
 
-Limitations: one Box account per connection. No folder restriction inside Paperclip. Enterprise policy can override what the account appears to have.
+Limitations: one Box account per connection. No folder restriction inside ThinkingMach. Enterprise policy can override what the account appears to have.
 
 ## Related guides
 

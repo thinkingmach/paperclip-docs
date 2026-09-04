@@ -25,7 +25,7 @@ Agents can query a ClickHouse Cloud ClickStack service — useful for letting an
 
 ## Choose access
 
-The real control is on the ClickHouse side. Reach is whatever the signed-in account's database users and grants permit — Paperclip does not add a table or database filter on top.
+The real control is on the ClickHouse side. Reach is whatever the signed-in account's database users and grants permit — ThinkingMach does not add a table or database filter on top.
 
 If an agent should only read, grant only read. A read-only ClickHouse user is a stronger and clearer boundary than relying on action settings alone, and it survives changes to the tool catalog.
 
@@ -79,7 +79,7 @@ Do not verify with a count over a production table. "The smallest table" is not 
 | A query is slow or expensive despite a `LIMIT` | `LIMIT` bounds returned rows, not rows scanned | Set `max_rows_to_read` / `max_bytes_to_read` and an execution-time limit on the ClickHouse user |
 | **Needs attention** | The sign-in expired or the service was removed | Select **Reconnect** and confirm the service still exists |
 
-Limitations: one ClickStack service per connection. ClickHouse Cloud only. Access control is ClickHouse's grants, not a Paperclip resource filter.
+Limitations: one ClickStack service per connection. ClickHouse Cloud only. Access control is ClickHouse's grants, not a ThinkingMach resource filter.
 
 ## Related guides
 

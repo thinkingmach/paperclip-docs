@@ -1,13 +1,13 @@
 ---
-seo_title: Terminal Setup for Paperclip
-seo_description: Run the onboarding command to download Paperclip, create ~/.paperclip/, initialise the database, and start the server. Plus deployment modes and options.
+seo_title: Terminal Setup for ThinkingMach
+seo_description: Run the onboarding command to download ThinkingMach, create ~/.paperclip/, initialise the database, and start the server. Plus deployment modes and options.
 ---
 
 # Terminal Setup
 
-> **Note:** This guide goes deeper than the standard setup. If you're installing Paperclip for the first time, start with the [Installation guide](../getting-started/installation.md) — it covers the one-command install step by step.
+> **Note:** This guide goes deeper than the standard setup. If you're installing ThinkingMach for the first time, start with the [Installation guide](../getting-started/installation.md) — it covers the one-command install step by step.
 
-Paperclip runs as a Node.js server. The onboarding command handles the full setup in one step.
+ThinkingMach runs as a Node.js server. The onboarding command handles the full setup in one step.
 
 ---
 
@@ -35,30 +35,30 @@ corepack prepare pnpm@latest --activate
 ## Step 2 — Run the onboarding command
 
 ```bash
-npx paperclipai onboard --yes
+npx thinkingmach onboard --yes
 ```
 
-This single command handles everything: downloads Paperclip, creates a configuration directory at `~/.paperclip/`, initialises the embedded database, and starts the server at `http://localhost:3100`. The `--yes` flag accepts all defaults.
+This single command handles everything: downloads ThinkingMach, creates a configuration directory at `~/.paperclip/`, initialises the embedded database, and starts the server at `http://localhost:3100`. The `--yes` flag accepts all defaults.
 
 ```
 ✓ Created config at ~/.paperclip/instances/default/config.json
 ✓ Initialised database
 ✓ Server running at http://localhost:3100
-→ Opening Paperclip in your browser...
+→ Opening ThinkingMach in your browser...
 ```
 
 Run without `--yes` to go through the interactive setup and choose your deployment mode, database, and storage configuration.
 
 ---
 
-## Step 3 — Open Paperclip
+## Step 3 — Open ThinkingMach
 
-Paperclip opens in your browser automatically. If it doesn't, navigate to [http://localhost:3100](http://localhost:3100).
+ThinkingMach opens in your browser automatically. If it doesn't, navigate to [http://localhost:3100](http://localhost:3100).
 
-To start Paperclip again after restarting your machine:
+To start ThinkingMach again after restarting your machine:
 
 ```bash
-npx paperclipai run
+npx thinkingmach run
 ```
 
 ---
@@ -76,7 +76,7 @@ The default mode (`local_trusted`) runs on localhost with no authentication — 
 Change the mode:
 
 ```bash
-npx paperclipai configure --section server
+npx thinkingmach configure --section server
 ```
 
 ---
@@ -89,4 +89,4 @@ For persistent background runs, Docker deployment, external databases, and cloud
 
 ## You're set
 
-Paperclip is running. You'll land in onboarding or at the start screen, where the next step is [Create Your First Company](../getting-started/your-first-company.md).
+ThinkingMach is running. You'll land in onboarding or at the start screen, where the next step is [Create Your First Company](../getting-started/your-first-company.md).

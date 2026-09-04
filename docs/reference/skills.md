@@ -10,7 +10,7 @@ This is the reference for company skills: the file shape on disk, the install pi
 
 For the conceptual introduction and the UI walkthrough, read the [Skills guide](../guides/org/skills.md). For the REST surface specifically, see [Agents API → Skills](./api/agents.md#skills).
 
-If you want to browse Paperclip's shipped skill catalog, start with the [Bundled skills](./skills/bundled.md) and [Optional skills](./skills/optional.md) indexes. Those pages group every shipped catalog skill by category and link to the full per-skill reference pages.
+If you want to browse ThinkingMach's shipped skill catalog, start with the [Bundled skills](./skills/bundled.md) and [Optional skills](./skills/optional.md) indexes. Those pages group every shipped catalog skill by category and link to the full per-skill reference pages.
 
 > **Adapter caveat.** Some adapters (notably `openclaw_gateway`) cannot push skill files into the runtime. Assignment is still recorded, but the actual sync mode is reported as `unsupported`. This is covered under [Scoping rules](#scoping-rules) below.
 
@@ -46,7 +46,7 @@ description: >
 When reviewing code, check the following...
 ```
 
-The frontmatter is parsed by Paperclip's own minimal YAML reader (`parseFrontmatterMarkdown` in `server/src/services/company-skills.ts`). It supports flat scalars, nested objects, and list literals — not the full YAML grammar.
+The frontmatter is parsed by ThinkingMach's own minimal YAML reader (`parseFrontmatterMarkdown` in `server/src/services/company-skills.ts`). It supports flat scalars, nested objects, and list literals — not the full YAML grammar.
 
 ### Frontmatter fields
 
@@ -86,19 +86,19 @@ Files placed in these subfolders are recognised and classified automatically (`c
 
 A skill's overall **trust level** is derived from the highest classification in its inventory: `markdown_only` < `assets` < `scripts_executables`.
 
-When importing from a project workspace where `SKILL.md` lives at the repo root (rather than a dedicated skill folder), Paperclip switches to `project_root` inventory mode and only walks `references/`, `scripts/`, and `assets/` — so it does not slurp the entire repository.
+When importing from a project workspace where `SKILL.md` lives at the repo root (rather than a dedicated skill folder), ThinkingMach switches to `project_root` inventory mode and only walks `references/`, `scripts/`, and `assets/` — so it does not slurp the entire repository.
 
 ### Example skills you can read
 
-Bundled with the Paperclip server (`skills/` next to the server):
+Bundled with the ThinkingMach server (`skills/` next to the server):
 
 - `paperclip` — base heartbeat procedure.
-- `paperclip-board` — manage a company as a board member via chat: onboarding (company creation, CEO setup, hiring plans), agent management, approvals, task monitoring, cost oversight, and work-product review. Set up by `paperclipai board setup`.
+- `paperclip-board` — manage a company as a board member via chat: onboarding (company creation, CEO setup, hiring plans), agent management, approvals, task monitoring, cost oversight, and work-product review. Set up by `thinkingmach board setup`.
 - `paperclip-create-agent` — governance-aware hire workflow.
-- `paperclip-converting-plans-to-tasks` — the Paperclip way of translating a plan into assigned issues with the right specialty, dependencies, and parallelization.
+- `paperclip-converting-plans-to-tasks` — the ThinkingMach way of translating a plan into assigned issues with the right specialty, dependencies, and parallelization.
 - `para-memory-files` — file-based memory using Tiago Forte's PARA method, covering the knowledge-graph, daily-notes, and tacit-knowledge layers plus weekly synthesis and recall.
 
-Community examples in [`paperclipai/companies`](https://github.com/paperclipai/companies):
+Community examples in [`thinkingmach/companies`](https://github.com/thinkingmach/companies):
 
 - `companies/skills/company-creator/SKILL.md`
 - `companies/skills/readme-updater/SKILL.md`
@@ -117,13 +117,13 @@ scripts/paperclip-upload-artifact.sh path/to/output.webm \
   --summary "Rendered walkthrough for review"
 ```
 
-It reads the run's environment — `PAPERCLIP_API_URL`, `PAPERCLIP_API_KEY`, `PAPERCLIP_COMPANY_ID`, `PAPERCLIP_TASK_ID`, and `PAPERCLIP_RUN_ID` — then uploads the file as an issue attachment, creates an attachment-backed artifact work product (the default), and prints issue-safe markdown links the agent can drop into its final comment. The underlying upload route is the attachment endpoint documented under [Issues API → Attachments](./api/issues.md#attachments).
+It reads the run's environment — `THINKINGMACH_API_URL`, `THINKINGMACH_API_KEY`, `THINKINGMACH_COMPANY_ID`, `THINKINGMACH_TASK_ID`, and `THINKINGMACH_RUN_ID` — then uploads the file as an issue attachment, creates an attachment-backed artifact work product (the default), and prints issue-safe markdown links the agent can drop into its final comment. The underlying upload route is the attachment endpoint documented under [Issues API → Attachments](./api/issues.md#attachments).
 
 ### Monitors and watchers in the bundled `paperclip` skill
 
 When an agent writes "I've set a watcher and I'll check back once CI finishes", you want that to be true — otherwise the issue quietly stalls while you wait for a wake-up that was never scheduled. The bundled `paperclip` skill has a **Monitors and Watchers** section whose whole job is to keep what an agent says in its comments matched to what is actually stored on the issue.
 
-The reason it needs saying: a run (heartbeat) is an ephemeral execution window, and nothing keeps watching after it exits. The only thing that can auto-resume an issue on its own is a persisted **issue monitor** — durable state on the issue itself (`monitorNextCheckAt`, `monitorScheduledBy`, plus an execution-policy `monitor` block carrying `kind`, `serviceName`, `externalRef`, `timeoutAt`, and `maxAttempts`). A server-side scheduler (`tickDueIssueMonitors`) polls for issues whose `monitorNextCheckAt` has passed and wakes the assignee agent again with `PAPERCLIP_WAKE_REASON=issue_monitor_due`. That is timer-based polling, not an event subscription: Paperclip is not notified the moment CI or another external check finishes, it just wakes the agent on a schedule so it can look again.
+The reason it needs saying: a run (heartbeat) is an ephemeral execution window, and nothing keeps watching after it exits. The only thing that can auto-resume an issue on its own is a persisted **issue monitor** — durable state on the issue itself (`monitorNextCheckAt`, `monitorScheduledBy`, plus an execution-policy `monitor` block carrying `kind`, `serviceName`, `externalRef`, `timeoutAt`, and `maxAttempts`). A server-side scheduler (`tickDueIssueMonitors`) polls for issues whose `monitorNextCheckAt` has passed and wakes the assignee agent again with `THINKINGMACH_WAKE_REASON=issue_monitor_due`. That is timer-based polling, not an event subscription: ThinkingMach is not notified the moment CI or another external check finishes, it just wakes the agent on a schedule so it can look again.
 
 A stored timestamp is necessary but not sufficient. For a monitor to fire, the issue must be assigned to an agent (`assigneeAgentId` set) with **no** user assignee (`assigneeUserId` is null), and it must be in `in_progress` or `in_review`. The on-demand trigger enforces the same conditions, so a monitor parked on a user-assigned, `backlog`, `blocked`, or closed issue never fires.
 
@@ -154,7 +154,7 @@ Skills are installed at the **company** level. Once installed, any agent in that
 | Update status (GitHub-managed) | `GET /api/companies/{companyId}/skills/{skillId}/update-status` |
 | Pull latest commit | `POST /api/companies/{companyId}/skills/{skillId}/install-update` |
 | Delete | `DELETE /api/companies/{companyId}/skills/{skillId}` |
-| Create empty (Paperclip-managed) | `POST /api/companies/{companyId}/skills` |
+| Create empty (ThinkingMach-managed) | `POST /api/companies/{companyId}/skills` |
 | **Import from a source** | `POST /api/companies/{companyId}/skills/import` |
 | **Scan project workspaces** | `POST /api/companies/{companyId}/skills/scan-projects` |
 
@@ -165,13 +165,13 @@ Mutating routes require either `agents:create` permission or `permissions.canCre
 `POST /api/companies/{companyId}/skills/import` takes one field — `source`. The string is parsed by `parseSkillImportSourceInput`, so all of the following are valid:
 
 ```json
-{ "source": "https://github.com/paperclipai/paperclip" }
-{ "source": "https://github.com/paperclipai/paperclip/tree/main/skills/paperclip" }
-{ "source": "https://github.com/paperclipai/paperclip/blob/main/skills/paperclip/SKILL.md" }
-{ "source": "paperclipai/paperclip" }
-{ "source": "paperclipai/paperclip/paperclip-create-agent" }
-{ "source": "https://skills.sh/paperclipai/paperclip/paperclip-create-agent" }
-{ "source": "npx skills add paperclipai/paperclip --skill paperclip-create-agent" }
+{ "source": "https://github.com/thinkingmach/paperclip" }
+{ "source": "https://github.com/thinkingmach/paperclip/tree/main/skills/paperclip" }
+{ "source": "https://github.com/thinkingmach/paperclip/blob/main/skills/paperclip/SKILL.md" }
+{ "source": "thinkingmach/paperclip" }
+{ "source": "thinkingmach/paperclip/paperclip-create-agent" }
+{ "source": "https://skills.sh/thinkingmach/paperclip/paperclip-create-agent" }
+{ "source": "npx skills add thinkingmach/paperclip --skill paperclip-create-agent" }
 { "source": "https://example.com/raw/SKILL.md" }
 { "source": "/Users/me/code/my-project/skills/code-review" }
 ```
@@ -205,15 +205,15 @@ The scan is non-destructive: it returns `imported`, `updated`, `skipped`, `confl
 
 ### Storage
 
-Editable, Paperclip-managed skills are written to `<paperclipInstanceRoot>/skills/{companyId}/<slug>/`. Read-only sources (GitHub, skills.sh, URL) keep the `markdown` body in the database row and only materialise into a temporary location when an adapter needs the files on disk.
+Editable, ThinkingMach-managed skills are written to `<paperclipInstanceRoot>/skills/{companyId}/<slug>/`. Read-only sources (GitHub, skills.sh, URL) keep the `markdown` body in the database row and only materialise into a temporary location when an adapter needs the files on disk.
 
-Bundled skills (those shipped in the server's `skills/` directory) are re-imported on every list call (`ensureBundledSkills`). They cannot be edited or deleted — installing the same Paperclip release will recreate them.
+Bundled skills (those shipped in the server's `skills/` directory) are re-imported on every list call (`ensureBundledSkills`). They cannot be edited or deleted — installing the same ThinkingMach release will recreate them.
 
 ---
 
 ## 3. App-shipped catalog
 
-Beyond importing skills from GitHub, skills.sh, URLs, or local folders, Paperclip ships its own **catalog** of ready-made skills inside the app. You browse the catalog, install the skill you want into a company, and from then on Paperclip can keep that copy in step with the version it shipped — checking for updates, auditing the bytes, and resetting back to the pinned origin if needed.
+Beyond importing skills from GitHub, skills.sh, URLs, or local folders, ThinkingMach ships its own **catalog** of ready-made skills inside the app. You browse the catalog, install the skill you want into a company, and from then on ThinkingMach can keep that copy in step with the version it shipped — checking for updates, auditing the bytes, and resetting back to the pinned origin if needed.
 
 Catalog skills are split into two **kinds** (`CatalogSkillKind`):
 
@@ -321,7 +321,7 @@ POST /api/companies/{companyId}/skills/{skillId}/reset
 
 Reset restores a catalog-managed skill to the byte-exact origin it was installed from — useful when a skill was edited locally and you want the shipped version back. Reset is only supported for catalog-managed skills.
 
-For the equivalent `paperclipai skills` CLI commands (browse, install, audit, update, reset), see the [Skills commands](./cli/skills.md) page in the CLI reference.
+For the equivalent `thinkingmach skills` CLI commands (browse, install, audit, update, reset), see the [Skills commands](./cli/skills.md) page in the CLI reference.
 
 ---
 
@@ -344,7 +344,7 @@ A skill must be installed at the company level before it can be attached to an a
 Each entry can be:
 
 - a company-skill **UUID** (`id`),
-- a canonical **key** (`paperclipai/paperclip/paperclip`),
+- a canonical **key** (`thinkingmach/paperclip/paperclip`),
 - or a **slug** (`code-review`) — but only when the slug is unique inside the company.
 
 The server resolves each reference to its canonical key and persists exactly that list under `adapterConfig.paperclipSkillSync.desiredSkills` — the desired set is precisely what you send, with no extra keys folded in. Unknown or ambiguous references fail the request with `Invalid company skill selection (...)`.
@@ -368,10 +368,10 @@ The response is an `AgentSkillSnapshot`:
   "adapterType": "claude_local",
   "supported": true,
   "mode": "persistent",
-  "desiredSkills": ["paperclipai/paperclip/paperclip", "company/<id>/code-review"],
+  "desiredSkills": ["thinkingmach/paperclip/paperclip", "company/<id>/code-review"],
   "entries": [
     {
-      "key": "paperclipai/paperclip/paperclip",
+      "key": "thinkingmach/paperclip/paperclip",
       "runtimeName": "paperclip",
       "desired": true,
       "managed": true,
@@ -407,7 +407,7 @@ Returns the same snapshot shape without changing anything. For adapters without 
 |---|---|
 | `persistent` | The adapter writes skill files into the agent's working directory and leaves them there between runs. Most local adapters use this mode. |
 | `ephemeral` | The adapter materialises skill files for each run and cleans up afterwards. Default for sandboxed adapters. |
-| `unsupported` | Paperclip records the assignment but cannot push files into the runtime. Adapters such as `openclaw_gateway` fall here — manage skills inside the remote runtime instead. |
+| `unsupported` | ThinkingMach records the assignment but cannot push files into the runtime. Adapters such as `openclaw_gateway` fall here — manage skills inside the remote runtime instead. |
 
 Adapters declare which materialisation strategy they need via `requiresMaterializedRuntimeSkills` (or fall back to a legacy hardcoded set: `cursor`, `gemini_local`, `opencode_local`, `pi_local`).
 
@@ -417,7 +417,7 @@ Adapters declare which materialisation strategy they need via `requiresMateriali
 
 - **Installed skills** — company library skills currently opted in to this agent. Unticking one removes it from the desired set.
 - **Other skills** — company library skills available to add. Tick one to add it to the desired set.
-- **"({N}) User-installed skills, not managed by Paperclip"** — collapsed by default; read-only entries surfaced when an adapter reports skills it discovered itself (for example, a global skills bundle on the host machine). These carry a `user_installed` or `external_unknown` origin and cannot be edited from here.
+- **"({N}) User-installed skills, not managed by ThinkingMach"** — collapsed by default; read-only entries surfaced when an adapter reports skills it discovered itself (for example, a global skills bundle on the host machine). These carry a `user_installed` or `external_unknown` origin and cannot be edited from here.
 
 ---
 
@@ -427,12 +427,12 @@ These three extension points are easy to confuse. They sit at different layers:
 
 | | **Skill** | **Plugin** | **Adapter** |
 |---|---|---|---|
-| **What it is** | An instruction document the agent loads on demand | A code package that adds API routes, UI surfaces, or runtime services | A bridge between Paperclip and an agent runtime |
+| **What it is** | An instruction document the agent loads on demand | A code package that adds API routes, UI surfaces, or runtime services | A bridge between ThinkingMach and an agent runtime |
 | **Format** | Folder with `SKILL.md` plus optional `references/`, `scripts/`, `assets/` | Node package built against the plugin SDK | Module with `executeRun`, `listSkills`, `syncSkills`, etc. |
 | **Lives at** | Company level, in the company skill library | Instance level, in `~/.paperclip/adapter-plugins/` | Built into the server or registered as an external adapter |
 | **Loaded** | At the start of an agent run, when the routing description matches | On server start; mounted into the API and UI | Per-run, when an agent's `adapterType` matches |
-| **Authored by** | Anyone who can edit the company skill library | Plugin authors (use the [`paperclip-create-plugin` skill](https://github.com/paperclipai/paperclip/blob/master/.agents/skills/paperclip-create-plugin/SKILL.md)) | Adapter authors (see [Creating an Adapter](./adapters/creating-an-adapter.md)) |
-| **Versioning** | Pinned to a git commit (GitHub/skills.sh) or live (local) | Pinned by the plugin's package version | Pinned by the Paperclip release |
+| **Authored by** | Anyone who can edit the company skill library | Plugin authors (use the [`paperclip-create-plugin` skill](https://github.com/thinkingmach/paperclip/blob/master/.agents/skills/paperclip-create-plugin/SKILL.md)) | Adapter authors (see [Creating an Adapter](./adapters/creating-an-adapter.md)) |
+| **Versioning** | Pinned to a git commit (GitHub/skills.sh) or live (local) | Pinned by the plugin's package version | Pinned by the ThinkingMach release |
 | **Failure mode if wrong** | Agent reads bad instructions, produces bad output | API surface does not load | Runs fail to start |
 
 Rule of thumb: **a skill is something a smart human could follow if you handed them the file**; a plugin is server code; an adapter is the wire protocol to a runtime.
@@ -447,11 +447,11 @@ Every persisted skill has a `key` field — the unique identifier for that skill
 
 | Source | Key form | Example |
 |---|---|---|
-| Bundled with Paperclip | `paperclipai/paperclip/{slug}` | `paperclipai/paperclip/paperclip` |
-| GitHub / skills.sh | `{owner}/{repo}/{slug}` | `paperclipai/paperclip/paperclip-create-agent` |
+| Bundled with ThinkingMach | `thinkingmach/paperclip/{slug}` | `thinkingmach/paperclip/paperclip` |
+| GitHub / skills.sh | `{owner}/{repo}/{slug}` | `thinkingmach/paperclip/paperclip-create-agent` |
 | URL | `url/{host}/{hash}/{slug}` | `url/example.com/9f2a3b1c4d/code-review` |
 | Local path (project scan, raw folder) | `local/{hash}/{slug}` | `local/4e8a91c2d3/code-review` |
-| Paperclip-managed (created from the UI) | `company/{companyId}/{slug}` | `company/5cbe79ee.../delegation-checklist` |
+| ThinkingMach-managed (created from the UI) | `company/{companyId}/{slug}` | `company/5cbe79ee.../delegation-checklist` |
 
 If the source provides an explicit `key` / `metadata.skillKey`, that value wins — this is how skills.sh-published skills keep a stable identity across mirrors.
 
@@ -498,7 +498,7 @@ Behaviour depends on the source:
 | `url` | No | None | Treat as a point-in-time snapshot. Re-import the URL to refresh. |
 | `local_path` (managed) | Live | None — files refresh on read | Stored under `<paperclipInstanceRoot>/skills/{companyId}/`. Edited via `PATCH /skills/{id}/files`. |
 | `local_path` (project scan) | Live | Re-run the scan endpoint | Skills whose `SKILL.md` disappears are pruned automatically (`pruneMissingLocalPathSkills`). |
-| `paperclip_bundled` | Pinned to the Paperclip release | Upgrade Paperclip itself | Re-imported on every list call; cannot be edited. The bundled `paperclip` skill additionally carries beta releases an agent can pin — see [below](#beta-releases-of-the-bundled-paperclip-skill). |
+| `paperclip_bundled` | Pinned to the ThinkingMach release | Upgrade ThinkingMach itself | Re-imported on every list call; cannot be edited. The bundled `paperclip` skill additionally carries beta releases an agent can pin — see [below](#beta-releases-of-the-bundled-paperclip-skill). |
 | `catalog` | Pinned to the shipped catalog version (`metadata.originHash`) | `GET /skills/{id}/update-status` → `POST /skills/{id}/install-update`; `POST /skills/{id}/reset` to restore the origin | App-shipped catalog skills. Updates compare against the version the app ships. See [App-shipped catalog](#3-app-shipped-catalog). |
 
 ### `update-status` response
@@ -522,9 +522,9 @@ For non-GitHub sources, `supported: false` is returned with a reason. Calling `i
 
 ### Beta releases of the bundled `paperclip` skill
 
-The bundled `paperclip` skill (canonical key `paperclipai/paperclip/paperclip`) also carries **releases**: frozen snapshots an agent can be pinned to instead of the live default. For why you would pin one and how the picker behaves, read [Pinning a beta release of the Paperclip skill](../guides/org/skills.md#pinning-a-beta-release-of-the-paperclip-skill) in the guide. This section is the data and wire shape.
+The bundled `paperclip` skill (canonical key `thinkingmach/paperclip/paperclip`) also carries **releases**: frozen snapshots an agent can be pinned to instead of the live default. For why you would pin one and how the picker behaves, read [Pinning a beta release of the ThinkingMach skill](../guides/org/skills.md#pinning-a-beta-release-of-the-paperclip-skill) in the guide. This section is the data and wire shape.
 
-**The flag.** `enableBetaSkills` is an instance experimental setting, catalogued as **Beta skills** — *"Allow agents to pin beta releases of the Paperclip core skill."* Its tier is `preference`, meaning a tenant-controlled setting the Paperclip Cloud harness never manages, in contrast to the `managed`-tier flags that can arrive locked. Both `cloudDefault` and `selfHostedDefault` are `false`, so it is off on every instance until an operator turns it on.
+**The flag.** `enableBetaSkills` is an instance experimental setting, catalogued as **Beta skills** — *"Allow agents to pin beta releases of the ThinkingMach core skill."* Its tier is `preference`, meaning a tenant-controlled setting the ThinkingMach Cloud harness never manages, in contrast to the `managed`-tier flags that can arrive locked. Both `cloudDefault` and `selfHostedDefault` are `false`, so it is off on every instance until an operator turns it on.
 
 **Where the snapshots come from.** The server reads `skills-releases/paperclip/releases.json` and seeds one skill version per manifest entry into every company that has the bundled `paperclip` skill. Each entry carries `id`, `releaseName`, `releasedAt`, `notes`, and `dir` — the folder holding that snapshot's files, resolved relative to the registry root. Seeding never moves the skill's current version: the live default is left alone, and a release only takes effect on agents that pin it.
 
@@ -549,7 +549,7 @@ Re-seeding is byte-checked. If a company already holds a version for a release i
 {
   "desiredSkills": [
     "code-review",
-    { "key": "paperclipai/paperclip/paperclip", "versionId": "<company skill version uuid>" }
+    { "key": "thinkingmach/paperclip/paperclip", "versionId": "<company skill version uuid>" }
   ]
 }
 ```
@@ -595,16 +595,16 @@ Walk down this list in order. The first match is usually the problem.
 
 ### "Frontmatter changes aren't taking effect"
 
-- Paperclip's YAML reader is intentionally strict-but-narrow. If a value is silently empty, check that:
+- ThinkingMach's YAML reader is intentionally strict-but-narrow. If a value is silently empty, check that:
   - The block starts and ends with `---` on their own lines.
   - Indentation uses spaces, not tabs.
   - List items use `- ` with a space.
   - Block scalars (`>`, `|`) are indented two spaces deeper than the key.
-- Recover by validating the YAML in a normal parser; if it parses there but not in Paperclip, file a bug — the in-house parser is documented above.
+- Recover by validating the YAML in a normal parser; if it parses there but not in ThinkingMach, file a bug — the in-house parser is documented above.
 
 ### "An agent gets a skill it never asked for"
 
-- It's bundled-required. `paperclipai/paperclip/*` skills with `metadata.sourceKind: paperclip_bundled` are unioned into every resolved `desiredSkills` set by the server. Removing them from the request has no effect.
+- It's bundled-required. `thinkingmach/paperclip/*` skills with `metadata.sourceKind: paperclip_bundled` are unioned into every resolved `desiredSkills` set by the server. Removing them from the request has no effect.
 
 ### "I pinned a beta release but the agent still runs the default"
 
@@ -614,7 +614,7 @@ Walk down this list in order. The first match is usually the problem.
 
 ### "I deleted a skill and it came back"
 
-- It's a bundled skill. The server re-imports `skills/` from disk on every company list call. To suppress a bundled skill, remove it from the Paperclip release or run a forked build.
+- It's a bundled skill. The server re-imports `skills/` from disk on every company list call. To suppress a bundled skill, remove it from the ThinkingMach release or run a forked build.
 
 ---
 

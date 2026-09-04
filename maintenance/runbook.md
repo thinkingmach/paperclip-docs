@@ -122,7 +122,7 @@ When a new parent release tag drops (`v2026.X.Y`):
 2. The skill diffs `base_release_tag → new_tag`, applies any still-missing edits, and opens a PR titled `Release docs for paperclip v2026.X.Y` that merges `nightly` → `main`.
 3. **Review the PR.** Pay particular attention to:
    - Drift / verification / reconcile flags in the PR body.
-   - Voice quality of any newly-authored pages — these go live on `docs.paperclip.ing` the moment you merge.
+   - Voice quality of any newly-authored pages — these go live on `docs.thinkingmach.com` the moment you merge.
    - Frontmatter `paperclip_version` correctly stamped on changed pages.
 4. Merge to `main` when satisfied.
 5. **After merge — four follow-ups:**
@@ -136,8 +136,8 @@ When a new parent release tag drops (`v2026.X.Y`):
    - **Confirm the site actually rebuilt — don't assume.** Cloudflare Pages is supposed to auto-deploy on push to `main`, but that hook has silently no-opped (v2026.824.0 merged with a correct changelog entry and production served the previous build for hours). Check the live site, not the Pages dashboard:
 
      ```sh
-     curl -s https://docs.paperclip.ing/reference/changelog/ | grep -o 'Docs for v[0-9.]*' | head -1
-     curl -s -o /dev/null -w '%{http_code}\n' https://docs.paperclip.ing/<a-page-new-in-this-release>/
+     curl -s https://docs.thinkingmach.com/reference/changelog/ | grep -o 'Docs for v[0-9.]*' | head -1
+     curl -s -o /dev/null -w '%{http_code}\n' https://docs.thinkingmach.com/<a-page-new-in-this-release>/
      ```
 
      Expect the tag you just shipped, and `200`. If either is wrong, republish by hand:

@@ -20,11 +20,11 @@ Agents can work with your Wix sites — reading site information and working wit
 2. On the **Access** step, choose the identity and which agents may use the connection.
 3. Select **Sign in with Wix** and complete browser sign-in, choosing the site when Wix asks.
 
-Paperclip registers its client automatically, so there is nothing to configure in a developer console.
+ThinkingMach registers its client automatically, so there is nothing to configure in a developer console.
 
 ## Choose access
 
-Site reach is the authorizing Wix account's, subject to its role on each site. There is no site picker in Paperclip beyond what Wix asks during authorization.
+Site reach is the authorizing Wix account's, subject to its role on each site. There is no site picker in ThinkingMach beyond what Wix asks during authorization.
 
 What the connection can actually do varies by site, because it depends on which Wix business solutions that site uses. A site with Wix Stores exposes commerce data; a plain marketing site does not. Do not assume a capability exists because Wix offers the product — check the connection's action list for the site you connected.
 

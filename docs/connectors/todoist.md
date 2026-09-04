@@ -19,11 +19,11 @@ That is all. This is one of the simplest connectors to set up.
 2. On the **Access** step, choose the identity and which agents may use the connection.
 3. Select **Sign in with Todoist** and complete browser sign-in.
 
-Paperclip registers its client automatically, so there is nothing to configure in a developer console.
+ThinkingMach registers its client automatically, so there is nothing to configure in a developer console.
 
 ## Choose access
 
-Reach is the authorizing Todoist account's: its own projects, plus any shared projects it has joined. There is no project picker in Paperclip.
+Reach is the authorizing Todoist account's: its own projects, plus any shared projects it has joined. There is no project picker in ThinkingMach.
 
 Shared projects are worth pausing on. A personal Todoist account often belongs to shared projects with a partner, a team, or a client. An agent with this connection can read and change tasks in all of them, and those changes appear to the other members as coming from you.
 
@@ -59,7 +59,7 @@ Compare against Todoist. Reading today's tasks confirms the credential and the a
 | Some fields are unavailable | Certain Todoist features are plan-gated | Check your Todoist plan |
 | **Needs attention** | The grant was revoked | Select **Reconnect** |
 
-Limitations: one Todoist account per connection. No project filter inside Paperclip. Shared projects come with the account.
+Limitations: one Todoist account per connection. No project filter inside ThinkingMach. Shared projects come with the account.
 
 ## Related guides
 

@@ -5,7 +5,7 @@ seo_description: Let agents search and read Gmail, and optionally draft replies.
 
 # Gmail
 
-> **Warning:** **Google verification pending.** Paperclip has not yet completed Google app verification. You may see an unverified-app warning during authorization. If Google offers an **Advanced** option to continue to Paperclip, you can choose to proceed after reviewing the requested access. This option is not available for every account; Workspace administrator restrictions and other Google access requirements still apply. Contact [support@paperclip.ing](mailto:support@paperclip.ing) if you cannot connect.
+> **Warning:** **Google verification pending.** ThinkingMach has not yet completed Google app verification. You may see an unverified-app warning during authorization. If Google offers an **Advanced** option to continue to ThinkingMach, you can choose to proceed after reviewing the requested access. This option is not available for every account; Workspace administrator restrictions and other Google access requirements still apply. Contact [support@thinkingmach.com](mailto:support@thinkingmach.com) if you cannot connect.
 
 Agents can search and read your Gmail, and on a draft connection leave drafts in your drafts folder for you to review. Sending is not reachable through this connector.
 
@@ -28,7 +28,7 @@ Start with **Read only** unless you have a concrete reason for drafts. To change
 
 This is worth stating precisely, because the credential and the enforcement are different things.
 
-Google's `gmail.compose` scope, which the draft group requests, does permit sending at Google's end. Paperclip does not rely on the scope to prevent it. A Google Workspace connection is limited to a reviewed list of operations, and anything outside that list is switched off rather than merely unpermitted. For Gmail the reviewed write list is exactly one operation, `create-draft`.
+Google's `gmail.compose` scope, which the draft group requests, does permit sending at Google's end. ThinkingMach does not rely on the scope to prevent it. A Google Workspace connection is limited to a reviewed list of operations, and anything outside that list is switched off rather than merely unpermitted. For Gmail the reviewed write list is exactly one operation, `create-draft`.
 
 The practical effect: no action setting, capability group, or approved review request produces a sent message, and a send-like operation that Google adds to the server later is off by default rather than newly available. If mail must go out, a person sends the draft from Gmail.
 
@@ -43,7 +43,7 @@ The practical effect: no action setting, capability group, or approved review re
 
 Operation names are normalized before matching, so a provider variant such as `google.gmail/get_message` resolves to the same entry. The live list for your connection is on its **Permissions** tab, and **Refresh actions** re-reads it. Anything Google adds that is not on the reviewed list comes back **disabled** — that block is what the reviewed list enforces, and it holds however the connection was created.
 
-> **Note:** This is Paperclip's reviewed list, not a promise about Google's server. Google supplies the catalog and can change it; the reviewed list is what Paperclip will enable from it.
+> **Note:** This is ThinkingMach's reviewed list, not a promise about Google's server. Google supplies the catalog and can change it; the reviewed list is what ThinkingMach will enable from it.
 
 ## Choose access
 
@@ -56,7 +56,7 @@ Under **Which agents can use this connection**, prefer **Just agents I pick**. A
 
 On the **Permissions** tab, leave the reads **Allowed**. On a draft connection, set `create-draft` to **Ask first** — a draft lands in a real mailbox, and the connector's own guidance is that draft creation should be approved. [How connector access works](access-model.md) covers the model; [Set action permissions](action-permissions.md) is the how-to.
 
-Google-side controls still apply on top: a Workspace administrator can restrict which third-party apps may hold Gmail scopes, and revoking the grant in your Google account stops the connection regardless of Paperclip's settings.
+Google-side controls still apply on top: a Workspace administrator can restrict which third-party apps may hold Gmail scopes, and revoking the grant in your Google account stops the connection regardless of ThinkingMach's settings.
 
 ## Try it
 
@@ -79,7 +79,7 @@ Do not verify with a draft. A draft is a write and it puts something in a real m
 | Problem | Likely cause | Fix |
 | --- | --- | --- |
 | Google refuses before the consent screen | The signing-in Workspace account, or the Cloud project on a self-managed client, is not registered for Developer Preview | Complete registration, including every additional tester email, then retry |
-| **Connect with Paperclip** is not offered | The instance is not enrolled with Paperclip Cloud, or Cloud is not advertising the Gmail profile | Use **Use your own Google OAuth app**, or ask an administrator about enrollment |
+| **Connect with ThinkingMach** is not offered | The instance is not enrolled with ThinkingMach Cloud, or Cloud is not advertising the Gmail profile | Use **Use your own Google OAuth app**, or ask an administrator about enrollment |
 | `create-draft` is absent | The connection was made with **Read only** | Create a connection with the draft group |
 | A send or trash operation is absent | Expected — it is outside the reviewed list | Nothing to fix. There is no supported send path |
 | Consent succeeds but the connection shows **Setup incomplete** | The last step was not finished | Select **Finish setup** |

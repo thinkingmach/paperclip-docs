@@ -12,7 +12,7 @@ Agents can query your Mixpanel product analytics — running reports, checking e
 ## Before you connect
 
 - A Mixpanel account with access to the project you want agents to query.
-- If your organization uses Mixpanel's EU or other regional residency, sign in with the account belonging to that region. Paperclip has no region selector on this connection, so region follows the account you authorize with; getting it wrong typically shows up as a connection that authorizes cleanly and then finds no data.
+- If your organization uses Mixpanel's EU or other regional residency, sign in with the account belonging to that region. ThinkingMach has no region selector on this connection, so region follows the account you authorize with; getting it wrong typically shows up as a connection that authorizes cleanly and then finds no data.
 
 ## Connect Mixpanel
 
@@ -20,11 +20,11 @@ Agents can query your Mixpanel product analytics — running reports, checking e
 2. On the **Access** step, choose the identity and which agents may use the connection.
 3. Select **Sign in with Mixpanel** and complete browser sign-in, choosing the project when prompted.
 
-Paperclip registers its client automatically, so there is nothing to configure in a developer console.
+ThinkingMach registers its client automatically, so there is nothing to configure in a developer console.
 
 ## Choose access
 
-Project reach is the authorizing Mixpanel account's, subject to Mixpanel's own project permissions. There is no project picker in Paperclip beyond what Mixpanel asks during sign-in.
+Project reach is the authorizing Mixpanel account's, subject to Mixpanel's own project permissions. There is no project picker in ThinkingMach beyond what Mixpanel asks during sign-in.
 
 This connector is mostly about reading. The thing to manage is not destruction but cost and volume:
 
@@ -59,7 +59,7 @@ Compare against the same figure in the Mixpanel UI. A single event over a short 
 
 Limitations: Beta provider surface, so the tool list moves. Query cost and rate limits are Mixpanel's.
 
-> **Note:** Paperclip has no project picker on this connector, so which projects are reachable follows the authorizing Mixpanel account and that account's own project permissions. Whether the provider's server further narrows a session to a single project is Mixpanel's behaviour and we have not verified it — if an agent must be confined to one project, authorize with an account that has access to only that project rather than relying on a ceiling we cannot evidence.
+> **Note:** ThinkingMach has no project picker on this connector, so which projects are reachable follows the authorizing Mixpanel account and that account's own project permissions. Whether the provider's server further narrows a session to a single project is Mixpanel's behaviour and we have not verified it — if an agent must be confined to one project, authorize with an account that has access to only that project rather than relying on a ceiling we cannot evidence.
 
 ## Related guides
 

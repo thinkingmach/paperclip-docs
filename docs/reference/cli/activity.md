@@ -6,7 +6,7 @@ seo_description: Read the company audit trail from the terminal: a chronological
 
 # Activity Commands
 
-The activity log is the company's audit trail: a chronological record of who did what to which entity. Reach for these commands when you are monitoring a running company, reconstructing what an agent did, or wiring an external system into the same record the Paperclip UI shows. It is exactly the trail you see in the UI's activity feed, available from the terminal for scripting, export, or headless monitoring.
+The activity log is the company's audit trail: a chronological record of who did what to which entity. Reach for these commands when you are monitoring a running company, reconstructing what an agent did, or wiring an external system into the same record the ThinkingMach UI shows. It is exactly the trail you see in the UI's activity feed, available from the terminal for scripting, export, or headless monitoring.
 
 `activity list` and `activity issue` are read-only. `activity create` is the one mutating command here, and you will rarely need it — the server already writes activity entries automatically as a side effect of normal work (issue updates, document locks, recovery resolutions). Use `activity create` only when you have an external event that genuinely belongs in the company's trail.
 
@@ -21,9 +21,9 @@ All three subcommands accept the [common client options](./common-options.md) (`
 List the activity log entries for a company.
 
 ```sh
-paperclipai activity list --company-id <company-id>
-paperclipai activity list --company-id <company-id> --agent-id <agent-id>
-paperclipai activity list --company-id <company-id> --entity-type issue --entity-id <issue-id>
+thinkingmach activity list --company-id <company-id>
+thinkingmach activity list --company-id <company-id> --agent-id <agent-id>
+thinkingmach activity list --company-id <company-id> --entity-type issue --entity-id <issue-id>
 ```
 
 | Flag | Use |
@@ -56,7 +56,7 @@ When there are no matching entries, the command prints an empty result rather th
 Create an activity log entry on a company. The body is supplied as a raw JSON string that the server validates as a `CreateActivity` payload.
 
 ```sh
-paperclipai activity create --company-id <company-id> \
+thinkingmach activity create --company-id <company-id> \
   --payload-json '{"action":"deploy.completed","entityType":"project","entityId":"<project-id>"}'
 ```
 
@@ -67,7 +67,7 @@ paperclipai activity create --company-id <company-id> \
 
 The CLI parses `--payload-json` with `JSON.parse` before sending it, so it must be syntactically valid JSON — wrap it in single quotes in your shell so inner double quotes survive. The server is the authority on which fields a `CreateActivity` payload accepts; an invalid shape comes back as a request error, which the CLI surfaces directly.
 
-> **Note:** You almost never need this command for normal operations. Paperclip writes activity entries on its own whenever issues, documents, and recovery actions change. Reserve `activity create` for stitching an external event — a deploy, an incident, a manual milestone — into the same audit trail.
+> **Note:** You almost never need this command for normal operations. ThinkingMach writes activity entries on its own whenever issues, documents, and recovery actions change. Reserve `activity create` for stitching an external event — a deploy, an incident, a manual milestone — into the same audit trail.
 
 ---
 
@@ -76,8 +76,8 @@ The CLI parses `--payload-json` with `JSON.parse` before sending it, so it must 
 List the activity for a single issue, identified by its id or human identifier (such as `PAP-39`).
 
 ```sh
-paperclipai activity issue <issue-id>
-paperclipai activity issue PAP-39 --json
+thinkingmach activity issue <issue-id>
+thinkingmach activity issue PAP-39 --json
 ```
 
 This command takes the issue as a positional argument and resolves the rest of its context (including the company) from your selected profile and the issue itself, so it does **not** require `--company-id`. It is the fastest way to answer "what has happened to this one task?" without filtering the whole company log.

@@ -13,7 +13,7 @@ Two ways to authenticate: a subscription sign-in through the Codex CLI, or an Op
 
 - Either a plan that covers Codex CLI sign-in, or an OpenAI API key from the [OpenAI dashboard](https://platform.openai.com/api-keys).
 - An agent that runs on the Codex runtime. This credential is only usable by an agent whose harness resolves to Codex; a Claude or OpenCode agent cannot use it.
-- For subscription sign-in only: a sign-in environment — either the Paperclip server host, or a sandbox environment that supports interactive sign-in. See [With a subscription](#with-a-subscription).
+- For subscription sign-in only: a sign-in environment — either the ThinkingMach server host, or a sandbox environment that supports interactive sign-in. See [With a subscription](#with-a-subscription).
 
 ## Choose a sign-in method
 
@@ -24,7 +24,7 @@ Two ways to authenticate: a subscription sign-in through the Codex CLI, or an Op
 
 > **Warning:** These are not interchangeable. The subscription path authenticates the Codex CLI, so it covers Codex-runtime agent runs — it is not a general-purpose OpenAI API credential for other integrations. If you need arbitrary OpenAI API access, use an API key.
 
-Confirm current plan entitlements and limits with OpenAI rather than assuming; they change independently of Paperclip.
+Confirm current plan entitlements and limits with OpenAI rather than assuming; they change independently of ThinkingMach.
 
 ## Connect OpenAI
 
@@ -34,7 +34,7 @@ Confirm current plan entitlements and limits with OpenAI rather than assuming; t
 
 ### With an API key
 
-Paste the key. Paperclip stores it as a secret and it is not readable afterwards.
+Paste the key. ThinkingMach stores it as a secret and it is not readable afterwards.
 
 ### With a subscription
 
@@ -42,16 +42,16 @@ Sign-in runs in a **sign-in environment**, and there are two kinds. Which ones y
 
 | Sign-in environment | What it needs | How you sign in |
 | --- | --- | --- |
-| **The Paperclip server host** | The `codex` CLI installed on that host, shell access to it, and an active local environment. You must be operating Paperclip locally — a remote board session cannot start this attempt | Paperclip shows a command to paste into a terminal on that host |
-| **A sandbox environment** | A sandbox whose provider supports interactive sign-in, configured by an administrator | Sign-in happens in the environment Paperclip provides; no terminal on the server host is required |
+| **The ThinkingMach server host** | The `codex` CLI installed on that host, shell access to it, and an active local environment. You must be operating ThinkingMach locally — a remote board session cannot start this attempt | ThinkingMach shows a command to paste into a terminal on that host |
+| **A sandbox environment** | A sandbox whose provider supports interactive sign-in, configured by an administrator | Sign-in happens in the environment ThinkingMach provides; no terminal on the server host is required |
 
-When both are available Paperclip shows a **Sign-in environment** selector. The environment used to sign in may differ from where the agent later runs; picking one here does not change agent routing.
+When both are available ThinkingMach shows a **Sign-in environment** selector. The environment used to sign in may differ from where the agent later runs; picking one here does not change agent routing.
 
-**On the Paperclip server host:**
+**On the ThinkingMach server host:**
 
-1. Select **Sign in**. Paperclip shows a command that sets `CODEX_HOME` to a directory for this attempt and runs `codex login --device-auth` with file-based credential storage.
+1. Select **Sign in**. ThinkingMach shows a command that sets `CODEX_HOME` to a directory for this attempt and runs `codex login --device-auth` with file-based credential storage.
 2. Run it in a terminal on that host and complete OpenAI's device sign-in.
-3. Paperclip detects the credential and finishes the connection. The attempt stays open for 30 minutes before it expires.
+3. ThinkingMach detects the credential and finishes the connection. The attempt stays open for 30 minutes before it expires.
 
 > **Note:** The sign-in uses its own `CODEX_HOME`, so it neither reads nor disturbs your personal `codex` login on that machine.
 
@@ -62,9 +62,9 @@ If server-host sign-in is unavailable you will see *"Server-host subscription si
 **In a supported sandbox:**
 
 1. Select the sandbox in **Sign-in environment**, if a selector is shown, and choose subscription authentication.
-2. Wait for Paperclip to prepare the sign-in link, then use **Sign in to OpenAI** to open it.
-3. If Paperclip displays a device code, enter it on the provider's sign-in page. Complete authorization and return to Paperclip.
-4. Wait for Paperclip to finish the connection. If the attempt expires or fails, start a new attempt; an open provider page alone does not establish that the credential was saved.
+2. Wait for ThinkingMach to prepare the sign-in link, then use **Sign in to OpenAI** to open it.
+3. If ThinkingMach displays a device code, enter it on the provider's sign-in page. Complete authorization and return to ThinkingMach.
+4. Wait for ThinkingMach to finish the connection. If the attempt expires or fails, start a new attempt; an open provider page alone does not establish that the credential was saved.
 
 ## Assign the credential
 
@@ -93,9 +93,9 @@ First read the agent's configuration and note which AI connection it is set to u
 Reply with the single word: ready
 ```
 
-**A successful reply proves** that some OpenAI credential was accepted, the runtime is compatible, and the checks above passed. Paperclip refuses an ineligible binding outright rather than falling back to another account, so a run that completes under an explicit binding used an authorized credential.
+**A successful reply proves** that some OpenAI credential was accepted, the runtime is compatible, and the checks above passed. ThinkingMach refuses an ineligible binding outright rather than falling back to another account, so a run that completes under an explicit binding used an authorized credential.
 
-**It does not prove which account was billed.** Paperclip resolves provider, method, connection and responsible user internally but does not surface them per run. To confirm a specific account, check usage on OpenAI's dashboard for that account afterwards.
+**It does not prove which account was billed.** ThinkingMach resolves provider, method, connection and responsible user internally but does not surface them per run. To confirm a specific account, check usage on OpenAI's dashboard for that account afterwards.
 
 Watch the run itself — a connection can look healthy and still fail at run time if the agent is not on a Codex runtime.
 
@@ -112,9 +112,9 @@ Watch the run itself — a connection can look healthy and still fail at run tim
 | *"This connection is not permitted for this agent"* | The connection is not installed for that agent or company-wide | Install it for the agent on the connection's access settings |
 | A subscription connection made during the preview stops working | Preview-era subscription credentials are not reusable and must be re-established | Reconnect the account |
 | **Sign in** is unavailable | No sign-in environment is offered on this deployment | Ask an administrator whether a sandbox sign-in environment can be enabled; otherwise use an API key |
-| The sign-in command does nothing | The `codex` CLI is missing on the host you ran it on, or you ran it on the wrong machine | Install the CLI and run the command on the Paperclip server host. This branch also requires operating Paperclip locally rather than over a remote board session |
+| The sign-in command does nothing | The `codex` CLI is missing on the host you ran it on, or you ran it on the wrong machine | Install the CLI and run the command on the ThinkingMach server host. This branch also requires operating ThinkingMach locally rather than over a remote board session |
 | Status **expired** or **needs attention** | The credential rotated or the key was revoked | Reconnect the account |
-| Runs fail with a quota error | OpenAI's plan or key limits, not a Paperclip limit | Check usage with OpenAI |
+| Runs fail with a quota error | OpenAI's plan or key limits, not a ThinkingMach limit | Check usage with OpenAI |
 
 Limitations: one connection is one provider account, and it grants no tool access. The subscription path is tied to the Codex CLI rather than being a general OpenAI API credential.
 

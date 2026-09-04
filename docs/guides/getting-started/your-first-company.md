@@ -6,9 +6,9 @@ paperclip_version: v2026.831.1
 
 # Create Your First Company
 
-A Company in Paperclip is the container for everything: your goal, your team of agents, all the tasks they work through, and the budget that keeps spending under control. Before any agents can do anything, they need a company to work inside.
+A Company in ThinkingMach is the container for everything: your goal, your team of agents, all the tasks they work through, and the budget that keeps spending under control. Before any agents can do anything, they need a company to work inside.
 
-Think of it like setting up a new startup. You open a workspace, write down what you're trying to build, decide how much runway you're working with, and then you can start hiring. Creating a company in Paperclip is that first step.
+Think of it like setting up a new startup. You open a workspace, write down what you're trying to build, decide how much runway you're working with, and then you can start hiring. Creating a company in ThinkingMach is that first step.
 
 This guide walks you through creating a company from scratch. Naming it takes under a minute.
 
@@ -16,13 +16,13 @@ This guide walks you through creating a company from scratch. Naming it takes un
 
 ## Before you start
 
-Make sure Paperclip is installed and running. If you haven't done that yet, start with the [Installation guide](./installation.md).
+Make sure ThinkingMach is installed and running. If you haven't done that yet, start with the [Installation guide](./installation.md).
 
 ---
 
 1. **Open the setup wizard**
 
-   When you first open Paperclip, it drops you straight into the setup wizard. If you're adding another one later, open the organization switcher at the top of the sidebar and choose **Create new organization…**.
+   When you first open ThinkingMach, it drops you straight into the setup wizard. If you're adding another one later, open the organization switcher at the top of the sidebar and choose **Create new organization…**.
 
    ![The sidebar organization switcher with the Create new organization option highlighted](../../user-guides/screenshots/light/onboarding/sidebar-new-company-button.png)
 
@@ -47,7 +47,7 @@ Make sure Paperclip is installed and running. If you haven't done that yet, star
 
 3. **Click Continue**
 
-   Click **Continue**. Paperclip creates the organization and takes you straight to the next screen — hiring your first agent, which the [next guide](./your-first-agent.md) covers in full.
+   Click **Continue**. ThinkingMach creates the organization and takes you straight to the next screen — hiring your first agent, which the [next guide](./your-first-agent.md) covers in full.
 
    Your company now exists, with no goal and no team yet. That's exactly where you should be.
 
@@ -75,7 +75,7 @@ If your priorities change, revise the goal in the **Goals** section and the CEO 
 
 ## A note on multiple companies
 
-You can create as many companies as you want in Paperclip. Each is entirely self-contained — separate agents, tasks, goals, and budgets. This is useful if you want to run different AI-powered initiatives in parallel: a development company and a marketing company, for example, with separate teams and budgets for each.
+You can create as many companies as you want in ThinkingMach. Each is entirely self-contained — separate agents, tasks, goals, and budgets. This is useful if you want to run different AI-powered initiatives in parallel: a development company and a marketing company, for example, with separate teams and budgets for each.
 
 Switch between them using the **organization switcher** in the sidebar.
 

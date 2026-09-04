@@ -1,13 +1,13 @@
 ---
 seo_title: Process Adapter
-seo_description: Run an arbitrary command on the Paperclip host. The right choice when your agent is really a script, a shell command, or a custom runtime.
+seo_description: Run an arbitrary command on the ThinkingMach host. The right choice when your agent is really a script, a shell command, or a custom runtime.
 ---
 
 # Process
 
-The `process` adapter runs an arbitrary command on the same machine as Paperclip. Use it when your agent is just a script, a shell command, or a custom runtime that already knows how to do its own work.
+The `process` adapter runs an arbitrary command on the same machine as ThinkingMach. Use it when your agent is just a script, a shell command, or a custom runtime that already knows how to do its own work.
 
-> **Info:** `process` is a built-in internal adapter used by Paperclip's runtime. It's currently shown as **"Coming soon"** in the agent-config adapter-type dropdown and can't be selected manually. To target it today, configure the agent via the API or an imported company export.
+> **Info:** `process` is a built-in internal adapter used by ThinkingMach's runtime. It's currently shown as **"Coming soon"** in the agent-config adapter-type dropdown and can't be selected manually. To target it today, configure the agent via the API or an imported company export.
 
 ---
 
@@ -15,7 +15,7 @@ The `process` adapter runs an arbitrary command on the same machine as Paperclip
 
 - You want to run a local script as an agent.
 - You already have a custom command-line workflow.
-- You want Paperclip to inject company context into a process and collect its output.
+- You want ThinkingMach to inject company context into a process and collect its output.
 
 ## When Not To Use
 
@@ -42,9 +42,9 @@ The `process` adapter runs an arbitrary command on the same machine as Paperclip
 
 ## How It Works
 
-1. Paperclip builds the runtime environment and injects the standard `PAPERCLIP_*` variables.
+1. ThinkingMach builds the runtime environment and injects the standard `THINKINGMACH_*` variables.
 2. The adapter resolves the command for logs and execution.
-3. Paperclip starts the child process with the configured arguments.
+3. ThinkingMach starts the child process with the configured arguments.
 4. The run completes when the process exits, times out, or fails.
 5. Stdout and stderr are returned in the run result so the UI can render them.
 
@@ -91,7 +91,7 @@ If the command cannot be found, the adapter will not run.
 ## Practical Notes
 
 - Use a process adapter when you want full control over the runtime.
-- If your script needs to call back into Paperclip, use the injected `PAPERCLIP_API_URL` and `PAPERCLIP_API_KEY`.
+- If your script needs to call back into ThinkingMach, use the injected `THINKINGMACH_API_URL` and `THINKINGMACH_API_KEY`.
 - Keep the command deterministic when possible so heartbeats are easier to debug.
 
 ---

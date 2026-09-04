@@ -5,7 +5,7 @@ seo_description: Which access controls apply depends on the kind of connector. T
 
 # How connector access works
 
-Connecting a service and letting an agent use it are not the same act. Paperclip separates them — but **how** it separates them depends on what kind of connector you are looking at. Start here.
+Connecting a service and letting an agent use it are not the same act. ThinkingMach separates them — but **how** it separates them depends on what kind of connector you are looking at. Start here.
 
 ## First: which kind of connector is this?
 
@@ -22,14 +22,14 @@ Four shapes, with genuinely different controls. Reading the wrong section is the
 
 ### The control channels do have
 
-Channels have no action switches, but they are not ungoverned. Each one has an **Access** tab with **External identity access**, and one toggle on it decides what happens when someone Paperclip does not recognize sends a message:
+Channels have no action switches, but they are not ungoverned. Each one has an **Access** tab with **External identity access**, and one toggle on it decides what happens when someone ThinkingMach does not recognize sends a message:
 
 | **Allow unlinked people** | Effect |
 | --- | --- |
-| **On** | The sender is a restricted guest. Their tasks run only with an isolated workspace and sandbox environment, and Paperclip refuses the request when that is unavailable. Guests cannot approve, hire, spend, manage access, or reassign agents |
-| **Off** | Only senders linked to a Paperclip person can start work |
+| **On** | The sender is a restricted guest. Their tasks run only with an isolated workspace and sandbox environment, and ThinkingMach refuses the request when that is unavailable. Guests cannot approve, hire, spend, manage access, or reassign agents |
+| **Off** | Only senders linked to a ThinkingMach person can start work |
 
-Linked identities act as their current Paperclip user, with that person's permissions.
+Linked identities act as their current ThinkingMach user, with that person's permissions.
 
 [iMessage Photon](imessage-photon.md) is the exception: it does not permit unlinked senders at all, so linking there is a required setup step rather than a policy choice.
 
@@ -53,13 +53,13 @@ A call has to clear all four gates. Holding the credential is not enough; being 
 
 The connection is the stored credential plus everything needed to reach the service: the transport, the server URL, and how it authenticates (`oauth`, `api_key`, or `none`). Tool connections use `mcp_remote`, `rest_api`, or `local_stdio`; the `chat_sdk` and `runtime_auth` transports belong to the channel and model shapes above, which is why the action gate does not apply to them.
 
-Each connection carries a company-scoped identity — a `uid` like `google-sheets/finance-sheet-1a2b3c4d` — that survives renaming. That identity is what the rest of Paperclip references, which is why renaming a connection in the UI never breaks a policy pointed at it.
+Each connection carries a company-scoped identity — a `uid` like `google-sheets/finance-sheet-1a2b3c4d` — that survives renaming. That identity is what the rest of ThinkingMach references, which is why renaming a connection in the UI never breaks a policy pointed at it.
 
 Secrets are never part of the connection record you can read back. Credential values are stored as secrets and referenced; the API returns metadata.
 
 ## The grant: who the credential belongs to
 
-A grant answers "whose account is this?". Paperclip supports three kinds. Available choices and UI labels depend on the connector and method; this table describes the data model, not three options offered by every setup screen:
+A grant answers "whose account is this?". ThinkingMach supports three kinds. Available choices and UI labels depend on the connector and method; this table describes the data model, not three options offered by every setup screen:
 
 | Setup choice | Grant kind | Credential policy | What it means |
 | --- | --- | --- | --- |
@@ -67,7 +67,7 @@ A grant answers "whose account is this?". Paperclip supports three kinds. Availa
 | **Organization identity** | `organization` | shared | One account for the company. Eligible agents use it for runs whose responsible person is in the credential's human audience. |
 | **Dedicated agent identity** | `agent` | `per_agent` | An account that belongs to one agent and is always used by that agent, regardless of who started the run. |
 
-Creating a personal connection is available to any active member. Creating an organization or dedicated-agent grant is a manager operation — Paperclip rejects the request with *"Only a connection manager can share this credential with the organization"* if you lack the permission, and it enforces that on the server rather than trusting the browser.
+Creating a personal connection is available to any active member. Creating an organization or dedicated-agent grant is a manager operation — ThinkingMach rejects the request with *"Only a connection manager can share this credential with the organization"* if you lack the permission, and it enforces that on the server rather than trusting the browser.
 
 An organization grant has its own human audience, set on the connector's identity card: **Any human in the company**, or **Humans I pick** with a named member list. That audience governs which people's runs the shared credential will back.
 
@@ -86,7 +86,7 @@ For a dedicated agent identity the question narrows to *"Which agent owns this G
 
 ## Action permission: which calls are allowed
 
-Once connected, Paperclip reads the service's action list and gives each entry one of three states:
+Once connected, ThinkingMach reads the service's action list and gives each entry one of three states:
 
 | State | Meaning in the UI |
 | --- | --- |
@@ -117,16 +117,16 @@ An agent calling an **Ask first** action does not get an error and does not get 
 You answer it from the **Review** tab on the connector, or the company-wide review queue, where it shows as **Waiting for your OK**. Three answers:
 
 - **Allowed once** — the call runs this time, and nothing else changes.
-- **Always allowed** — the call runs, and Paperclip creates a **trust rule** so matching calls stop asking.
+- **Always allowed** — the call runs, and ThinkingMach creates a **trust rule** so matching calls stop asking.
 - **Declined** — the call does not run.
 
 Trust rules are visible and revocable afterwards. [Answer a connector review request](review-requests.md) covers the flow from both sides.
 
 ## The one exception worth knowing
 
-Per-tool **Ask first** governs tool calls that go through Paperclip's tool gateway. It does not govern a shell.
+Per-tool **Ask first** governs tool calls that go through ThinkingMach's tool gateway. It does not govern a shell.
 
-When a GitHub connection is bound to an agent as a dedicated identity, that identity is also handed to the run's shell. Paperclip states this plainly at the moment you change a GitHub permission: *"Shell Git and gh use this account for the run and are not constrained by per-tool Ask-first controls."* An agent that can run `git push` or `gh pr merge` in its workspace is limited by what the GitHub account can do, not by the connector's action switches.
+When a GitHub connection is bound to an agent as a dedicated identity, that identity is also handed to the run's shell. ThinkingMach states this plainly at the moment you change a GitHub permission: *"Shell Git and gh use this account for the run and are not constrained by per-tool Ask-first controls."* An agent that can run `git push` or `gh pr merge` in its workspace is limited by what the GitHub account can do, not by the connector's action switches.
 
 This is not a general sandbox claim, and it is not a claim in the other direction either. Nothing about it says other connectors are sandboxed, and human approval of a tool call is a different thing from a code review on a pull request. [GitHub](github.md) has the detail.
 
