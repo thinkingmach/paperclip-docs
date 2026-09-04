@@ -6,9 +6,9 @@ seo_description: Projects bind work to a repository, a working directory, and a 
 
 # Projects
 
-A project is the container Paperclip uses to group related work. If goals answer "why are we doing this?" and issues answer "what exactly needs doing?", projects sit in between: they bind a body of work to a concrete place — a repository, a working directory, a budget envelope, a set of execution workspaces — where agents can actually pick up tasks and make progress.
+A project is the container ThinkingMach uses to group related work. If goals answer "why are we doing this?" and issues answer "what exactly needs doing?", projects sit in between: they bind a body of work to a concrete place — a repository, a working directory, a budget envelope, a set of execution workspaces — where agents can actually pick up tasks and make progress.
 
-Every issue in Paperclip lives under a project. Every execution workspace is scoped to a project. Budgets can be pinned to a project. When you tell an agent "work on the marketing site", you are really telling it "work on issues in the Marketing Site project, using the code and configuration the project points at". Projects are how the abstract strategy the CEO writes becomes something concrete an agent can check out and run.
+Every issue in ThinkingMach lives under a project. Every execution workspace is scoped to a project. Budgets can be pinned to a project. When you tell an agent "work on the marketing site", you are really telling it "work on issues in the Marketing Site project, using the code and configuration the project points at". Projects are how the abstract strategy the CEO writes becomes something concrete an agent can check out and run.
 
 This guide walks through the project list, then the tabs you see when you open a project: **Tasks**, **Workspaces**, **Configuration**, and **Budget** (plus any tabs your plugins add, such as **Files**).
 
@@ -27,7 +27,7 @@ Projects are grouped into **My Projects** and, if you've left any, **Other Proje
 Each row is a single project entry. Reading left to right you see:
 
 - **Project tile** — a small square with the project's icon (a folder unless you've picked another). If the project has a color, the tile is tinted with it; otherwise it stays neutral gray.
-- **Project name** — the main title. Clicking the row opens the project detail page and defaults to the Tasks tab (unless you previously visited the project, in which case Paperclip restores the tab you last used).
+- **Project name** — the main title. Clicking the row opens the project detail page and defaults to the Tasks tab (unless you previously visited the project, in which case ThinkingMach restores the tab you last used).
 - **Description** (subtitle) — the project description if one has been set. If the project has no description, this area is empty.
 - **Task count** — how many tasks the project holds, for example "9 tasks".
 - **Budget** and **Target date** — shown in muted text only when the project has a budget or a target date set.
@@ -63,11 +63,11 @@ Open a project and the top of the page gives you its identity at a glance:
 - **Icon and color** — click the tile next to the name to pick a different icon or color.
 - **Name** — click it to rename the project inline.
 - **Star** — the star button in the top right pins the project for quick access.
-- **Project summary** — a card where Paperclip's built-in Summarizer agent keeps the latest project status, next step, and operator-needed items. Until the Summarizer is configured, the card shows a **Set up Summarizer** button instead.
+- **Project summary** — a card where ThinkingMach's built-in Summarizer agent keeps the latest project status, next step, and operator-needed items. Until the Summarizer is configured, the card shows a **Set up Summarizer** button instead.
 
 Below the header sit the tabs. There's no separate Overview tab any more: the project's description lives on the Configuration tab, and its day-to-day progress lives on the Tasks tab.
 
-Paperclip doesn't keep a single "percent complete" field for a project. Progress is the shape of the Tasks tab — how many tasks are `todo`, `in_progress`, `in_review`, `done`, or `cancelled`.
+ThinkingMach doesn't keep a single "percent complete" field for a project. Progress is the shape of the Tasks tab — how many tasks are `todo`, `in_progress`, `in_review`, `done`, or `cancelled`.
 
 ### Tabs added by plugins
 
@@ -107,7 +107,7 @@ Each task may be tied to an execution workspace — a specific working copy of t
 
 ## Workspaces Tab
 
-The Workspaces tab shows the workspaces attached to the project: the project's own checkout plus any execution workspaces agents have created. It only appears when the **isolated workspaces** experimental setting is enabled for your instance. Without it, Paperclip sends you to the Tasks tab instead.
+The Workspaces tab shows the workspaces attached to the project: the project's own checkout plus any execution workspaces agents have created. It only appears when the **isolated workspaces** experimental setting is enabled for your instance. Without it, ThinkingMach sends you to the Tasks tab instead.
 
 ![Workspaces tab](../../user-guides/screenshots/light/projects/workspaces.png)
 
@@ -124,7 +124,7 @@ Execution workspaces whose status is `cleanup_failed` are grouped into a separat
 
 ### Project workspace vs. execution workspaces
 
-The project's primary checkout always shows up here as a **Project workspace** card (in the screenshot above, the one called `main`). It's the default every task runs in when no isolated workspace is provisioned, so it has no close control. Execution workspaces are the isolated checkouts Paperclip creates for individual tasks. For the full mental model of primary, isolated, and reused workspaces, see [Execution Workspaces](./workspaces.md).
+The project's primary checkout always shows up here as a **Project workspace** card (in the screenshot above, the one called `main`). It's the default every task runs in when no isolated workspace is provisioned, so it has no close control. Execution workspaces are the isolated checkouts ThinkingMach creates for individual tasks. For the full mental model of primary, isolated, and reused workspaces, see [Execution Workspaces](./workspaces.md).
 
 ### When agents create workspaces
 
@@ -156,7 +156,7 @@ Repository changes don't auto-save. When you've made your picks, click **Save ch
 
 ### Codebase and local folder
 
-Below the first divider, the **Codebase** section shows where the project's code lives on the machine running Paperclip. Use **Set local folder** (or **Change local folder**) to point the project at a directory. Agents work directly in this folder, or in isolated worktrees derived from it. If the project's primary workspace defines runtime services, they're listed here too.
+Below the first divider, the **Codebase** section shows where the project's code lives on the machine running ThinkingMach. Use **Set local folder** (or **Change local folder**) to point the project at a directory. Agents work directly in this folder, or in isolated worktrees derived from it. If the project's primary workspace defines runtime services, they're listed here too.
 
 ### Environment variables
 
@@ -178,8 +178,8 @@ Click **Show advanced checkout settings** for the rest:
 
 - **Environment** — which environment isolated runs use (only shown when environments are enabled and more than one is available).
 - **Base ref** — the git ref (branch, tag, or commit) new isolated workspaces branch from.
-- **Branch template** — the naming convention Paperclip uses for new branches (for example, a template that includes the task identifier).
-- **Worktree parent dir** — where Paperclip places new git worktrees on disk.
+- **Branch template** — the naming convention ThinkingMach uses for new branches (for example, a template that includes the task identifier).
+- **Worktree parent dir** — where ThinkingMach places new git worktrees on disk.
 - **Provision command** and **Runtime provision command** — optional commands run when a new workspace is set up (for example, to install dependencies).
 - **Teardown command** — an optional command run before a workspace is closed.
 
@@ -187,7 +187,7 @@ These settings map to the behaviours described in [Execution Workspaces](./works
 
 ### Archive and unarchive
 
-At the bottom of the Configuration tab, in the **Danger Zone**, is the **Archive project** button. Paperclip asks you to **Confirm** before it archives. Archiving hides the project from the sidebar and project selectors, but it doesn't delete anything: tasks, workspaces, and history stay intact. On an archived project the same control reads **Unarchive project**.
+At the bottom of the Configuration tab, in the **Danger Zone**, is the **Archive project** button. ThinkingMach asks you to **Confirm** before it archives. Archiving hides the project from the sidebar and project selectors, but it doesn't delete anything: tasks, workspaces, and history stay intact. On an archived project the same control reads **Unarchive project**.
 
 When you archive, the page navigates back to the dashboard and shows a confirmation toast. If the archive fails (for example because of a server error), a failure toast appears and the project stays active.
 
@@ -213,7 +213,7 @@ Project budgets are useful when a single project needs a hard spending ceiling i
 The Budget tab renders a single policy card for this project's budget:
 
 - **Scope** — always `project` on this tab, targeting the current project's id and name.
-- **Metric** — `billed_cents`. Paperclip tracks billable cost in cents and converts to a currency figure for display.
+- **Metric** — `billed_cents`. ThinkingMach tracks billable cost in cents and converts to a currency figure for display.
 - **Window** — `lifetime`. Project budgets default to a lifetime cap rather than a rolling window; the total spend against the project counts against the amount.
 - **Amount** — the configured cap. Editable in the card.
 - **Observed amount** — how much has been spent so far against the project.

@@ -6,7 +6,7 @@ seo_description: Read provider-reported allowances for Claude, OpenAI, Grok, and
 
 # Check AI account usage
 
-Before giving an agent a long task, check the allowance on the account it will use. Paperclip shows what the provider reports when you ask; it does not estimate a subscription balance from your task costs.
+Before giving an agent a long task, check the allowance on the account it will use. ThinkingMach shows what the provider reports when you ask; it does not estimate a subscription balance from your task costs.
 
 Usage checks and AI connection setup do not require an experimental setting.
 
@@ -34,7 +34,7 @@ Missing fields show **Not reported**, never zero. Grok may omit included-plan us
 
 **Overage** describes the provider's extra-usage state. **On · Availability unknown** means enabling overage alone has not established a funded usable balance. The observation timestamp tells you when the response was read.
 
-Checking usage does not refresh your credential, buy credit, change the account selected for a task, or stop an active run. It is a provider observation, separate from Paperclip budgets and per-run cost accounting.
+Checking usage does not refresh your credential, buy credit, change the account selected for a task, or stop an active run. It is a provider observation, separate from ThinkingMach budgets and per-run cost accounting.
 
 ## Repair sign-in from a task
 

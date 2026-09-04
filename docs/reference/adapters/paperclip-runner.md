@@ -1,23 +1,23 @@
 ---
 paperclip_version: v2026.1012.0
-seo_title: Paperclip Runner Setup and Providers
-seo_description: Configure Paperclip Runner for native agent sessions. Choose a supported provider, set permissions and model access, and understand runtime limits.
+seo_title: ThinkingMach Runner Setup and Providers
+seo_description: Configure ThinkingMach Runner for native agent sessions. Choose a supported provider, set permissions and model access, and understand runtime limits.
 ---
 
-# Paperclip Runner
+# ThinkingMach Runner
 
-Use `paperclip_runner` when you want Paperclip's native run lifecycle, durable session recovery, and built-in task tools. You select the provider separately from the adapter, then configure model access and the execution environment.
+Use `paperclip_runner` when you want ThinkingMach's native run lifecycle, durable session recovery, and built-in task tools. You select the provider separately from the adapter, then configure model access and the execution environment.
 
-Paperclip Runner is experimental. Its `enableNativeRunner` setting is **on by default for self-hosted instances** and **off by default for Cloud-managed instances**. Deployment settings can override those defaults. An enabled flag does not convert your existing agents: onboarding and direct adapters keep their own execution paths.
+ThinkingMach Runner is experimental. Its `enableNativeRunner` setting is **on by default for self-hosted instances** and **off by default for Cloud-managed instances**. Deployment settings can override those defaults. An enabled flag does not convert your existing agents: onboarding and direct adapters keep their own execution paths.
 
 ## Before you start
 
-- An instance with **Paperclip Runner** enabled under **Settings → Experimental**.
+- An instance with **ThinkingMach Runner** enabled under **Settings → Experimental**.
 - An active agent and a task in standard, planning, or ask work mode.
 - A prepared execution environment and compatible model credential.
 - The pinned runtime required by the selected provider.
 
-For source development, an enabled Runner requires a Rust toolchain or `PAPERCLIP_RUNNER_BINARY`; the development launcher builds the daemon when needed. Published distributions and execution images provide their own runtime assets.
+For source development, an enabled Runner requires a Rust toolchain or `THINKINGMACH_RUNNER_BINARY`; the development launcher builds the daemon when needed. Published distributions and execution images provide their own runtime assets.
 
 ## Choose a provider
 
@@ -36,7 +36,7 @@ Managed providers need operator-prepared profiles; they are not configured by pa
 
 ## Configure an agent
 
-1. Create or edit the agent and choose **Paperclip Runner**.
+1. Create or edit the agent and choose **ThinkingMach Runner**.
 2. Select **Provider**. For **ACP agents**, select the **ACP agent** too.
 3. Select a model. When you edit a saved agent, choose a compatible **Connection** for Codex, OpenCode, Claude, or Grok.
 4. Choose the execution environment and review permissions.
@@ -61,12 +61,12 @@ The credential binding is configured separately, through the agent's **Connectio
 
 | Provider | Configuration | Supported behavior |
 | --- | --- | --- |
-| Codex | `codexPermissionMode` | Only `never`, shown as **Automatic (isolated)**, is admitted. Paperclip keeps its independent workspace, network, and environment restrictions. |
+| Codex | `codexPermissionMode` | Only `never`, shown as **Automatic (isolated)**, is admitted. ThinkingMach keeps its independent workspace, network, and environment restrictions. |
 | OpenCode | `opencodePermissionMode` | `allow` (default), `ask`, or `deny`. |
 | ACP | `acpxPermissionMode` | `approve-all` (default), `approve-paperclip`, `approve-reads`, or `deny-all`. |
-| Managed providers | Provider-owned policy | Non-interactive execution under the qualified profile and Paperclip policy. |
+| Managed providers | Provider-owned policy | Non-interactive execution under the qualified profile and ThinkingMach policy. |
 
-Company permissions, governed approvals, and budgets still apply. Grok cannot automatically approve Paperclip tool calls under the narrower ACP modes; those requests wait for approval.
+Company permissions, governed approvals, and budgets still apply. Grok cannot automatically approve ThinkingMach tool calls under the narrower ACP modes; those requests wait for approval.
 
 ## Sessions and task modes
 
@@ -85,11 +85,11 @@ Existing `cursor`, `grok_local`, `claude_local`, `codex_local`, and `opencode_lo
 
 ## Sandbox images and runtime versions
 
-When native Codex runs in a remote sandbox, the Runner checks the Codex version installed there before it starts. Any stable release from `0.149.0` up to but excluding `0.161.0` is accepted, so an image doesn't have to match the `0.160.0` install pin exactly; a compatible version that differs from the pin is noted in the run log. A version outside that window, or a prerelease, stops the run with `runner_remote_provider_artifact_incompatible`. The message tells you to install a supported stable Codex release or set `PAPERCLIP_RUNNER_REMOTE_CODEX_NPM_SPEC` to the pinned package.
+When native Codex runs in a remote sandbox, the Runner checks the Codex version installed there before it starts. Any stable release from `0.149.0` up to but excluding `0.161.0` is accepted, so an image doesn't have to match the `0.160.0` install pin exactly; a compatible version that differs from the pin is noted in the run log. A version outside that window, or a prerelease, stops the run with `runner_remote_provider_artifact_incompatible`. The message tells you to install a supported stable Codex release or set `THINKINGMACH_RUNNER_REMOTE_CODEX_NPM_SPEC` to the pinned package.
 
 If you build your own sandbox images, keep two things in mind when you upgrade:
 
-- **Deploy first, then promote the image.** Upgrade the Paperclip controller and Runner before you promote a sandbox image that carries the new runtime pins. Older controllers reject the new provider-pack pins.
+- **Deploy first, then promote the image.** Upgrade the ThinkingMach controller and Runner before you promote a sandbox image that carries the new runtime pins. Older controllers reject the new provider-pack pins.
 - **Rebuild old Claude Code images for Sonnet 5.5.** An image built with Claude Code older than `2.1.284` must be rebuilt before Claude Sonnet 5.5 works on the CLI path. See the [Claude Code model requirements](claude-code.md#model-discovery).
 
 ## Running several Runners on one machine

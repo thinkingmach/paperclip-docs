@@ -6,9 +6,9 @@ seo_description: A heartbeat run is one server-side execution of an agent. Trigg
 
 # Run (Heartbeat) Commands
 
-A *heartbeat run* is a single server-side execution of an agent: the moment the Paperclip runtime wakes an agent, hands it context, runs the adapter (the LLM, coding, or research work), and records the result. The `run` subcommands let you list, inspect, stream, and control those runs from the terminal. Reach for them whenever you want to see what an agent is doing right now, read its log, follow the issues it touched, cancel a run that has gone sideways, or record a watchdog decision — all without opening the UI.
+A *heartbeat run* is a single server-side execution of an agent: the moment the ThinkingMach runtime wakes an agent, hands it context, runs the adapter (the LLM, coding, or research work), and records the result. The `run` subcommands let you list, inspect, stream, and control those runs from the terminal. Reach for them whenever you want to see what an agent is doing right now, read its log, follow the issues it touched, cancel a run that has gone sideways, or record a watchdog decision — all without opening the UI.
 
-> **Note:** Do not confuse these subcommands with the bare `run` command. `paperclipai run` (with no subcommand) bootstraps and starts a **local Paperclip instance** on your machine. The `run` *subcommands* documented here are API clients that observe and control heartbeat runs on whatever instance your context points at. They are entirely separate concepts that happen to share a word.
+> **Note:** Do not confuse these subcommands with the bare `run` command. `thinkingmach run` (with no subcommand) bootstraps and starts a **local ThinkingMach instance** on your machine. The `run` *subcommands* documented here are API clients that observe and control heartbeat runs on whatever instance your context points at. They are entirely separate concepts that happen to share a word.
 
 ---
 
@@ -26,7 +26,7 @@ Every `run` subcommand accepts the standard client options:
 
 | Flag | Use |
 |---|---|
-| `--data-dir <path>` | Point at a specific local Paperclip data directory. |
+| `--data-dir <path>` | Point at a specific local ThinkingMach data directory. |
 | `--api-base <url>` | Override the API base URL. Highest-priority source in the resolution order. |
 | `--api-key <token>` | Supply a token explicitly instead of using the saved profile. |
 | `--context <path>` | Use a specific `context.json` instead of `~/.paperclip/context.json`. |
@@ -44,10 +44,10 @@ See [Common Options](./common-options.md) for the full flag reference and the ex
 Use `run list` to page through heartbeat runs for a company, optionally filtered to one agent. Use `run live` when you only care about what is queued or running right now.
 
 ```sh
-paperclipai run list --company-id <company-id>
-paperclipai run list --company-id <company-id> --agent-id <agent-id> --limit 50
-paperclipai run live --company-id <company-id>
-paperclipai run live --company-id <company-id> --limit 50 --min-count 5
+thinkingmach run list --company-id <company-id>
+thinkingmach run list --company-id <company-id> --agent-id <agent-id> --limit 50
+thinkingmach run live --company-id <company-id>
+thinkingmach run live --company-id <company-id> --limit 50 --min-count 5
 ```
 
 | Command | Flags | Behavior |
@@ -66,11 +66,11 @@ Both commands print one inline record per run in text mode, showing the run `id`
 Once you have a run id, drill in.
 
 ```sh
-paperclipai run get <run-id>
-paperclipai run events <run-id> --after-seq 0 --limit 200
-paperclipai run log <run-id> --offset 0 --limit-bytes 16384
-paperclipai run log <run-id> --text
-paperclipai run issues <run-id>
+thinkingmach run get <run-id>
+thinkingmach run events <run-id> --after-seq 0 --limit 200
+thinkingmach run log <run-id> --offset 0 --limit-bytes 16384
+thinkingmach run log <run-id> --text
+thinkingmach run issues <run-id>
 ```
 
 ### `run get`
@@ -109,7 +109,7 @@ Lists the issues associated with a run — the tasks the agent created, checked 
 ## Cancel a run
 
 ```sh
-paperclipai run cancel <run-id>
+thinkingmach run cancel <run-id>
 ```
 
 Requests cancellation of a queued or running heartbeat run. This is a server-side request: the runtime stops the run and returns the updated record (or `null` if there was nothing to cancel). Use it when a run is stuck, looping, or burning budget on the wrong thing. Because the work runs server-side, cancellation is the correct lever — there is no local process to interrupt.
@@ -123,9 +123,9 @@ Requests cancellation of a queued or running heartbeat run. This is a server-sid
 When a run executes commands in an execution workspace — running a build, a test suite, a git operation — each of those shows up as a *workspace operation* attached to the run. Inspect them to see exactly what the agent ran and read the output.
 
 ```sh
-paperclipai run workspace-operations <run-id>
-paperclipai run workspace-log <operation-id> --offset 0 --limit-bytes 16384
-paperclipai run workspace-log <operation-id> --text
+thinkingmach run workspace-operations <run-id>
+thinkingmach run workspace-log <operation-id> --offset 0 --limit-bytes 16384
+thinkingmach run workspace-log <operation-id> --text
 ```
 
 `run workspace-operations <run-id>` lists the operations for a run, each row showing `id`, `status`, `phase`, `command`, `cwd`, and `logBytes`. Take an operation `id` from that list and feed it to `run workspace-log` to read that operation's output.
@@ -147,9 +147,9 @@ paperclipai run workspace-log <operation-id> --text
 The watchdog is the server-side monitor that flags runs which look stuck, runaway, or otherwise off the happy path. `run watchdog-decision` records your verdict on a flagged run so the monitor knows how to proceed.
 
 ```sh
-paperclipai run watchdog-decision <run-id> --decision continue --reason "Long compile is expected here"
-paperclipai run watchdog-decision <run-id> --decision snooze --snoozed-until 2026-06-01T18:00:00Z
-paperclipai run watchdog-decision <run-id> --decision dismissed_false_positive --evaluation-issue-id <issue-id>
+thinkingmach run watchdog-decision <run-id> --decision continue --reason "Long compile is expected here"
+thinkingmach run watchdog-decision <run-id> --decision snooze --snoozed-until 2026-06-01T18:00:00Z
+thinkingmach run watchdog-decision <run-id> --decision dismissed_false_positive --evaluation-issue-id <issue-id>
 ```
 
 `--decision` is required and must be one of:
@@ -177,20 +177,20 @@ The terminal workflow for watching a company's runs is usually:
 
 ```sh
 # 1. See what is live right now.
-paperclipai run live --company-id <company-id> --min-count 5
+thinkingmach run live --company-id <company-id> --min-count 5
 
 # 2. Drill into a run that looks interesting or stuck.
-paperclipai run get <run-id>
-paperclipai run events <run-id> --limit 50
+thinkingmach run get <run-id>
+thinkingmach run events <run-id> --limit 50
 
 # 3. Read the raw log, or the failing command's log.
-paperclipai run log <run-id> --text
-paperclipai run workspace-operations <run-id>
-paperclipai run workspace-log <operation-id> --text
+thinkingmach run log <run-id> --text
+thinkingmach run workspace-operations <run-id>
+thinkingmach run workspace-log <operation-id> --text
 
 # 4. See what work it changed, then act.
-paperclipai run issues <run-id>
-paperclipai run cancel <run-id>          # if it has gone wrong
+thinkingmach run issues <run-id>
+thinkingmach run cancel <run-id>          # if it has gone wrong
 ```
 
 This is the read-heavy half of operating a company from the CLI. The mutating half — waking agents, assigning work, posting comments — lives with the [`agent`](./agent.md) and [`issue`](./issue.md) commands.

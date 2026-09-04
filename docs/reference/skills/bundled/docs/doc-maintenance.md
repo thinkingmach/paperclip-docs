@@ -28,8 +28,8 @@ This is a **bundled** catalog skill — part of the bundled baseline kit. For ho
 
 | Field | Value |
 |---|---|
-| Catalog id | `paperclipai:bundled:docs:doc-maintenance` |
-| Canonical key | `paperclipai/bundled/docs/doc-maintenance` |
+| Catalog id | `thinkingmach:bundled:docs:doc-maintenance` |
+| Canonical key | `thinkingmach/bundled/docs/doc-maintenance` |
 | Catalog path | `catalog/bundled/docs/doc-maintenance` |
 | Kind | `bundled` |
 | Category | `docs` |
@@ -43,7 +43,7 @@ This is a **bundled** catalog skill — part of the bundled baseline kit. For ho
 | Tags | `docs`, `documentation`, `release-notes` |
 | Files | 1 |
 | Content hash | `sha256:2e02299210fd17c1fe1867b4ee8c144a11b6fe1fe481f83b8268cfbaaf10f9aa` |
-| Package | `@paperclipai/skills-catalog@0.3.1` |
+| Package | `@thinkingmach/skills-catalog@0.3.1` |
 
 ## File inventory
 
@@ -59,7 +59,7 @@ The block below is the complete, authoritative `SKILL.md` for this skill — the
 ---
 name: doc-maintenance
 description: Keep project docs aligned with recent code and feature changes — detect drift, update affected pages, and add release-relevant notes without rewriting unchanged sections.
-key: paperclipai/bundled/docs/doc-maintenance
+key: thinkingmach/bundled/docs/doc-maintenance
 recommendedForRoles:
   - engineer
   - product

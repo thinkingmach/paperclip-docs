@@ -6,7 +6,7 @@ Claude Code skills that ship with this repo. These are committed alongside the d
 
 | Skill | What it does | Invoke |
 |---|---|---|
-| [`sync-docs`](sync-docs/SKILL.md) | Keeps these docs in lockstep with the parent `paperclipai/paperclip` codebase. Two modes: nightly (tracks parent `main`, preview deploy) and release (on parent tag, merges to `main`, ships live). | `/sync-docs` |
+| [`sync-docs`](sync-docs/SKILL.md) | Keeps these docs in lockstep with the parent `thinkingmach/paperclip` codebase. Two modes: nightly (tracks parent `main`, preview deploy) and release (on parent tag, merges to `main`, ships live). | `/sync-docs` |
 
 ## Using a skill from this repo
 

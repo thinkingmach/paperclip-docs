@@ -10,7 +10,7 @@ You can save a portable company package and restore it with export and import �
 
 The same pair also moves a company from one instance to another: export on the old host, import on the new one. That is now the supported migration path, since host-to-host Cloud Sync has been retired.
 
-The CLI shortcut (`paperclipai company export | import`) is fine for one-off work — see [Export & Import](../guides/power/export-import.md). The HTTP routes below are what you'll wire into a routine, a CI job, or any agent that needs durable backups.
+The CLI shortcut (`thinkingmach company export | import`) is fine for one-off work — see [Export & Import](../guides/power/export-import.md). The HTTP routes below are what you'll wire into a routine, a CI job, or any agent that needs durable backups.
 
 ---
 
@@ -63,9 +63,9 @@ If you want an agent's notes, memory, and other personal files to survive an ins
 
 Each managed folder lives at `<paperclipInstanceRoot>/companies/<companyId>/agents/<agentId>/instructions/`. Keep that directory as part of your instance storage backup, and restore it with the matching database before letting agents run. If an agent uses an external instruction folder, include that configured folder in your own filesystem backup too.
 
-A run's temporary copy is not a backup: Paperclip removes it when the session stops. There is no new file revision history to roll back to, and the last completed synchronization wins if two writers change the same path. See [Agent files persist across tasks](../guides/org/agents.md#agent-files-persist-across-tasks) for the save rules and limits.
+A run's temporary copy is not a backup: ThinkingMach removes it when the session stops. There is no new file revision history to roll back to, and the last completed synchronization wins if two writers change the same path. See [Agent files persist across tasks](../guides/org/agents.md#agent-files-persist-across-tasks) for the save rules and limits.
 
-Implementation reference: [managed storage path](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/agent-instructions.ts) and [run copy lifecycle](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/agent-directory-working-copies.ts).
+Implementation reference: [managed storage path](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/agent-instructions.ts) and [run copy lifecycle](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/agent-directory-working-copies.ts).
 
 ---
 
@@ -74,8 +74,8 @@ Implementation reference: [managed storage path](https://github.com/paperclipai/
 Ask the fidelity route what will be left behind:
 
 ```bash
-curl "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/export/fidelity" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY"
+curl "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/export/fidelity" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY"
 ```
 
 The response counts the records in each category the bundle handles, and returns a `warnings` array — one entry per category that has rows but can't be exported:
@@ -105,8 +105,8 @@ Warnings are informational — none of them stop an export. Log them alongside t
 Always preview before you keep a bundle. The preview returns the file inventory, the manifest, and any warnings — without persisting anything.
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/exports/preview" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/exports/preview" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "include": { "company": true, "agents": true, "projects": true, "issues": false }
@@ -144,8 +144,8 @@ Paths are relative to `rootPath`, not prefixed with it — `rootPath` is only th
 Once the inventory looks right, post the same body to the build route:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/exports" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/exports" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "include": { "company": true, "agents": true, "projects": true },
@@ -180,7 +180,7 @@ To rebuild a company from scratch (true disaster-recovery), use the **board** im
 
 ```bash
 # Preview the restore plan
-curl -X POST "$PAPERCLIP_API_URL/api/companies/import/preview" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/import/preview" \
   -H "Authorization: Bearer $BOARD_TOKEN" \
   -H "Content-Type: application/json" \
   -d @- <<'JSON'
@@ -205,7 +205,7 @@ The preview returns a `CompanyPortabilityPreviewResult` with the agent, project,
 When the plan looks right, apply it:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/import" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/import" \
   -H "Authorization: Bearer $BOARD_TOKEN" \
   -H "Content-Type: application/json" \
   --data-binary @import-request.json
@@ -224,7 +224,7 @@ A full-fidelity bundle for a busy company gets big, and a single inline JSON bod
 **Upload the zip instead of inline JSON.** `POST /api/companies/import` (and its `/preview` sibling) also accept the compressed package directly — as `multipart/form-data` with the archive in a `package` file field and the rest of the import request as a JSON `meta` field, or as a bare `application/zip` body with `meta` in the query string. The server unzips it into exactly the same `{ rootPath, files }` bundle an inline source carries, so import semantics are identical either way. The compressed upload is roughly a third the size and survives proxies that would truncate the inflated JSON.
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/import?async=1" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/import?async=1" \
   -H "Authorization: Bearer $BOARD_TOKEN" \
   -F "package=@my-company.zip" \
   -F 'meta={"target":{"mode":"new_company","newCompanyName":"Horizon Labs (restored)"},"collisionStrategy":"rename"}'
@@ -252,8 +252,8 @@ Restores fail closed rather than half-writing a company.
 For non-destructive merges into the **same** company — re-importing your own backup, applying a refresh from a versioned bundle — use the CEO-safe routes:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/imports/preview" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/imports/preview" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "source": { "type": "inline", "rootPath": "my-company", "files": { "...": "..." } },
@@ -278,8 +278,8 @@ The collision strategies that *do* work:
 Apply the plan with the preview body sent to the apply route:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/imports/apply" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/imports/apply" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   --data-binary @import-request.json
 ```
@@ -301,8 +301,8 @@ If you genuinely need `replace` semantics — say, you're forcibly snapping prod
 Schedule a daily export so a fresh bundle exists when you need one. Create a routine that wakes a backup-owner agent — a small CEO-role agent dedicated to running the export and writing the bundle to wherever your backups live (object storage, a Git repo, a cron-mounted volume).
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/routines" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/routines" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Nightly company export",
@@ -317,8 +317,8 @@ curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/routines" \
 Then attach a schedule trigger:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/routines/<routine-id>/triggers" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/routines/<routine-id>/triggers" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "kind": "schedule",
@@ -347,14 +347,14 @@ A bundle that round-trips cleanly today will round-trip cleanly in six months. A
 
 ## 8. Migrating to another instance
 
-Moving a company to a different host — laptop to server, self-hosted to Paperclip Cloud, or back again — is the same two steps with the second one pointed somewhere else:
+Moving a company to a different host — laptop to server, self-hosted to ThinkingMach Cloud, or back again — is the same two steps with the second one pointed somewhere else:
 
 1. Export on the source instance (sections 1 and 2), with `include` covering everything you want to keep: `company`, `agents`, `projects`, `skills`, and `issues`.
 2. Import on the target instance with a board token and `target.mode: "new_company"` (section 3), using the zip upload and `?async=1` if the bundle is large.
 
 Then finish the restore checklist: env-var values, budgets, adapters, and finally heartbeats. Nothing connects the two instances to each other — the package is the only thing that travels, which is what makes it safe to move it through a Git repo, object storage, or a USB stick.
 
-This replaces the retired host-to-host Cloud Sync. If you have scripts pointed at `cloud connect` or `cloud push`, port them to `POST /api/companies/{id}/export` plus `POST /api/companies/import`, or to `paperclipai company export` and `paperclipai company import`.
+This replaces the retired host-to-host Cloud Sync. If you have scripts pointed at `cloud connect` or `cloud push`, port them to `POST /api/companies/{id}/export` plus `POST /api/companies/import`, or to `thinkingmach company export` and `thinkingmach company import`.
 
 ---
 

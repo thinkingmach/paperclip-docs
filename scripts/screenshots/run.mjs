@@ -5,9 +5,9 @@
  *   1. Validate PARENT_REPO exists.
  *   1b. Generate the instance config.json and pin its embedded Postgres to a
  *      guaranteed-free port (so a screenshot run never collides with — or
- *      connects into — a real local Paperclip already on the default 54329).
- *   2. Spawn `pnpm paperclipai onboard --yes --run` inside PARENT_REPO with a
- *      fully isolated env (scratchHome as PAPERCLIP_HOME, loopback binding,
+ *      connects into — a real local ThinkingMach already on the default 54329).
+ *   2. Spawn `pnpm thinkingmach onboard --yes --run` inside PARENT_REPO with a
+ *      fully isolated env (scratchHome as THINKINGMACH_HOME, loopback binding,
  *      local_trusted mode, no external DB). onboard preserves the config from 1b.
  *   3. Poll BASE_URL/api/health until 200 (timeout 120 s).
  *   3.5. Capture `phase: "pre-seed"` targets (onboarding wizard) while the
@@ -96,7 +96,7 @@ function hasFlag(args, flag) {
  *
  * Why this is needed: the onboard wizard hard-codes embedded Postgres to 54329
  * and offers no env/flag override — the server reads the port only from
- * config.json. A developer's real local Paperclip uses the same default, so an
+ * config.json. A developer's real local ThinkingMach uses the same default, so an
  * un-pinned screenshot run would either fail to boot or, worse, connect into the
  * real database on 54329 and seed demo rows there.
  *
@@ -124,7 +124,7 @@ async function generateIsolatedConfig({ home, env }) {
   // Postgres) so onboard generates config without initializing the embedded
   // cluster. The dummy URL is used only for this generation pass.
   const genEnv = { ...env, DATABASE_URL: "postgres://paperclip:paperclip@127.0.0.1:1/none" };
-  const gen = spawn("pnpm", ["paperclipai", "onboard", "--yes"], {
+  const gen = spawn("pnpm", ["thinkingmach", "onboard", "--yes"], {
     cwd: PARENT_REPO,
     env: genEnv,
     stdio: "pipe",
@@ -173,7 +173,7 @@ async function main() {
   } catch {
     console.error(
       `run: PARENT_REPO does not exist: ${PARENT_REPO}\n` +
-        "      Set the PAPERCLIP_REPO env var to the correct path.",
+        "      Set the THINKINGMACH_REPO env var to the correct path.",
     );
     process.exit(1);
   }
@@ -187,7 +187,7 @@ async function main() {
 
   async function cleanup() {
     if (server) {
-      // `pnpm paperclipai onboard --run` spawns child processes (the actual
+      // `pnpm thinkingmach onboard --run` spawns child processes (the actual
       // server, embedded-postgres). Killing only the pnpm parent leaves those
       // orphaned and holding the port. We spawn the server `detached` so it
       // gets its own process group, then signal the whole group via -pid.
@@ -234,11 +234,11 @@ async function main() {
   }
 
   // ── 2. Spawn the onboard server ──────────────────────────────────────────
-  console.log("run: starting Paperclip onboard server…");
+  console.log("run: starting ThinkingMach onboard server…");
   console.log("run:   cwd =", PARENT_REPO);
   console.log("run:   home =", home);
 
-  server = spawn("pnpm", ["paperclipai", "onboard", "--yes", "--run"], {
+  server = spawn("pnpm", ["thinkingmach", "onboard", "--yes", "--run"], {
     cwd: PARENT_REPO,
     env,
     stdio: "pipe",
@@ -341,7 +341,7 @@ async function main() {
   // ── 6. Capture screenshots ───────────────────────────────────────────────
   // Keep the demo board's issue statuses correct for the whole capture. The
   // demo `process` agents finish their runs without declaring a disposition, so
-  // Paperclip's stalled-work sweep keeps moving those issues to `blocked` with
+  // ThinkingMach's stalled-work sweep keeps moving those issues to `blocked` with
   // an error notice — every few minutes, over a capture that runs much longer
   // than that. See reassertIssueStatuses() in seed.mjs.
   const seedIds = JSON.parse(await readFile(SEED_IDS_PATH, "utf8").catch(() => "{}"));

@@ -48,7 +48,7 @@ Not every sandbox provider can do interactive setup and image capture, so the pa
 - **Unsupported provider** — *"This provider does not advertise interactive template setup."* There's nothing to configure here for this environment.
 - **Setup capture unavailable** — *"This provider advertises setup, but image capture is unavailable."* You can open a terminal, but the provider can't turn the running machine into a reusable image.
 
-If you see one of the last two, the rest of this guide doesn't apply to that environment — switch to a provider that supports capture, or prepare the image outside Paperclip.
+If you see one of the last two, the rest of this guide doesn't apply to that environment — switch to a provider that supports capture, or prepare the image outside ThinkingMach.
 
 ---
 
@@ -58,7 +58,7 @@ The first time you open the Custom image section on a supported environment, it 
 
 ### 1. Start the setup session
 
-Click **Configure image**. Paperclip spins up a fresh setup sandbox for you and opens a **setup session** — a time-limited session that exists just so you can prep the machine. You'll see a status line that starts at **Setup starting** and moves to **Setup running** once the sandbox is ready to connect to.
+Click **Configure image**. ThinkingMach spins up a fresh setup sandbox for you and opens a **setup session** — a time-limited session that exists just so you can prep the machine. You'll see a status line that starts at **Setup starting** and moves to **Setup running** once the sandbox is ready to connect to.
 
 Setup sessions are time-limited (by default they last up to about an hour) and the panel shows when the current session expires. If you walk away and it lapses, the status changes to **Setup expired** and you simply start a new one.
 
@@ -73,7 +73,7 @@ If the browser terminal can't reach a particular provider connection, the panel 
 
 ### 3. Capture the image
 
-When the machine is ready, click **Finished**. Paperclip captures the running sandbox as an image — the status moves to **Capturing template**, then to **Template captured** when it's done. Behind the scenes the captured image is promoted to the environment's **active template**, and any image that was active before is superseded (kept around so you can roll back).
+When the machine is ready, click **Finished**. ThinkingMach captures the running sandbox as an image — the status moves to **Capturing template**, then to **Template captured** when it's done. Behind the scenes the captured image is promoted to the environment's **active template**, and any image that was active before is superseded (kept around so you can roll back).
 
 If you change your mind before capturing, click **Cancel**. The status becomes **Setup cancelled** and your existing active image, if any, is left untouched.
 
@@ -83,9 +83,9 @@ If you change your mind before capturing, click **Cancel**. The status becomes *
 
 ## What "captured" means for future runs
 
-A captured image is scoped to the specific environment it was built for — one active custom image per environment. Once an environment has an active image, Paperclip applies it automatically: every run that resolves through that environment boots from your captured image instead of the provider's base image, and Paperclip records that the image was used.
+A captured image is scoped to the specific environment it was built for — one active custom image per environment. Once an environment has an active image, ThinkingMach applies it automatically: every run that resolves through that environment boots from your captured image instead of the provider's base image, and ThinkingMach records that the image was used.
 
-Depending on your provider, the captured image is stored as a **snapshot**, an **image**, or a provider **template** — the panel labels the active image with its kind so you can tell which. You don't choose this; Paperclip captures whatever the provider produces.
+Depending on your provider, the captured image is stored as a **snapshot**, an **image**, or a provider **template** — the panel labels the active image with its kind so you can tell which. You don't choose this; ThinkingMach captures whatever the provider produces.
 
 Nothing about the running agent changes — it still gets the same sandbox it always did. It just starts from a machine where your tools and logins are already present, which is faster and more predictable than reinstalling everything on every run.
 
@@ -127,7 +127,7 @@ A **setup session** (while you're building an image) moves through these states:
 
 - **Setup starting** — the sandbox is being provisioned.
 - **Setup running** — the sandbox is ready and waiting for you to prep it; this is when the terminal and **Finished** are available.
-- **Capturing template** — you clicked **Finished** and Paperclip is turning the machine into an image.
+- **Capturing template** — you clicked **Finished** and ThinkingMach is turning the machine into an image.
 - **Template captured** — the image was captured and promoted to active.
 - **Setup cancelled** — you cancelled before capturing.
 - **Setup expired** — the session's time limit ran out before you finished.

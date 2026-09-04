@@ -19,7 +19,7 @@ Arcade supports browser sign-in and header-based authentication. Follow your gat
 
 ## Connect Arcade
 
-> **Unverified setup:** This procedure follows the pinned Paperclip definition and Arcade's documentation. It has not been tested with a live Arcade connection. Each step below is unverified.
+> **Unverified setup:** This procedure follows the pinned ThinkingMach definition and Arcade's documentation. It has not been tested with a live Arcade connection. Each step below is unverified.
 
 1. **Unverified:** In Arcade, create or select a gateway and select the tools agents should use. Copy its URL, in the form `https://api.arcade.dev/mcp/YOUR-GATEWAY-SLUG`.
 2. **Unverified:** Open **Connectors** and select **Arcade**.
@@ -29,7 +29,7 @@ Arcade supports browser sign-in and header-based authentication. Follow your gat
 
 ## Choose access
 
-Tools come from your Arcade account and appear in Paperclip when you connect. Arcade controls which tools the gateway exposes. Paperclip controls the exposed actions an agent may call; it does not configure the gateway's underlying app accounts.
+Tools come from your Arcade account and appear in ThinkingMach when you connect. Arcade controls which tools the gateway exposes. ThinkingMach controls the exposed actions an agent may call; it does not configure the gateway's underlying app accounts.
 
 Every tool starts as **Allowed**. Set actions to **Ask first** or **Off** on **Permissions** where needed. Review the list after **Refresh actions** and after changing the gateway's tool selection.
 
@@ -39,13 +39,13 @@ Open the saved gateway's **Permissions** page to see **Connected apps** and **Re
 
 If sync needs separate credentials, use **Set up account sync** in the gateway's menu. Enter a **Project API key** for the same Arcade project and its **Arcade user ID**, then select **Save and sync**. That key is stored separately and used only for account sync; your gateway can work without it.
 
-Accounts appear under their app cards in **Connectors**, labelled **Managed by Arcade**. Use **Open in Arcade** to manage them upstream. Paperclip access stays on the saved gateway and covers its exposed apps.
+Accounts appear under their app cards in **Connectors**, labelled **Managed by Arcade**. Use **Open in Arcade** to manage them upstream. ThinkingMach access stays on the saved gateway and covers its exposed apps.
 
 A successful gateway setup is not proof that a particular app is authorized. The agent checks app access when it first uses it and may still need your help with provider authorization.
 
 ## Try it
 
-Ask an eligible agent to perform one read-only lookup that your gateway exposes. Compare the result with the source app and inspect the connector call in Paperclip.
+Ask an eligible agent to perform one read-only lookup that your gateway exposes. Compare the result with the source app and inspect the connector call in ThinkingMach.
 
 > **Unverified check:** This is a suggested test, not a recorded result. Use an action present in your own connection; do not send messages or change records for the first check.
 
@@ -61,7 +61,7 @@ The available tools depend on the gateway. A successful connection does not prov
 
 ## Related guides
 
-- [Connector overview](https://paperclip.ing/product/connectors/arcade/)
+- [Connector overview](https://thinkingmach.com/product/connectors/arcade/)
 
 - [How connector access works](access-model.md)
 - [Set action permissions](action-permissions.md)
@@ -70,6 +70,6 @@ The available tools depend on the gateway. A successful connection does not prov
 
 ## Sources
 
-- [Paperclip connector definition](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/packages/shared/src/app-definitions/arcade.json#L16) — method names, authentication, endpoints, and connector-specific limits at the pinned product version. Provider setup documentation is linked above.
-- [Catalog and account grouping](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/pages/apps/Browse.tsx) — filters, grouped account rows, and gateway menus.
-- [Connected app list](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/pages/apps/app-detail/ConnectedAggregatorApps.tsx) — refresh controls and verification states.
+- [ThinkingMach connector definition](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/packages/shared/src/app-definitions/arcade.json#L16) — method names, authentication, endpoints, and connector-specific limits at the pinned product version. Provider setup documentation is linked above.
+- [Catalog and account grouping](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/pages/apps/Browse.tsx) — filters, grouped account rows, and gateway menus.
+- [Connected app list](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/pages/apps/app-detail/ConnectedAggregatorApps.tsx) — refresh controls and verification states.

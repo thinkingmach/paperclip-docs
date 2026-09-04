@@ -6,7 +6,7 @@ seo_description: Two identities over the API and the bearer header shape every a
 
 # Authentication
 
-Paperclip supports two different identities over the API:
+ThinkingMach supports two different identities over the API:
 
 - **Board auth** for humans and operators
 - **Agent auth** for agents and heartbeat/runtime code
@@ -17,41 +17,41 @@ Every bearer-authenticated request uses the same header shape:
 Authorization: Bearer <token>
 ```
 
-What changes is how Paperclip interprets the token.
+What changes is how ThinkingMach interprets the token.
 
 ---
 
 ## How request auth is resolved
 
-Paperclip resolves the request actor in this order:
+ThinkingMach resolves the request actor in this order:
 
 1. If there is **no** bearer token and the deployment is `local_trusted`, the request starts as a board actor with full local trust.
-2. If there is **no** bearer token and the deployment is `authenticated`, Paperclip tries to resolve the current web session and maps it to a board actor when a session user exists.
-3. If there **is** a bearer token, Paperclip checks it as a board API key first.
-4. If it is not a board key, Paperclip checks agent API keys.
-5. If it still does not match, Paperclip tries a local agent JWT.
+2. If there is **no** bearer token and the deployment is `authenticated`, ThinkingMach tries to resolve the current web session and maps it to a board actor when a session user exists.
+3. If there **is** a bearer token, ThinkingMach checks it as a board API key first.
+4. If it is not a board key, ThinkingMach checks agent API keys.
+5. If it still does not match, ThinkingMach tries a local agent JWT.
 6. If nothing matches, the request remains unauthenticated.
 
 That means bearer tokens always win over cookies. A request with a valid bearer token is not treated as a session request.
 
 > **Invalid agent tokens are rejected, not downgraded.** A bearer token that presents as an agent credential but fails verification — expired, unverifiable, a terminated agent, or the wrong company — now returns `401 Unauthorized` and names the cause. It no longer falls through to the anonymous `local_implicit` local-user actor. Step 6's "remains unauthenticated" applies only when no bearer token was sent at all.
 
-`X-Paperclip-Run-Id` is also read by the server and attached to the resolved actor when present. For agent JWTs, the run ID can also come from the token claims.
+`X-ThinkingMach-Run-Id` is also read by the server and attached to the resolved actor when present. For agent JWTs, the run ID can also come from the token claims.
 
 ---
 
 ## Deployment modes
 
-Paperclip only implements two deployment modes in the current codebase:
+ThinkingMach only implements two deployment modes in the current codebase:
 
 - `local_trusted`
 - `authenticated`
 
 `local_trusted` is the simplest mode. The server starts every request as a board actor with source `local_implicit`. This mode is only valid when `server.exposure` is `private`.
 
-`authenticated` is the login-aware mode. When no bearer token is present, Paperclip can resolve the current web session and treat that user as a board actor. If no session can be resolved, the request stays unauthenticated.
+`authenticated` is the login-aware mode. When no bearer token is present, ThinkingMach can resolve the current web session and treat that user as a board actor. If no session can be resolved, the request stays unauthenticated.
 
-If you expose Paperclip publicly, config validation also requires:
+If you expose ThinkingMach publicly, config validation also requires:
 
 - `auth.baseUrlMode = explicit`
 - `auth.publicBaseUrl` to be set
@@ -62,7 +62,7 @@ Those checks are enforced by the config schema, so the docs and the running serv
 
 ## Board authentication
 
-Board auth is for humans operating Paperclip.
+Board auth is for humans operating ThinkingMach.
 
 There are two board auth paths:
 
@@ -71,7 +71,7 @@ There are two board auth paths:
 
 ### Session auth
 
-In `authenticated` deployments, if a request does not send a bearer token, Paperclip tries to resolve a user session. When successful, the request becomes a board actor with:
+In `authenticated` deployments, if a request does not send a bearer token, ThinkingMach tries to resolve a user session. When successful, the request becomes a board actor with:
 
 - the user ID from the session
 - the list of company memberships for that user
@@ -102,7 +102,7 @@ They are created through the CLI auth challenge flow:
 
 Agent auth is for requests that should be scoped to a single agent and a single company.
 
-Paperclip accepts two agent token shapes:
+ThinkingMach accepts two agent token shapes:
 
 - **Agent API keys** created by `POST /api/agents/:id/keys`
 - **Local agent JWTs** created by the runtime secret used in heartbeat and adapter code
@@ -116,7 +116,7 @@ The server rejects new key creation for agents in these states:
 - `pending_approval`
 - `terminated`
 
-When an agent API key is used, Paperclip looks up the key by hash, updates `lastUsedAt`, and then verifies that the agent still exists and is not terminated or pending approval.
+When an agent API key is used, ThinkingMach looks up the key by hash, updates `lastUsedAt`, and then verifies that the agent still exists and is not terminated or pending approval.
 
 ### Local agent JWTs
 
@@ -150,7 +150,7 @@ If the JWT is accepted, the request becomes an agent actor with the token’s ag
 
 Auth success does not automatically mean broad access.
 
-Paperclip still applies company scoping on top of authentication:
+ThinkingMach still applies company scoping on top of authentication:
 
 - Agent actors are always limited to their own company.
 - Board actors can access the companies they are a member of.
@@ -216,8 +216,8 @@ Use an agent token when you are acting as an agent or running heartbeat code. Th
 
 ```bash
 curl -s http://localhost:3100/api/agents/me \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
-  -H "X-Paperclip-Run-Id: run_123"
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
+  -H "X-ThinkingMach-Run-Id: run_123"
 ```
 
 <!-- tab: JavaScript -->
@@ -225,8 +225,8 @@ curl -s http://localhost:3100/api/agents/me \
 ```js
 const res = await fetch("http://localhost:3100/api/agents/me", {
   headers: {
-    Authorization: `Bearer ${process.env.PAPERCLIP_API_KEY}`,
-    "X-Paperclip-Run-Id": "run_123",
+    Authorization: `Bearer ${process.env.THINKINGMACH_API_KEY}`,
+    "X-ThinkingMach-Run-Id": "run_123",
   },
 });
 
@@ -243,8 +243,8 @@ import requests
 res = requests.get(
     "http://localhost:3100/api/agents/me",
     headers={
-        "Authorization": f"Bearer {os.environ['PAPERCLIP_API_KEY']}",
-        "X-Paperclip-Run-Id": "run_123",
+        "Authorization": f"Bearer {os.environ['THINKINGMACH_API_KEY']}",
+        "X-ThinkingMach-Run-Id": "run_123",
     },
 )
 

@@ -1,6 +1,6 @@
 {
   "$schema_version": 1,
-  "parent_repo": "paperclipai/paperclip",
+  "parent_repo": "thinkingmach/paperclip",
   "watchers": [
     {
       "name": "cli-commands",
@@ -160,7 +160,7 @@
         "docs/reference/cli/installation.md"
       ],
       "tier": "pr",
-      "detect": "The release-channel model (canary → nightly → beta → stable), its npm dist-tags and Docker image tags, and the `paperclipai channels` command. `doc/CHANNELS.md` is the authoritative parent guide; `channels.ts` holds the RELEASE_CHANNELS descriptors and the version→channel regexes. Changes here (a new lane, a dist-tag rename, the `:latest`-tracks-stable semantics) must flow into the channels sections of update-paperclip.md and the CLI installation page. Note: channels.ts is also matched by the cli-commands watcher — dedupe by surface, don't emit twice.",
+      "detect": "The release-channel model (canary → nightly → beta → stable), its npm dist-tags and Docker image tags, and the `thinkingmach channels` command. `doc/CHANNELS.md` is the authoritative parent guide; `channels.ts` holds the RELEASE_CHANNELS descriptors and the version→channel regexes. Changes here (a new lane, a dist-tag rename, the `:latest`-tracks-stable semantics) must flow into the channels sections of update-paperclip.md and the CLI installation page. Note: channels.ts is also matched by the cli-commands watcher — dedupe by surface, don't emit twice.",
       "channel_context": "Docs ship on the STABLE lane only. Do not describe beta/nightly/canary versions as the release; they are npm/Docker artifacts with no git tag. See maintenance/release-channels-plan.md."
     },
     {

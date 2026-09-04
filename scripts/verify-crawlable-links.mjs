@@ -25,7 +25,7 @@ import { spawnSync } from "node:child_process";
 
 const root = process.cwd();
 const outDir = mkdtempSync(join(tmpdir(), "paperclip-docs-crawlable-links-"));
-const SITE_ORIGIN = "https://docs.paperclip.ing";
+const SITE_ORIGIN = "https://docs.thinkingmach.com";
 
 const failures = [];
 function fail(message) {
@@ -141,7 +141,7 @@ for (const file of htmlFiles) {
    to carry a "Browse all documentation" directory, and the sidebar is what
    replaced it as the surface that reaches every route. */
 const sitemapForNav = readFileSync(join(outDir, "sitemap.xml"), "utf8");
-const manifestRoutes = [...sitemapForNav.matchAll(/<loc>https:\/\/docs\.paperclip\.ing(\/[^<]*)<\/loc>/g)]
+const manifestRoutes = [...sitemapForNav.matchAll(/<loc>https:\/\/docs\.thinkingmach\.com(\/[^<]*)<\/loc>/g)]
   .map((match) => match[1])
   .filter((routePath) => routePath !== "/");
 

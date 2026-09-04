@@ -1,7 +1,7 @@
 ---
 paperclip_version: v2026.1012.0
 seo_title: Supermemory Connector
-seo_description: Connect Supermemory through browser sign-in, select the workspace and tags it may reach, and review memory actions and saved agent guidance in Paperclip.
+seo_description: Connect Supermemory through browser sign-in, select the workspace and tags it may reach, and review memory actions and saved agent guidance in ThinkingMach.
 ---
 
 # Supermemory
@@ -23,13 +23,13 @@ The hosted MCP connection uses browser sign-in. A developer API key is a separat
 3. Complete **Sign in with Supermemory** and review the workspace, read or write access, and optional tags offered by the provider.
 4. Open **Permissions** and review the actions and **Agent instructions**.
 
-Paperclip connects to `https://mcp.supermemory.ai/mcp`. You do not need to register a separate OAuth app for this flow.
+ThinkingMach connects to `https://mcp.supermemory.ai/mcp`. You do not need to register a separate OAuth app for this flow.
 
 ## Choose access
 
-Supermemory's consent controls the data this connection can reach. Paperclip's action switches cannot widen that consent. A tag supplied by an agent is not a substitute for provider authorization.
+Supermemory's consent controls the data this connection can reach. ThinkingMach's action switches cannot widen that consent. A tag supplied by an agent is not a substitute for provider authorization.
 
-Active actions start as **Allowed**, including writes and deletion-capable actions. The `add_memory` action can save or forget information, so Paperclip classifies it as destructive. Set it to **Ask first** or **Off** if you want to review or prevent those changes.
+Active actions start as **Allowed**, including writes and deletion-capable actions. The `add_memory` action can save or forget information, so ThinkingMach classifies it as destructive. Set it to **Ask first** or **Off** if you want to review or prevent those changes.
 
 The default guidance tells agents to recall and save within the authorized workspace and tags. You can edit or disable it under **Agent instructions**; see [Saved connection instructions](connection-instructions.md).
 
@@ -44,11 +44,11 @@ Ask an eligible agent to search for a known, harmless memory inside the consente
 | Problem | Check |
 | --- | --- |
 | Supermemory is absent from the catalog | Enable **Memory connectors**. |
-| A write is refused | Check both provider consent and Paperclip action permissions. |
+| A write is refused | Check both provider consent and ThinkingMach action permissions. |
 | A tag is denied | Reauthorize the intended tag in Supermemory; do not broaden the query to bypass consent. |
 | Search returns nothing | Check the workspace, tags, and whether any relevant memories exist. |
 
-Turning off the experimental setting leaves saved connections running and allows reconnecting. Paperclip does not automatically copy task conversations into Supermemory.
+Turning off the experimental setting leaves saved connections running and allows reconnecting. ThinkingMach does not automatically copy task conversations into Supermemory.
 
 ## Related guides
 
@@ -58,5 +58,5 @@ Turning off the experimental setting leaves saved connections running and allows
 
 ## Sources
 
-- [Supermemory definition](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/packages/shared/src/app-definitions/supermemory.json) — personal OAuth sign-in, endpoint, consent guidance, and default instructions.
-- [Feature defaults](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/packages/shared/src/feature-catalog.ts) — experimental availability.
+- [Supermemory definition](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/packages/shared/src/app-definitions/supermemory.json) — personal OAuth sign-in, endpoint, consent guidance, and default instructions.
+- [Feature defaults](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/packages/shared/src/feature-catalog.ts) — experimental availability.

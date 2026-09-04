@@ -6,9 +6,9 @@ seo_description: Turn a noisy inbox into a short list of clear next actions, lea
 
 # Issue Triage
 
-> Triage Paperclip inbox issues that are stale, blocked, in-review, or assigned-but-not-progressing, and decide a single next action per issue (resume, reassign, unblock, escalate, or close).
+> Triage ThinkingMach inbox issues that are stale, blocked, in-review, or assigned-but-not-progressing, and decide a single next action per issue (resume, reassign, unblock, escalate, or close).
 
-Convert a noisy Paperclip inbox into a small set of clear next actions. Each pass leaves every touched issue with a defined owner, status, and the single concrete action that moves it forward (resume, reassign, unblock, escalate, or close).
+Convert a noisy ThinkingMach inbox into a small set of clear next actions. Each pass leaves every touched issue with a defined owner, status, and the single concrete action that moves it forward (resume, reassign, unblock, escalate, or close).
 
 This is a **bundled** catalog skill — part of the bundled baseline kit. For how to install, audit, update, assign, and reset catalog skills, see the [Skills reference](../../../skills.md#3-app-shipped-catalog).
 
@@ -28,8 +28,8 @@ This is a **bundled** catalog skill — part of the bundled baseline kit. For ho
 
 | Field | Value |
 |---|---|
-| Catalog id | `paperclipai:bundled:paperclip-operations:issue-triage` |
-| Canonical key | `paperclipai/bundled/paperclip-operations/issue-triage` |
+| Catalog id | `thinkingmach:bundled:paperclip-operations:issue-triage` |
+| Canonical key | `thinkingmach/bundled/paperclip-operations/issue-triage` |
 | Catalog path | `catalog/bundled/paperclip-operations/issue-triage` |
 | Kind | `bundled` |
 | Category | `paperclip-operations` |
@@ -43,7 +43,7 @@ This is a **bundled** catalog skill — part of the bundled baseline kit. For ho
 | Tags | `paperclip`, `triage`, `inbox`, `workflow` |
 | Files | 1 |
 | Content hash | `sha256:88dc13560371fb364963782cb4f6eeb4090fcde92ee3774479428ed6b90e11c1` |
-| Package | `@paperclipai/skills-catalog@0.3.1` |
+| Package | `@thinkingmach/skills-catalog@0.3.1` |
 
 ## File inventory
 
@@ -58,8 +58,8 @@ The block below is the complete, authoritative `SKILL.md` for this skill — the
 ````markdown skill-source
 ---
 name: issue-triage
-description: Triage Paperclip inbox issues that are stale, blocked, in-review, or assigned-but-not-progressing, and decide a single next action per issue (resume, reassign, unblock, escalate, or close).
-key: paperclipai/bundled/paperclip-operations/issue-triage
+description: Triage ThinkingMach inbox issues that are stale, blocked, in-review, or assigned-but-not-progressing, and decide a single next action per issue (resume, reassign, unblock, escalate, or close).
+key: thinkingmach/bundled/paperclip-operations/issue-triage
 recommendedForRoles:
   - manager
   - ceo

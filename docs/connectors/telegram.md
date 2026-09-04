@@ -1,20 +1,20 @@
 ---
 seo_title: Telegram Connector
-seo_description: Let people start Paperclip work by messaging a Telegram bot. BotFather setup, the public webhook requirement, agent routing, and fixing a silent bot.
+seo_description: Let people start ThinkingMach work by messaging a Telegram bot. BotFather setup, the public webhook requirement, agent routing, and fixing a silent bot.
 ---
 
 # Telegram
 
-People message your Telegram bot, and Paperclip starts work. Replies come back in the same Telegram conversation.
+People message your Telegram bot, and ThinkingMach starts work. Replies come back in the same Telegram conversation.
 
 One connection serves one bot and one agent.
 
-> **Warning:** Telegram delivers messages by calling Paperclip, so your instance needs a publicly reachable HTTPS address. Telegram only accepts webhooks on ports **443, 80, 88, or 8443**. If your instance is not reachable that way, this connector cannot work — unlike [AgentMail](agentmail.md), there is no outbound-only mode.
+> **Warning:** Telegram delivers messages by calling ThinkingMach, so your instance needs a publicly reachable HTTPS address. Telegram only accepts webhooks on ports **443, 80, 88, or 8443**. If your instance is not reachable that way, this connector cannot work — unlike [AgentMail](agentmail.md), there is no outbound-only mode.
 
 ## Before you connect
 
 - **Chat connectors** must be switched on for the instance. It is an experimental setting, off by default, enabled by an instance administrator under experimental settings.
-- A publicly reachable HTTPS URL for the instance, configured by an administrator as `PAPERCLIP_CHAT_WEBHOOK_PUBLIC_URL`, on one of Telegram's permitted ports.
+- A publicly reachable HTTPS URL for the instance, configured by an administrator as `THINKINGMACH_CHAT_WEBHOOK_PUBLIC_URL`, on one of Telegram's permitted ports.
 - A Telegram account, to talk to BotFather.
 - The agent that will answer.
 
@@ -30,18 +30,18 @@ Create a dedicated bot for this connector rather than reusing one that already h
 
 > **Danger:** The bot token is a full credential for the bot. Never paste it into a chat, an issue, or a screenshot. If it leaks, use BotFather's `/revoke` to rotate it and reconnect.
 
-### 2. Connect it in Paperclip
+### 2. Connect it in ThinkingMach
 
 1. Open **Connectors** and select **Telegram**.
 2. On the **Access** step, choose the identity and which agents may use the connection.
 3. Paste the **Bot token**.
 4. Choose the agent that will answer, and finish.
 
-Paperclip registers the webhook with Telegram for you, using a generated secret so it can reject forged deliveries. There is no URL for you to paste into BotFather.
+ThinkingMach registers the webhook with Telegram for you, using a generated secret so it can reject forged deliveries. There is no URL for you to paste into BotFather.
 
 ## How a conversation becomes work
 
-| In Telegram | In Paperclip |
+| In Telegram | In ThinkingMach |
 | --- | --- |
 | Someone sends the bot a direct message | A task is created for the connected agent |
 | They keep replying | The conversation continues on the same task |
@@ -53,12 +53,12 @@ Two different controls apply here, on two different sides, and conflating them i
 
 **On Telegram's side there is no sender allowlist.** Anyone who can find the bot can message it. Do not treat the bot's username as a secret — treat it as public, and share it only with the people you intend to serve.
 
-**On Paperclip's side there is a control.** The connection's **Access** tab has **External identity access** with an **Allow unlinked people** toggle:
+**On ThinkingMach's side there is a control.** The connection's **Access** tab has **External identity access** with an **Allow unlinked people** toggle:
 
 | Setting | What happens when an unrecognized person messages the bot |
 | --- | --- |
-| **On** (the default) | They are a restricted guest. Their tasks run only with an isolated workspace and sandbox environment, and Paperclip refuses the request if that is unavailable. Guests cannot approve, hire, spend, manage access, or reassign agents |
-| **Off** | They cannot start work at all. Only senders linked to a Paperclip person get through |
+| **On** (the default) | They are a restricted guest. Their tasks run only with an isolated workspace and sandbox environment, and ThinkingMach refuses the request if that is unavailable. Guests cannot approve, hire, spend, manage access, or reassign agents |
+| **Off** | They cannot start work at all. Only senders linked to a ThinkingMach person get through |
 
 So "anyone can message the bot" is true, and "anyone can make an agent do arbitrary work" is not. Decide which of those two settings you want **before** you publish the username; the restrictions on a guest are real but they are not the same as refusing them.
 
@@ -70,7 +70,7 @@ The connection's identity and agent settings work as for any connector; see [How
 
 1. Open your bot in Telegram and send `hello, can you confirm you are connected?`
 2. Expect a reply in the conversation within a few moments.
-3. Confirm a matching task appears in Paperclip, assigned to the connected agent.
+3. Confirm a matching task appears in ThinkingMach, assigned to the connected agent.
 
 Message the bot from your own account first. That exercises webhook delivery, routing, and task creation without involving anyone else.
 
@@ -81,7 +81,7 @@ Message the bot from your own account first. That exercises webhook delivery, ro
 | Problem | Likely cause | Fix |
 | --- | --- | --- |
 | Telegram does not appear in **Connectors** | **Chat connectors** is off for the instance | Ask an administrator to enable it |
-| Setup fails mentioning HTTPS and ports | The instance's public webhook URL is missing or on an unsupported port | An administrator must set `PAPERCLIP_CHAT_WEBHOOK_PUBLIC_URL` to HTTPS on 443, 80, 88, or 8443 |
+| Setup fails mentioning HTTPS and ports | The instance's public webhook URL is missing or on an unsupported port | An administrator must set `THINKINGMACH_CHAT_WEBHOOK_PUBLIC_URL` to HTTPS on 443, 80, 88, or 8443 |
 | The bot exists and accepts messages but never replies | Telegram cannot reach the instance, or another system replaced the webhook | Reconnect the connection, which re-registers the webhook |
 | The bot worked and went silent | The token was revoked, or another tool called `setWebhook` on the same bot | Rotate the token if needed and reconnect; use a dedicated bot |
 | The bot ignores messages in a group | Telegram privacy mode delivers only messages addressing the bot | Address the bot directly, or reconsider whether a group is the right entry point |

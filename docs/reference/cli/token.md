@@ -1,16 +1,16 @@
 ---
 paperclip_version: v2026.609.0
 seo_title: CLI Token Commands
-seo_description: Mint, list, and revoke the API keys that let agents, CI jobs, and board operators reach a Paperclip instance from outside the browser.
+seo_description: Mint, list, and revoke the API keys that let agents, CI jobs, and board operators reach a ThinkingMach instance from outside the browser.
 ---
 
 # Token Commands
 
-Use these commands when you need to mint, list, or revoke the API keys that let agents and board operators talk to a Paperclip instance from outside the browser — CI jobs, scripts, headless agent runners, or your own terminal. The `token` group has two halves: `token agent`, which manages the keys an individual agent uses to act on the instance, and `token board`, which manages the keys your board-operator identity uses to drive companies and the control plane.
+Use these commands when you need to mint, list, or revoke the API keys that let agents and board operators talk to a ThinkingMach instance from outside the browser — CI jobs, scripts, headless agent runners, or your own terminal. The `token` group has two halves: `token agent`, which manages the keys an individual agent uses to act on the instance, and `token board`, which manages the keys your board-operator identity uses to drive companies and the control plane.
 
 Every command here accepts the [common client options](./common-options.md) (`--data-dir`, `--api-base`, `--api-key`, `--context`, `--profile`, `--json`). The `agent` subcommands are company-scoped and require `-C, --company-id <id>`; on the `board` side, `--company-id` is optional and only sets the audit context for the key you create.
 
-> **Warning:** Creating a token returns the secret `token` value exactly once, at creation time. Paperclip does not store it in a way you can read back — `token agent list` and `token board list` return metadata only (id, name, timestamps), never the token. Capture the value when you create the key, and treat it as a credential: anyone holding it can act as that agent or board user.
+> **Warning:** Creating a token returns the secret `token` value exactly once, at creation time. ThinkingMach does not store it in a way you can read back — `token agent list` and `token board list` return metadata only (id, name, timestamps), never the token. Capture the value when you create the key, and treat it as a credential: anyone holding it can act as that agent or board user.
 
 ---
 
@@ -38,7 +38,7 @@ Every `token agent` command is company-scoped and identifies the agent with `--a
 `token agent create` mints a new key for the named agent and prints the agent, its company, and the created `key` — including the one-time `token` value.
 
 ```sh
-paperclipai token agent create --company-id <company-id> --agent <agent> --name ci-runner
+thinkingmach token agent create --company-id <company-id> --agent <agent> --name ci-runner
 ```
 
 | Flag | Use |
@@ -54,8 +54,8 @@ paperclipai token agent create --company-id <company-id> --agent <agent> --name 
 `token agent list` returns the keys defined for an agent. The human-readable output shows each key's `id`, `name`, `createdAt`, and `revokedAt` — never the token itself.
 
 ```sh
-paperclipai token agent list --company-id <company-id> --agent <agent>
-paperclipai token agent list --company-id <company-id> --agent <agent> --json
+thinkingmach token agent list --company-id <company-id> --agent <agent>
+thinkingmach token agent list --company-id <company-id> --agent <agent> --json
 ```
 
 | Flag | Use |
@@ -68,7 +68,7 @@ paperclipai token agent list --company-id <company-id> --agent <agent> --json
 `token agent revoke` takes the key ID as a positional argument and revokes it. Once revoked, the key can no longer authenticate.
 
 ```sh
-paperclipai token agent revoke <keyId> --company-id <company-id> --agent <agent>
+thinkingmach token agent revoke <keyId> --company-id <company-id> --agent <agent>
 ```
 
 | Argument / Flag | Use |
@@ -91,13 +91,13 @@ Unlike the agent commands, `token board` does not require a company. The optiona
 
 ```sh
 # A key that expires 90 days from now
-paperclipai token board create --name ci-deploy --ttl-days 90
+thinkingmach token board create --name ci-deploy --ttl-days 90
 
 # A key with an explicit expiry timestamp
-paperclipai token board create --name nightly --expires-at 2026-12-31T00:00:00Z
+thinkingmach token board create --name nightly --expires-at 2026-12-31T00:00:00Z
 
 # A non-expiring key
-paperclipai token board create --name long-lived --never-expires
+thinkingmach token board create --name long-lived --never-expires
 ```
 
 | Flag | Use |
@@ -115,8 +115,8 @@ paperclipai token board create --name long-lived --never-expires
 `token board list` returns the board API keys for the current board user. The human-readable output shows each key's `id`, `name`, `createdAt`, `lastUsedAt`, `expiresAt`, and `revokedAt` — metadata only.
 
 ```sh
-paperclipai token board list
-paperclipai token board list --json
+thinkingmach token board list
+thinkingmach token board list --json
 ```
 
 ### Revoke a board key
@@ -124,7 +124,7 @@ paperclipai token board list --json
 `token board revoke` takes the key ID as a positional argument and revokes it.
 
 ```sh
-paperclipai token board revoke <keyId>
+thinkingmach token board revoke <keyId>
 ```
 
 | Argument | Use |

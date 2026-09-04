@@ -1,14 +1,14 @@
 ---
 paperclip_version: v2026.609.0
 seo_title: The connect Command
-seo_description: The friendly front door for a fresh terminal — walks you through pointing the CLI at a running Paperclip instance in one guided flow.
+seo_description: The friendly front door for a fresh terminal — walks you through pointing the CLI at a running ThinkingMach instance in one guided flow.
 ---
 
 # Connect Command
 
-When you sit down at a fresh terminal and want the Paperclip CLI to start talking to a running instance, `connect` is the friendly front door. It walks you through one short conversation — which server, which persona, which company and agent — and at the end it has minted a token, saved a reusable profile, and printed the environment exports you need. You do not have to know any IDs up front or hand-craft a context file; the wizard discovers what is available and lets you pick.
+When you sit down at a fresh terminal and want the ThinkingMach CLI to start talking to a running instance, `connect` is the friendly front door. It walks you through one short conversation — which server, which persona, which company and agent — and at the end it has minted a token, saved a reusable profile, and printed the environment exports you need. You do not have to know any IDs up front or hand-craft a context file; the wizard discovers what is available and lets you pick.
 
-Reach for `paperclipai connect` the very first time you set up the CLI, whenever you want to add another saved profile (a second instance, a different company, a new agent), or any time you would rather click through choices than type out `context set` and `auth login` by hand.
+Reach for `thinkingmach connect` the very first time you set up the CLI, whenever you want to add another saved profile (a second instance, a different company, a new agent), or any time you would rather click through choices than type out `context set` and `auth login` by hand.
 
 > **Note:** `connect` is interactive by design. It needs a real terminal (a TTY) on both input and output. In scripts and CI it will refuse to run and tell you to pass `--api-base`/`--api-key` or use the `context` and token commands instead. See [Common Options](./common-options.md) for the non-interactive path.
 
@@ -19,7 +19,7 @@ Reach for `paperclipai connect` the very first time you set up the CLI, whenever
 `connect` is a wizard, not a group of subcommands. You run the single command and answer a handful of prompts:
 
 ```sh
-paperclipai connect
+thinkingmach connect
 ```
 
 Under the hood it walks through these steps:
@@ -47,10 +47,10 @@ A board profile carries board authority across the instance; an agent profile is
 
 ```sh
 # Connect straight as a board operator, skipping the persona prompt
-paperclipai connect --persona board
+thinkingmach connect --persona board
 
 # Connect as an agent (you'll still pick the company and agent interactively)
-paperclipai connect --persona agent
+thinkingmach connect --persona agent
 ```
 
 ---
@@ -60,13 +60,13 @@ paperclipai connect --persona agent
 Two flags let you control how the resulting credential is labelled and stored, so you do not have to accept the defaults.
 
 ```sh
-paperclipai connect --token-name "laptop-board" --api-key-env-var-name PAPERCLIP_API_KEY
+thinkingmach connect --token-name "laptop-board" --api-key-env-var-name THINKINGMACH_API_KEY
 ```
 
 | Flag | Default | Use |
 |---|---|---|
 | `--persona <persona>` | _(prompted)_ | The persona to configure: `board` or `agent`. Pass it to skip the persona question. |
-| `--api-key-env-var-name <name>` | `PAPERCLIP_API_KEY` | The name of the environment variable the profile will read its key from at call time. The profile stores this **name**, never the token itself. |
+| `--api-key-env-var-name <name>` | `THINKINGMACH_API_KEY` | The name of the environment variable the profile will read its key from at call time. The profile stores this **name**, never the token itself. |
 | `--token-name <name>` | A timestamped label | The label to give the created token. Defaults to `cli-board-<timestamp>` for a board token or `cli-agent-<timestamp>` for an agent key. |
 
 > **Tip:** The profile records the *name* of the env var, not the secret. After connecting, keep the token in your environment (the printed exports do exactly this) so your context file stays safe to share. This is the same `apiKeyEnvVarName` mechanism explained in [Common Options](./common-options.md).
@@ -80,13 +80,13 @@ When the wizard finishes it confirms the connection (`Connected profile '<name>'
 The result includes the profile name, the persona, the resolved `apiBase`, the `companyId` (and `agentId`/`agentName` for an agent profile), the created `key` (its `id`, `name`, `createdAt`, `token`, and — for a board token — `expiresAt`), and a ready-to-paste **`exports`** block:
 
 ```sh
-export PAPERCLIP_API_URL='http://localhost:3100'
-export PAPERCLIP_COMPANY_ID='<company-id>'
-export PAPERCLIP_AGENT_ID='<agent-id>'
-export PAPERCLIP_API_KEY='<token>'
+export THINKINGMACH_API_URL='http://localhost:3100'
+export THINKINGMACH_COMPANY_ID='<company-id>'
+export THINKINGMACH_AGENT_ID='<agent-id>'
+export THINKINGMACH_API_KEY='<token>'
 ```
 
-The `PAPERCLIP_COMPANY_ID` and `PAPERCLIP_AGENT_ID` lines appear only when they apply, and the last line uses whatever name you set with `--api-key-env-var-name`. Paste the block into your shell and the rest of the CLI will pick up the new profile and credential immediately.
+The `THINKINGMACH_COMPANY_ID` and `THINKINGMACH_AGENT_ID` lines appear only when they apply, and the last line uses whatever name you set with `--api-key-env-var-name`. Paste the block into your shell and the rest of the CLI will pick up the new profile and credential immediately.
 
 > **Warning:** The plaintext `token` is shown once, in the wizard output and in the `exports` block. Capture it now — store it in your secret manager or export it into your environment. The saved profile only references the env var by name; it never holds the token for you to recover later.
 

@@ -13,8 +13,8 @@ Two ways to authenticate: a subscription sign-in through the Codex CLI, or an Op
 ## Before you connect
 
 - Either a plan that covers Codex CLI sign-in, or an OpenAI API key from the [OpenAI dashboard](https://platform.openai.com/api-keys).
-- An agent that runs on Codex: the **Codex** adapter, or **Paperclip Runner** with the **Codex** provider. A standard OpenAI connection is not compatible with a Claude or OpenCode harness.
-- For subscription sign-in only: a sign-in environment — either the Paperclip server host, or a sandbox environment that supports interactive sign-in. See [With a subscription](#with-a-subscription).
+- An agent that runs on Codex: the **Codex** adapter, or **ThinkingMach Runner** with the **Codex** provider. A standard OpenAI connection is not compatible with a Claude or OpenCode harness.
+- For subscription sign-in only: a sign-in environment — either the ThinkingMach server host, or a sandbox environment that supports interactive sign-in. See [With a subscription](#with-a-subscription).
 
 ## Choose a sign-in method
 
@@ -25,7 +25,7 @@ Two ways to authenticate: a subscription sign-in through the Codex CLI, or an Op
 
 > **Warning:** These are not interchangeable. The subscription path authenticates the Codex CLI, so it covers Codex-runtime agent runs — it is not a general-purpose OpenAI API credential for other integrations. If you need arbitrary OpenAI API access, use an API key.
 
-Confirm current plan entitlements and limits with OpenAI rather than assuming; they change independently of Paperclip.
+Confirm current plan entitlements and limits with OpenAI rather than assuming; they change independently of ThinkingMach.
 
 ## Connect OpenAI
 
@@ -36,7 +36,7 @@ Setup is a single screen with no separate access step. Once the account is saved
 
 ### With an API key
 
-Paste the key. Paperclip stores it as a secret and it is not readable afterwards.
+Paste the key. ThinkingMach stores it as a secret and it is not readable afterwards.
 
 ### With a subscription
 
@@ -44,16 +44,16 @@ Sign-in runs in a **sign-in environment**, and there are two kinds. Which ones y
 
 | Sign-in environment | What it needs | How you sign in |
 | --- | --- | --- |
-| **The Paperclip server host** | The `codex` CLI installed on that host, shell access to it, and an active local environment | Paperclip shows a command to paste into a terminal on that host (**Copy sign-in command**) |
-| **A sandbox environment** | A sandbox whose provider supports interactive sign-in, configured by an administrator | Sign-in happens in the environment Paperclip provides; no terminal on the server host is required |
+| **The ThinkingMach server host** | The `codex` CLI installed on that host, shell access to it, and an active local environment | ThinkingMach shows a command to paste into a terminal on that host (**Copy sign-in command**) |
+| **A sandbox environment** | A sandbox whose provider supports interactive sign-in, configured by an administrator | Sign-in happens in the environment ThinkingMach provides; no terminal on the server host is required |
 
-When both are available Paperclip shows a **Sign-in environment** selector. The environment used to sign in may differ from where the agent later runs; picking one here does not change agent routing.
+When both are available ThinkingMach shows a **Sign-in environment** selector. The environment used to sign in may differ from where the agent later runs; picking one here does not change agent routing.
 
-**On the Paperclip server host:**
+**On the ThinkingMach server host:**
 
-1. Select **Sign in**. Paperclip shows a command that sets `CODEX_HOME` to a directory for this attempt and runs `codex login --device-auth` with file-based credential storage.
-2. Run it in a terminal on that host and complete OpenAI's device sign-in. Paperclip checks automatically when you return.
-3. When Paperclip says *"Codex CLI is signed in. Click Connect to use this account."*, select **Connect**. The attempt stays open for 30 minutes before it expires.
+1. Select **Sign in**. ThinkingMach shows a command that sets `CODEX_HOME` to a directory for this attempt and runs `codex login --device-auth` with file-based credential storage.
+2. Run it in a terminal on that host and complete OpenAI's device sign-in. ThinkingMach checks automatically when you return.
+3. When ThinkingMach says *"Codex CLI is signed in. Click Connect to use this account."*, select **Connect**. The attempt stays open for 30 minutes before it expires.
 
 If you want a different OpenAI account before connecting, select **Use a different account**. If the attempt expires or fails, select **Start sign-in again**.
 
@@ -66,9 +66,9 @@ If server-host sign-in is unavailable you will see *"Server-host subscription si
 **In a supported sandbox:**
 
 1. Select the sandbox in **Sign-in environment**, if a selector is shown, and choose subscription authentication.
-2. Wait for Paperclip to prepare the sign-in link, then use **Sign in to OpenAI** to open it.
-3. If Paperclip displays a device code, enter it on the provider's sign-in page. Complete authorization and return to Paperclip.
-4. Wait for Paperclip to finish the connection. If the attempt expires or fails, start a new attempt; an open provider page alone does not establish that the credential was saved.
+2. Wait for ThinkingMach to prepare the sign-in link, then use **Sign in to OpenAI** to open it.
+3. If ThinkingMach displays a device code, enter it on the provider's sign-in page. Complete authorization and return to ThinkingMach.
+4. Wait for ThinkingMach to finish the connection. If the attempt expires or fails, start a new attempt; an open provider page alone does not establish that the credential was saved.
 
 ## Assign the credential
 
@@ -106,7 +106,7 @@ If a task shows an authentication card, select **Fix connection** to repair the 
 
 Before you hand an agent a long task, you can see how much of the provider's allowance is left. Open the saved account and find **Usage**, then select **Check usage**. This works for an OpenAI subscription. An API-key account shows *"Unavailable for this sign-in method."* instead of the button, because the provider has no single-key allowance to read.
 
-Paperclip reads the limits only when you ask. Opening the account, listing connections, and starting a run never trigger a check. Each limit window shows how much is used and when it resets, and is marked **Limit reached** or **Blocked** when the provider says so. **Overage** shows whether extra paid usage is available. Anything the provider leaves out shows as **Not reported**, never as zero. After a successful check, the button becomes **Refresh**.
+ThinkingMach reads the limits only when you ask. Opening the account, listing connections, and starting a run never trigger a check. Each limit window shows how much is used and when it resets, and is marked **Limit reached** or **Blocked** when the provider says so. **Overage** shows whether extra paid usage is available. Anything the provider leaves out shows as **Not reported**, never as zero. After a successful check, the button becomes **Refresh**.
 
 Checking is read-only. It does not move work to another account, stop runs at a limit, refresh the credential, or buy credit.
 
@@ -127,9 +127,9 @@ First read the agent's configuration and note which AI connection it is set to u
 Reply with the single word: ready
 ```
 
-**A successful reply proves** that some OpenAI credential was accepted, the runtime is compatible, and the checks above passed. Paperclip refuses an ineligible binding outright rather than falling back to another account, so a run that completes under an explicit binding used an authorized credential.
+**A successful reply proves** that some OpenAI credential was accepted, the runtime is compatible, and the checks above passed. ThinkingMach refuses an ineligible binding outright rather than falling back to another account, so a run that completes under an explicit binding used an authorized credential.
 
-**It does not prove which account was billed.** Paperclip resolves provider, method, connection and responsible user internally but does not surface them per run. To confirm a specific account, check usage on OpenAI's dashboard for that account afterwards.
+**It does not prove which account was billed.** ThinkingMach resolves provider, method, connection and responsible user internally but does not surface them per run. To confirm a specific account, check usage on OpenAI's dashboard for that account afterwards.
 
 Watch the run itself — a connection can look healthy and still fail at run time if the agent is not on a Codex runtime.
 
@@ -146,15 +146,15 @@ Watch the run itself — a connection can look healthy and still fail at run tim
 | *"This connection is not permitted for this agent"* | The connection is not installed for that agent or company-wide | Install it for the agent on the connection's access settings |
 | A subscription connection made during the preview stops working | Preview-era subscription credentials are not reusable and must be re-established | Reconnect the account |
 | **Sign in** is unavailable | No sign-in environment is offered on this deployment | Ask an administrator whether a sandbox sign-in environment can be enabled; otherwise use an API key |
-| The sign-in command does nothing | The `codex` CLI is missing on the host you ran it on, or you ran it on the wrong machine | Install the CLI and run the command in a terminal on the Paperclip server host itself |
+| The sign-in command does nothing | The `codex` CLI is missing on the host you ran it on, or you ran it on the wrong machine | Install the CLI and run the command in a terminal on the ThinkingMach server host itself |
 | Status **expired** or **needs attention** | The credential rotated or the key was revoked | Reconnect the account |
-| Runs fail with a quota error | OpenAI's plan or key limits, not a Paperclip limit | On a subscription, select **Check usage** on the saved account to see which window is exhausted and when it resets. Otherwise check usage with OpenAI |
+| Runs fail with a quota error | OpenAI's plan or key limits, not a ThinkingMach limit | On a subscription, select **Check usage** on the saved account to see which window is exhausted and when it resets. Otherwise check usage with OpenAI |
 
 Limitations: one connection is one provider account, and it grants no tool access. The subscription path is tied to the Codex CLI rather than being a general OpenAI API credential.
 
 ## Related guides
 
-- [Connector overview](https://paperclip.ing/product/connectors/openai/)
+- [Connector overview](https://thinkingmach.com/product/connectors/openai/)
 
 - [Anthropic](anthropic.md), [OpenRouter](openrouter.md), [Grok](xai.md) — the other model providers.
 - [Check AI account usage](ai-usage.md)

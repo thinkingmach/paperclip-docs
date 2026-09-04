@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.609.0
 seo_title: CLI Teams Commands
-seo_description: Install a ready-made starter group — agents, projects, tasks, and the skills they need — from the catalog Paperclip ships with the app.
+seo_description: Install a ready-made starter group — agents, projects, tasks, and the skills they need — from the catalog ThinkingMach ships with the app.
 ---
 
 # Teams Commands
 
-A *team* in the catalog is a ready-made starter group — a small set of agents, projects, tasks, and the skills they need — that Paperclip ships with the app. Use `paperclipai teams` when you want to browse those team templates, inspect what one would create, preview the import against a real company, and then install it. Think of it as the team-shaped equivalent of the skills catalog: instead of one reusable procedure, you get a whole working unit you can drop into a company in one step.
+A *team* in the catalog is a ready-made starter group — a small set of agents, projects, tasks, and the skills they need — that ThinkingMach ships with the app. Use `thinkingmach teams` when you want to browse those team templates, inspect what one would create, preview the import against a real company, and then install it. Think of it as the team-shaped equivalent of the skills catalog: instead of one reusable procedure, you get a whole working unit you can drop into a company in one step.
 
 There are two kinds of catalog teams. **Bundled** teams ship inside the app and are the everyday starting points (a core executive team, a product-engineering pod, a product-design team). **Optional** teams are extras you reach for when you need them, and some of them pull in skills from external sources. The `--kind` filter on the browsing commands switches between the two.
 
@@ -19,9 +19,9 @@ There are two kinds of catalog teams. **Bundled** teams ship inside the app and 
 The browsing commands read the catalog without writing anything to a company. There is no company context required to browse, search, or inspect.
 
 ```sh
-paperclipai teams browse --kind bundled --category company-defaults
-paperclipai teams search "engineering" --kind bundled
-paperclipai teams inspect core-exec-team
+thinkingmach teams browse --kind bundled --category company-defaults
+thinkingmach teams search "engineering" --kind bundled
+thinkingmach teams inspect core-exec-team
 ```
 
 | Command | Use |
@@ -53,8 +53,8 @@ A `<catalogRef>` is a catalog team ID, key, or a unique slug. Inspecting a team 
 `teams list` is `browse` with a company lens: it shows each catalog team alongside whether it is already installed in a given company, and whether the installed copy has drifted out of date from the current catalog version. It requires a company context.
 
 ```sh
-paperclipai teams list --company-id <company-id>
-paperclipai teams list --kind optional --company-id <company-id>
+thinkingmach teams list --company-id <company-id>
+thinkingmach teams list --kind optional --company-id <company-id>
 ```
 
 | Flag | Use |
@@ -72,8 +72,8 @@ Each row reports the team's installed status — not installed, installed, out o
 Before you commit, `teams preview` runs the import on the server and shows you the plan without writing anything. It reports what would be created, which skills the team needs and how they would be prepared, and any warnings or errors. It requires a company context.
 
 ```sh
-paperclipai teams preview core-exec-team --company-id <company-id>
-paperclipai teams preview product-engineering \
+thinkingmach teams preview core-exec-team --company-id <company-id>
+thinkingmach teams preview product-engineering \
   --target-manager-slug cto \
   --collision-strategy rename \
   --company-id <company-id>
@@ -100,9 +100,9 @@ The two manager options let you slot a team in under your existing org chart: in
 `teams install` does what `preview` shows: it imports the team into the company, creating its agents, projects, tasks, and preparing its required skills. It requires a company context and accepts everything `preview` does, plus a few install-only flags.
 
 ```sh
-paperclipai teams install core-exec-team --company-id <company-id>
+thinkingmach teams install core-exec-team --company-id <company-id>
 
-paperclipai teams install product-engineering \
+thinkingmach teams install product-engineering \
   --target-manager-slug cto \
   --adapter-override senior-coder=claude_local \
   --company-id <company-id>
@@ -115,13 +115,13 @@ paperclipai teams install product-engineering \
 | `--secret-value <key=value>` | Provide a value for a secret env input the team declares. Repeat for several. |
 | `--adapter-override <slug=type>` | Adapter type override for an imported agent slug — for example `senior-coder=claude_local`. Repeat for several. |
 | `--request-approval-on-forbidden` | When the install is denied because you lack `agents:create` permission, create a board approval request instead of exiting with the raw 403. |
-| `--approval-issue-id <id>` | Issue ID to link to the fallback approval request. Defaults to `PAPERCLIP_TASK_ID` when that is set. |
+| `--approval-issue-id <id>` | Issue ID to link to the fallback approval request. Defaults to `THINKINGMACH_TASK_ID` when that is set. |
 
 Catalog teams ship without a fixed adapter per agent on purpose, so the install lets you choose the runtime. Use `--adapter-override <slug=type>` to pin a specific agent to an adapter such as `claude_local` or `codex_local`; agents you do not override are resolved at import time.
 
 ### When you do not have permission to create agents
 
-Installing a team creates agents, which requires the `agents:create` permission. If the server denies the install for that reason, you would normally see a `403`. Pass `--request-approval-on-forbidden` (or run inside a Paperclip task, where `PAPERCLIP_TASK_ID` is set) and the CLI instead files a board approval request describing the install you attempted, so a board operator can approve it. Any secret values you passed are stripped from the stored request and redacted in the returned result.
+Installing a team creates agents, which requires the `agents:create` permission. If the server denies the install for that reason, you would normally see a `403`. Pass `--request-approval-on-forbidden` (or run inside a ThinkingMach task, where `THINKINGMACH_TASK_ID` is set) and the CLI instead files a board approval request describing the install you attempted, so a board operator can approve it. Any secret values you passed are stripped from the stored request and redacted in the returned result.
 
 ---
 

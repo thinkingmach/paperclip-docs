@@ -22,7 +22,7 @@ The task conversation described here is standard behavior. **Combined Inbox + Ta
 
 With that option on in the streamlined interface, **Tasks** carries the unread and failed-run badge, and the separate **Inbox** sidebar row disappears. Open **Views** on Tasks to switch between **Mine**, **Unread**, **Blocked**, **Recent**, and **Everything**, or the organization views **All tasks**, **Active**, **Backlog**, and **Done**. Your inbox actions and task filters still belong to their respective views. Existing inbox links take you to the corresponding task view.
 
-You can enable it independently of [Agent Chat](agent-chat.md). See the [view registry](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/lib/task-views.ts) and [sidebar behavior](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/components/Sidebar.tsx) for the current mapping.
+You can enable it independently of [Agent Chat](agent-chat.md). See the [view registry](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/lib/task-views.ts) and [sidebar behavior](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/components/Sidebar.tsx) for the current mapping.
 
 ## What changes on the task page
 
@@ -61,7 +61,7 @@ An agent's reasoning renders as a quiet block against a left rail. While it stre
 
 ### Tool calls and diffs
 
-Each tool call is one compact row: an icon for the kind of tool, its name, and the thing it acted on in monospace, with a status marker on the right. Paperclip recognises the common families — terminal, search, read, edit, web, delegation, and MCP tools — and gives each its own glyph; genuinely unknown tools get a wrench.
+Each tool call is one compact row: an icon for the kind of tool, its name, and the thing it acted on in monospace, with a status marker on the right. ThinkingMach recognises the common families — terminal, search, read, edit, web, delegation, and MCP tools — and gives each its own glyph; genuinely unknown tools get a wrench.
 
 Click a row to expand its result. If the call changed a file, a diff panel appears underneath with the path, a `+34 −3` count, and the changed lines.
 
@@ -116,7 +116,7 @@ The placeholder text follows your choice, so you can tell at a glance what will 
 - **Model.** Choose the exact model for this message from the list, or type in **Search or paste a model ID** to use one that isn't listed. Leave it on the harness default if you don't mind which.
 - **Effort.** A slider sets how much effort the model puts in — from **Off** or **Minimal** up to **Extra High**, **Max**, or **Ultra**, depending on the model. It only offers the levels that model and its engine actually support, so you won't see a control the agent would quietly ignore. Supported Codex configurations also offer a **Fast mode** toggle.
 
-The effort slider includes **Default** as well as the supported levels. **Reset to agent default** puts the model, effort, and Fast mode back to how the agent is configured. Agents that don't let Paperclip pick a model — ones that run a command, call an HTTP endpoint, or route through a gateway — say so in the picker instead of showing a model list. On a phone, the picker opens full-screen.
+The effort slider includes **Default** as well as the supported levels. **Reset to agent default** puts the model, effort, and Fast mode back to how the agent is configured. Agents that don't let ThinkingMach pick a model — ones that run a command, call an HTTP endpoint, or route through a gateway — say so in the picker instead of showing a model list. On a phone, the picker opens full-screen.
 
 **Questions wait above the composer.** When an agent asks a question, wants a confirmation, or has something for you to review, its card appears above the text box. If several need a response, the **pending** control lets you move between them. The composer stays usable underneath.
 
@@ -135,7 +135,7 @@ Questions and other cards behave a little differently when you'd rather not deal
 
 While the task has a live run, an empty composer shows **Stop** to people who can manage task controls. Click it to pause the task's work; on a parent task this pauses the subtree too. The same action is available as **Pause work** or **Pause subtree** in the task menu. Typing text or adding an attachment changes the button back to Send. The keyboard send shortcut never invokes Stop.
 
-Paperclip waits for affected runs to stop. If stopping cannot be confirmed, you get an inline error; a saved pause by itself is not proof that the provider stopped. Cancellation remains a separate task-menu action.
+ThinkingMach waits for affected runs to stop. If stopping cannot be confirmed, you get an inline error; a saved pause by itself is not proof that the provider stopped. Cancellation remains a separate task-menu action.
 
 Once paused, an amber **Task is paused.** or **Subtree is paused.** panel replaces the task's input controls. Your text and attachments remain in the draft. Use **Resume task** or **Resume subtree** before sending another message. If the pause comes from an ancestor, the button takes you to that ancestor.
 
@@ -145,11 +145,11 @@ Resume releases the hold. You can optionally wake eligible agents, but a task wi
 
 **Recovery needed.** points you to **Inspect run** and offers **Continue** or **Retry** only when that action is available. Saved follow-up messages remain attached to the task while recovery is pending. A model rejected by the provider reads **Model unavailable.**: choose a supported model or clear the task's model override, then retry. Pasting an exact model ID into the picker doesn't guarantee provider access.
 
-**Model at capacity** is different: the model exists and you can use it, it's just too busy right now. When a native Codex turn fails because the selected model is at capacity, the task doesn't drop into recovery. Instead a **Retry scheduled** card shows the reason **Model at capacity** and *"Last attempt failed: Selected model is at capacity. Please try a different model. Paperclip will retry automatically."* Paperclip retries after one minute, and if that fails too, after two more minutes, keeping the same model and the task's history. Click **Retry now** if you don't want to wait. If both automatic retries hit the same wall, the task is blocked with *"Automatic retries exhausted; retry later or choose a different model."* — retry later, or pick another model.
+**Model at capacity** is different: the model exists and you can use it, it's just too busy right now. When a native Codex turn fails because the selected model is at capacity, the task doesn't drop into recovery. Instead a **Retry scheduled** card shows the reason **Model at capacity** and *"Last attempt failed: Selected model is at capacity. Please try a different model. ThinkingMach will retry automatically."* ThinkingMach retries after one minute, and if that fails too, after two more minutes, keeping the same model and the task's history. Click **Retry now** if you don't want to wait. If both automatic retries hit the same wall, the task is blocked with *"Automatic retries exhausted; retry later or choose a different model."* — retry later, or pick another model.
 
 If the run needs provider sign-in, complete the connection or authentication request shown in the thread before retrying. A missing secret or configuration binding is a setup problem to fix, not a reason to keep sending the same request. See [Recovery actions](../guides/day-to-day/issues.md#recovery-actions) for the wider task recovery flow.
 
-Implementation reference: [composer](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/components/task-chat/TaskChatComposer.tsx), [new-task project picker](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/components/NewIssueDialog.tsx), [model and effort picker](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/components/task-chat/ComposerRunSettingsPicker.tsx), [pause release](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/server/src/routes/issue-tree-control.ts), [recovery notice](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/components/ExecutionBlockerNotice.tsx), and [authentication repair classification](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/server/src/services/ai-auth-failure.ts).
+Implementation reference: [composer](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/components/task-chat/TaskChatComposer.tsx), [new-task project picker](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/components/NewIssueDialog.tsx), [model and effort picker](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/components/task-chat/ComposerRunSettingsPicker.tsx), [pause release](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/server/src/routes/issue-tree-control.ts), [recovery notice](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/components/ExecutionBlockerNotice.tsx), and [authentication repair classification](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/server/src/services/ai-auth-failure.ts).
 
 ## The side pane
 

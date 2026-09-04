@@ -5,9 +5,9 @@ seo_description: A two-phase playbook that turns a vendor link or short brief in
 
 # Prepare MCP Integration
 
-> Take a new MCP or vendor integration from an input link or brief all the way to delivery — cited research first, an explicit human approval gate in the middle, then one governed Paperclip connector per approved connection.
+> Take a new MCP or vendor integration from an input link or brief all the way to delivery — cited research first, an explicit human approval gate in the middle, then one governed ThinkingMach connector per approved connection.
 
-A two-phase playbook for researching and shipping MCP/vendor integrations in a way people can review and sign off on. It turns a link or a short vendor brief into a cited research pull request, waits for a human to accept the exact revision, and only then writes the connector code — one Paperclip pull request per approved connection.
+A two-phase playbook for researching and shipping MCP/vendor integrations in a way people can review and sign off on. It turns a link or a short vendor brief into a cited research pull request, waits for a human to accept the exact revision, and only then writes the connector code — one ThinkingMach pull request per approved connection.
 
 This is an **optional** catalog skill — opt-in (install when you need it). For how to install, audit, update, assign, and reset catalog skills, see the [Skills reference](../../../skills.md#3-app-shipped-catalog).
 
@@ -36,11 +36,11 @@ Phase B does not start on its own. A human has to explicitly accept **the exact 
 
 ### Phase B — Implementation
 
-Only after that approval does the skill implement the connector in the Paperclip app. It opens **one Paperclip app pull request per approved connection**, so each connection is reviewed and shipped on its own.
+Only after that approval does the skill implement the connector in the ThinkingMach app. It opens **one ThinkingMach app pull request per approved connection**, so each connection is reviewed and shipped on its own.
 
 ## The one-PR-per-connection rule
 
-Every approved connection gets its own Paperclip app pull request. Connections are not bundled together — this keeps each one reviewable in isolation and makes it clear exactly what was approved and shipped for each.
+Every approved connection gets its own ThinkingMach app pull request. Connections are not bundled together — this keeps each one reviewable in isolation and makes it clear exactly what was approved and shipped for each.
 
 ## The secrets rule
 
@@ -50,8 +50,8 @@ Vendor credentials always live in approved secret storage — never anywhere els
 
 | Field | Value |
 |---|---|
-| Catalog id | `paperclipai:optional:software-development:prepare-mcp-integration` |
-| Canonical key | `paperclipai/optional/software-development/prepare-mcp-integration` |
+| Catalog id | `thinkingmach:optional:software-development:prepare-mcp-integration` |
+| Canonical key | `thinkingmach/optional/software-development/prepare-mcp-integration` |
 | Catalog path | `catalog/optional/software-development/prepare-mcp-integration` |
 | Kind | `optional` |
 | Category | `software-development` |

@@ -7,7 +7,7 @@ publish_clone="$tmp_root/publish"
 site_dir="$tmp_root/site"
 origin_url="$(git -C "$repo_root" remote get-url origin)"
 pages_base_path="${PAGES_BASE_PATH:-/}"
-pages_custom_domain="${PAGES_CUSTOM_DOMAIN:-docs.paperclip.ing}"
+pages_custom_domain="${PAGES_CUSTOM_DOMAIN:-docs.thinkingmach.com}"
 
 cleanup() {
   rm -rf "$tmp_root"
@@ -43,9 +43,9 @@ if git diff --cached --quiet; then
   exit 0
 fi
 
-git config user.name "Paperclip"
-git config user.email "noreply@paperclip.ing"
-git commit -m "Publish docs site" -m "Co-Authored-By: Paperclip <noreply@paperclip.ing>"
+git config user.name "ThinkingMach"
+git config user.email "noreply@thinkingmach.com"
+git commit -m "Publish docs site" -m "Co-Authored-By: ThinkingMach <noreply@thinkingmach.com>"
 git -c http.version=HTTP/1.1 -c http.postBuffer=524288000 push --no-thin -u origin gh-pages
 
 echo "Published docs site to origin/gh-pages."

@@ -6,7 +6,7 @@ seo_description: How humans fit alongside agents: one membership model, roles ve
 
 # Members & Access
 
-Most of Paperclip is about *agents* — the AI employees that do the work. But a company also has **people**: the humans who sign in, watch the board, approve spend, invite teammates, and set direction. This guide is the mental model for how those people fit in — who can be a member, how access is decided, and how the human side relates to the agent org chart.
+Most of ThinkingMach is about *agents* — the AI employees that do the work. But a company also has **people**: the humans who sign in, watch the board, approve spend, invite teammates, and set direction. This guide is the mental model for how those people fit in — who can be a member, how access is decided, and how the human side relates to the agent org chart.
 
 If you want the button-by-button pages, they're in [Company Administration](../../administration/company.md). If you want the exact permission table, that's [Roles & Permissions](../../administration/roles-and-permissions.md). This page is the "why it's shaped this way" in between.
 
@@ -14,7 +14,7 @@ If you want the button-by-button pages, they're in [Company Administration](../.
 
 ## One membership model for people and agents
 
-Here's the idea that makes the rest click: **humans and agents are both "principals," and they share one membership system.** When Paperclip asks "is this actor allowed to do this?", it doesn't branch into a human code path and an agent code path. It resolves the same tuple — *(which company, what kind of principal, which principal, which permission)* — whether the actor is a person holding a session or an agent holding an API key.
+Here's the idea that makes the rest click: **humans and agents are both "principals," and they share one membership system.** When ThinkingMach asks "is this actor allowed to do this?", it doesn't branch into a human code path and an agent code path. It resolves the same tuple — *(which company, what kind of principal, which principal, which permission)* — whether the actor is a person holding a session or an agent holding an API key.
 
 That's why the same surfaces keep showing up for both:
 
@@ -46,21 +46,21 @@ The four roles, briefly: **Owner** (runs the company), **Admin** (onboards peopl
 
 This trips people up, so it's worth stating plainly: **the human roles on this page have nothing to do with the CEO → manager → report tree.**
 
-- **Human roles** gate access to the Paperclip *product* — who can open the app, invite people, approve spend, change settings.
+- **Human roles** gate access to the ThinkingMach *product* — who can open the app, invite people, approve spend, change settings.
 - **The agent org chart** describes *reporting lines* between agents — who delegates to whom, whose budget rolls up where.
 
 A human "Owner" is not the CEO agent's boss in the org-chart sense; they're the person who administers the company around the agents. The two models are deliberately independent. For the agent side, see [Org Structure](./org-structure.md).
 
 ---
 
-## Inviting people on Paperclip Cloud
+## Inviting people on ThinkingMach Cloud
 
-If your organization runs on Paperclip Cloud, the people who can sign in are managed by Cloud, not by the instance. So when you're an owner or admin of the current Cloud organization, the Members page (headed **Organization Members**) shows an **Invite people** button in its top-right corner. Clicking it takes you out of the app to that organization's **People** settings in Paperclip Cloud, where you send the invitation.
+If your organization runs on ThinkingMach Cloud, the people who can sign in are managed by Cloud, not by the instance. So when you're an owner or admin of the current Cloud organization, the Members page (headed **Organization Members**) shows an **Invite people** button in its top-right corner. Clicking it takes you out of the app to that organization's **People** settings in ThinkingMach Cloud, where you send the invitation.
 
 A few things decide whether you see the button:
 
-- **Your Cloud role, not your company role.** Only the current Cloud organization's owner or admin gets it. Being an owner of the company inside Paperclip — or owning some *other* Cloud organization — isn't enough.
-- **Cloud has to answer.** The button stays hidden until Paperclip knows your Cloud role, and it doesn't appear at all if that lookup fails.
+- **Your Cloud role, not your company role.** Only the current Cloud organization's owner or admin gets it. Being an owner of the company inside ThinkingMach — or owning some *other* Cloud organization — isn't enough.
+- **Cloud has to answer.** The button stays hidden until ThinkingMach knows your Cloud role, and it doesn't appear at all if that lookup fails.
 - **It's separate from the Invites tab.** If your operator has hidden the in-app Invites tab, the Cloud button still shows for the people allowed to use it.
 
 Self-hosted instances never show this button — you invite people with the in-app invite links described in [Add a human teammate](../../how-to/add-a-human-teammate.md).
@@ -71,7 +71,7 @@ Self-hosted instances never show this button — you invite people with the in-a
 
 Company roles stop at the company boundary. One role reaches across the whole instance: the **instance admin**. An instance admin can administer every company on the install — including ones they aren't a member of — promote other instance admins, and decide which companies each user can reach.
 
-This is the role you use when you run Paperclip as a shared platform (say, a VPS hosting several companies) rather than a personal tool. The very first instance admin is established once, through the [board-claim](../../administration/cli-auth.md) flow, when you move an instance into authenticated mode. After that, instance admins hand out access from the Instance Access surface. It's independent of company roles: someone can be an instance admin with no company membership at all.
+This is the role you use when you run ThinkingMach as a shared platform (say, a VPS hosting several companies) rather than a personal tool. The very first instance admin is established once, through the [board-claim](../../administration/cli-auth.md) flow, when you move an instance into authenticated mode. After that, instance admins hand out access from the Instance Access surface. It's independent of company roles: someone can be an instance admin with no company membership at all.
 
 ---
 
@@ -83,7 +83,7 @@ Each human member has a **profile page**, reachable at `/u/<user-slug>` in the a
 - activity over rolling windows — issues touched, created, and completed, plus comment and activity counts;
 - their token usage and cost, including a 14-day activity chart and a breakdown of which agents and providers drove the spend.
 
-It's a useful lens when you want to see what a teammate has actually been doing, or attribute cost to a person. You can pull the same data from the CLI with `paperclipai profile company-user <user-slug> --company-id <company-id>` (see the [CLI reference](../../reference/cli/access.md#profile)).
+It's a useful lens when you want to see what a teammate has actually been doing, or attribute cost to a person. You can pull the same data from the CLI with `thinkingmach profile company-user <user-slug> --company-id <company-id>` (see the [CLI reference](../../reference/cli/access.md#profile)).
 
 Members edit their *own* display name and avatar from **Settings → Profile**. The account email is not editable from the profile page.
 
@@ -93,7 +93,7 @@ Members edit their *own* display name and avatar from **Settings → Profile**. 
 
 ## "Left a project" is not "lost access"
 
-One last distinction, because the word *membership* is overloaded. Alongside company membership, Paperclip has **resource memberships** — a lightweight "joined / left" flag on individual projects and agents.
+One last distinction, because the word *membership* is overloaded. Alongside company membership, ThinkingMach has **resource memberships** — a lightweight "joined / left" flag on individual projects and agents.
 
 These are **navigation, not authorization.** By default you're "joined" to things, and *leaving* a project or agent simply tidies it out of your personal sidebar — it doesn't revoke anyone's access, and it doesn't change what you're allowed to do. Rejoin any time and it reappears. Don't reach for resource memberships to control who can see what; that's what roles and grants are for. The mechanics are documented in the [Resource Memberships API](../../reference/api/resource-memberships.md).
 

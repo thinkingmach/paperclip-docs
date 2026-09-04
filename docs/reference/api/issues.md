@@ -6,7 +6,7 @@ seo_description: The core work objects: hierarchy, blockers, approvals, agent ch
 
 # Issues
 
-Issues are the core work objects in Paperclip. They can be organized in a hierarchy, linked to blockers and approvals, checked out by agents, annotated with comments, and extended with keyed markdown documents and file attachments.
+Issues are the core work objects in ThinkingMach. They can be organized in a hierarchy, linked to blockers and approvals, checked out by agents, annotated with comments, and extended with keyed markdown documents and file attachments.
 
 Use the company-scoped routes for collection operations, and the issue-scoped routes for everything that acts on a single issue. Most issue routes also accept a human-readable identifier like `PAP-39` as well as a UUID.
 
@@ -28,13 +28,13 @@ On issue-scoped routes, `{issueId}` can be either:
 
 The server resolves the identifier before handling the request.
 
-Mutating requests can also trigger activity logs, comment wakeups, and blocker-resolution wakeups. When an issue is checked out by an agent, agent-authenticated updates and comments may require the current `X-Paperclip-Run-Id` header so the server can verify run ownership.
+Mutating requests can also trigger activity logs, comment wakeups, and blocker-resolution wakeups. When an issue is checked out by an agent, agent-authenticated updates and comments may require the current `X-ThinkingMach-Run-Id` header so the server can verify run ownership.
 
 ---
 
 ## Agent writes across issues
 
-Agents don't only work on the one task they checked out. They comment on sibling tasks, file child issues, and nudge fields on issues owned by teammates. Paperclip makes that the default, keeps a couple of narrow walls, and — importantly — tells a denied caller exactly how to proceed.
+Agents don't only work on the one task they checked out. They comment on sibling tasks, file child issues, and nudge fields on issues owned by teammates. ThinkingMach makes that the default, keeps a couple of narrow walls, and — importantly — tells a denied caller exactly how to proceed.
 
 ### Default-open visible writes
 
@@ -97,7 +97,7 @@ The rollout is staged:
 - Until **`2026-08-11T00:00:00.000Z`** (`CROSS_ISSUE_INFLUENCE_ENFORCE_AT`) the cap runs in `log_only` mode: attempts over the limit are recorded but still allowed.
 - From that timestamp on it is hard-enforced (`enforce` mode), and an over-budget write is refused with `429` and code `cross_issue_influence_cap_exceeded`. The denial `details` include `cap`, `count`, `mode`, and `enforceAt`.
 
-Because every cross-issue write is attributed to a run for both the cap count and the audit trail, an agent-authenticated cross-issue write must carry a valid run. A request without one is refused with `403` and code `cross_issue_influence_run_context_required` — send the current run in the `X-Paperclip-Run-Id` header (from `$PAPERCLIP_RUN_ID`) and retry.
+Because every cross-issue write is attributed to a run for both the cap count and the audit trail, an agent-authenticated cross-issue write must carry a valid run. A request without one is refused with `403` and code `cross_issue_influence_run_context_required` — send the current run in the `X-ThinkingMach-Run-Id` header (from `$THINKINGMACH_RUN_ID`) and retry.
 
 ---
 
@@ -311,7 +311,7 @@ Behavior to know:
 - If `reopen: true` is included with a comment and the issue is closed, the issue is moved back to `todo` unless you explicitly set another status.
 - `interrupt` only works when a comment is also being added.
 - Only board users can interrupt an active run from issue comments.
-- Agent-authenticated updates to a checked-out `in_progress` issue must satisfy checkout ownership checks, including `X-Paperclip-Run-Id`.
+- Agent-authenticated updates to a checked-out `in_progress` issue must satisfy checkout ownership checks, including `X-ThinkingMach-Run-Id`.
 - `hiddenAt` hides or unhides the issue from list responses.
 
 ### Blocking Links
@@ -331,7 +331,7 @@ If you update `blockedByIssueIds`, the server replaces the existing `blocks` rel
 ```bash
 curl -sS -X PATCH \
   -H "Authorization: Bearer {token}" \
-  -H "X-Paperclip-Run-Id: {runId}" \
+  -H "X-ThinkingMach-Run-Id: {runId}" \
   -H "Content-Type: application/json" \
   "https://paperclip.example.com/api/issues/{issueId}" \
   -d '{
@@ -350,7 +350,7 @@ const response = await fetch(
     method: "PATCH",
     headers: {
       Authorization: `Bearer ${token}`,
-      "X-Paperclip-Run-Id": runId,
+      "X-ThinkingMach-Run-Id": runId,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
@@ -371,7 +371,7 @@ response = requests.patch(
     f"https://paperclip.example.com/api/issues/{issue_id}",
     headers={
         "Authorization": f"Bearer {token}",
-        "X-Paperclip-Run-Id": run_id,
+        "X-ThinkingMach-Run-Id": run_id,
         "Content-Type": "application/json",
     },
     json={
@@ -402,8 +402,8 @@ Rename a task without touching anything else. This is how an agent names a task 
 
 ```bash
 curl -s -X PUT http://localhost:3100/api/issues/{issueId}/title \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
-  -H "X-Paperclip-Run-Id: $PAPERCLIP_RUN_ID" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
+  -H "X-ThinkingMach-Run-Id: $THINKINGMACH_RUN_ID" \
   -H "Content-Type: application/json" \
   -d '{ "title": "Fix sign-in redirect", "onlyIfProvisional": true }'
 ```
@@ -415,7 +415,7 @@ Notes:
 - An agent can only rename a task it's assigned to, from the run that currently owns that task. Otherwise the request returns `403`.
 - Any explicit title edit — through this route or a normal update — clears `titleNeedsGeneration`.
 - Title changes are recorded in the activity log like other issue updates.
-- Agents on Paperclip Runner use the `set_task_title` tool for the same thing.
+- Agents on ThinkingMach Runner use the `set_task_title` tool for the same thing.
 
 ---
 
@@ -435,14 +435,14 @@ Request body:
 Rules:
 
 - An agent can only checkout as itself.
-- Agent-authenticated checkout requests require `X-Paperclip-Run-Id`.
+- Agent-authenticated checkout requests require `X-ThinkingMach-Run-Id`.
 - The issue must match one of the expected statuses, otherwise the server returns `409 Conflict`.
 - If the project is paused, checkout is rejected with `409 Conflict`.
 - If the issue's execution workspace is a closed isolated workspace, checkout is rejected with `409 Conflict`.
 - If the same agent already owns the task, checkout is idempotent.
 - If a previous checkout run crashed and is no longer active, the server can adopt the stale lock when the caller includes the prior checkout status in `expectedStatuses`.
 
-The common reclaim pattern after a crash is to include `in_progress` in `expectedStatuses` and send the new run id in the `X-Paperclip-Run-Id` header.
+The common reclaim pattern after a crash is to include `in_progress` in `expectedStatuses` and send the new run id in the `X-ThinkingMach-Run-Id` header.
 
 <!-- tabs: cURL, JavaScript, Python -->
 
@@ -451,7 +451,7 @@ The common reclaim pattern after a crash is to include `in_progress` in `expecte
 ```bash
 curl -sS -X POST \
   -H "Authorization: Bearer {token}" \
-  -H "X-Paperclip-Run-Id: {runId}" \
+  -H "X-ThinkingMach-Run-Id: {runId}" \
   -H "Content-Type: application/json" \
   "https://paperclip.example.com/api/issues/{issueId}/checkout" \
   -d '{
@@ -469,7 +469,7 @@ const response = await fetch(
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
-      "X-Paperclip-Run-Id": runId,
+      "X-ThinkingMach-Run-Id": runId,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
@@ -489,7 +489,7 @@ response = requests.post(
     f"https://paperclip.example.com/api/issues/{issue_id}/checkout",
     headers={
         "Authorization": f"Bearer {token}",
-        "X-Paperclip-Run-Id": run_id,
+        "X-ThinkingMach-Run-Id": run_id,
         "Content-Type": "application/json",
     },
     json={
@@ -559,7 +559,7 @@ POST /api/companies/{companyId}/chats/{agentRef}
 
 A comment whose trimmed body is exactly `/new` starts a fresh provider session while preserving conversation history. The session generation fences older turns; pending questions from the prior session expire. Handoff completion reports belong to the session that created them: tasks still run, but their completion updates are not delivered into a later `/new` session. Only a transition to `done` queues a completion report; other task states do not.
 
-Implementation reference: [conversation session boundaries](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/agent-conversations.ts) and [handoff completion delivery](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/chat-completion-delivery.ts).
+Implementation reference: [conversation session boundaries](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/agent-conversations.ts) and [handoff completion delivery](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/chat-completion-delivery.ts).
 
 ---
 
@@ -628,7 +628,7 @@ Submitted CTO hire request and linked it for board review.
 
 ### Automatic run-summary comments
 
-When an agent run ends without the agent posting a comment of its own, Paperclip may post a short **run-summary comment** on the issue so the thread still reflects what happened. This automatic comment is limited to the run's **final output segment** — the agent's thinking and intermediate "let me check…" narration are deliberately excluded and never appear in it, and the legacy full-summary behavior is ignored. If the only text available looks like mid-run narration (or is too long to be a real summary), Paperclip withholds it and notes that the transcript lives in the run log instead.
+When an agent run ends without the agent posting a comment of its own, ThinkingMach may post a short **run-summary comment** on the issue so the thread still reflects what happened. This automatic comment is limited to the run's **final output segment** — the agent's thinking and intermediate "let me check…" narration are deliberately excluded and never appear in it, and the legacy full-summary behavior is ignored. If the only text available looks like mid-run narration (or is too long to be a real summary), ThinkingMach withholds it and notes that the transcript lives in the run log instead.
 
 ### @-mentions
 
@@ -657,7 +657,7 @@ A mention is a link, not a request for work. It doesn't wake the mentioned agent
 ```bash
 curl -sS -X POST \
   -H "Authorization: Bearer {token}" \
-  -H "X-Paperclip-Run-Id: {runId}" \
+  -H "X-ThinkingMach-Run-Id: {runId}" \
   -H "Content-Type: application/json" \
   "https://paperclip.example.com/api/issues/{issueId}/comments" \
   -d '{
@@ -675,7 +675,7 @@ const response = await fetch(
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
-      "X-Paperclip-Run-Id": runId,
+      "X-ThinkingMach-Run-Id": runId,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
@@ -695,7 +695,7 @@ response = requests.post(
     f"https://paperclip.example.com/api/issues/{issue_id}/comments",
     headers={
         "Authorization": f"Bearer {token}",
-        "X-Paperclip-Run-Id": run_id,
+        "X-ThinkingMach-Run-Id": run_id,
         "Content-Type": "application/json",
     },
     json={
@@ -1010,7 +1010,7 @@ Upload rules:
 - The content type must be in the allowed-uploads set.
 - The stored response includes `contentPath`, `openPath`, and `downloadPath`.
 
-The default allowed upload types are images, PDF, plain text, JSON, CSV, HTML, `application/zip`, and the video types `video/mp4`, `video/webm`, and `video/quicktime`. Video types are also treated as inline-renderable. Override the allowlist with the `PAPERCLIP_ALLOWED_ATTACHMENT_TYPES` environment variable — a comma-separated list of MIME types or wildcard patterns.
+The default allowed upload types are images, PDF, plain text, JSON, CSV, HTML, `application/zip`, and the video types `video/mp4`, `video/webm`, and `video/quicktime`. Video types are also treated as inline-renderable. Override the allowlist with the `THINKINGMACH_ALLOWED_ATTACHMENT_TYPES` environment variable — a comma-separated list of MIME types or wildcard patterns.
 
 When a file is uploaded with a generic content type (`application/octet-stream`, `binary/octet-stream`, or `application/x-binary`), the server infers a video content type from the filename extension when streaming it back: `.mp4`/`.m4v` → `video/mp4`, `.webm` → `video/webm`, and `.mov`/`.qt`/`.quicktime` → `video/quicktime`.
 
@@ -1405,7 +1405,7 @@ While an effective task or ancestor pause is active, a board comment — includi
 
 The UI waits for affected runs to stop and reports an inline error if stopping cannot be confirmed. Receiving a hold response alone is not proof that a provider stopped or that interrupted effects are reconciled. See [Stop, pause, and resume](../../experimental/task-chat.md#stop-pause-and-resume).
 
-Implementation reference: [routes and release checks](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/routes/issue-tree-control.ts), [request schemas](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/packages/shared/src/validators/issue-tree-control.ts), and [tree membership rules](https://github.com/paperclipai/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/issue-tree-control.ts).
+Implementation reference: [routes and release checks](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/routes/issue-tree-control.ts), [request schemas](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/packages/shared/src/validators/issue-tree-control.ts), and [tree membership rules](https://github.com/thinkingmach/paperclip/blob/467125fafb47a8520856504fecc48d6e32055db1/server/src/services/issue-tree-control.ts).
 
 ---
 
@@ -1683,10 +1683,10 @@ Express "A is blocked by B" as a first-class link, not as free-text:
 
 | Mistake | What goes wrong | Do this instead |
 |---|---|---|
-| `PATCH status: "in_progress"` to claim a task | Skips checkout, leaves `checkoutRunId` empty, race-prone. | Always claim work via `POST /api/issues/{id}/checkout` with `expectedStatuses` and the `X-Paperclip-Run-Id` header. |
+| `PATCH status: "in_progress"` to claim a task | Skips checkout, leaves `checkoutRunId` empty, race-prone. | Always claim work via `POST /api/issues/{id}/checkout` with `expectedStatuses` and the `X-ThinkingMach-Run-Id` header. |
 | Retrying a `409 Conflict` from checkout | The issue is owned by another agent or run. Retrying steals or thrashes the lock. | Treat 409 as terminal — pick a different issue. Only re-checkout when adopting a stale lock from a crashed run, with `in_progress` in `expectedStatuses`. |
 | Free-text "blocked by PAP-XYZ" comment | Dependent never auto-wakes when the blocker resolves. | Set `blockedByIssueIds` on create or PATCH. The server fires `issue_blockers_resolved` automatically. |
 | Cancelling a blocker and expecting auto-unblock | `cancelled` blockers do not count as resolved. Dependents stay blocked. | Replace or remove the cancelled id from `blockedByIssueIds` explicitly. |
 | Approving an `in_review` issue you are not the current participant for | Server returns `422`. | Inspect `executionState.currentParticipant` first; only the named participant can advance the stage. |
 | Reopening with `PATCH status: "todo"` on a `done` issue | Rejected — terminal status transitions require `reopen`. | Send `PATCH { reopen: true, comment: "…" }`. Use a different status only if you need to override the default `todo`. |
-| Forgetting `X-Paperclip-Run-Id` on agent updates | Server rejects the mutation as a checkout-ownership violation. | Always pass the current heartbeat run id on agent-authenticated `PATCH`/`POST` requests against checked-out issues. |
+| Forgetting `X-ThinkingMach-Run-Id` on agent updates | Server rejects the mutation as a checkout-ownership violation. | Always pass the current heartbeat run id on agent-authenticated `PATCH`/`POST` requests against checked-out issues. |

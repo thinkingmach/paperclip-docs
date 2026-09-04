@@ -81,7 +81,7 @@ Returns one object with the current company health snapshot. The endpoint is rea
 <!-- tab: cURL -->
 
 ```bash
-curl -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   http://localhost:3100/api/companies/company_123/dashboard
 ```
 
@@ -90,7 +90,7 @@ curl -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
 ```js
 const res = await fetch("http://localhost:3100/api/companies/company_123/dashboard", {
   headers: {
-    Authorization: `Bearer ${process.env.PAPERCLIP_API_KEY}`,
+    Authorization: `Bearer ${process.env.THINKINGMACH_API_KEY}`,
   },
 });
 
@@ -107,7 +107,7 @@ import requests
 
 res = requests.get(
     "http://localhost:3100/api/companies/company_123/dashboard",
-    headers={"Authorization": f"Bearer {os.environ['PAPERCLIP_API_KEY']}"},
+    headers={"Authorization": f"Bearer {os.environ['THINKINGMACH_API_KEY']}"},
 )
 res.raise_for_status()
 dashboard = res.json()

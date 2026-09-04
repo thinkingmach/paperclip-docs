@@ -1,7 +1,7 @@
 ---
 paperclip_version: v2026.1012.0
 seo_title: Assistant MCP Protocol and Tools
-seo_description: Integrate an assistant as a consenting Paperclip user. Discover work tools, delegate and follow tasks, subscribe to events, and revoke access.
+seo_description: Integrate an assistant as a consenting ThinkingMach user. Discover work tools, delegate and follow tasks, subscribe to events, and revoke access.
 ---
 
 # Assistant MCP
@@ -17,7 +17,7 @@ Enable **Assistant connections (MCP)** in Experimental settings. The default is 
 Use the configured authentication public URL or set an origin explicitly:
 
 ```sh
-PAPERCLIP_PUBLIC_URL=https://YOUR-PAPERCLIP-HOST
+THINKINGMACH_PUBLIC_URL=https://YOUR-THINKINGMACH-HOST
 ```
 
 The origin cannot contain a path, embedded credentials, query parameters, or a fragment. HTTP is allowed only for localhost or loopback development. Private self-hosted deployments need a client that can reach the endpoint directly. Configure trusted proxies correctly at your deployment edge.
@@ -71,9 +71,9 @@ Call `paperclip_connection` first. Verify the person and organization, then use 
 | `paperclip_list_agents`, `paperclip_list_projects`, `paperclip_search_tasks`, `paperclip_read_task` | Find agents, projects, and durable work. |
 | `paperclip_create_task`, `paperclip_add_comment` | Delegate work or add feedback as the connected person. Write scope. |
 | `paperclip_list_deliverables`, `paperclip_read_document` | Retrieve saved task documents and deliverable references. |
-| `paperclip_pending_approvals` | Read pending approvals and their Paperclip decision links. |
+| `paperclip_pending_approvals` | Read pending approvals and their ThinkingMach decision links. |
 
-The tools don't change agent or project configuration, decide approvals, or fetch arbitrary URLs. Review and approval decisions remain in Paperclip.
+The tools don't change agent or project configuration, decide approvals, or fetch arbitrary URLs. Review and approval decisions remain in ThinkingMach.
 
 A hosted directory broker has its own work-oriented tool catalog. Do not treat direct-instance Events support as a broker capability. Hosted deployment and public store or directory availability require separate validation; direct client configuration does not depend on a listing.
 
@@ -115,14 +115,14 @@ Each item in the connections list carries `id`, `companyId`, `clientName`, `comp
 
 ### Browser consent endpoints
 
-The consent pages in the Paperclip UI use these endpoints. They are listed so you can recognise them in logs; assistants don't call them.
+The consent pages in the ThinkingMach UI use these endpoints. They are listed so you can recognise them in logs; assistants don't call them.
 
 | Endpoint | Purpose |
 | --- | --- |
 | `GET /api/mcp/requests/{id}` | Describe a pending browser authorization request on the `/mcp-connect/{id}` page. |
-| `POST /api/mcp/requests/{id}/consent` | Approve or decline that request. Requires a signed-in user and the Paperclip browser origin. |
+| `POST /api/mcp/requests/{id}/consent` | Approve or decline that request. Requires a signed-in user and the ThinkingMach browser origin. |
 | `GET /api/mcp/device?user_code=...` | Describe a pending device authorization on the `/mcp-device` page. |
-| `POST /api/mcp/device/consent` | Approve or decline a device authorization by its user code. Requires a signed-in user and the Paperclip browser origin. |
+| `POST /api/mcp/device/consent` | Approve or decline a device authorization by its user code. Requires a signed-in user and the ThinkingMach browser origin. |
 
 Device authorization returns `/mcp-device` as its `verification_uri` and expires after ten minutes.
 

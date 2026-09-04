@@ -14,12 +14,12 @@ You.com connects agents to its hosted web intelligence server. Choose browser si
 
 ## Connect You.com
 
-> **Unverified setup:** This procedure follows the pinned Paperclip definition and You.com's documentation. It has not been tested with a live You.com connection. Each step below is unverified.
+> **Unverified setup:** This procedure follows the pinned ThinkingMach definition and You.com's documentation. It has not been tested with a live You.com connection. Each step below is unverified.
 
 1. **Unverified:** Open **Connectors** and select **You.com**.
 2. **Unverified:** Choose **Sign in with You.com**, **Use an API key**, or **Use the free profile**.
 3. **Unverified:** On **Access**, choose the identity and the agents that may use it.
-4. **Unverified:** Complete browser sign-in, paste the key into **You.com API key**, or continue without credentials for the free profile. Sign-in and key methods use `https://api.you.com/mcp`; the free method uses `https://api.you.com/mcp?profile=free`. Paperclip sends API keys as an `Authorization: Bearer` header.
+4. **Unverified:** Complete browser sign-in, paste the key into **You.com API key**, or continue without credentials for the free profile. Sign-in and key methods use `https://api.you.com/mcp`; the free method uses `https://api.you.com/mcp?profile=free`. ThinkingMach sends API keys as an `Authorization: Bearer` header.
 5. **Unverified:** Finish the check and inspect the action list for the chosen profile.
 
 The product server is separate from You.com's documentation-search server. Use the endpoints above for this connector.
@@ -33,10 +33,10 @@ The free profile offers fewer tools than authenticated access. Inspect the conne
 ## Try it
 
 ```txt
-Search the web for the official Paperclip documentation and report the source URL. Do not send private company information in the query.
+Search the web for the official ThinkingMach documentation and report the source URL. Do not send private company information in the query.
 ```
 
-Inspect the returned sources and the connector call in Paperclip.
+Inspect the returned sources and the connector call in ThinkingMach.
 
 > **Unverified check:** Illustrative task, not a recorded test result.
 
@@ -53,7 +53,7 @@ Switching credentials does not remove provider limits. This page does not promis
 
 ## Related guides
 
-- [Connector overview](https://paperclip.ing/product/connectors/youcom/)
+- [Connector overview](https://thinkingmach.com/product/connectors/youcom/)
 
 - [How connector access works](access-model.md)
 - [Set action permissions](action-permissions.md)
@@ -62,4 +62,4 @@ Switching credentials does not remove provider limits. This page does not promis
 
 ## Sources
 
-- [Paperclip connector definition](https://github.com/paperclipai/paperclip/blob/3166e93a7eee315e3bfbda622e080044ec5c343d/packages/shared/src/app-definitions/youcom.json#L19) — method names, authentication, endpoints, and connector-specific limits at the pinned product version. Provider setup documentation is linked above.
+- [ThinkingMach connector definition](https://github.com/thinkingmach/paperclip/blob/3166e93a7eee315e3bfbda622e080044ec5c343d/packages/shared/src/app-definitions/youcom.json#L19) — method names, authentication, endpoints, and connector-specific limits at the pinned product version. Provider setup documentation is linked above.

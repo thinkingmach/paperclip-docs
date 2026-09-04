@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.1005.0
 seo_title: Kimi Code Adapter
-seo_description: Run Moonshot's Kimi Code CLI on the Paperclip host as a local coding agent, on the shared ACP engine by default, with an optional headless-CLI lane.
+seo_description: Run Moonshot's Kimi Code CLI on the ThinkingMach host as a local coding agent, on the shared ACP engine by default, with an optional headless-CLI lane.
 ---
 
 # Kimi Code
 
-`kimi_local` runs Moonshot's Kimi Code CLI (`kimi`) on the same machine as Paperclip. Use it when you want a local coding agent that streams a structured live transcript, resumes sessions across heartbeats, and gets your Paperclip skills injected without polluting your own Kimi skills home.
+`kimi_local` runs Moonshot's Kimi Code CLI (`kimi`) on the same machine as ThinkingMach. Use it when you want a local coding agent that streams a structured live transcript, resumes sessions across heartbeats, and gets your ThinkingMach skills injected without polluting your own Kimi skills home.
 
 Kimi Code runs on the same shared ACP engine as Claude, Codex, and Gemini by default. You can switch it to a headless CLI lane instead.
 
@@ -16,13 +16,13 @@ Kimi Code runs on the same shared ACP engine as Claude, Codex, and Gemini by def
 
 - You already run the Kimi Code CLI on the host machine.
 - You want session continuity across heartbeats (`-r <session_id>`).
-- You want Paperclip skills injected into the Kimi skills home without touching the agent workspace.
+- You want ThinkingMach skills injected into the Kimi skills home without touching the agent workspace.
 
 ## When Not To Use
 
 - The runtime lives behind a webhook or remote API. Use [HTTP](./http.md) or [OpenClaw Gateway](./openclaw-gateway.md).
 - You only need a shell command or script. Use [Process](./process.md).
-- Kimi Code CLI is not installed or cannot be executed from the Paperclip host.
+- Kimi Code CLI is not installed or cannot be executed from the ThinkingMach host.
 
 ---
 
@@ -30,7 +30,7 @@ Kimi Code runs on the same shared ACP engine as Claude, Codex, and Gemini by def
 
 | Field | Required | Notes |
 |---|---:|---|
-| `cwd` | no | Default absolute working directory for the agent process. Paperclip creates the path when permissions allow; if omitted, it falls back to the current process working directory. |
+| `cwd` | no | Default absolute working directory for the agent process. ThinkingMach creates the path when permissions allow; if omitted, it falls back to the current process working directory. |
 | `engine` | no | Which lane runs Kimi: the adapter defaults to the ACP engine (`kimi acp`) and fails with a setup error when ACP prerequisites are unavailable. Set `acp` or `cli` to require a specific lane. See [ACP Engine](#acp-engine). |
 | `model` | no | Kimi model alias (`provider/model`). Defaults to `kimi-code/kimi-for-coding`. See [Models](#models). |
 | `effort` | no | Thinking effort (`low`, `medium`, `high`, `max`). CLI lane only. See [Thinking Effort](#thinking-effort). |
@@ -50,7 +50,7 @@ Kimi Code runs on the same shared ACP engine as Claude, Codex, and Gemini by def
 
 Kimi Code runs through one of two lanes, selected by the `engine` field:
 
-- **ACP (the default).** Paperclip runs Kimi through the Agent Client Protocol (`kimi acp`), giving you a structured live transcript — session identity, status with context-window usage, assistant and thinking token deltas, and tool-call updates that fold into a single card as they progress. This is the same machinery Claude, Codex, and Gemini use.
+- **ACP (the default).** ThinkingMach runs Kimi through the Agent Client Protocol (`kimi acp`), giving you a structured live transcript — session identity, status with context-window usage, assistant and thinking token deltas, and tool-call updates that fold into a single card as they progress. This is the same machinery Claude, Codex, and Gemini use.
 - **CLI (opt-in).** Set `engine: "cli"` to use the headless CLI lane. It runs `kimi -p` with `--output-format stream-json` for non-interactive execution; the prompt is passed as an argument, not on stdin.
 
 Leave `engine` unset (or set `engine: "acp"`) to use ACP — if a prerequisite is missing, the run stops with a setup error instead of switching lanes. Set `engine: "cli"` to always use the headless CLI lane.
@@ -66,13 +66,13 @@ Pick a Kimi model alias in the `model` field. The known options are:
 - `kimi-code/k3` — K3
 - `kimi-code/k3-256k` — K3 (256K)
 
-You can also type a model alias that is not in this list; Paperclip passes an unrecognized value straight through to the Kimi CLI.
+You can also type a model alias that is not in this list; ThinkingMach passes an unrecognized value straight through to the Kimi CLI.
 
 ---
 
 ## Thinking Effort
 
-The `effort` field maps a Paperclip effort value onto Kimi's supported thinking-effort tiers. Kimi exposes `low`, `high`, and `max` — there is **no `medium` tier**, so `medium` maps onto `high`.
+The `effort` field maps a ThinkingMach effort value onto Kimi's supported thinking-effort tiers. Kimi exposes `low`, `high`, and `max` — there is **no `medium` tier**, so `medium` maps onto `high`.
 
 Effort is honored on the **CLI lane only** (`engine: cli`), where it is forwarded as `KIMI_MODEL_THINKING_EFFORT` for effort-capable models — `kimi-code/kimi-for-coding` (K2.8 Preview), `kimi-code/k3`, and `kimi-code/k3-256k`. It is ignored for models that do not advertise effort support, and it is **not** forwarded on the default ACP engine lane. If you need effort control, pin `engine: "cli"`.
 
@@ -95,9 +95,9 @@ If the working directory changes, the adapter starts a fresh session instead of 
 
 ## Skills Injection
 
-For local runs, Paperclip delivers the desired skills through `--skills-dir` pointing at a per-run managed directory, so skills load reliably without polluting your own `~/.kimi-code/skills` home. Remote runs sync skills into the remote skills home instead.
+For local runs, ThinkingMach delivers the desired skills through `--skills-dir` pointing at a per-run managed directory, so skills load reliably without polluting your own `~/.kimi-code/skills` home. Remote runs sync skills into the remote skills home instead.
 
-The Kimi skills home defaults to `~/.kimi-code/skills`, or `$KIMI_CODE_HOME/skills` when you set `KIMI_CODE_HOME`. When you install Paperclip skills through the CLI for manual use, that is the directory they land in.
+The Kimi skills home defaults to `~/.kimi-code/skills`, or `$KIMI_CODE_HOME/skills` when you set `KIMI_CODE_HOME`. When you install ThinkingMach skills through the CLI for manual use, that is the directory they land in.
 
 ---
 
@@ -105,7 +105,7 @@ The Kimi skills home defaults to `~/.kimi-code/skills`, or `$KIMI_CODE_HOME/skil
 
 Kimi Code authenticates in one of three ways:
 
-- **`kimi login`** — the OAuth device flow, the same login you use for Kimi Code outside Paperclip.
+- **`kimi login`** — the OAuth device flow, the same login you use for Kimi Code outside ThinkingMach.
 - **Providers configured in Kimi's `config.toml`.**
 - **The `KIMI_MODEL_NAME` + `KIMI_MODEL_API_KEY` environment pair** — set these in the adapter's `env` to run against a specific model and key directly.
 

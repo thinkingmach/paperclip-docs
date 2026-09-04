@@ -8,7 +8,7 @@ seo_description: Instance-scoped endpoints that fit nowhere else: general and ex
 
 A grab-bag of instance-scoped REST endpoints that don't fit neatly into the other API pages: general and experimental instance settings, on-demand database backups, the LLM reflection endpoints, environments (sandbox/runtime drivers), and execution-workspace lifecycle.
 
-These surfaces are stable enough to call from your own tooling, but they are intentionally narrow — most operators reach them through the UI, the CLI, or via the `paperclipai doctor` command rather than by hand.
+These surfaces are stable enough to call from your own tooling, but they are intentionally narrow — most operators reach them through the UI, the CLI, or via the `thinkingmach doctor` command rather than by hand.
 
 > All routes are mounted under `/api`. Most require instance-admin or board authentication; per-route notes call out exceptions.
 
@@ -49,12 +49,12 @@ Reading the status needs only authenticated org access; starting and stopping a 
 
 ## Cloud lifecycle
 
-These two routes exist for instances managed by Paperclip Cloud, so the Cloud control plane can keep its view of your organization's archive state in step with the instance. On a self-hosted instance both return `404` with `{ "error": "not_cloud_managed" }`. Both require instance-admin.
+These two routes exist for instances managed by ThinkingMach Cloud, so the Cloud control plane can keep its view of your organization's archive state in step with the instance. On a self-hosted instance both return `404` with `{ "error": "not_cloud_managed" }`. Both require instance-admin.
 
 | Endpoint | Purpose |
 |---|---|
 | `GET /api/instance/lifecycle` | Report the Cloud-pinned primary company's state: `primaryCompanyId`, `primaryCompanyStatus` (`"missing"` if that company no longer exists), and `otherUnarchivedCompanyCount`. |
-| `POST /api/instance/lifecycle/unarchive-primary` | Bring an archived primary company back to `active` — what happens when you resume an organization from Paperclip Cloud. Returns `{ "status": ..., "changed": true }`, or `changed: false` if the company wasn't archived. Returns `404` with `primary_company_not_found` if the company is gone. |
+| `POST /api/instance/lifecycle/unarchive-primary` | Bring an archived primary company back to `active` — what happens when you resume an organization from ThinkingMach Cloud. Returns `{ "status": ..., "changed": true }`, or `changed: false` if the company wasn't archived. Returns `404` with `primary_company_not_found` if the company is gone. |
 
 ---
 
@@ -80,7 +80,7 @@ On a brand-new private instance that requires login, this lets the first person 
 
 **Availability.** This route only exists when the instance runs with `deploymentMode` set to `authenticated` **and** `deploymentExposure` set to `private`. On any other configuration it returns `404` with `Browser first-admin claim is not available`.
 
-**Cloud-managed instances.** If your instance is managed by a Paperclip control plane rather than run by you, you never meet this claim screen at all — the instance comes up ready to use. The control plane owns identity there, and the users it signs in are deliberately never given the `instance_admin` role, so `GET /api/health` skips the first-admin check entirely and always reports `bootstrapStatus: "ready"`. Self-hosted instances are unaffected: if you run the server yourself, the claim flow behaves exactly as described here.
+**Cloud-managed instances.** If your instance is managed by a ThinkingMach control plane rather than run by you, you never meet this claim screen at all — the instance comes up ready to use. The control plane owns identity there, and the users it signs in are deliberately never given the `instance_admin` role, so `GET /api/health` skips the first-admin check entirely and always reports `bootstrapStatus: "ready"`. Self-hosted instances are unaffected: if you run the server yourself, the claim flow behaves exactly as described here.
 
 **Authentication.** The caller must be a signed-in browser session (a board actor whose session source is the browser). Other callers — agents, CLI tokens, unauthenticated requests — get `401` with `Sign in from a browser session before claiming first admin`.
 
@@ -129,7 +129,7 @@ Environments are the plugin-managed execution backends declared by environment-d
 
 ## Execution workspaces
 
-Execution workspaces are the materialised working directories Paperclip creates for an issue run.
+Execution workspaces are the materialised working directories ThinkingMach creates for an issue run.
 
 | Endpoint | Purpose |
 |---|---|

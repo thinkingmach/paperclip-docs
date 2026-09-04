@@ -6,7 +6,7 @@ seo_description: Connect a hosted Executor endpoint and govern its exposed actio
 
 # Executor
 
-Executor puts one endpoint in front of configured integrations. Paperclip connects to that endpoint; Executor handles the upstream connections and its own policies.
+Executor puts one endpoint in front of configured integrations. ThinkingMach connects to that endpoint; Executor handles the upstream connections and its own policies.
 
 Executor is available on every instance; no experimental setting is required.
 
@@ -15,11 +15,11 @@ Executor is available on every instance; no experimental setting is required.
 - An Executor deployment with the integrations and connections you intend to expose.
 - A reachable remote endpoint URL and its required authentication details.
 
-Use the URL for your deployment. Paperclip's connector definition does not supply a default server URL.
+Use the URL for your deployment. ThinkingMach's connector definition does not supply a default server URL.
 
 ## Connect Executor
 
-> **Unverified setup:** This procedure follows the pinned Paperclip definition and Executor's MCP Proxy documentation. It has not been tested with a live Executor connection. Each step below is unverified.
+> **Unverified setup:** This procedure follows the pinned ThinkingMach definition and Executor's MCP Proxy documentation. It has not been tested with a live Executor connection. Each step below is unverified.
 
 1. **Unverified:** Configure the intended integrations, credentials, and policies in Executor. Obtain the remote endpoint URL for that deployment.
 2. **Unverified:** Open **Connectors** and select **Executor**.
@@ -31,17 +31,17 @@ A local command such as `executor mcp` is not a remote URL. Use [Connect a custo
 
 ## Choose access
 
-Tools come from your Executor account and appear in Paperclip when you connect. The reachable integrations depend on Executor's configuration.
+Tools come from your Executor account and appear in ThinkingMach when you connect. The reachable integrations depend on Executor's configuration.
 
-Every tool starts as **Allowed**. Set exposed actions to **Ask first** or **Off** on **Permissions** as needed. Executor's upstream policies are another layer; a Paperclip approval does not override an Executor denial. If an exposed action bundles several upstream operations, Paperclip governs that call rather than each internal operation.
+Every tool starts as **Allowed**. Set exposed actions to **Ask first** or **Off** on **Permissions** as needed. Executor's upstream policies are another layer; a ThinkingMach approval does not override an Executor denial. If an exposed action bundles several upstream operations, ThinkingMach governs that call rather than each internal operation.
 
 ## See connected app accounts
 
-When your deployment exposes supported account inventory, its **Permissions** page lists **Connected apps** and offers **Refresh Executor**. Paperclip reads the deployment's connection and integration inventory; it does not execute generated code to guess what is connected.
+When your deployment exposes supported account inventory, its **Permissions** page lists **Connected apps** and offers **Refresh Executor**. ThinkingMach reads the deployment's connection and integration inventory; it does not execute generated code to guess what is connected.
 
-Accounts appear under their app cards, labelled **Managed by Executor**. Unknown integrations keep their own identities rather than receiving guessed branding. If discovery is unavailable, Paperclip says so; successful tool access alone does not verify an account's authorization.
+Accounts appear under their app cards, labelled **Managed by Executor**. Unknown integrations keep their own identities rather than receiving guessed branding. If discovery is unavailable, ThinkingMach says so; successful tool access alone does not verify an account's authorization.
 
-An optional **Console URL** tells Paperclip where **Open in Executor** should send you. Use your trusted HTTPS integrations page, including its workspace or self-hosted path. You can set it during setup or from the saved gateway's **Console URL** menu item.
+An optional **Console URL** tells ThinkingMach where **Open in Executor** should send you. Use your trusted HTTPS integrations page, including its workspace or self-hosted path. You can set it during setup or from the saved gateway's **Console URL** menu item.
 
 Executor remains available in **Connectors** even though its catalog filter is temporarily hidden. Gateway permissions still govern calls across its integrations, and account management stays in Executor.
 
@@ -55,16 +55,16 @@ Ask an eligible agent to perform one read-only lookup from an integration you co
 
 | Problem | Check |
 | --- | --- |
-| The endpoint cannot be reached | Check deployment availability and whether Paperclip can reach the supplied URL. |
+| The endpoint cannot be reached | Check deployment availability and whether ThinkingMach can reach the supplied URL. |
 | Sign-in or headers fail | Use the authentication settings for that deployment. |
-| An integration is missing | Check its configuration and connection in Executor, then **Refresh actions** in Paperclip. |
-| A call is refused | Inspect both Paperclip permissions and Executor's upstream policies. |
+| An integration is missing | Check its configuration and connection in Executor, then **Refresh actions** in ThinkingMach. |
+| A call is refused | Inspect both ThinkingMach permissions and Executor's upstream policies. |
 
 Executor deployment versions can expose different interfaces. This page does not promise a fixed tool list or compatibility with every deployment version.
 
 ## Related guides
 
-- [Connector overview](https://paperclip.ing/product/connectors/executor/)
+- [Connector overview](https://thinkingmach.com/product/connectors/executor/)
 
 - [How connector access works](access-model.md)
 - [Set action permissions](action-permissions.md)
@@ -73,6 +73,6 @@ Executor deployment versions can expose different interfaces. This page does not
 
 ## Sources
 
-- [Paperclip connector definition](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/packages/shared/src/app-definitions/executor.json#L16) — method names, authentication, endpoints, and connector-specific limits at the pinned product version. Provider setup documentation is linked above.
-- [Catalog and account grouping](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/pages/apps/Browse.tsx) — filters, grouped account rows, and gateway menus.
-- [Connected app list](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/pages/apps/app-detail/ConnectedAggregatorApps.tsx) — refresh controls and verification states.
+- [ThinkingMach connector definition](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/packages/shared/src/app-definitions/executor.json#L16) — method names, authentication, endpoints, and connector-specific limits at the pinned product version. Provider setup documentation is linked above.
+- [Catalog and account grouping](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/pages/apps/Browse.tsx) — filters, grouped account rows, and gateway menus.
+- [Connected app list](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/pages/apps/app-detail/ConnectedAggregatorApps.tsx) — refresh controls and verification states.

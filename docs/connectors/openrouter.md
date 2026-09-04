@@ -8,18 +8,18 @@ seo_description: Give agents model access through OpenRouter with an API key. Ru
 
 An OpenRouter connection gives agents a credential that routes to many model providers through one account. It is model access, not a set of tools — there are no actions to permit.
 
-OpenRouter is API key only. There is no subscription sign-in for this provider, and Paperclip says so on the sign-in screen.
+OpenRouter is API key only. There is no subscription sign-in for this provider, and ThinkingMach says so on the sign-in screen.
 
 ## Before you connect
 
 - An OpenRouter account with credit or billing set up, and an API key from [OpenRouter keys](https://openrouter.ai/keys).
 - An agent that runs on the OpenCode runtime. This credential is only usable by an agent whose harness resolves to OpenCode.
-- A model id that starts with `openrouter/`. This is a hard requirement, not a convention — Paperclip treats an OpenRouter connection as incompatible with a model id that lacks the prefix.
+- A model id that starts with `openrouter/`. This is a hard requirement, not a convention — ThinkingMach treats an OpenRouter connection as incompatible with a model id that lacks the prefix.
 
 ## Connect OpenRouter
 
 1. Open **Connectors** and select **OpenRouter**.
-2. Paste the API key. Paperclip stores it as a secret and it is not readable afterwards.
+2. Paste the API key. ThinkingMach stores it as a secret and it is not readable afterwards.
 
 Setup is a single screen with no separate access step. Once the account is saved, you change which people and agents may use it from the saved connection.
 
@@ -48,9 +48,9 @@ If a task shows an authentication card, use **Fix connection** to replace the st
 
 ## Check your usage limits
 
-Before you hand an agent a long task, you can see how much of the provider's allowance is left. Open the saved account and find **Usage**, then select **Check usage**. For an OpenRouter key, Paperclip asks OpenRouter for the key's credit cap, how often it resets, and any daily cap on free models, when OpenRouter returns them.
+Before you hand an agent a long task, you can see how much of the provider's allowance is left. Open the saved account and find **Usage**, then select **Check usage**. For an OpenRouter key, ThinkingMach asks OpenRouter for the key's credit cap, how often it resets, and any daily cap on free models, when OpenRouter returns them.
 
-Paperclip reads the limits only when you ask. Opening the account, listing connections, and starting a run never trigger a check. Each limit window shows how much is used and when it resets, and is marked **Limit reached** or **Blocked** when the provider says so. **Overage** shows whether extra paid usage is available. Anything the provider leaves out shows as **Not reported**, never as zero. After a successful check, the button becomes **Refresh**.
+ThinkingMach reads the limits only when you ask. Opening the account, listing connections, and starting a run never trigger a check. Each limit window shows how much is used and when it resets, and is marked **Limit reached** or **Blocked** when the provider says so. **Overage** shows whether extra paid usage is available. Anything the provider leaves out shows as **Not reported**, never as zero. After a successful check, the button becomes **Refresh**.
 
 Checking is read-only. It does not move work to another account, stop runs at a limit, refresh the credential, or buy credit.
 
@@ -71,7 +71,7 @@ Reply with the single word: ready
 
 Run it on an agent with an `openrouter/`-prefixed model, after noting which AI connection that agent is configured to use.
 
-**A reply proves** an OpenRouter credential was accepted, the runtime and model prefix are compatible, and the checks above passed — Paperclip refuses an ineligible binding rather than falling back to another account. **It does not prove which OpenRouter account was charged**; Paperclip does not surface that attribution per run, so check the activity and credit balance in your OpenRouter account if you need to confirm it.
+**A reply proves** an OpenRouter credential was accepted, the runtime and model prefix are compatible, and the checks above passed — ThinkingMach refuses an ineligible binding rather than falling back to another account. **It does not prove which OpenRouter account was charged**; ThinkingMach does not surface that attribution per run, so check the activity and credit balance in your OpenRouter account if you need to confirm it.
 
 If it fails, change only one thing at a time — the model id is the most common cause.
 
@@ -89,11 +89,11 @@ If it fails, change only one thing at a time — the model id is the most common
 | Runs fail once usage rises | OpenRouter credit is exhausted or a rate limit applied | Select **Check usage** on the saved account to see the key's credit cap, then top up or raise limits in OpenRouter |
 | Status **needs attention** | The key was revoked or rotated | Reconnect with a current key |
 
-Limitations: one connection is one OpenRouter account, and it grants no tool access. Only `openrouter/`-prefixed models are usable with it. Which upstream models are reachable is OpenRouter's decision, not Paperclip's.
+Limitations: one connection is one OpenRouter account, and it grants no tool access. Only `openrouter/`-prefixed models are usable with it. Which upstream models are reachable is OpenRouter's decision, not ThinkingMach's.
 
 ## Related guides
 
-- [Connector overview](https://paperclip.ing/product/connectors/openrouter/)
+- [Connector overview](https://thinkingmach.com/product/connectors/openrouter/)
 
 - [Anthropic](anthropic.md), [OpenAI](openai.md), [Grok](xai.md) — the other model providers.
 - [Check AI account usage](ai-usage.md)

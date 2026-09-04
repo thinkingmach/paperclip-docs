@@ -55,9 +55,9 @@ Rules from the implementation:
 - `costStatus` defaults to `reported` when omitted.
 - `occurredAt` must be an ISO datetime string.
 
-> **Priced vs. unpriced usage.** Most cost events carry a real `costCents` amount, so they stay `reported`. When an agent run uses tokens but Paperclip can't determine a dollar cost — for example a local CLI whose per-token pricing isn't known — the usage is recorded with `costStatus` set to `unpriced` instead of being logged as if it cost nothing. That keeps the token counts on the record while flagging that the money figure is an unknown rather than a real zero.
+> **Priced vs. unpriced usage.** Most cost events carry a real `costCents` amount, so they stay `reported`. When an agent run uses tokens but ThinkingMach can't determine a dollar cost — for example a local CLI whose per-token pricing isn't known — the usage is recorded with `costStatus` set to `unpriced` instead of being logged as if it cost nothing. That keeps the token counts on the record while flagging that the money figure is an unknown rather than a real zero.
 
-When the event is accepted, Paperclip:
+When the event is accepted, ThinkingMach:
 
 - stores the event
 - recalculates `spentMonthlyCents` for the agent and company
@@ -137,20 +137,20 @@ requests.post(
 
 ### Cache-adjusted cost
 
-Prompt caching means the amount a provider actually bills for a run is often well below what its raw token counts imply. Paperclip records the billed amount rather than the nominal one, so the dollars in the ledger match the dollars on your invoice.
+Prompt caching means the amount a provider actually bills for a run is often well below what its raw token counts imply. ThinkingMach records the billed amount rather than the nominal one, so the dollars in the ledger match the dollars on your invoice.
 
 Adapters express this through their execution result:
 
 - `costUsd` — the cost the adapter reports for the run, in US dollars.
 - `cacheAdjustedCostUsd` — the provider-billed cost after prompt-cache discounts, in US dollars. Adapters set this when they expose it separately from `costUsd`.
 
-Paperclip resolves the two into a single billed figure:
+ThinkingMach resolves the two into a single billed figure:
 
 - If `cacheAdjustedCostUsd` is a finite number that is zero or greater, that value is the billed cost.
 - Otherwise, if `costUsd` is a finite number that is zero or greater, that value is the billed cost — a provider-reported `costUsd` is treated as already cache-adjusted.
 - Otherwise there is no billed cost for the run.
 
-That resolved figure is what Paperclip converts into the `costCents` of the cost event it records for the run, so it is the number that flows into every summary, breakdown, and budget policy described below. It is also the figure used to decide `costStatus`: a run with token usage but no resolvable cost is recorded as `unpriced` rather than as a real zero.
+That resolved figure is what ThinkingMach converts into the `costCents` of the cost event it records for the run, so it is the number that flows into every summary, breakdown, and budget policy described below. It is also the figure used to decide `costStatus`: a run with token usage but no resolvable cost is recorded as `unpriced` rather than as a real zero.
 
 The run keeps both numbers. The heartbeat run's `usageJson` carries `costUsd` when the adapter reported one and `cacheAdjustedCostUsd` when a cache-adjusted amount was resolved, alongside the token counts and the `provider`, `biller`, `model`, `costStatus`, and `billingType` fields. Read them from either of:
 

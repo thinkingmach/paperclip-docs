@@ -37,14 +37,14 @@ Every command on this page accepts the standard client flags. See [Common Option
 The `cost` group reports accumulated spend across the company, sliced by the dimension you care about. Every subcommand below is a read against the company's cost rollups — choose the breakdown that answers your question.
 
 ```sh
-paperclipai cost summary --company-id <company-id>
-paperclipai cost by-agent --company-id <company-id>
-paperclipai cost by-agent-model --company-id <company-id>
-paperclipai cost by-provider --company-id <company-id>
-paperclipai cost by-biller --company-id <company-id>
-paperclipai cost by-project --company-id <company-id>
-paperclipai cost window-spend --company-id <company-id>
-paperclipai cost quota-windows --company-id <company-id>
+thinkingmach cost summary --company-id <company-id>
+thinkingmach cost by-agent --company-id <company-id>
+thinkingmach cost by-agent-model --company-id <company-id>
+thinkingmach cost by-provider --company-id <company-id>
+thinkingmach cost by-biller --company-id <company-id>
+thinkingmach cost by-project --company-id <company-id>
+thinkingmach cost window-spend --company-id <company-id>
+thinkingmach cost quota-windows --company-id <company-id>
 ```
 
 | Command | Answers |
@@ -65,7 +65,7 @@ paperclipai cost quota-windows --company-id <company-id>
 To see what one issue has cost end to end, pass its id or human identifier (such as `PAP-39`):
 
 ```sh
-paperclipai cost issue <issue-id>
+thinkingmach cost issue <issue-id>
 ```
 
 This is the only `cost` read that is not company-scoped on the command line — the issue id resolves the company server-side. Use it when you are reviewing an expensive task and want to know whether the spend was justified by the result.
@@ -75,7 +75,7 @@ This is the only `cost` read that is not company-scoped on the command line — 
 Most cost is recorded automatically by the server-side runtime as agents run. When you need to record spend the runtime did not capture — for example a one-off external charge attributable to the company — post a cost event directly:
 
 ```sh
-paperclipai cost event:create --company-id <company-id> --payload-json '{...}'
+thinkingmach cost event:create --company-id <company-id> --payload-json '{...}'
 ```
 
 `--payload-json` is required and must be a valid JSON object describing the cost event. The CLI parses it and POSTs it verbatim to the company's `cost-events` endpoint, so the payload shape is whatever the server's cost-event schema expects.
@@ -89,11 +89,11 @@ paperclipai cost event:create --company-id <company-id> --payload-json '{...}'
 Where `cost` tracks model and runtime spend, the `finance` group tracks broader finance events — revenue, expenses, and other money movements you want the company to account for — and summarizes them.
 
 ```sh
-paperclipai finance event:create --company-id <company-id> --payload-json '{...}'
-paperclipai finance events --company-id <company-id>
-paperclipai finance summary --company-id <company-id>
-paperclipai finance by-biller --company-id <company-id>
-paperclipai finance by-kind --company-id <company-id>
+thinkingmach finance event:create --company-id <company-id> --payload-json '{...}'
+thinkingmach finance events --company-id <company-id>
+thinkingmach finance summary --company-id <company-id>
+thinkingmach finance by-biller --company-id <company-id>
+thinkingmach finance by-kind --company-id <company-id>
 ```
 
 | Command | Use |
@@ -113,17 +113,17 @@ Use `finance event:create` when your AI operator closes a deal, books an expense
 The `budget` group is where autonomous spend is governed. A budget policy sets the limits that the runtime enforces as agents work, so an agent cannot quietly burn through your account between human check-ins. This is the single most important part of running a company headlessly: set budgets before you turn agents loose, not after.
 
 ```sh
-paperclipai budget overview --company-id <company-id>
-paperclipai budget policy:upsert --company-id <company-id> --payload-json '{...}'
-paperclipai budget company:update --company-id <company-id> --payload-json '{...}'
-paperclipai budget agent:update <agent-id> --payload-json '{...}'
-paperclipai budget incident:resolve <incident-id> --company-id <company-id>
+thinkingmach budget overview --company-id <company-id>
+thinkingmach budget policy:upsert --company-id <company-id> --payload-json '{...}'
+thinkingmach budget company:update --company-id <company-id> --payload-json '{...}'
+thinkingmach budget agent:update <agent-id> --payload-json '{...}'
+thinkingmach budget incident:resolve <incident-id> --company-id <company-id>
 ```
 
 ### Read the current state
 
 ```sh
-paperclipai budget overview --company-id <company-id>
+thinkingmach budget overview --company-id <company-id>
 ```
 
 `budget overview` is your starting point: it returns the company's configured budgets and where current spend sits against them. Read it before you change anything, and read it again after, to confirm the change landed.
@@ -131,7 +131,7 @@ paperclipai budget overview --company-id <company-id>
 ### Set a budget policy
 
 ```sh
-paperclipai budget policy:upsert --company-id <company-id> --payload-json '{...}'
+thinkingmach budget policy:upsert --company-id <company-id> --payload-json '{...}'
 ```
 
 `policy:upsert` creates a budget policy or updates the existing one — it POSTs the required `--payload-json` to the company's `budgets/policies` endpoint. The policy is what the server consults to decide whether a heartbeat is allowed to spend. Pair it with `cost quota-windows` and `cost window-spend` to verify the windows and limits behave as you intended.
@@ -139,7 +139,7 @@ paperclipai budget policy:upsert --company-id <company-id> --payload-json '{...}
 ### Update a company budget
 
 ```sh
-paperclipai budget company:update --company-id <company-id> --payload-json '{"...":"..."}'
+thinkingmach budget company:update --company-id <company-id> --payload-json '{"...":"..."}'
 ```
 
 `company:update` PATCHes the company's budget with an `UpdateBudget` JSON payload. `--payload-json` is required. Use it to adjust the company-wide ceiling — the cap that applies regardless of which agent is spending.
@@ -147,7 +147,7 @@ paperclipai budget company:update --company-id <company-id> --payload-json '{"..
 ### Update an agent budget
 
 ```sh
-paperclipai budget agent:update <agent-id> --payload-json '{"...":"..."}'
+thinkingmach budget agent:update <agent-id> --payload-json '{"...":"..."}'
 ```
 
 `agent:update` PATCHes a single agent's budget with an `UpdateBudget` JSON payload. The agent id is a positional argument and `--payload-json` is required. Use per-agent budgets to give a trusted senior agent more headroom than a freshly hired one, or to throttle an agent you have seen overspend.
@@ -159,8 +159,8 @@ paperclipai budget agent:update <agent-id> --payload-json '{"...":"..."}'
 When spend trips a budget guard rail, the server raises a budget incident. Until it is resolved, affected work stays gated. Resolve it once you have decided how to proceed:
 
 ```sh
-paperclipai budget incident:resolve <incident-id> --company-id <company-id>
-paperclipai budget incident:resolve <incident-id> --company-id <company-id> --payload-json '{"...":"..."}'
+thinkingmach budget incident:resolve <incident-id> --company-id <company-id>
+thinkingmach budget incident:resolve <incident-id> --company-id <company-id> --payload-json '{"...":"..."}'
 ```
 
 The incident id is a positional argument. `--payload-json` is optional here and defaults to `{}` — pass a `ResolveBudgetIncident` payload only when the resolution needs structured input (such as a note or a chosen disposition). The command POSTs to the company's `budget-incidents/<incident-id>/resolve` endpoint.

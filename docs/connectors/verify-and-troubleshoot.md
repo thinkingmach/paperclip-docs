@@ -6,7 +6,7 @@ seo_description: Confirm a new connector works using a read-only test call, read
 
 # Verify a connector and fix a broken one
 
-Two jobs on one page: proving a new connection works without touching anything outside Paperclip, and diagnosing one that has stopped.
+Two jobs on one page: proving a new connection works without touching anything outside ThinkingMach, and diagnosing one that has stopped.
 
 ## First: how do you verify this shape?
 
@@ -28,8 +28,8 @@ Always start with a read.
 1. Open the connector and select the **Permissions** tab.
 2. Confirm the action list loaded. For an app-tool connection, an empty list can mean discovery is incomplete or the provider returned no tools for this credential. Select **Refresh actions** and inspect any error; model credentials and chat channels do not have an action catalog.
 3. Confirm every write and destructive action is **Off** or **Ask first** while you are testing.
-4. Run one read action as a specific agent using the connector's built-in test call. Paperclip asks **Choose which agent to test as**, because the answer depends on the agent's effective policy, not just on the connection.
-5. Read the result. Paperclip lays out what came back as readable fields, a table, or cards when it can, so you can check it without reading JSON. A summary line tells you how it went — for example **Worked. 3 rows came back.**, or **Worked. No data to show.** when the call succeeded and returned nothing. **Show raw response** gives you the provider's actual payload; it opens on its own when the result cannot be laid out safely.
+4. Run one read action as a specific agent using the connector's built-in test call. ThinkingMach asks **Choose which agent to test as**, because the answer depends on the agent's effective policy, not just on the connection.
+5. Read the result. ThinkingMach lays out what came back as readable fields, a table, or cards when it can, so you can check it without reading JSON. A summary line tells you how it went — for example **Worked. 3 rows came back.**, or **Worked. No data to show.** when the call succeeded and returned nothing. **Show raw response** gives you the provider's actual payload; it opens on its own when the result cannot be laid out safely.
 
 The API equivalents:
 
@@ -66,7 +66,7 @@ Select **Reconnect** and sign in again. The connection, its agent access, and it
 
 ### The key stopped working
 
-*"The key stopped working — reconnect to fix."* For an API-key connection, select **Replace the stored credential** and **Paste your new key**. Paperclip validates it before saving: *"That key didn't check out. Try another."* means the value was rejected by the provider, not mistyped into the wrong field.
+*"The key stopped working — reconnect to fix."* For an API-key connection, select **Replace the stored credential** and **Paste your new key**. ThinkingMach validates it before saving: *"That key didn't check out. Try another."* means the value was rejected by the provider, not mistyped into the wrong field.
 
 ### The credential belongs to someone else
 
@@ -78,7 +78,7 @@ A personal connection must run on a credential owned by that person. Some person
 
 *"The provider has not granted the permissions needed for this action. Reconnect this connection and allow the required read and write access."*
 
-The sign-in or key does not cover what the action needs. Reconnect and approve the requested access, or for an API key, create a key with read and write permissions and paste it in. Paperclip cannot widen a key or token that already exists.
+The sign-in or key does not cover what the action needs. Reconnect and approve the requested access, or for an API key, create a key with read and write permissions and paste it in. ThinkingMach cannot widen a key or token that already exists.
 
 ### Authorization never completes
 
@@ -89,7 +89,7 @@ The sign-in or key does not cover what the action needs. Reconnect and approve t
 - *"This action is off and won't run."* — the action is set to **Off**.
 - *"This action is new and hasn't been turned on yet."* — discovered on a refresh, not yet enabled.
 - *"Denied — see Review for why"* — an **Ask first** request was declined.
-- *"The connected account may not have permission for this action."* — Paperclip allowed it; the provider did not. Fix this at the provider, not in Paperclip.
+- *"The connected account may not have permission for this action."* — ThinkingMach allowed it; the provider did not. Fix this at the provider, not in ThinkingMach.
 
 ### The provider returns an error
 
@@ -107,7 +107,7 @@ For a quota error, use **Check usage** on the saved AI account where supported. 
 
 ### The managed sign-in option is missing
 
-**Connect with Paperclip** appears only when your instance is enrolled with Paperclip Cloud and Cloud advertises that connector profile. If it is absent, the connector list offers **Enable Paperclip-managed sign-in** or **Continue enrollment**, and the customer-owned OAuth path stays available in the meantime.
+**Connect with ThinkingMach** appears only when your instance is enrolled with ThinkingMach Cloud and Cloud advertises that connector profile. If it is absent, the connector list offers **Enable ThinkingMach-managed sign-in** or **Continue enrollment**, and the customer-owned OAuth path stays available in the meantime.
 
 ### Nothing in the list looks like the provider you want
 

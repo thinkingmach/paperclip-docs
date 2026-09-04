@@ -14,7 +14,7 @@ This directory holds data, not code. The skill itself is the orchestrator; it re
 
 ## Branch model
 
-- **`main` (docs)** tracks the latest **released** paperclip tag (e.g. `v2026.512.0`). Deploys to docs.paperclip.ing.
+- **`main` (docs)** tracks the latest **released** paperclip tag (e.g. `v2026.512.0`). Deploys to docs.thinkingmach.com.
 - **`nightly` (docs)** tracks parent's `main` HEAD. Deploys to the Cloudflare Pages branch preview.
 
 `.sync-state.json` therefore has a different value on each branch:
@@ -31,7 +31,7 @@ This directory holds data, not code. The skill itself is the orchestrator; it re
 
 Each watcher entry declares:
 
-- `parent_paths` — globs in github.com/paperclipai/paperclip to watch.
+- `parent_paths` — globs in github.com/thinkingmach/paperclip to watch.
 - `docs_paths` — globs in this repo where corresponding doc edits live.
 - `tier` — `auto-merge` (mechanical, schema-bound), `pr` (judgment calls), or `context-only` (informs other watchers but never produces edits directly).
 - `detect` — short prose telling the skill *how* to recognise a doc-relevant change in those files (e.g. "new `program.command()` calls", "new top-level dir").

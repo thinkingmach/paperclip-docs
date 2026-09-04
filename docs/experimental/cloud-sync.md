@@ -1,20 +1,20 @@
 ---
 paperclip_version: v2026.1012.0
 seo_title: Cloud Sync (Retired)
-seo_description: Cloud Sync, which pushed a local company into a Paperclip Cloud stack, is gone in this release. Here is what replaced it and where old links now go.
+seo_description: Cloud Sync, which pushed a local company into a ThinkingMach Cloud stack, is gone in this release. Here is what replaced it and where old links now go.
 ---
 
 # Cloud Sync (retired)
 
-> **Removed in this release.** Cloud Sync no longer exists in Paperclip v2026.1012.0. There's no **Cloud upstream** screen, no **Cloud Sync** toggle on **Settings → Experimental**, no `paperclipai cloud push` command, and no cloud-upstream API. To move a company to another instance, including a hosted one, use company **Export** and **Import** instead. See [Back up and restore a company](../how-to/back-up-and-restore-a-company.md).
+> **Removed in this release.** Cloud Sync no longer exists in ThinkingMach v2026.1012.0. There's no **Cloud upstream** screen, no **Cloud Sync** toggle on **Settings → Experimental**, no `thinkingmach cloud push` command, and no cloud-upstream API. To move a company to another instance, including a hosted one, use company **Export** and **Import** instead. See [Back up and restore a company](../how-to/back-up-and-restore-a-company.md).
 
 ## What it was
 
-On older builds, **Cloud Sync** connected a locally run Paperclip instance to a Paperclip Cloud upstream. You could preview a push, resolve conflicts, push a local company (agents, projects, issues, skills, portability files) into a cloud stack, and then choose which agents, routines, and monitors woke up on the cloud side.
+On older builds, **Cloud Sync** connected a locally run ThinkingMach instance to a ThinkingMach Cloud upstream. You could preview a push, resolve conflicts, push a local company (agents, projects, issues, skills, portability files) into a cloud stack, and then choose which agents, routines, and monitors woke up on the cloud side.
 
 ## What you'll see now
 
-If you follow an old link or bookmark to the Cloud upstream page (`/company/settings/cloud-upstream`), Paperclip sends you to the **Export** page instead:
+If you follow an old link or bookmark to the Cloud upstream page (`/company/settings/cloud-upstream`), ThinkingMach sends you to the **Export** page instead:
 
 ![On this release, the old Cloud upstream address opens the Export page](../user-guides/screenshots/light/experimental/cloud-upstream.png)
 

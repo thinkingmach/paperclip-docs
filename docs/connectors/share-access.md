@@ -1,7 +1,7 @@
 ---
 paperclip_version: v2026.1012.0
 seo_title: Share a Connector
-seo_description: Choose which people a connector credential covers and which agents may use it, and understand why the two lists are governed separately in Paperclip.
+seo_description: Choose which people a connector credential covers and which agents may use it, and understand why the two lists are governed separately in ThinkingMach.
 ---
 
 # Share a connector with people and agents
@@ -29,7 +29,7 @@ Open the connector and find its identity card.
 
 Save. The change applies to the next run; there is no reconnect.
 
-Creating or changing an organization identity requires the connection-manager permission. Without it Paperclip refuses the change server-side rather than hiding the control and hoping.
+Creating or changing an organization identity requires the connection-manager permission. Without it ThinkingMach refuses the change server-side rather than hiding the control and hoping.
 
 **For a dedicated agent identity**, the human audience is not a list — the identity belongs to one agent. The card reads *"Dedicated to one agent"* and links to that agent. See [Use separate accounts for people and agents](separate-accounts.md).
 
@@ -67,5 +67,5 @@ Accounts imported from Composio, Arcade, or Executor are shown under their app c
 
 ## Sources
 
-- [Connection setup](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/features/connections/ConnectionSetupFlow.tsx) — one-screen access choices and setup behavior.
-- [Remote MCP setup](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/features/connections/remote-mcp/RemoteMcpConnectionSetup.tsx) — provider-specific connection controls.
+- [Connection setup](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/features/connections/ConnectionSetupFlow.tsx) — one-screen access choices and setup behavior.
+- [Remote MCP setup](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/features/connections/remote-mcp/RemoteMcpConnectionSetup.tsx) — provider-specific connection controls.

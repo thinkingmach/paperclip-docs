@@ -12,16 +12,16 @@ This feature is experimental and off by default. It needs two things: the **AI c
 
 ## Before you start
 
-- **A router plugin.** Pools are provided by a plugin that declares the `ai.connections.route` capability. Paperclip Cloud's connection-pool plugin is one example. Without one, there's no pool connector to add. If you're building your own, see [AI connection routers](../reference/plugins/sdk.md#ai-connection-routers) in the Plugin SDK reference.
+- **A router plugin.** Pools are provided by a plugin that declares the `ai.connections.route` capability. ThinkingMach Cloud's connection-pool plugin is one example. Without one, there's no pool connector to add. If you're building your own, see [AI connection routers](../reference/plugins/sdk.md#ai-connection-routers) in the Plugin SDK reference.
 - **The instance flag.** Unlike most experimental features, this one has **no toggle on the Experimental settings page**, even after it's turned on. On a self-hosted instance, an instance administrator sets it through the API:
 
   ```sh
-  curl -X PATCH https://YOUR-PAPERCLIP-HOST/api/instance/settings/experimental \
+  curl -X PATCH https://YOUR-THINKINGMACH-HOST/api/instance/settings/experimental \
     -H "Content-Type: application/json" \
     -d '{"enableAiConnectionRouters": true}'
   ```
 
-  Send the request with an instance administrator's credentials. On Paperclip Cloud, the value is managed for you; ask Paperclip if you need it changed. See [Instance admin API](../reference/api/instance-admin.md).
+  Send the request with an instance administrator's credentials. On ThinkingMach Cloud, the value is managed for you; ask ThinkingMach if you need it changed. See [Instance admin API](../reference/api/instance-admin.md).
 - **Saved AI accounts.** A pool only uses accounts that are already connected and that you're allowed to use in this company. Connect them first, for example [OpenAI](../connectors/openai.md), [Anthropic](../connectors/anthropic.md), [Grok](../connectors/xai.md), or [OpenRouter](../connectors/openrouter.md).
 - **The Manage connections permission.** Only connection managers can create, edit, or remove pools.
 
@@ -48,7 +48,7 @@ The pool page also shows **Used by**: every agent in the company that's set to u
 
 1. Open the agent's settings and find the **AI connection** field.
 2. Choose the pool. It's listed as *"<pool name> · Experimental pool"*. **Individual account** goes back to a normal single connection.
-3. If Paperclip asks *"Use <pool name>?"*, it is warning you that it will *"Reset existing sessions that use an account outside this pool."* Select **Use pool**, then save the agent.
+3. If ThinkingMach asks *"Use <pool name>?"*, it is warning you that it will *"Reset existing sessions that use an account outside this pool."* Select **Use pool**, then save the agent.
 
 You'll see the reminder *"New tasks rotate. Existing tasks keep their account."* An agent can only use a pool that's enabled and that contains at least one account compatible with the agent's harness. Pools aren't offered while you're creating a brand-new agent; set the pool from the agent's settings once it exists.
 
