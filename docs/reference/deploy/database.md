@@ -1,11 +1,11 @@
 ---
 seo_title: Database Configuration
-seo_description: Paperclip runs PostgreSQL through Drizzle ORM. One schema across every supported mode — what differs is where Postgres runs and how it is reached.
+seo_description: ThinkingMach runs PostgreSQL through Drizzle ORM. One schema across every supported mode — what differs is where Postgres runs and how it is reached.
 ---
 
 # Database
 
-Paperclip uses PostgreSQL through Drizzle ORM. The same schema works across the supported database modes; the difference is where PostgreSQL is running and how Paperclip connects to it.
+ThinkingMach uses PostgreSQL through Drizzle ORM. The same schema works across the supported database modes; the difference is where PostgreSQL is running and how ThinkingMach connects to it.
 
 Use this page when you are choosing between embedded, local Docker, or hosted PostgreSQL.
 
@@ -31,7 +31,7 @@ This is the default mode when `DATABASE_URL` is not set.
 pnpm dev
 ```
 
-On first start, Paperclip:
+On first start, ThinkingMach:
 
 1. creates `~/.paperclip/instances/default/db/`
 2. ensures the `paperclip` database exists

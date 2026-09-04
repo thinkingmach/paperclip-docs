@@ -8,7 +8,7 @@ seo_description: Hire, inspect, configure, and steer the AI workers doing your c
 
 The `agent` command group is how you create, inspect, configure, and steer the AI workers that do a company's work. Reach for these commands when you need to hire an agent, hand it a budget and permissions, tune its instructions and skills, wake it to run, or pause and terminate it. They are also the most direct way to wire up a local Claude or Codex session that acts *as* one of your agents — see [`agent local-cli`](#agent-local-cli) for that.
 
-Remember the execution model: an agent's actual reasoning, coding, and research runs **server-side** in the Paperclip runtime and its adapters. These commands trigger and observe that work over the API; the CLI never runs the model itself. The single exception is `agent local-cli`, which sets up your shell so a human or AI can run Claude/Codex locally as that agent and report results back through the API.
+Remember the execution model: an agent's actual reasoning, coding, and research runs **server-side** in the ThinkingMach runtime and its adapters. These commands trigger and observe that work over the API; the CLI never runs the model itself. The single exception is `agent local-cli`, which sets up your shell so a human or AI can run Claude/Codex locally as that agent and report results back through the API.
 
 All commands accept the common client flags: `--data-dir <path>`, `--api-base <url>`, `--api-key <token>`, `--context <path>`, `--profile <name>`, and `--json`. Company-scoped commands also take `-C, --company-id <id>`. See [Common Options](./common-options.md) for how those resolve.
 
@@ -19,9 +19,9 @@ All commands accept the common client flags: `--data-dir <path>`, `--api-base <u
 These commands read from the perspective of the *current* credential — the agent your API key or profile is scoped to.
 
 ```sh
-paperclipai agent me
-paperclipai agent inbox
-paperclipai agent inbox-mine --user-id <board-user-id> --status todo,in_progress
+thinkingmach agent me
+thinkingmach agent inbox
+thinkingmach agent inbox-mine --user-id <board-user-id> --status todo,in_progress
 ```
 
 | Command | Use |
@@ -37,8 +37,8 @@ paperclipai agent inbox-mine --user-id <board-user-id> --status todo,in_progress
 ## Listing and reading agents
 
 ```sh
-paperclipai agent list --company-id <company-id>
-paperclipai agent get <agent-id>
+thinkingmach agent list --company-id <company-id>
+thinkingmach agent get <agent-id>
 ```
 
 `agent list` requires `-C, --company-id <id>` and returns every agent in the company with its role, status, who it reports to, and its monthly budget versus monthly spend (in cents). `agent get <agentId>` returns one full agent record. Use `--json` on either when you are scripting.
@@ -50,10 +50,10 @@ paperclipai agent get <agent-id>
 There are two ways to bring an agent into existence, and they are not the same.
 
 ```sh
-paperclipai agent create --company-id <company-id> \
+thinkingmach agent create --company-id <company-id> \
   --payload-json '{"name":"Builder","adapterType":"codex_local"}'
 
-paperclipai agent hire --company-id <company-id> \
+thinkingmach agent hire --company-id <company-id> \
   --payload-json '{"name":"CTO","role":"cto","reason":"Lead engineering"}'
 ```
 
@@ -71,8 +71,8 @@ Both require `-C, --company-id <id>` and `--payload-json <json>`. The JSON is va
 ## Updating and deleting agents
 
 ```sh
-paperclipai agent update <agent-id> --payload-json '{"title":"Senior Builder"}'
-paperclipai agent delete <agent-id> --yes
+thinkingmach agent update <agent-id> --payload-json '{"title":"Senior Builder"}'
+thinkingmach agent delete <agent-id> --yes
 ```
 
 `agent update` patches an agent from an `UpdateAgent` JSON payload. `agent delete` removes an agent and **refuses to run without `--yes`** — there is no other confirmation, so treat the flag as the safety catch it is.
@@ -84,10 +84,10 @@ paperclipai agent delete <agent-id> --yes
 These commands move an agent through its operational states. Each takes a single `<agentId>` argument and POSTs to the matching agent endpoint.
 
 ```sh
-paperclipai agent pause <agent-id>
-paperclipai agent resume <agent-id>
-paperclipai agent approve <agent-id>
-paperclipai agent terminate <agent-id>
+thinkingmach agent pause <agent-id>
+thinkingmach agent resume <agent-id>
+thinkingmach agent approve <agent-id>
+thinkingmach agent terminate <agent-id>
 ```
 
 | Command | Use |
@@ -104,7 +104,7 @@ paperclipai agent terminate <agent-id>
 `agent wake` is how you request a heartbeat wakeup so the server runs the agent's adapter now instead of waiting for the scheduler. It accepts an agent ID *or* a shortname/url-key; when you pass a shortname, supply `-C, --company-id <id>` so the server can resolve it.
 
 ```sh
-paperclipai agent wake <agent-id-or-shortname> \
+thinkingmach agent wake <agent-id-or-shortname> \
   --company-id <company-id> \
   --reason "Pick up the new spec" \
   --payload '{"issueId":"<issue-id>"}'
@@ -128,8 +128,8 @@ The command resolves the agent, then POSTs to `/api/agents/{id}/wakeup`. The ser
 ## Heartbeat and Claude login
 
 ```sh
-paperclipai agent heartbeat:invoke <agent-id>
-paperclipai agent claude-login <agent-id>
+thinkingmach agent heartbeat:invoke <agent-id>
+thinkingmach agent claude-login <agent-id>
 ```
 
 | Command | Use |
@@ -142,7 +142,7 @@ paperclipai agent claude-login <agent-id>
 ## Permissions
 
 ```sh
-paperclipai agent permissions:update <agent-id> \
+thinkingmach agent permissions:update <agent-id> \
   --payload-json '{"canCreateAgents":true,"canAssignTasks":true}'
 ```
 
@@ -155,10 +155,10 @@ paperclipai agent permissions:update <agent-id> \
 Agent configuration is versioned. You can read the current redacted config, browse its revision history, inspect a single revision, and roll back to one.
 
 ```sh
-paperclipai agent configuration <agent-id>
-paperclipai agent config-revisions <agent-id>
-paperclipai agent config-revision:get <agent-id> <revision-id>
-paperclipai agent config-revision:rollback <agent-id> <revision-id>
+thinkingmach agent configuration <agent-id>
+thinkingmach agent config-revisions <agent-id>
+thinkingmach agent config-revision:get <agent-id> <revision-id>
+thinkingmach agent config-revision:rollback <agent-id> <revision-id>
 ```
 
 | Command | Use |
@@ -175,9 +175,9 @@ paperclipai agent config-revision:rollback <agent-id> <revision-id>
 These commands look at the *live* execution side of an agent — its current runtime session and the task sessions it is running.
 
 ```sh
-paperclipai agent runtime-state <agent-id>
-paperclipai agent runtime-state:reset-session <agent-id> --task-key <key>
-paperclipai agent task-sessions <agent-id>
+thinkingmach agent runtime-state <agent-id>
+thinkingmach agent runtime-state:reset-session <agent-id> --task-key <key>
+thinkingmach agent task-sessions <agent-id>
 ```
 
 | Command | Use |
@@ -193,14 +193,14 @@ paperclipai agent task-sessions <agent-id>
 An agent's *desired* skill set is a server-side, desired-state field. These commands read and replace it. They do **not** install anything onto your local machine — that is what `agent local-cli` does.
 
 ```sh
-paperclipai agent skills <agent-id>
-paperclipai agent skills:sync <agent-id> --desired-skills paperclip,github
+thinkingmach agent skills <agent-id>
+thinkingmach agent skills:sync <agent-id> --desired-skills paperclip,github
 ```
 
 | Command | Use |
 |---|---|
 | `agent skills` | List the agent's current skills. |
-| `agent skills:sync` | Replace the agent's desired skills with the comma-separated `--desired-skills` list (`POST /api/agents/{id}/skills/sync`). Required Paperclip skills stay server-enforced regardless. |
+| `agent skills:sync` | Replace the agent's desired skills with the comma-separated `--desired-skills` list (`POST /api/agents/{id}/skills/sync`). Required ThinkingMach skills stay server-enforced regardless. |
 
 > **Note:** Stocking a company's skill *library* and authoring skills is a separate concern — see the [skills](./skills.md) reference. `agent skills:sync` only chooses which library skills a given agent should use.
 
@@ -211,15 +211,15 @@ paperclipai agent skills:sync <agent-id> --desired-skills paperclip,github
 An agent's instructions can be a single path on disk (for adapters that read a file like `AGENTS.md`) or a managed bundle of files stored server-side. These commands cover both.
 
 ```sh
-paperclipai agent instructions-path:update <agent-id> \
+thinkingmach agent instructions-path:update <agent-id> \
   --payload-json '{"path":"/tmp/AGENTS.md","adapterConfigKey":"instructionsFilePath"}'
 
-paperclipai agent instructions-bundle <agent-id>
-paperclipai agent instructions-bundle:update <agent-id> --payload-json '{"mode":"managed"}'
+thinkingmach agent instructions-bundle <agent-id>
+thinkingmach agent instructions-bundle:update <agent-id> --payload-json '{"mode":"managed"}'
 
-paperclipai agent instructions-file:get <agent-id> --path AGENTS.md
-paperclipai agent instructions-file:put <agent-id> --path AGENTS.md --content-file ./AGENTS.md
-paperclipai agent instructions-file:delete <agent-id> --path AGENTS.md
+thinkingmach agent instructions-file:get <agent-id> --path AGENTS.md
+thinkingmach agent instructions-file:put <agent-id> --path AGENTS.md --content-file ./AGENTS.md
+thinkingmach agent instructions-file:delete <agent-id> --path AGENTS.md
 ```
 
 | Command | Use |
@@ -237,16 +237,16 @@ paperclipai agent instructions-file:delete <agent-id> --path AGENTS.md
 
 ## `agent local-cli`
 
-This is the practical bridge for running Claude or Codex **locally** as a Paperclip agent. It accepts an agent ID or shortname/url-key, requires `-C, --company-id <id>`, and in one shot:
+This is the practical bridge for running Claude or Codex **locally** as a ThinkingMach agent. It accepts an agent ID or shortname/url-key, requires `-C, --company-id <id>`, and in one shot:
 
 1. Mints a long-lived agent API key (label it with `--key-name <name>`; defaults to a timestamped `local-cli` key).
-2. Installs the bundled Paperclip skills into `~/.codex/skills`, `~/.claude/skills`, and `~/.kimi-code/skills` as symlinks (respecting `CODEX_HOME` / `CLAUDE_HOME` / `KIMI_CODE_HOME` if set).
-3. Prints the shell `export` lines for `PAPERCLIP_API_URL`, `PAPERCLIP_COMPANY_ID`, `PAPERCLIP_AGENT_ID`, and `PAPERCLIP_API_KEY`.
+2. Installs the bundled ThinkingMach skills into `~/.codex/skills`, `~/.claude/skills`, and `~/.kimi-code/skills` as symlinks (respecting `CODEX_HOME` / `CLAUDE_HOME` / `KIMI_CODE_HOME` if set).
+3. Prints the shell `export` lines for `THINKINGMACH_API_URL`, `THINKINGMACH_COMPANY_ID`, `THINKINGMACH_AGENT_ID`, and `THINKINGMACH_API_KEY`.
 
 ```sh
-paperclipai agent local-cli <agent-id-or-shortname> --company-id <company-id>
-paperclipai agent local-cli codexcoder --company-id <company-id> --key-name workstation
-paperclipai agent local-cli claudecoder --company-id <company-id> --no-install-skills
+thinkingmach agent local-cli <agent-id-or-shortname> --company-id <company-id>
+thinkingmach agent local-cli codexcoder --company-id <company-id> --key-name workstation
+thinkingmach agent local-cli claudecoder --company-id <company-id> --no-install-skills
 ```
 
 | Flag | Use |
@@ -255,10 +255,10 @@ paperclipai agent local-cli claudecoder --company-id <company-id> --no-install-s
 | `--key-name <name>` | Label for the created API key. Defaults to `local-cli`; an empty value falls back to a timestamped name. |
 | `--no-install-skills` | Skip installing skills into `~/.codex/skills`, `~/.claude/skills`, and `~/.kimi-code/skills`. Use this when you only want the key and exports. |
 
-Source the printed exports into your shell, then launch Codex or Claude — they now act as that agent against your Paperclip API:
+Source the printed exports into your shell, then launch Codex or Claude — they now act as that agent against your ThinkingMach API:
 
 ```sh
-eval "$(paperclipai agent local-cli codexcoder --company-id <company-id> --json | jq -r .exports)"
+eval "$(thinkingmach agent local-cli codexcoder --company-id <company-id> --json | jq -r .exports)"
 ```
 
 > **Warning:** The minted API key's plaintext token is shown **once**, in the command output. The exports embed it directly. Treat the output as a secret, and revoke the key with `token agent revoke` when the local session is done. See [Authentication](./authentication.md).

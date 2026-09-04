@@ -2,7 +2,7 @@
 // check-tag-accuracy.mjs — release-mode gate that catches "post-tag leaks":
 // doc pages that changed on the preview branch (head) versus the released
 // baseline (base) but document a surface that is NOT present at the stable
-// release tag. Under Paperclip's channel model our `nightly` preview tracks
+// release tag. Under ThinkingMach's channel model our `nightly` preview tracks
 // parent `master` (≈ canary), which runs far ahead of the `stable` tag, so a
 // release branch cut from `nightly` inherits post-tag master drafts as leaks
 // (see maintenance/release-channels-plan.md).
@@ -28,7 +28,7 @@
 //
 // Usage:
 //   node scripts/sync/check-tag-accuracy.mjs --tag <stable-tag> \
-//        [--base main] [--head HEAD] [--repo paperclipai/paperclip] [--json]
+//        [--base main] [--head HEAD] [--repo thinkingmach/paperclip] [--json]
 
 import { execFileSync, spawnSync } from "node:child_process";
 import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, openSync, closeSync, rmSync } from "node:fs";
@@ -64,7 +64,7 @@ function isSurfaceClaim(u) {
 }
 
 function parseArgs(argv) {
-  const out = { base: "main", head: "HEAD", repo: "paperclipai/paperclip", json: false };
+  const out = { base: "main", head: "HEAD", repo: "thinkingmach/paperclip", json: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--tag") out.tag = argv[++i];

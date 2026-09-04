@@ -5,7 +5,7 @@ seo_description: Goals form the higher-level intent tree; projects group the con
 
 # Goals and Projects
 
-Goals answer “why are we doing this?” Projects answer “what concrete deliverable are we organizing around?” In Paperclip, goals form the higher-level intent tree, while projects group work, workspaces, and runtime behavior around a deliverable.
+Goals answer “why are we doing this?” Projects answer “what concrete deliverable are we organizing around?” In ThinkingMach, goals form the higher-level intent tree, while projects group work, workspaces, and runtime behavior around a deliverable.
 
 ---
 
@@ -157,7 +157,7 @@ Projects have a few important implementation details:
 - `goalIds` is the preferred way to link a project to one or more goals.
 - `goalId` is still accepted for compatibility, but the service keeps it in sync with the first linked goal.
 - Project names are normalized so shortname-style references stay unique within a company.
-- If you omit `color`, Paperclip assigns one automatically from its project palette.
+- If you omit `color`, ThinkingMach assigns one automatically from its project palette.
 - The returned project includes `urlKey`, `goalIds`, `goals`, `codebase`, `workspaces`, `primaryWorkspace`, and `executionWorkspacePolicy`.
 
 ### Fields
@@ -335,7 +335,7 @@ Validation rules:
 - A `remote_managed` workspace must include `remoteWorkspaceRef` or `repoUrl`.
 - The first workspace in a project becomes primary automatically.
 - Passing `isPrimary: true` makes that workspace primary.
-- If you remove the primary workspace, Paperclip promotes another workspace automatically.
+- If you remove the primary workspace, ThinkingMach promotes another workspace automatically.
 
 ### List Workspaces
 

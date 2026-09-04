@@ -6,7 +6,7 @@ seo_description: Connect a hosted Executor endpoint and govern its exposed actio
 
 # Executor
 
-Executor puts one endpoint in front of configured integrations. Paperclip connects to that endpoint; Executor handles the upstream connections and its own policies.
+Executor puts one endpoint in front of configured integrations. ThinkingMach connects to that endpoint; Executor handles the upstream connections and its own policies.
 
 ## Before you connect
 
@@ -14,11 +14,11 @@ Executor puts one endpoint in front of configured integrations. Paperclip connec
 - An Executor deployment with the integrations and connections you intend to expose.
 - A reachable remote endpoint URL and its required authentication details.
 
-Use the URL for your deployment. Paperclip's connector definition does not supply a default server URL.
+Use the URL for your deployment. ThinkingMach's connector definition does not supply a default server URL.
 
 ## Connect Executor
 
-> **Unverified setup:** This procedure follows the pinned Paperclip definition and Executor's MCP Proxy documentation. It has not been tested with a live Executor connection. Each step below is unverified.
+> **Unverified setup:** This procedure follows the pinned ThinkingMach definition and Executor's MCP Proxy documentation. It has not been tested with a live Executor connection. Each step below is unverified.
 
 1. **Unverified:** Configure the intended integrations, credentials, and policies in Executor. Obtain the remote endpoint URL for that deployment.
 2. **Unverified:** Open **Connectors**, select **Executor**, and choose **Connect MCP server**.
@@ -30,9 +30,9 @@ A local command such as `executor mcp` is not a remote URL. Use [Connect a custo
 
 ## Choose access
 
-Tools come from your Executor account and appear in Paperclip when you connect. The reachable integrations depend on Executor's configuration.
+Tools come from your Executor account and appear in ThinkingMach when you connect. The reachable integrations depend on Executor's configuration.
 
-Every tool starts as **Allowed**. Set exposed actions to **Ask first** or **Off** on **Permissions** as needed. Executor's upstream policies are another layer; a Paperclip approval does not override an Executor denial. If an exposed action bundles several upstream operations, Paperclip governs that call rather than each internal operation.
+Every tool starts as **Allowed**. Set exposed actions to **Ask first** or **Off** on **Permissions** as needed. Executor's upstream policies are another layer; a ThinkingMach approval does not override an Executor denial. If an exposed action bundles several upstream operations, ThinkingMach governs that call rather than each internal operation.
 
 ## Try it
 
@@ -44,16 +44,16 @@ Ask an eligible agent to perform one read-only lookup from an integration you co
 
 | Problem | Check |
 | --- | --- |
-| The endpoint cannot be reached | Check deployment availability and whether Paperclip can reach the supplied URL. |
+| The endpoint cannot be reached | Check deployment availability and whether ThinkingMach can reach the supplied URL. |
 | Sign-in or headers fail | Use the authentication settings for that deployment. |
-| An integration is missing | Check its configuration and connection in Executor, then **Refresh actions** in Paperclip. |
-| A call is refused | Inspect both Paperclip permissions and Executor's upstream policies. |
+| An integration is missing | Check its configuration and connection in Executor, then **Refresh actions** in ThinkingMach. |
+| A call is refused | Inspect both ThinkingMach permissions and Executor's upstream policies. |
 
 Executor deployment versions can expose different interfaces. This page does not promise a fixed tool list or compatibility with every deployment version.
 
 ## Related guides
 
-- [Connector overview](https://paperclip.ing/product/connectors/executor/)
+- [Connector overview](https://thinkingmach.com/product/connectors/executor/)
 
 - [How connector access works](access-model.md)
 - [Set action permissions](action-permissions.md)
@@ -62,4 +62,4 @@ Executor deployment versions can expose different interfaces. This page does not
 
 ## Sources
 
-- [Paperclip connector definition](https://github.com/paperclipai/paperclip/blob/3166e93a7eee315e3bfbda622e080044ec5c343d/packages/shared/src/app-definitions/executor.json#L16) — method names, authentication, endpoints, and connector-specific limits at the pinned product version. Provider setup documentation is linked above.
+- [ThinkingMach connector definition](https://github.com/thinkingmach/paperclip/blob/3166e93a7eee315e3bfbda622e080044ec5c343d/packages/shared/src/app-definitions/executor.json#L16) — method names, authentication, endpoints, and connector-specific limits at the pinned product version. Provider setup documentation is linked above.

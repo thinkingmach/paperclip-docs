@@ -52,7 +52,7 @@ import { BASE_URL, mintAgentJwt, openInstanceDb } from "./config.mjs";
 async function request(method, path, { body, baseUrl = BASE_URL, token, runId } = {}) {
   const headers = { "Content-Type": "application/json" };
   if (token) headers.Authorization = `Bearer ${token}`;
-  if (runId) headers["X-Paperclip-Run-Id"] = runId;
+  if (runId) headers["X-ThinkingMach-Run-Id"] = runId;
   const init = { method, headers };
   if (body !== undefined) init.body = JSON.stringify(body);
   const res = await fetch(`${baseUrl}${path}`, init);
@@ -224,7 +224,7 @@ async function seedDecisions({ companyId, baseUrl, sql, agents }) {
 }
 
 /**
- * Named queues. Paperclip auto-creates PRs / Plans / Questions the first time
+ * Named queues. ThinkingMach auto-creates PRs / Plans / Questions the first time
  * something matches, which the demo board may never trigger, so make sure at
  * least one queue exists and has a route to screenshot.
  */

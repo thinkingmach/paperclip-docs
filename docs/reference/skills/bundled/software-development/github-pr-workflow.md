@@ -27,8 +27,8 @@ This is a **bundled** catalog skill — part of the bundled baseline kit. For ho
 
 | Field | Value |
 |---|---|
-| Catalog id | `paperclipai:bundled:software-development:github-pr-workflow` |
-| Canonical key | `paperclipai/bundled/software-development/github-pr-workflow` |
+| Catalog id | `thinkingmach:bundled:software-development:github-pr-workflow` |
+| Canonical key | `thinkingmach/bundled/software-development/github-pr-workflow` |
 | Catalog path | `catalog/bundled/software-development/github-pr-workflow` |
 | Kind | `bundled` |
 | Category | `software-development` |
@@ -42,7 +42,7 @@ This is a **bundled** catalog skill — part of the bundled baseline kit. For ho
 | Tags | `github`, `pull-requests`, `code-review`, `release` |
 | Files | 1 |
 | Content hash | `sha256:90f278c89aa0711be150c1cd2456ca25620d02f36995b113ca9837d756a37f6c` |
-| Package | `@paperclipai/skills-catalog@0.3.1` |
+| Package | `@thinkingmach/skills-catalog@0.3.1` |
 
 ## File inventory
 
@@ -58,7 +58,7 @@ The block below is the complete, authoritative `SKILL.md` for this skill — the
 ---
 name: github-pr-workflow
 description: Prepare a GitHub pull request from a feature branch — branch hygiene, commit shape, title/body, verification notes, screenshots for UI work, and replies to review comments.
-key: paperclipai/bundled/software-development/github-pr-workflow
+key: thinkingmach/bundled/software-development/github-pr-workflow
 recommendedForRoles:
   - engineer
 tags:

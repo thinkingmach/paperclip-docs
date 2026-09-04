@@ -6,11 +6,11 @@ seo_description: Two settings surfaces and why the difference matters. Covers yo
 
 # Settings
 
-Paperclip has two settings surfaces, and it matters which one you're looking at.
+ThinkingMach has two settings surfaces, and it matters which one you're looking at.
 
 **Profile** is *your* account — your display name and the avatar that shows up next to your comments. Changing it only affects how *you* appear. Other board users on the same instance have their own profiles and see their own.
 
-**Instance Settings** is the admin surface. Anything you change there applies to the whole Paperclip instance — every company, every user, every agent that runs against this install. If you're running Paperclip on a VPS that hosts five companies, a toggle on the Instance page flips for all five.
+**Instance Settings** is the admin surface. Anything you change there applies to the whole ThinkingMach instance — every company, every user, every agent that runs against this install. If you're running ThinkingMach on a VPS that hosts five companies, a toggle on the Instance page flips for all five.
 
 Company and instance settings now share one navigation. The instance-wide **General** controls described below live on the organization's own **General** page (see [Company Administration](./company.md#general-settings)), so instance admins reach them from the same place as the organization settings rather than a separate area.
 
@@ -26,7 +26,7 @@ Open the Profile page from the account menu in the sidebar. It's scoped to you �
 
 You get three things to work with:
 
-- **Avatar** — click the round image (or the **Upload photo** button) to pick a new image from disk. It's uploaded into Paperclip's file storage under the currently selected company's asset space. If no company is selected you can't upload — the page will tell you to select one first. Once an image is set, a **Remove** button appears next to the upload control.
+- **Avatar** — click the round image (or the **Upload photo** button) to pick a new image from disk. It's uploaded into ThinkingMach's file storage under the currently selected company's asset space. If no company is selected you can't upload — the page will tell you to select one first. Once an image is set, a **Remove** button appears next to the upload control.
 - **Display name** — the name shown in the sidebar account footer and as the author on any comments you post. It falls back to "Board" if left blank. The field is capped at 120 characters.
 - **Email** — read-only. Your email is managed by the auth session (the login provider), not by this page. If you need to change it, update it wherever you signed in from.
 
@@ -46,7 +46,7 @@ This is the top of Instance Settings. It's where you see how the instance was de
 
 At the top of the page, a small mode badge tells you which deployment profile this instance is running under. The text underneath explains what that means in practice:
 
-- **Local trusted** — the instance is treating browser requests as a local board operator. No sign-in is required. This is the default when you run Paperclip on your own machine.
+- **Local trusted** — the instance is treating browser requests as a local board operator. No sign-in is required. This is the default when you run ThinkingMach on your own machine.
 - **Authenticated public** — sign-in is required and the instance is intended to sit on a public URL.
 - **Authenticated private** — sign-in is required, but the instance is intended for a private network (LAN, VPN, or similar).
 
@@ -68,7 +68,7 @@ Enables the app's keyboard shortcuts — inbox navigation, creating issues, togg
 
 ### Backup retention
 
-Controls how long automatic database backups are kept at each tier. Paperclip takes daily backups and then thins them out over time:
+Controls how long automatic database backups are kept at each tier. ThinkingMach takes daily backups and then thins them out over time:
 
 - **Daily** — full daily backups kept for the selected number of days.
 - **Weekly** — one backup per week kept for the selected number of weeks.
@@ -78,9 +78,9 @@ Each tier is a preset picker, so you can only choose from vetted retention windo
 
 ### AI feedback sharing
 
-Controls whether thumbs-up / thumbs-down votes on AI output can send the voted output to Paperclip Labs. Three states exist:
+Controls whether thumbs-up / thumbs-down votes on AI output can send the voted output to ThinkingMach Labs. Three states exist:
 
-- **Prompt (default)** — no choice has been made yet. The next time you vote, Paperclip will ask once and save your answer.
+- **Prompt (default)** — no choice has been made yet. The next time you vote, ThinkingMach will ask once and save your answer.
 - **Always allow** — voted AI outputs are shared automatically.
 - **Don't allow** — voted AI outputs stay local.
 
@@ -137,7 +137,7 @@ Beneath the checkbox grid, **Current memberships** lists what's actually on reco
 
 ![Instance adapters](../user-guides/screenshots/light/settings/instance-adapters.png)
 
-The Adapters sub-page (Instance Settings → **Adapters**) is the operator view of every adapter currently registered against this Paperclip install. Adapters are how Paperclip talks to an AI runtime — Claude's local CLI, Codex, OpenAI, OpenClaw, and so on — so this is the surface you use when you need to add a new runtime, hide one from agent hiring menus, or upgrade a runtime's package to a newer release.
+The Adapters sub-page (Instance Settings → **Adapters**) is the operator view of every adapter currently registered against this ThinkingMach install. Adapters are how ThinkingMach talks to an AI runtime — Claude's local CLI, Codex, OpenAI, OpenClaw, and so on — so this is the surface you use when you need to add a new runtime, hide one from agent hiring menus, or upgrade a runtime's package to a newer release.
 
 > **Alpha:** The external adapter system is still under active development. APIs and storage format may change between releases — reach for this page when you need it, but expect the details to keep evolving.
 
@@ -146,7 +146,7 @@ The Adapters sub-page (Instance Settings → **Adapters**) is the operator view 
 The page has two sections, stacked top-to-bottom:
 
 - **External Adapters** — anything you have added yourself, whether from an npm package or a local path. Each row shows the adapter's display label, its registered `type`, the package name, the version, and how many models the adapter exposes.
-- **Built-in Adapters** — the adapters that ship inside Paperclip itself. They cannot be removed, only hidden. If an external adapter has overridden a built-in (for example, a forked version of the Claude adapter installed from npm), you also see a synthesised "built-in" row tagged **Overridden by …** so it is obvious which built-in has been shadowed.
+- **Built-in Adapters** — the adapters that ship inside ThinkingMach itself. They cannot be removed, only hidden. If an external adapter has overridden a built-in (for example, a forked version of the Claude adapter installed from npm), you also see a synthesised "built-in" row tagged **Overridden by …** so it is obvious which built-in has been shadowed.
 
 A small origin icon sits next to each external adapter: a folder for adapters installed from a local path, and a package icon for adapters installed from npm. Versions appear as a mono-typed `v1.2.3` badge.
 
@@ -170,10 +170,10 @@ Every row has a **power** icon on the right-hand side. Clicking it toggles the a
 
 Two more icons may appear on external rows:
 
-- **Reload** (circular arrow) hot-swaps the adapter module in the running process. Useful after you have published a new version of a local-path adapter and want to pick up changes without bouncing Paperclip.
+- **Reload** (circular arrow) hot-swaps the adapter module in the running process. Useful after you have published a new version of a local-path adapter and want to pick up changes without bouncing ThinkingMach.
 - **Reinstall** (download arrow) opens a confirmation dialog that checks the npm registry for the latest version, then pulls it and reinstalls the package. Existing agents will use the new version on their next run.
 
-A **Remove** (trash) icon is available on external adapters only. Removing an adapter unregisters it, tears down its npm install on disk, and cannot be undone — Paperclip prompts for confirmation first.
+A **Remove** (trash) icon is available on external adapters only. Removing an adapter unregisters it, tears down its npm install on disk, and cannot be undone — ThinkingMach prompts for confirmation first.
 
 ### Per-adapter config
 
@@ -181,12 +181,12 @@ Adapters themselves do not expose configuration on this page — they are packag
 
 What this page gives you is the ability to add, upgrade, and retire the adapter packages that populate the agent adapter menu. To install a new external adapter, click **Install Adapter** in the top-right of the page. A dialog appears with two source modes:
 
-- **npm package** — enter the package name (for example `my-paperclip-adapter`) and optionally a version. Paperclip installs the package from npm and registers it.
-- **Local path** — paste a Linux, WSL, or Windows path to a checked-out adapter package. Paperclip auto-converts Windows paths and installs the adapter from disk. Local-path adapters are the fastest way to iterate on a new adapter before publishing.
+- **npm package** — enter the package name (for example `my-paperclip-adapter`) and optionally a version. ThinkingMach installs the package from npm and registers it.
+- **Local path** — paste a Linux, WSL, or Windows path to a checked-out adapter package. ThinkingMach auto-converts Windows paths and installs the adapter from disk. Local-path adapters are the fastest way to iterate on a new adapter before publishing.
 
 In both cases the adapter package must export `createServerAdapter()` — the dialog reminds you of this contract.
 
-For the full catalog of adapters Paperclip supports out of the box, along with the per-agent fields each one expects, see the reference docs: [Adapters overview](../reference/adapters/overview.md).
+For the full catalog of adapters ThinkingMach supports out of the box, along with the per-agent fields each one expects, see the reference docs: [Adapters overview](../reference/adapters/overview.md).
 
 ---
 
@@ -198,13 +198,13 @@ Experimental flags opt the instance into features that aren't yet defaults. They
 
 ### What "experimental" means here
 
-An experimental flag in Paperclip is a feature that:
+An experimental flag in ThinkingMach is a feature that:
 
 - Has shipped and works,
 - Is being evaluated against real usage before it becomes the default, and
 - May be renamed, reworked, or promoted to a core setting in a future release.
 
-Turning one on is not dangerous in the "this will break your data" sense — but experimental features come **without compatibility guarantees**. They may break, change, or be removed at any time, and Paperclip doesn't promise migration or long-term support for them. The app shows a warning to this effect when you enable one. Flip flags when you have a reason to, not for curiosity; don't lean on an experimental feature for a workflow that has to stay stable, and expect to re-read the release notes if you upgrade.
+Turning one on is not dangerous in the "this will break your data" sense — but experimental features come **without compatibility guarantees**. They may break, change, or be removed at any time, and ThinkingMach doesn't promise migration or long-term support for them. The app shows a warning to this effect when you enable one. Flip flags when you have a reason to, not for curiosity; don't lean on an experimental feature for a workflow that has to stay stable, and expect to re-read the release notes if you upgrade.
 
 ### The available flags
 
@@ -218,7 +218,7 @@ Each flag has its own page in the [Experimental](../experimental/overview.md) se
 - **[Task Watchdogs](../experimental/task-watchdogs.md)** — per-task watchdog agents that verify stopped task subtrees and restore live paths.
 - **[Cloud Sync](../experimental/cloud-sync.md)** — **retired.** Removed upstream together with its experimental toggle, so it no longer appears in this list on a current build. To move a company between instances, use [company Import/Export](../how-to/back-up-and-restore-a-company.md).
 - **[Server Info Debug View](../experimental/server-info-debug-view.md)** — a "Server" section in the account drawer with restart time, running commit, and checkout state.
-- **[Auto-Restart Dev Server When Idle](../experimental/auto-restart-dev-server.md)** — only relevant under `pnpm dev:once`; restarts a stale dev boot once all local agent runs finish. For development on Paperclip itself, not production.
+- **[Auto-Restart Dev Server When Idle](../experimental/auto-restart-dev-server.md)** — only relevant under `pnpm dev:once`; restarts a stale dev boot once all local agent runs finish. For development on ThinkingMach itself, not production.
 - **[Auto-Create Recovery Tasks](../experimental/auto-create-recovery-tasks.md)** — lets the heartbeat scheduler create recovery tasks for stalled task dependency chains, with a lookback window and preview.
 - **Enable Built-in Agents** — makes the built-in-agent controls and API available. Turn it on before you provision `briefs`, `learning`, or `reflection-coach`; with it off, the built-in-agent routes return `404 Not Found`.
 - **Streamlined Left Navigation Bar** — **on by default now**, so you don't need to flip anything to get it. It trims the sidebar: Projects move under the **Work** section as a single **Projects** link with its own page, and the agents list shows only your active agents (the five most recently active). Turning this flag **off** is the opt-out — it restores the classic sidebar, where each project gets its own collapsible entry and there's no top-level Projects link.
@@ -229,11 +229,11 @@ Toggles take effect immediately on save. If one misbehaves, flip it back off —
 
 ## Operator controls for hosted deployments
 
-If you run Paperclip for other people — a managed cloud, an internal shared server — you can shape which settings surfaces your users see and what the defaults are, without touching any user's data. Two environment variables do this. Both are read at boot, applied at read time, and **never persisted**: clear the variable and stock behavior comes back everywhere a user hasn't chosen otherwise. With both unset, the UI and API behave exactly as this page describes.
+If you run ThinkingMach for other people — a managed cloud, an internal shared server — you can shape which settings surfaces your users see and what the defaults are, without touching any user's data. Two environment variables do this. Both are read at boot, applied at read time, and **never persisted**: clear the variable and stock behavior comes back everywhere a user hasn't chosen otherwise. With both unset, the UI and API behave exactly as this page describes.
 
-### Hide surfaces with `PAPERCLIP_HIDDEN_SETTINGS`
+### Hide surfaces with `THINKINGMACH_HIDDEN_SETTINGS`
 
-Set `PAPERCLIP_HIDDEN_SETTINGS` to a comma-separated list of surface keys to remove from the UI. Some keys also floor their mutation API with a `403` (carrying the `settings_operator_managed` code); the rest hide UI only, so agents and integrations keep working against the underlying routes.
+Set `THINKINGMACH_HIDDEN_SETTINGS` to a comma-separated list of surface keys to remove from the UI. Some keys also floor their mutation API with a `403` (carrying the `settings_operator_managed` code); the rest hide UI only, so agents and integrations keep working against the underlying routes.
 
 The keys you can list:
 
@@ -245,12 +245,12 @@ The keys you can list:
 
 Unknown keys are warned about and ignored rather than rejected, so you can roll one list across a fleet of mixed app versions — an image that predates a key simply keeps that surface visible instead of refusing to boot.
 
-### Override defaults with `PAPERCLIP_SETTING_DEFAULTS`
+### Override defaults with `THINKINGMACH_SETTING_DEFAULTS`
 
-Set `PAPERCLIP_SETTING_DEFAULTS` to a JSON object to replace the schema default of selected Instance General settings — currently `feedbackDataSharingPreference`. For example:
+Set `THINKINGMACH_SETTING_DEFAULTS` to a JSON object to replace the schema default of selected Instance General settings — currently `feedbackDataSharingPreference`. For example:
 
 ```sh
-PAPERCLIP_SETTING_DEFAULTS='{"feedbackDataSharingPreference":"allowed"}'
+THINKINGMACH_SETTING_DEFAULTS='{"feedbackDataSharingPreference":"allowed"}'
 ```
 
 Your value substitutes for the schema default at read time: any field still sitting at its default resolves to yours, while a user's explicit non-default choice always wins. Parsing is fail-closed — malformed JSON or an invalid value for a known field stops the server from booting, because a silently dropped policy default is worse than a loud failure. Unknown field names are warned about and ignored.

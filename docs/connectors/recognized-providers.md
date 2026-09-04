@@ -1,22 +1,22 @@
 ---
 paperclip_version: v2026.1001.0
 seo_title: Recognized but Unlisted Providers
-seo_description: The provider definitions present in the Paperclip catalog but withheld from the Connectors list, and the providers that gate access behind their own approval.
+seo_description: The provider definitions present in the ThinkingMach catalog but withheld from the Connectors list, and the providers that gate access behind their own approval.
 ---
 
-# Providers Paperclip recognizes but does not list
+# Providers ThinkingMach recognizes but does not list
 
 Reference for the inventory behind the catalog. If you are looking for a connector to set up, start at [Connectors](../connectors.md) — everything on this page is either withheld from the **Connectors** list or blocked by the provider, so none of it can be set up from the catalog today.
 
-Two separate things get confused here, so they are listed separately. A **withheld** provider has a complete definition that Paperclip still recognizes, but it is deliberately kept out of the customer-facing list. A **provider-gated** one is not offered because the provider itself will not let an independently registered client connect.
+Two separate things get confused here, so they are listed separately. A **withheld** provider has a complete definition that ThinkingMach still recognizes, but it is deliberately kept out of the customer-facing list. A **provider-gated** one is not offered because the provider itself will not let an independently registered client connect.
 
-> **Note:** Checked against Paperclip **v2026.1001.0**. Catalog visibility can change between releases; recognition is not a promise of availability. Existing connections still need to be verified independently.
+> **Note:** Checked against ThinkingMach **v2026.1001.0**. Catalog visibility can change between releases; recognition is not a promise of availability. Existing connections still need to be verified independently.
 
 ## Withheld from the Connectors list
 
-Paperclip keeps recognition and visibility as separate things: a definition can stay in the catalog while being hidden from the store. The comment on the hidden set in the App source gives the reason — separating the two means pulling a provider out of the list does not have to break connections somebody already saved.
+ThinkingMach keeps recognition and visibility as separate things: a definition can stay in the catalog while being hidden from the store. The comment on the hidden set in the App source gives the reason — separating the two means pulling a provider out of the list does not have to break connections somebody already saved.
 
-What we can confirm at this commit: the definitions below are present, Paperclip still resolves them, and they are filtered out of the list you browse. What we did not do is connect or run any of them, so whether a connection saved earlier still works is unverified here. If you have one, [Verify a connector and fix a broken one](verify-and-troubleshoot.md) is how to find out, and the answer is specific to your instance.
+What we can confirm at this commit: the definitions below are present, ThinkingMach still resolves them, and they are filtered out of the list you browse. What we did not do is connect or run any of them, so whether a connection saved earlier still works is unverified here. If you have one, [Verify a connector and fix a broken one](verify-and-troubleshoot.md) is how to find out, and the answer is specific to your instance.
 
 None of these have connector pages, and none can be added from the catalog.
 
@@ -47,7 +47,7 @@ None of these have connector pages, and none can be added from the catalog.
 
 Composio used to sit in the withheld list above. It is back in the **Connectors** list as a remote MCP connection through Composio Connect, one of the MCP aggregators. Like the other aggregators, it only appears once an administrator turns on the experimental **MCP aggregators** setting, which is off by default — see [Connect apps through an MCP aggregator](mcp-aggregators.md).
 
-Connections made through the older Composio broker are a different matter. That broker is retired, so those connections no longer run: they show as unhealthy, their tools are not offered to agents, and calls to them are refused. Paperclip tells you what to do in the connection itself:
+Connections made through the older Composio broker are a different matter. That broker is retired, so those connections no longer run: they show as unhealthy, their tools are not offered to agents, and calls to them are refused. ThinkingMach tells you what to do in the connection itself:
 
 > *"This legacy Composio connection is no longer supported. Add a new Composio MCP connection from Connectors, then remove this connection. Existing credentials and permissions are not migrated."*
 
@@ -55,7 +55,7 @@ In practice: with **MCP aggregators** turned on, connect Composio again from **C
 
 ## Gated by the provider
 
-These three are recorded as blocked because of a requirement on the provider's side. The requirement is theirs, not Paperclip's, and it has to be lifted or granted by them — there is no setting in Paperclip that works around it.
+These three are recorded as blocked because of a requirement on the provider's side. The requirement is theirs, not ThinkingMach's, and it has to be lifted or granted by them — there is no setting in ThinkingMach that works around it.
 
 | Provider | What the provider requires |
 | --- | --- |

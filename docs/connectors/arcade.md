@@ -18,7 +18,7 @@ Arcade supports browser sign-in and header-based authentication. Follow your gat
 
 ## Connect Arcade
 
-> **Unverified setup:** This procedure follows the pinned Paperclip definition and Arcade's documentation. It has not been tested with a live Arcade connection. Each step below is unverified.
+> **Unverified setup:** This procedure follows the pinned ThinkingMach definition and Arcade's documentation. It has not been tested with a live Arcade connection. Each step below is unverified.
 
 1. **Unverified:** In Arcade, create or select a gateway and select the tools agents should use. Copy its URL, in the form `https://api.arcade.dev/mcp/YOUR-GATEWAY-SLUG`.
 2. **Unverified:** Open **Connectors**, select **Arcade**, and choose **Connect MCP server**.
@@ -28,13 +28,13 @@ Arcade supports browser sign-in and header-based authentication. Follow your gat
 
 ## Choose access
 
-Tools come from your Arcade account and appear in Paperclip when you connect. Arcade controls which tools the gateway exposes. Paperclip controls the exposed actions an agent may call; it does not configure the gateway's underlying app accounts.
+Tools come from your Arcade account and appear in ThinkingMach when you connect. Arcade controls which tools the gateway exposes. ThinkingMach controls the exposed actions an agent may call; it does not configure the gateway's underlying app accounts.
 
 Every tool starts as **Allowed**. Set actions to **Ask first** or **Off** on **Permissions** where needed. Review the list after **Refresh actions** and after changing the gateway's tool selection.
 
 ## Try it
 
-Ask an eligible agent to perform one read-only lookup that your gateway exposes. Compare the result with the source app and inspect the connector call in Paperclip.
+Ask an eligible agent to perform one read-only lookup that your gateway exposes. Compare the result with the source app and inspect the connector call in ThinkingMach.
 
 > **Unverified check:** This is a suggested test, not a recorded result. Use an action present in your own connection; do not send messages or change records for the first check.
 
@@ -50,7 +50,7 @@ The available tools depend on the gateway. A successful connection does not prov
 
 ## Related guides
 
-- [Connector overview](https://paperclip.ing/product/connectors/arcade/)
+- [Connector overview](https://thinkingmach.com/product/connectors/arcade/)
 
 - [How connector access works](access-model.md)
 - [Set action permissions](action-permissions.md)
@@ -59,4 +59,4 @@ The available tools depend on the gateway. A successful connection does not prov
 
 ## Sources
 
-- [Paperclip connector definition](https://github.com/paperclipai/paperclip/blob/3166e93a7eee315e3bfbda622e080044ec5c343d/packages/shared/src/app-definitions/arcade.json#L16) — method names, authentication, endpoints, and connector-specific limits at the pinned product version. Provider setup documentation is linked above.
+- [ThinkingMach connector definition](https://github.com/thinkingmach/paperclip/blob/3166e93a7eee315e3bfbda622e080044ec5c343d/packages/shared/src/app-definitions/arcade.json#L16) — method names, authentication, endpoints, and connector-specific limits at the pinned product version. Provider setup documentation is linked above.

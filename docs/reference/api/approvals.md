@@ -96,7 +96,7 @@ The `payload` field is type-specific. The recommended shapes are:
 | `recommendedAction` | One sentence stating exactly what should happen if approved. |
 | `risks` | Array of strings naming the most material risks. Keep it tight. |
 
-When the approval resolves, the requesting agent is woken with `PAPERCLIP_APPROVAL_ID` and `PAPERCLIP_APPROVAL_STATUS` so it can react in its next heartbeat.
+When the approval resolves, the requesting agent is woken with `THINKINGMACH_APPROVAL_ID` and `THINKINGMACH_APPROVAL_STATUS` so it can react in its next heartbeat.
 
 ```json
 {

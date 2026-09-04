@@ -6,25 +6,25 @@ seo_description: A cited, in-dashboard wiki your agents build and maintain from 
 
 # LLM Wiki
 
-If you want a cited, in-dashboard wiki that your agents build and maintain from raw source material — Paperclip issues, comments, documents, and files you drop into a folder — the `@paperclipai/plugin-llm-wiki` plugin is the surface that does it. It captures sources into a local folder, lets agents ingest them into markdown pages with backlinks and provenance, and ships a Wiki page inside Paperclip so you (and the agents) can browse the result.
+If you want a cited, in-dashboard wiki that your agents build and maintain from raw source material — ThinkingMach issues, comments, documents, and files you drop into a folder — the `@thinkingmach/plugin-llm-wiki` plugin is the surface that does it. It captures sources into a local folder, lets agents ingest them into markdown pages with backlinks and provenance, and ships a Wiki page inside ThinkingMach so you (and the agents) can browse the result.
 
 This page is for **operators** who want to enable and configure the plugin.
 
-> The LLM Wiki plugin is in alpha alongside the plugin runtime itself. Expect breaking changes between Paperclip releases and pin your version when you depend on it.
+> The LLM Wiki plugin is in alpha alongside the plugin runtime itself. Expect breaking changes between ThinkingMach releases and pin your version when you depend on it.
 
 ---
 
 ## Quick install
 
-The plugin ships as a published npm package, so any Paperclip install (Docker, systemd, bare-metal — all the same) can pull it in with one command from a host that has your Paperclip CLI configured:
+The plugin ships as a published npm package, so any ThinkingMach install (Docker, systemd, bare-metal — all the same) can pull it in with one command from a host that has your ThinkingMach CLI configured:
 
 ```sh
-paperclipai plugin install @paperclipai/plugin-llm-wiki
+thinkingmach plugin install @thinkingmach/plugin-llm-wiki
 ```
 
-Or from the dashboard: **Settings → Plugins → Install Plugin**, paste `@paperclipai/plugin-llm-wiki`, submit.
+Or from the dashboard: **Settings → Plugins → Install Plugin**, paste `@thinkingmach/plugin-llm-wiki`, submit.
 
-The plugin won't appear in `paperclipai plugin examples` — that command only lists the four built-in reference *example* plugins, not the full catalogue of first-party plugins. Install LLM Wiki by full package name.
+The plugin won't appear in `thinkingmach plugin examples` — that command only lists the four built-in reference *example* plugins, not the full catalogue of first-party plugins. Install LLM Wiki by full package name.
 
 If you're running from a monorepo checkout, see [Develop a plugin locally](../../how-to/develop-a-plugin-locally.md) and point the installer at `packages/plugins/plugin-llm-wiki` instead.
 
@@ -36,7 +36,7 @@ The first enable asks for a fairly broad capability set — including `local.fol
 
 ## What you get
 
-Once the plugin is installed and enabled, three things show up in the Paperclip UI:
+Once the plugin is installed and enabled, three things show up in the ThinkingMach UI:
 
 - **A Wiki sidebar entry** (slot id `wiki-sidebar`, order `35`) that takes you to the plugin page.
 - **A Wiki page** mounted at the `wiki` route inside the plugin's company-scoped namespace (slot id `wiki-page`). This is where you browse pages, capture sources, kick off query sessions, and inspect operations.
@@ -46,7 +46,7 @@ Behind the scenes the plugin also registers:
 
 - A managed agent — the **Wiki Maintainer** (`agentKey: wiki-maintainer`, role `knowledge-maintainer`) — that owns ingest, query, lint, and index work.
 - A managed project — **LLM Wiki** (`projectKey: llm-wiki`) — that collects the plugin's operation issues.
-- Three managed routines, all paused by default: `cursor-window-processing` (process Paperclip issue-history windows), `nightly-wiki-lint` (audit pages for orphans, stale provenance, and contradictions), and `index-refresh` (rebuild `wiki/index.md`).
+- Three managed routines, all paused by default: `cursor-window-processing` (process ThinkingMach issue-history windows), `nightly-wiki-lint` (audit pages for orphans, stale provenance, and contradictions), and `index-refresh` (rebuild `wiki/index.md`).
 - A bundle of managed skills installed for the maintainer agent: `wiki-maintainer`, `wiki-ingest`, `wiki-query`, `wiki-lint`, `paperclip-distill`, and `index-refresh`.
 
 The routines ship paused so nothing fires until you decide it should. Enable them from the plugin's settings or from the standard managed-routines surface.
@@ -84,7 +84,7 @@ Bootstrap preserves existing files rather than overwriting them, so it's safe to
 
 A single wiki root can host multiple **spaces** — independent wiki bodies under one configured folder. The plugin always provisions a `default` space (slug: `default`) and lets you create more via the `POST /spaces` route or the settings UI. Each space gets its own `wiki/`, `raw/`, page index, and operation history.
 
-One thing to know up front: **Paperclip-derived ingestion always writes into the `default` space.** The cursor-window, distill, and backfill flows are not yet space-aware, so non-default spaces stay on manual or raw-file ingest for now. Per-space Paperclip ingestion profiles are tracked as a later phase.
+One thing to know up front: **ThinkingMach-derived ingestion always writes into the `default` space.** The cursor-window, distill, and backfill flows are not yet space-aware, so non-default spaces stay on manual or raw-file ingest for now. Per-space ThinkingMach ingestion profiles are tracked as a later phase.
 
 The space table itself is provisioned through the plugin's `003_spaces.sql` migration, which is now validated and applied through namespace-safe SQL. The plugin runtime refuses migrations that escape the plugin's database namespace, so a faulty migration fails at install time with a clear error instead of polluting the host schema.
 
@@ -96,15 +96,15 @@ The plugin offers two paths from raw material to a wiki page:
 
 **Manual capture.** Drop files into `<wiki-root>/raw/` (or call the `POST /sources` route — `routeKey: capture-source`) to register them as a captured source with metadata in the plugin's database namespace. From there an agent — typically the Wiki Maintainer running the `wiki-ingest` skill — turns the raw source into a cited markdown page under `wiki/concepts/`, `wiki/entities/`, `wiki/synthesis/`, or a project folder.
 
-**Paperclip event ingestion.** Opt in to company-scoped ingestion of Paperclip issues, comments, and documents. It is **disabled by default**. When you enable it, the plugin's worker watches host events, captures eligible content into the default space's `raw/`, and lets the maintainer agent distill it into project pages. The defaults cap per-source size at 12,000 characters for issues, 60,000 for cursor windows, and 120,000 for routine runs.
+**ThinkingMach event ingestion.** Opt in to company-scoped ingestion of ThinkingMach issues, comments, and documents. It is **disabled by default**. When you enable it, the plugin's worker watches host events, captures eligible content into the default space's `raw/`, and lets the maintainer agent distill it into project pages. The defaults cap per-source size at 12,000 characters for issues, 60,000 for cursor windows, and 120,000 for routine runs.
 
-Pages are plain markdown on disk. The plugin indexes them in its database namespace (`namespaceSlug: llm_wiki`) for search, backlinks, and revision history, and uses Paperclip's local-folder API for path containment, symlink checks, and atomic writes. Two files are reserved: `AGENTS.md` and `IDEA.md` cannot be written through agent tools.
+Pages are plain markdown on disk. The plugin indexes them in its database namespace (`namespaceSlug: llm_wiki`) for search, backlinks, and revision history, and uses ThinkingMach's local-folder API for path containment, symlink checks, and atomic writes. Two files are reserved: `AGENTS.md` and `IDEA.md` cannot be written through agent tools.
 
 ---
 
 ## Tools agents can call
 
-When the maintainer agent (or any agent you grant `pluginTools: [paperclipai.plugin-llm-wiki]`) runs, the plugin exposes a focused tool surface for working with the wiki:
+When the maintainer agent (or any agent you grant `pluginTools: [thinkingmach.plugin-llm-wiki]`) runs, the plugin exposes a focused tool surface for working with the wiki:
 
 | Tool | What it does |
 |---|---|
@@ -157,5 +157,5 @@ The plugin mounts these routes under its plugin namespace (auth column shows whi
 ## Related
 
 - [Administration → Plugins](../../administration/plugins.md) — the operator-facing Plugin Manager.
-- [How-to → Develop a plugin locally](../../how-to/develop-a-plugin-locally.md) — point Paperclip at a local checkout of the plugin.
+- [How-to → Develop a plugin locally](../../how-to/develop-a-plugin-locally.md) — point ThinkingMach at a local checkout of the plugin.
 - [Reference → Plugin SDK](./sdk.md) — the authoring surface, if you want to extend the wiki plugin or write your own.

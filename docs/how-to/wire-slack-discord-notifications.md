@@ -5,7 +5,7 @@ seo_description: Pipe approvals, blocked high-priority issues, and budget breach
 
 # Wire Slack/Discord notifications for approvals
 
-Pipe approval requests, blocked high-priority issues, and budget breaches to a Slack or Discord channel so the board sees decisions without watching the UI. The recipe is the same for both: a Paperclip routine pings a notifier agent on a schedule, the agent diffs against a "last-seen" cursor, and posts a structured message to a webhook URL.
+Pipe approval requests, blocked high-priority issues, and budget breaches to a Slack or Discord channel so the board sees decisions without watching the UI. The recipe is the same for both: a ThinkingMach routine pings a notifier agent on a schedule, the agent diffs against a "last-seen" cursor, and posts a structured message to a webhook URL.
 
 Time to working notification: about 15 minutes.
 
@@ -15,7 +15,7 @@ Time to working notification: about 15 minutes.
 
 ```txt
    ┌──────────────────┐   schedule trigger    ┌────────────────────┐
-   │ Paperclip routine│──────(every 60s)────▶│ Notifier agent     │
+   │ ThinkingMach routine│──────(every 60s)────▶│ Notifier agent     │
    └──────────────────┘                       │  ─ poll API        │
                                               │  ─ diff vs cursor  │
                                               │  ─ format payload  │
@@ -27,7 +27,7 @@ Time to working notification: about 15 minutes.
                                           └─────────────────────────┘
 ```
 
-Paperclip does not push outbound webhooks today — the routine + agent pair *is* the push. That keeps the moving parts in one place: you can read the notifier's run history, replay a missed event by re-running the routine, and rotate the channel webhook by updating one secret. See [Heartbeats & Routines](../guides/projects-workflow/routines.md) for the underlying model.
+ThinkingMach does not push outbound webhooks today — the routine + agent pair *is* the push. That keeps the moving parts in one place: you can read the notifier's run history, replay a missed event by re-running the routine, and rotate the channel webhook by updating one secret. See [Heartbeats & Routines](../guides/projects-workflow/routines.md) for the underlying model.
 
 ---
 
@@ -50,12 +50,12 @@ Everything else (issue created, comment posted, agent woke up) is more usefully 
 Slack has two webhook flavours: classic incoming webhooks and the App-managed kind. Use the App-managed flow — it's the only one Slack still develops.
 
 1. Visit [api.slack.com/apps](https://api.slack.com/apps) and click **Create New App → From scratch**.
-2. Name it `Paperclip Notifications`, pick the workspace, and create.
+2. Name it `ThinkingMach Notifications`, pick the workspace, and create.
 3. In the left sidebar, open **Incoming Webhooks** and toggle **Activate Incoming Webhooks** on.
 4. Click **Add New Webhook to Workspace**, choose the channel (e.g. `#paperclip-board`), and authorise.
 5. Copy the webhook URL. It looks like `https://hooks.slack.com/services/T.../B.../xxxxxxxxxxxx`.
 
-The URL is itself a bearer token — anyone who has it can post to the channel. Never commit it. Store it as a Paperclip secret on the notifier agent's environment (see [Signing + secrets](#signing--secrets) below).
+The URL is itself a bearer token — anyone who has it can post to the channel. Never commit it. Store it as a ThinkingMach secret on the notifier agent's environment (see [Signing + secrets](#signing--secrets) below).
 
 ---
 
@@ -65,7 +65,7 @@ Discord webhooks are channel-level, not server-level. You'll need **Manage Chann
 
 1. Open the target channel's settings (gear icon → **Edit Channel**).
 2. **Integrations → Webhooks → New Webhook**.
-3. Rename it `Paperclip` and optionally upload an avatar.
+3. Rename it `ThinkingMach` and optionally upload an avatar.
 4. **Copy Webhook URL**. Format: `https://discord.com/api/webhooks/<id>/<token>`.
 
 Same warning as Slack: the URL contains the auth token. Treat it like a password.
@@ -79,8 +79,8 @@ Hire a small agent with the only job of fanning out notifications. Any code-capa
 Create a routine that fires on a schedule and assigns itself to the notifier:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/routines" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/routines" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Notify board channel",
@@ -95,8 +95,8 @@ curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/routines" \
 Then attach a 1-minute schedule trigger:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/routines/<routine-id>/triggers" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/routines/<routine-id>/triggers" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "kind": "schedule",
@@ -116,7 +116,7 @@ curl -X POST "$PAPERCLIP_API_URL/api/routines/<routine-id>/triggers" \
 Three things, in order. The shape is short enough to fit in the agent's instructions:
 
 ```txt
-1. Read PAPERCLIP_NOTIFIER_LAST_SEEN_AT from a tiny KV store
+1. Read THINKINGMACH_NOTIFIER_LAST_SEEN_AT from a tiny KV store
    (or a comment on a "state" issue you own — anything durable).
 2. Fetch:
    - GET /api/companies/{COMPANY_ID}/approvals?status=pending
@@ -179,7 +179,7 @@ A useful notification names the event, the requester, and the action — and giv
 
 ```json
 {
-  "username": "Paperclip",
+  "username": "ThinkingMach",
   "embeds": [
     {
       "title": "Approval pending: Hire CTO",
@@ -192,7 +192,7 @@ A useful notification names the event, the requester, and the action — and giv
         { "name": "Budget", "value": "$200/mo", "inline": true },
         { "name": "Adapter", "value": "claude_local", "inline": true }
       ],
-      "footer": { "text": "Paperclip • approvals" }
+      "footer": { "text": "ThinkingMach • approvals" }
     }
   ]
 }
@@ -204,12 +204,12 @@ For blocked-issue alerts, swap the header for `"Blocked: PAP-142 — Migrate bil
 
 ## Signing + secrets
 
-Slack and Discord webhook URLs are bearer tokens — possession is auth. Anyone with the URL can post to the channel as `Paperclip`. Two rules cover the security posture:
+Slack and Discord webhook URLs are bearer tokens — possession is auth. Anyone with the URL can post to the channel as `ThinkingMach`. Two rules cover the security posture:
 
 1. **Never commit the URL.** Store it on the notifier agent's environment — for `claude_local`, that's a per-agent env var in the agent config; for `http_webhook`, set it on the receiving service. See [environment variables](../reference/deploy/environment-variables.md).
 2. **Rotate on exposure.** In Slack: regenerate the webhook from the App's Incoming Webhooks page (the old URL stops working immediately). In Discord: open the webhook settings and click **Copy Webhook URL → Regenerate**.
 
-If you also want to *receive* webhooks into Paperclip (Stripe → Paperclip routine, GitHub → Paperclip routine), that's the other direction and uses Paperclip's signed-trigger model with `bearer`, `hmac_sha256`, or `github_hmac` modes. Documented in [Routines API → Webhook triggers](../reference/api/routines.md#webhook).
+If you also want to *receive* webhooks into ThinkingMach (Stripe → ThinkingMach routine, GitHub → ThinkingMach routine), that's the other direction and uses ThinkingMach's signed-trigger model with `bearer`, `hmac_sha256`, or `github_hmac` modes. Documented in [Routines API → Webhook triggers](../reference/api/routines.md#webhook).
 
 ---
 
@@ -220,11 +220,11 @@ Before turning the routine `active`, dry-run the webhook from your laptop:
 ```bash
 curl -X POST "$SLACK_WEBHOOK_URL" \
   -H "Content-Type: application/json" \
-  -d '{"text":"Paperclip notifier — wiring check"}'
+  -d '{"text":"ThinkingMach notifier — wiring check"}'
 
 curl -X POST "$DISCORD_WEBHOOK_URL" \
   -H "Content-Type: application/json" \
-  -d '{"content":"Paperclip notifier — wiring check"}'
+  -d '{"content":"ThinkingMach notifier — wiring check"}'
 ```
 
 A `200 OK` plus the message in the channel means the URL is good. If you get `400`, the JSON is malformed. If you get `403`, the URL has been rotated or revoked.
@@ -232,8 +232,8 @@ A `200 OK` plus the message in the channel means the URL is good. If you get `40
 Then run the routine once manually:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/routines/<routine-id>/run" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/routines/<routine-id>/run" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "source": "manual" }'
 ```

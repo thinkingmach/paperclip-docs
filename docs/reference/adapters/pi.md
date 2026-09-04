@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.618.0
 seo_title: Pi Adapter
-seo_description: Run the Pi coding agent CLI on the Paperclip host, with its built-in tool set — read, bash, edit, write, grep, find, ls — and provider configuration.
+seo_description: Run the Pi coding agent CLI on the ThinkingMach host, with its built-in tool set — read, bash, edit, write, grep, find, ls — and provider configuration.
 ---
 
 # Pi
 
-`pi_local` runs the Pi coding agent CLI on the same machine as Paperclip. Use it when you want Pi's built-in tool set (read, bash, edit, write, grep, find, ls), provider/model routing, and session resume across heartbeats.
+`pi_local` runs the Pi coding agent CLI on the same machine as ThinkingMach. Use it when you want Pi's built-in tool set (read, bash, edit, write, grep, find, ls), provider/model routing, and session resume across heartbeats.
 
 ---
 
@@ -14,7 +14,7 @@ seo_description: Run the Pi coding agent CLI on the Paperclip host, with its bui
 
 - You already use the Pi CLI locally.
 - You want provider/model routing in Pi's `--provider <name> --model <id>` format.
-- You want Paperclip to resume Pi sessions across heartbeats via `--session`.
+- You want ThinkingMach to resume Pi sessions across heartbeats via `--session`.
 - You need Pi's tool set available to the agent.
 
 ## When Not To Use
@@ -39,13 +39,13 @@ seo_description: Run the Pi coding agent CLI on the Paperclip host, with its bui
 | `timeoutSec` | no | Run timeout in seconds. `0` means no timeout. |
 | `graceSec` | no | SIGTERM grace period before a forced stop. |
 
-> **Note:** Paperclip requires an explicit `model` value for `pi_local` agents. Use `pi --list-models` to list valid options on your machine.
+> **Note:** ThinkingMach requires an explicit `model` value for `pi_local` agents. Use `pi --list-models` to list valid options on your machine.
 
 ---
 
 ## Session Persistence
 
-Pi sessions are stored under `~/.pi/paperclips/` and resumed with `--session` on the next heartbeat. The session is scoped per agent so multiple Paperclip agents can share a host without stepping on each other.
+Pi sessions are stored under `~/.pi/paperclips/` and resumed with `--session` on the next heartbeat. The session is scoped per agent so multiple ThinkingMach agents can share a host without stepping on each other.
 
 ---
 
@@ -59,9 +59,9 @@ Pi sessions are stored under `~/.pi/paperclips/` and resumed with `--session` on
 
 ## Custom Providers / Gateway Routing
 
-Pi has no base-URL flag or env var, so the only way to point it at a custom or remote OpenAI- or Anthropic-compatible endpoint is a `models.json` file in its agent-config directory. Paperclip wires this up for you through the `PAPERCLIP_PI_PROVIDERS` environment variable.
+Pi has no base-URL flag or env var, so the only way to point it at a custom or remote OpenAI- or Anthropic-compatible endpoint is a `models.json` file in its agent-config directory. ThinkingMach wires this up for you through the `THINKINGMACH_PI_PROVIDERS` environment variable.
 
-Set `PAPERCLIP_PI_PROVIDERS` to a JSON object in Pi's `models.json` `providers` shape — keyed by provider name, with each entry describing how to reach the endpoint and which models it serves. Paperclip reads it server-side, writes `{"providers": ...}` to a managed `models.json` in a temporary agent-config dir, and points `PI_CODING_AGENT_DIR` at that dir for the run. (For remote execution targets, the dir is shipped to the sandbox and `PI_CODING_AGENT_DIR` is repointed at the in-sandbox copy.)
+Set `THINKINGMACH_PI_PROVIDERS` to a JSON object in Pi's `models.json` `providers` shape — keyed by provider name, with each entry describing how to reach the endpoint and which models it serves. ThinkingMach reads it server-side, writes `{"providers": ...}` to a managed `models.json` in a temporary agent-config dir, and points `PI_CODING_AGENT_DIR` at that dir for the run. (For remote execution targets, the dir is shipped to the sandbox and `PI_CODING_AGENT_DIR` is repointed at the in-sandbox copy.)
 
 Because Pi resolves `--provider <name> --model <id>` by an exact `(provider, model id)` match against that registry, each provider must enumerate its models explicitly.
 
@@ -88,7 +88,7 @@ Because Pi resolves `--provider <name> --model <id>` by an exact `(provider, mod
 
 Notes on behavior:
 
-- **Secrets stay declarative.** An `apiKey` may be a literal value or an `{env:VAR}` placeholder. Placeholders are expanded server-side against the run `env` and the Paperclip process env, so gateway keys are baked into `models.json` where the value is reliably present. An unresolvable placeholder (unset, or set to an empty string) is left intact for Pi to try itself.
+- **Secrets stay declarative.** An `apiKey` may be a literal value or an `{env:VAR}` placeholder. Placeholders are expanded server-side against the run `env` and the ThinkingMach process env, so gateway keys are baked into `models.json` where the value is reliably present. An unresolvable placeholder (unset, or set to an empty string) is left intact for Pi to try itself.
 - **The managed dir replaces the host agent dir.** Credentials travel inside the providers config (via the literal or expanded `apiKey`), not from the host's `~/.pi/agent`.
 - **Misconfiguration is surfaced, not silent.** Invalid JSON, a non-object value, or provider entries that are not themselves objects are ignored with a diagnostic note rather than failing later with an opaque model-not-found error. Leaving the variable unset (or empty) is the normal "feature off" case.
 

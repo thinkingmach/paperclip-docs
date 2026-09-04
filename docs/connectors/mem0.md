@@ -7,7 +7,7 @@ seo_description: Give agents a persistent memory store with Mem0. Whose memory i
 
 Mem0 gives agents a persistent memory store that outlives a single task — a place to write down facts and retrieve them on a later run.
 
-The question to settle before connecting is *whose* memory an agent is reading and writing. Mem0 organizes memories by identifiers you supply at call time, so the boundary is a convention you enforce, not something Paperclip checks.
+The question to settle before connecting is *whose* memory an agent is reading and writing. Mem0 organizes memories by identifiers you supply at call time, so the boundary is a convention you enforce, not something ThinkingMach checks.
 
 ## Before you connect
 
@@ -18,7 +18,7 @@ The question to settle before connecting is *whose* memory an agent is reading a
 
 1. Open **Connectors** and select **Mem0**.
 2. On the **Access** step, choose the identity and which agents may use the connection.
-3. Paste the **Mem0 API key**. Paperclip stores it as a secret.
+3. Paste the **Mem0 API key**. ThinkingMach stores it as a secret.
 
 ## Choose access
 
@@ -59,7 +59,7 @@ An empty result does not establish that the intended namespace was read. Check t
 | Something sensitive was written | Memories persist beyond the task | Delete it in Mem0 and narrow what agents may store |
 | **Needs attention** | The key stopped working | Select **Reconnect** |
 
-Limitations: one Mem0 project per connection, and the key reaches all of it. Namespacing is not enforced by Paperclip. Mem0's own plan limits apply.
+Limitations: one Mem0 project per connection, and the key reaches all of it. Namespacing is not enforced by ThinkingMach. Mem0's own plan limits apply.
 
 ## Related guides
 

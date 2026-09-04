@@ -1,18 +1,18 @@
 ---
 seo_title: Cursor Local Adapter
-seo_description: Run Cursor's Agent CLI on the Paperclip host, keeping chat sessions alive across heartbeats and emitting structured stream output in run views.
+seo_description: Run Cursor's Agent CLI on the ThinkingMach host, keeping chat sessions alive across heartbeats and emitting structured stream output in run views.
 ---
 
 # Cursor Local
 
-`cursor` runs Cursor's Agent CLI on the same machine as Paperclip. Use it when you want Cursor chat session resume across heartbeats and structured stream output in run logs.
+`cursor` runs Cursor's Agent CLI on the same machine as ThinkingMach. Use it when you want Cursor chat session resume across heartbeats and structured stream output in run logs.
 
 ---
 
 ## When To Use
 
 - You already use Cursor Agent CLI locally.
-- You want Paperclip to run Cursor with session resume (`--resume`) across heartbeats.
+- You want ThinkingMach to run Cursor with session resume (`--resume`) across heartbeats.
 - You want structured stream output (`--output-format stream-json`) in run logs.
 
 ## When Not To Use

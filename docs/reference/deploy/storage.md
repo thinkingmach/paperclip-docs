@@ -1,11 +1,11 @@
 ---
 seo_title: Storage Configuration
-seo_description: Where attachments, screenshots, and other uploads are kept, and how to point Paperclip at a different storage provider when local disk is not enough.
+seo_description: Where attachments, screenshots, and other uploads are kept, and how to point ThinkingMach at a different storage provider when local disk is not enough.
 ---
 
 # Storage
 
-Paperclip stores uploads such as attachments, screenshots, and other assets through a configurable storage provider.
+ThinkingMach stores uploads such as attachments, screenshots, and other assets through a configurable storage provider.
 
 Use this page when you need to understand where files live locally or when you are switching to object storage for a shared deployment.
 
@@ -49,7 +49,7 @@ That includes providers such as:
 Configure it through the CLI:
 
 ```sh
-pnpm paperclipai configure --section storage
+pnpm thinkingmach configure --section storage
 ```
 
 Use this when the instance may run on more than one machine or when local disk would not be durable enough.

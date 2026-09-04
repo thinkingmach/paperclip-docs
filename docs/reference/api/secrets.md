@@ -6,7 +6,7 @@ seo_description: Keep sensitive values out of agent configs while agents still u
 
 # Secrets
 
-Secrets are how Paperclip keeps sensitive values out of agent configs while still letting agents use them at runtime. The API is board-only and company-scoped.
+Secrets are how ThinkingMach keeps sensitive values out of agent configs while still letting agents use them at runtime. The API is board-only and company-scoped.
 
 Use this API when you need to:
 
@@ -48,9 +48,9 @@ If `requiresExternalRef` is `true`, the provider expects an external reference s
 
 The three `supports…` flags tell you what a provider will let you do, so you can check before you try:
 
-- `supportsManagedValues` — Paperclip can create and rotate the value itself. The default `local_encrypted` provider reports `true` here and `false` for external references.
-- `supportsExternalReferences` — the provider can link to a secret that already lives somewhere else, and Paperclip only stores the pointer.
-- `supportsExternalValueWrites` — the interesting one. When this is `true`, you can also push a *new value* through to a linked external secret from Paperclip, instead of only repointing the link. `aws_secrets_manager` reports `true` here. The `gcp_secret_manager` and `vault` entries are placeholders in the current build: they report `supportsManagedValues: false` and never advertise external value writes.
+- `supportsManagedValues` — ThinkingMach can create and rotate the value itself. The default `local_encrypted` provider reports `true` here and `false` for external references.
+- `supportsExternalReferences` — the provider can link to a secret that already lives somewhere else, and ThinkingMach only stores the pointer.
+- `supportsExternalValueWrites` — the interesting one. When this is `true`, you can also push a *new value* through to a linked external secret from ThinkingMach, instead of only repointing the link. `aws_secrets_manager` reports `true` here. The `gcp_secret_manager` and `vault` entries are placeholders in the current build: they report `supportsManagedValues: false` and never advertise external value writes.
 
 `configured` tells you whether the provider has everything it needs in this deployment. A provider can advertise a capability and still be unconfigured, in which case the write fails when you attempt it.
 
@@ -98,7 +98,7 @@ providers = response.json()
 
 ## What Is Stored
 
-Paperclip stores secrets in two layers:
+ThinkingMach stores secrets in two layers:
 
 - `company_secrets` stores the secret record, metadata, and latest version pointer
 - `company_secret_versions` stores the versioned material
@@ -122,8 +122,8 @@ What you do not get back is the plaintext secret value itself.
 
 `managedMode` is worth understanding before you rotate anything, because it decides where the value actually lives:
 
-- `paperclip_managed` — Paperclip owns the value. It created it, it stores it, and it writes the new one when you rotate.
-- `external_reference` — the value lives in an external vault and `externalRef` is the pointer to it. Paperclip stores the pointer and a version history of that pointer, not the credential.
+- `paperclip_managed` — ThinkingMach owns the value. It created it, it stores it, and it writes the new one when you rotate.
+- `external_reference` — the value lives in an external vault and `externalRef` is the pointer to it. ThinkingMach stores the pointer and a version history of that pointer, not the credential.
 
 An `external_reference` secret used to be link-only. If the provider reports `supportsExternalValueWrites`, you can now also write a new value straight through to the external vault — see [Rotate Secret](#rotate-secret).
 
@@ -222,7 +222,7 @@ Body:
 | `description` | No | Human-readable note for operators. |
 | `externalRef` | No | Required by some external providers. |
 
-If you omit `provider`, Paperclip uses the deployment default provider if it is valid, otherwise it falls back to `local_encrypted`.
+If you omit `provider`, ThinkingMach uses the deployment default provider if it is valid, otherwise it falls back to `local_encrypted`.
 
 The value is stored as a new version immediately:
 
@@ -308,7 +308,7 @@ Body:
 
 This endpoint does not change the secret value. There is no `value` field here, and that has not changed — every value write, including a write through to an external vault, goes through [Rotate Secret](#rotate-secret).
 
-Use it when you want to tidy up metadata or point an external-backed secret at a new provider reference without changing how the secret is versioned in Paperclip.
+Use it when you want to tidy up metadata or point an external-backed secret at a new provider reference without changing how the secret is versioned in ThinkingMach.
 
 <!-- tabs: cURL, JavaScript, Python -->
 
@@ -378,7 +378,7 @@ Body:
 | Field | Required | Notes |
 |---|---|---|
 | `value` | Yes for `paperclip_managed` | The new plaintext secret value. Optional on an `external_reference` secret — send it only when you want to write the new value through to the external vault. |
-| `externalRef` | No | If omitted, Paperclip keeps the existing external reference for the secret. |
+| `externalRef` | No | If omitted, ThinkingMach keeps the existing external reference for the secret. |
 | `providerVersionRef` | No | Pins an `external_reference` secret at a specific provider-side version when you repoint it. It cannot be combined with a `value`, and it has no effect on a `paperclip_managed` secret. |
 | `providerConfigId` | No | Pins the write to a specific provider vault. Omit it to keep the vault the secret already uses; send `null` to fall back to the deployment default. |
 
@@ -448,7 +448,7 @@ rotated = response.json()
 
 The examples above are the `paperclip_managed` case, where rotation always means "store this new value". For an `external_reference` secret there are two different things you might want, and the request body is what picks between them.
 
-**Repoint the link.** Send `externalRef` (and optionally `providerVersionRef`) with no `value`. Paperclip records a new metadata version pointing at a different secret in the vault. Nothing is written to the vault itself — this is the behavior external-reference secrets have always had.
+**Repoint the link.** Send `externalRef` (and optionally `providerVersionRef`) with no `value`. ThinkingMach records a new metadata version pointing at a different secret in the vault. Nothing is written to the vault itself — this is the behavior external-reference secrets have always had.
 
 ```bash
 curl -X POST "http://localhost:3100/api/secrets/secret-uuid/rotate" \
@@ -459,16 +459,16 @@ curl -X POST "http://localhost:3100/api/secrets/secret-uuid/rotate" \
   }'
 ```
 
-**Write a new value through.** Send `value` and leave the reference alone — the same request shape as the tabs above. If the provider supports it, Paperclip writes that value into the external secret your `externalRef` already points at. You no longer have to leave Paperclip, open the vault console, and paste the credential there by hand.
+**Write a new value through.** Send `value` and leave the reference alone — the same request shape as the tabs above. If the provider supports it, ThinkingMach writes that value into the external secret your `externalRef` already points at. You no longer have to leave ThinkingMach, open the vault console, and paste the credential there by hand.
 
 This second option only works when the provider actually implements external value writes; such a provider advertises `supportsExternalValueWrites` in its descriptor, which is what the board reads to decide whether to offer you the choice. Today that means AWS Secrets Manager.
 
 What that write looks like on the AWS side:
 
-- Paperclip reads the current `AWSCURRENT` version first, so it knows what it is replacing.
-- It then writes the new value as a new AWS version, which becomes `AWSCURRENT`. That is deliberate: **every** consumer of that AWS secret picks up the new value, not just Paperclip.
-- The stored material keeps tracking `AWSCURRENT` rather than pinning the version it just wrote, so a later rotation done directly in AWS still flows through to Paperclip.
-- If Paperclip fails to record the new version after the vault write succeeded, it moves `AWSCURRENT` back to the version that was current before, so you are not left with a value the control plane doesn't know about.
+- ThinkingMach reads the current `AWSCURRENT` version first, so it knows what it is replacing.
+- It then writes the new value as a new AWS version, which becomes `AWSCURRENT`. That is deliberate: **every** consumer of that AWS secret picks up the new value, not just ThinkingMach.
+- The stored material keeps tracking `AWSCURRENT` rather than pinning the version it just wrote, so a later rotation done directly in AWS still flows through to ThinkingMach.
+- If ThinkingMach fails to record the new version after the vault write succeeded, it moves `AWSCURRENT` back to the version that was current before, so you are not left with a value the control plane doesn't know about.
 
 Because the write goes to a shared vault, treat it as a real rotation: anything else reading that AWS secret sees the new value on its next read.
 
@@ -489,7 +489,7 @@ A value write to an external-reference secret is rejected before anything reache
 
 The last message embeds the provider's own label — so a refusal from the GCP Secret Manager stub reads `GCP Secret Manager does not support writing values to external reference secrets`. You will not see this one from AWS Secrets Manager, which implements the write.
 
-There is a fifth rejection that comes from AWS itself rather than the shared validation above: writing to a reference that points inside the vault's Paperclip-managed namespace fails with `AWS Paperclip-managed namespace secrets cannot be imported as external references`. Those secrets are Paperclip's own to rotate — link to a secret you manage instead.
+There is a fifth rejection that comes from AWS itself rather than the shared validation above: writing to a reference that points inside the vault's ThinkingMach-managed namespace fails with `AWS ThinkingMach-managed namespace secrets cannot be imported as external references`. Those secrets are ThinkingMach's own to rotate — link to a secret you manage instead.
 
 The rule behind the second and third rows is the same one: one request does one thing. Repointing the link and replacing the value are separate rotations, so run them as separate calls if you need both.
 
@@ -547,7 +547,7 @@ You can also pin to a numeric version:
 
 What happens at runtime:
 
-- Paperclip validates that the secret belongs to the same company
+- ThinkingMach validates that the secret belongs to the same company
 - it resolves the requested version
 - it decrypts or fetches the underlying value through the provider
 - it injects the plaintext into the agent process environment
@@ -556,7 +556,7 @@ Versioning rules:
 
 - `version: "latest"` tracks future rotations automatically
 - a numeric version stays pinned to that exact historical value
-- if you omit `version`, Paperclip treats it as `latest`
+- if you omit `version`, ThinkingMach treats it as `latest`
 
 Sensitive inline values are still accepted in some configs for backward compatibility, but the secret reference form is the preferred pattern for anything sensitive.
 
@@ -648,7 +648,7 @@ requests.post(
 
 There is more than one way for a secret to reach an agent, and the difference matters when you care about how long a value sits in memory.
 
-- **Environment injection (`env`)** is the classic path described above. Paperclip resolves the secret at launch and injects the plaintext into the agent process environment. The value is present for the whole run.
+- **Environment injection (`env`)** is the classic path described above. ThinkingMach resolves the secret at launch and injects the plaintext into the agent process environment. The value is present for the whole run.
 - **Run-bound access (`api`)** exposes the secret through an API the running agent calls on demand, instead of pre-loading it into the environment. Nothing is injected up front; the agent fetches the value only when it needs it.
 - **`both`** means the same secret is available through environment injection *and* the run-bound access API.
 
@@ -904,9 +904,9 @@ An empty reason is rejected with `422`:
 
 ### When a proposal resolves
 
-Proposals usually start life inside a piece of work. When a proposal is raised, Paperclip resolves the issue behind the current run — the issue whose execution or checkout run matches — and stores it as `originIssueId`.
+Proposals usually start life inside a piece of work. When a proposal is raised, ThinkingMach resolves the issue behind the current run — the issue whose execution or checkout run matches — and stores it as `originIssueId`.
 
-That link pays off when the board decides. On approval or rejection, if the proposal has an `originIssueId`, Paperclip posts a resolution comment back onto that issue and wakes the assignment so the agent picks the outcome up. The comment names the proposal and its new status, for example:
+That link pays off when the board decides. On approval or rejection, if the proposal has an `originIssueId`, ThinkingMach posts a resolution comment back onto that issue and wakes the assignment so the agent picks the outcome up. The comment names the proposal and its new status, for example:
 
 ```
 Secret proposal resolution
@@ -1012,7 +1012,7 @@ What you get on screen:
 
 - a dropdown listing the active secrets for the current company
 - a "paste a raw value" fallback for cases where you don't have a secret stored yet
-- the picker recognises a UUID-shaped value as a bound secret reference; anything else is a raw value that Paperclip stores as a new secret on save
+- the picker recognises a UUID-shaped value as a bound secret reference; anything else is a raw value that ThinkingMach stores as a new secret on save
 
 This is the same picker used by routine `env` values, agent adapter env, and any other config surface that opts in via `format: "secret-ref"`. If you're authoring a plugin or adapter schema, mark the sensitive fields with that format and the binding UI comes along for free.
 

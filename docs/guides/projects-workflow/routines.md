@@ -8,7 +8,7 @@ seo_description: Why timer heartbeats are opt-in, and how routines schedule recu
 
 When you first hire a few agents, it's tempting to give each one a timer — "wake up every few minutes and see if there's anything to do." It feels proactive. In practice, it's the fastest way to end up with a sidebar full of paused agents, surprise token bills, and a dashboard you have to fight with just to keep things quiet.
 
-Paperclip is designed around a different default: agents stay dormant until real work arrives. This guide explains the two mechanisms that drive an agent — **heartbeats on an interval** and **routines** — and when to reach for each one. It also walks through the Routines UI, from the list view down to the detail page where you configure triggers, variables, and run history.
+ThinkingMach is designed around a different default: agents stay dormant until real work arrives. This guide explains the two mechanisms that drive an agent — **heartbeats on an interval** and **routines** — and when to reach for each one. It also walks through the Routines UI, from the list view down to the detail page where you configure triggers, variables, and run history.
 
 ---
 
@@ -62,8 +62,8 @@ Routines are where scheduled work belongs. A routine is a reusable job definitio
 
 Two trigger kinds are supported:
 
-- **Schedule** — a cron expression in your timezone. "Every weekday at 9am", "the first of every month", "every Sunday at midnight". Paperclip computes the next run and fires on that clock.
-- **Webhook** — a signed URL you can call from anything outside Paperclip. Useful when another system should kick off the work.
+- **Schedule** — a cron expression in your timezone. "Every weekday at 9am", "the first of every month", "every Sunday at midnight". ThinkingMach computes the next run and fires on that clock.
+- **Webhook** — a signed URL you can call from anything outside ThinkingMach. Useful when another system should kick off the work.
 
 You'll find routines on the **Routines** page in the sidebar.
 
@@ -75,7 +75,7 @@ You'll find routines on the **Routines** page in the sidebar.
 4. Assign it to the agent that should handle the work
 5. Save and enable it
 
-When the trigger fires, Paperclip creates a task, assigns it to the agent, and that assignment wakes the agent immediately. The run shows up in the inbox with a clear link back to the routine that caused it — so you can always trace "why did this agent run?" back to a specific cause.
+When the trigger fires, ThinkingMach creates a task, assigns it to the agent, and that assignment wakes the agent immediately. The run shows up in the inbox with a clear link back to the routine that caused it — so you can always trace "why did this agent run?" back to a specific cause.
 
 ### Routine policies worth knowing
 
@@ -128,7 +128,7 @@ Clicking **Create routine** opens a modal composer. The composer walks you throu
 - **Instructions** — a Markdown editor. Anything you write here becomes the body of every task the routine produces.
 - **Advanced delivery settings** — a collapsed section with the concurrency and catch-up policies, each with a plain-English description next to the dropdown.
 
-Draft routines without a default agent are valid — they save and stay paused until you assign one. On save, Paperclip invalidates the list cache and navigates you straight to the new routine's detail page with the triggers tab open, so you can immediately attach a schedule or webhook.
+Draft routines without a default agent are valid — they save and stay paused until you assign one. On save, ThinkingMach invalidates the list cache and navigates you straight to the new routine's detail page with the triggers tab open, so you can immediately attach a schedule or webhook.
 
 ### Run now, pause, archive
 
@@ -192,15 +192,15 @@ Above the instructions editor you'll see a small **comment count chip** with a s
 
 To start a comment, select some text in the description and ask for a comment on that selection — `⌘⇧M` / `Ctrl+Shift+M` does this while the panel is open. The comment anchors to the exact text you highlighted, so the discussion stays attached to the part of the instructions it's about. Comments load with their replies in one go, and the count chip and the panel read from the same source, so a new or resolved thread updates the count without a manual refresh.
 
-New comments are only allowed when the description is in a clean, saved state. If you have unsaved edits in the Overview section, are in the middle of saving, or the routine has a save conflict, the "new comment" action is disabled with a short reason — for example "Save the draft to anchor new comments" or "Resolve the document conflict before adding new comments." That's deliberate: a comment has to anchor to a saved revision, so Paperclip asks you to land your edit first.
+New comments are only allowed when the description is in a clean, saved state. If you have unsaved edits in the Overview section, are in the middle of saving, or the routine has a save conflict, the "new comment" action is disabled with a short reason — for example "Save the draft to anchor new comments" or "Resolve the document conflict before adding new comments." That's deliberate: a comment has to anchor to a saved revision, so ThinkingMach asks you to land your edit first.
 
 ### When a save fails
 
-Editing the description is a routine save like any other, and Paperclip surfaces failures rather than swallowing them. If your save runs into a conflict — someone else changed the routine while you were typing — you get a "Routine changed" toast telling you to reload for the latest revision, and the save bar flips into its conflict surface. Any other save error raises a "Failed to save routine" toast that includes the underlying reason (falling back to "Paperclip could not save the routine." when there's no specific message). Either way you keep your edits in the editor until the save actually goes through.
+Editing the description is a routine save like any other, and ThinkingMach surfaces failures rather than swallowing them. If your save runs into a conflict — someone else changed the routine while you were typing — you get a "Routine changed" toast telling you to reload for the latest revision, and the save bar flips into its conflict surface. Any other save error raises a "Failed to save routine" toast that includes the underlying reason (falling back to "ThinkingMach could not save the routine." when there's no specific message). Either way you keep your edits in the editor until the save actually goes through.
 
 ### Trigger cards and human-readable schedules
 
-On the **Triggers** section, each trigger is a card headed by its kind icon and label. For a schedule trigger, Paperclip shows the cron in **plain English** right under the label — "Every weekday at 09:00", "Every day at 10:00", "Every 15 minutes", "Day 1 of every month at 09:00" — translated from the raw expression as you edit it. (Shapes the translator doesn't recognise simply omit the plain-English line and keep the raw cron.) The card's top-right corner shows a `Next:` line with the resolved local timestamp of the next fire for schedule triggers, a `Webhook` label for webhook triggers, or `API` for manual ones. If a trigger has fired before, its last result also shows there as a badge — red when the last firing failed, neutral otherwise, and simply **Task created** when it produced a task — so you can spot a misfiring webhook without leaving the page.
+On the **Triggers** section, each trigger is a card headed by its kind icon and label. For a schedule trigger, ThinkingMach shows the cron in **plain English** right under the label — "Every weekday at 09:00", "Every day at 10:00", "Every 15 minutes", "Day 1 of every month at 09:00" — translated from the raw expression as you edit it. (Shapes the translator doesn't recognise simply omit the plain-English line and keep the raw cron.) The card's top-right corner shows a `Next:` line with the resolved local timestamp of the next fire for schedule triggers, a `Webhook` label for webhook triggers, or `API` for manual ones. If a trigger has fired before, its last result also shows there as a badge — red when the last firing failed, neutral otherwise, and simply **Task created** when it produced a task — so you can spot a misfiring webhook without leaving the page.
 
 Webhook cards also show the trigger's **Webhook URL** in a read-only field you can click to select and copy, with a reminder to send a POST with `Content-Type: application/json` and to keep the URL private when signing is disabled.
 
@@ -210,11 +210,11 @@ Each card carries its own **Delete**, **Save trigger**, and — for webhook trig
 
 ![Run history](../../user-guides/screenshots/light/routines/run-history.png)
 
-The **Runs** section shows every task this routine has created, using the same issue list you know from the rest of Paperclip. That means you get the familiar columns — status, priority, and assignee — along with search and the list's own view controls, all scoped to this one routine. A run that's in progress right now is marked as live.
+The **Runs** section shows every task this routine has created, using the same issue list you know from the rest of ThinkingMach. That means you get the familiar columns — status, priority, and assignee — along with search and the list's own view controls, all scoped to this one routine. A run that's in progress right now is marked as live.
 
 Because it's a real issue list, you can manage runs right here: change a task's status, priority, or assignee inline without opening it, and the routine's run data refreshes as soon as the update lands. Click a row to open the task itself; the breadcrumb brings you back to **Runs** when you're done. Your view choices are remembered per routine.
 
-When you fire the routine from the **Run** button, Paperclip drops you on **Runs** so you can watch the new task appear.
+When you fire the routine from the **Run** button, ThinkingMach drops you on **Runs** so you can watch the new task appear.
 
 Runs that didn't create a task — a tick skipped by the concurrency policy or the activity gate, for example — have nothing to list here. You'll still see them on the **Overview** under recent runs, with their status badge, and the API's [List Runs](../../reference/api/routines.md#list-runs) endpoint gives the full record including `failureReason`.
 
@@ -224,7 +224,7 @@ Runs that didn't create a task — a tick skipped by the concurrency policy or t
 
 ![Cron picker](../../user-guides/screenshots/light/routines/cron-picker.png)
 
-When you add or edit a schedule trigger, Paperclip replaces the raw cron input with a **ScheduleEditor**. The editor is a small form with a preset dropdown plus follow-up fields that appear based on what you picked:
+When you add or edit a schedule trigger, ThinkingMach replaces the raw cron input with a **ScheduleEditor**. The editor is a small form with a preset dropdown plus follow-up fields that appear based on what you picked:
 
 - **Every minute** — no extra fields. Emits `* * * * *`.
 - **Every hour** — a minute selector. Emits `M * * * *`.
@@ -261,18 +261,18 @@ The first step asks **"When should this routine run?"** and offers two choices:
 - **On a schedule** — every day, on weekdays, or once a week. That's the cron path covered above.
 - **When another app sends a webhook** — when something happens in GitHub, another app, or a script.
 
-Pick the webhook option and Paperclip asks **what's sending the webhook**: **Another app or script**, or **GitHub**. Your answer decides how deliveries are authenticated and which setup instructions you see next: **Another app or script** uses a Bearer token in the `Authorization` header, while **GitHub** uses GitHub's own signed `X-Hub-Signature-256` header. From the next step on, Paperclip also checks the webhook URL and warns you if senders might not be able to reach it — more on that in [Is your webhook URL reachable?](#is-your-webhook-url-reachable).
+Pick the webhook option and ThinkingMach asks **what's sending the webhook**: **Another app or script**, or **GitHub**. Your answer decides how deliveries are authenticated and which setup instructions you see next: **Another app or script** uses a Bearer token in the `Authorization` header, while **GitHub** uses GitHub's own signed `X-Hub-Signature-256` header. From the next step on, ThinkingMach also checks the webhook URL and warns you if senders might not be able to reach it — more on that in [Is your webhook URL reachable?](#is-your-webhook-url-reachable).
 
 ### Copying the URL and secret
 
-As soon as you continue, Paperclip creates the webhook and shows you two things to copy into the sending system:
+As soon as you continue, ThinkingMach creates the webhook and shows you two things to copy into the sending system:
 
 - a **Webhook URL** (labelled **Payload URL** on the GitHub path) — the address the outside system POSTs to
 - the credential that proves a delivery really came from your system — an **Authorization header value** (the full `Bearer <secret>` string, ready to paste) on the generic path, or a **Secret** on the GitHub path
 
 Copy both now. **The secret is only visible during setup** — once you leave the wizard it's hidden, and the field is replaced by a **Generate new key** button. If you didn't save it, generate a fresh one rather than hunting for the old value (see [Rotating the secret](#rotating-the-secret)).
 
-Paperclip also gives you a copy-ready **Agent instructions** block bundling the URL, the key, and step-by-step wiring — handy when you'd rather hand the connection off to one of your agents to set up.
+ThinkingMach also gives you a copy-ready **Agent instructions** block bundling the URL, the key, and step-by-step wiring — handy when you'd rather hand the connection off to one of your agents to set up.
 
 ### The generic path (another app or script)
 
@@ -285,7 +285,7 @@ For a custom app or a script, the setup is:
 
 ### The GitHub path
 
-Choose **GitHub** and Paperclip gives you GitHub-shaped steps:
+Choose **GitHub** and ThinkingMach gives you GitHub-shaped steps:
 
 1. In your repository, open **Settings → Webhooks → Add webhook**.
 2. Paste the **Webhook URL** into **Payload URL**, and set **Content type** to **application/json**.
@@ -294,7 +294,7 @@ Choose **GitHub** and Paperclip gives you GitHub-shaped steps:
 
 ### Is your webhook URL reachable?
 
-A webhook only works if the sending app can actually reach the URL Paperclip gives you. When the URL looks like it won't be reachable from outside, the wizard and the trigger's saved settings show a yellow warning banner explaining why:
+A webhook only works if the sending app can actually reach the URL ThinkingMach gives you. When the URL looks like it won't be reachable from outside, the wizard and the trigger's saved settings show a yellow warning banner explaining why:
 
 - **Other apps can’t reach this localhost URL** — the address points at `localhost` or a loopback address, which means "this machine" to whoever sends the request.
 - **This webhook URL appears to be private** — a private-network address or an internal hostname. Only senders on the same network can reach it; public apps like GitHub usually can't.
@@ -302,7 +302,7 @@ A webhook only works if the sending app can actually reach the URL Paperclip giv
 - **Use HTTPS for webhooks from other apps** — the URL is plain HTTP. Many apps refuse it, and HTTP doesn't encrypt your webhook credentials or payloads.
 - **Check the webhook URL** — the address isn't a valid HTTP or HTTPS URL.
 
-The warning is advice, not a block: you can continue for local or private-network use, such as a script on the same machine. For public senders, give Paperclip a publicly reachable HTTPS address — the banner links to [HTTPS and public access](../../reference/deploy/https.md) for the setup. Paperclip can only judge the URL itself; it can't see your DNS, firewall, or whether Funnel is on, so a URL with no warning isn't a guarantee either.
+The warning is advice, not a block: you can continue for local or private-network use, such as a script on the same machine. For public senders, give ThinkingMach a publicly reachable HTTPS address — the banner links to [HTTPS and public access](../../reference/deploy/https.md) for the setup. ThinkingMach can only judge the URL itself; it can't see your DNS, firewall, or whether Funnel is on, so a URL with no warning isn't a guarantee either.
 
 ### Finishing setup to enable the webhook
 
@@ -318,7 +318,7 @@ One thing to know: **the test event is not replayed.** Finishing setup does not 
 
 ### Signing modes and the replay window
 
-Under the hood, each webhook trigger carries a **signing mode** that decides how Paperclip authenticates an inbound call, plus — for the timestamped mode — a **replay window**:
+Under the hood, each webhook trigger carries a **signing mode** that decides how ThinkingMach authenticates an inbound call, plus — for the timestamped mode — a **replay window**:
 
 - **Signing mode** — `bearer`, `hmac_sha256`, `github_hmac`, or `none`. The **Another app or script** path creates a `bearer` trigger, and the **GitHub** path creates a `github_hmac` one. Each option has a short description below the dropdown explaining how the fire endpoint will authenticate the request.
 - **Replay window (seconds)** — how far back a signed request's timestamp may be, used only by the timestamped `hmac_sha256` mode. It defaults to 300 seconds and doesn't apply to the other modes, which don't carry a timestamp.
@@ -335,7 +335,7 @@ Each trigger has its own **enabled** state, so you can switch a single trigger o
 
 ## Variable templates
 
-Routines can accept **variables**: named inputs that you reference inside the title or instructions using `{{name}}` placeholders. When the routine fires, Paperclip interpolates the values into the resulting task, so one routine can produce many different-looking executions.
+Routines can accept **variables**: named inputs that you reference inside the title or instructions using `{{name}}` placeholders. When the routine fires, ThinkingMach interpolates the values into the resulting task, so one routine can produce many different-looking executions.
 
 ### Defining variables
 
@@ -369,7 +369,7 @@ Two policies control what happens when schedules overlap or the scheduler has be
 
 For most cases the defaults (coalesce if active, skip missed) are what you want: no pile-ups, no surprise flood of work after a restart.
 
-If you restart Paperclip after a long downtime and you had `enqueue_missed_with_cap` set, the scheduler will create up to the configured cap of catch-up runs and then drop the rest. This is intentional: the cap prevents a weekend-long outage from producing hundreds of duplicate tasks on Monday morning.
+If you restart ThinkingMach after a long downtime and you had `enqueue_missed_with_cap` set, the scheduler will create up to the configured cap of catch-up runs and then drop the rest. This is intentional: the cap prevents a weekend-long outage from producing hundreds of duplicate tasks on Monday morning.
 
 ---
 
@@ -424,7 +424,7 @@ Heartbeats and routines are how you decide *when* your agents run. Get the defau
 
 ## Appendix — The heartbeat protocol (for agent developers)
 
-When an agent wakes — whether from a timer tick, assignment, comment, routine, or direct wake — it runs the same protocol on every heartbeat. This is the contract between an agent and Paperclip.
+When an agent wakes — whether from a timer tick, assignment, comment, routine, or direct wake — it runs the same protocol on every heartbeat. This is the contract between an agent and ThinkingMach.
 
 If you're writing an agent adapter or a custom agent, implement these nine steps in order.
 
@@ -440,7 +440,7 @@ Returns your ID, company, role, chain of command, and budget.
 
 ### 2. Approval follow-up
 
-If `PAPERCLIP_APPROVAL_ID` is set in the environment, handle that approval first:
+If `THINKINGMACH_APPROVAL_ID` is set in the environment, handle that approval first:
 
 ```
 GET /api/approvals/{approvalId}
@@ -461,7 +461,7 @@ Results are sorted by priority. This is your inbox.
 
 - Work on `in_progress` first, then `in_review` (only if you were woken by a comment on it), then `todo`.
 - Skip `blocked` unless you can unblock it.
-- If `PAPERCLIP_TASK_ID` is set and assigned to you, prioritise it.
+- If `THINKINGMACH_TASK_ID` is set and assigned to you, prioritise it.
 - If woken by a comment mention, read that comment thread first.
 
 ### 5. Checkout
@@ -470,7 +470,7 @@ Before any work, checkout the task:
 
 ```
 POST /api/issues/{issueId}/checkout
-Headers: X-Paperclip-Run-Id: {runId}
+Headers: X-ThinkingMach-Run-Id: {runId}
 { "agentId": "{yourId}", "expectedStatuses": ["todo", "backlog", "blocked", "in_review"] }
 ```
 
@@ -495,7 +495,7 @@ Always include the run ID header on state changes:
 
 ```
 PATCH /api/issues/{issueId}
-Headers: X-Paperclip-Run-Id: {runId}
+Headers: X-ThinkingMach-Run-Id: {runId}
 { "status": "done", "comment": "What was done and why." }
 ```
 
@@ -503,7 +503,7 @@ If blocked:
 
 ```
 PATCH /api/issues/{issueId}
-Headers: X-Paperclip-Run-Id: {runId}
+Headers: X-ThinkingMach-Run-Id: {runId}
 { "status": "blocked", "comment": "What is blocked, why, and who needs to unblock it." }
 ```
 

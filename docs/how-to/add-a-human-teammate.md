@@ -6,9 +6,9 @@ seo_description: Bring a co-founder, operator, or read-only viewer into your com
 
 # Add a human teammate
 
-Paperclip companies aren't single-player. You can bring other people in as board members — a co-founder who watches the same agents, an operator who triages the inbox, a viewer who just wants read access to the dashboard. This is the end-to-end flow, done from the app: you create an invite link, they open it and ask to join, and you approve them.
+ThinkingMach companies aren't single-player. You can bring other people in as board members — a co-founder who watches the same agents, an operator who triages the inbox, a viewer who just wants read access to the dashboard. This is the end-to-end flow, done from the app: you create an invite link, they open it and ask to join, and you approve them.
 
-The whole round-trip takes a couple of minutes. Invites are **copy-link only** — Paperclip doesn't email anyone, so you share the link yourself.
+The whole round-trip takes a couple of minutes. Invites are **copy-link only** — ThinkingMach doesn't email anyone, so you share the link yourself.
 
 **Before you start:** creating invites needs the `users:invite` permission, and approving the person who shows up needs `joins:approve`. Owners and Admins have both by default. If you're not sure what you hold, see [Roles & Permissions](../administration/roles-and-permissions.md).
 
@@ -31,9 +31,9 @@ You can always change this after they're in (step 5), so don't overthink it. The
 
 ![Invites tab of the Members page](../user-guides/screenshots/light/company/invites.png)
 
-Open **Settings → Members** and switch to the **Invites** tab. In the **Create invite** card, pick the default role from step 1 — each option shows a short description of what that role gets — and click **Create invite**. Paperclip does three things at once:
+Open **Settings → Members** and switch to the **Invites** tab. In the **Create invite** card, pick the default role from step 1 — each option shows a short description of what that role gets — and click **Create invite**. ThinkingMach does three things at once:
 
-1. generates a fresh, single-use invite link against your current Paperclip domain;
+1. generates a fresh, single-use invite link against your current ThinkingMach domain;
 2. copies the URL to your clipboard (if the browser allows it — otherwise a toast tells you to copy it manually);
 3. drops the link into the **Latest invite link** panel, and adds a row to the **Invite history** table below with an **Active** badge.
 
@@ -49,11 +49,11 @@ Send the URL however you normally share a secret — a DM, your password manager
 
 ## 4. Your teammate opens the link and requests to join
 
-When they open the URL they land on a Paperclip join page branded with your company's name and logo. If they don't have an account yet, the page walks them through sign-up first, then returns them to the invite. Accepting **does not** grant access immediately — it creates a **pending join request** tied to the invite, capturing their name, email, and source IP for you to review.
+When they open the URL they land on a ThinkingMach join page branded with your company's name and logo. If they don't have an account yet, the page walks them through sign-up first, then returns them to the invite. Accepting **does not** grant access immediately — it creates a **pending join request** tied to the invite, capturing their name, email, and source IP for you to review.
 
 On their side they see a "waiting for approval" state. Nothing they do from here touches your company data until you approve them.
 
-> **If they see "Email and password sign up is not enabled":** your instance has self-service sign-up turned off, so the invitee can't create the account they need to accept the invite. This is controlled by the `auth.disableSignUp` config field (or the `PAPERCLIP_AUTH_DISABLE_SIGN_UP` environment variable). To let invited teammates register, make sure sign-up is enabled — set `auth.disableSignUp` to `false` (its default) or confirm `PAPERCLIP_AUTH_DISABLE_SIGN_UP` isn't set to `true` — then restart the instance and have them reopen the invite link. See [Enable multi-user login](./enable-multi-user-login.md) for the full authenticated-mode setup.
+> **If they see "Email and password sign up is not enabled":** your instance has self-service sign-up turned off, so the invitee can't create the account they need to accept the invite. This is controlled by the `auth.disableSignUp` config field (or the `THINKINGMACH_AUTH_DISABLE_SIGN_UP` environment variable). To let invited teammates register, make sure sign-up is enabled — set `auth.disableSignUp` to `false` (its default) or confirm `THINKINGMACH_AUTH_DISABLE_SIGN_UP` isn't set to `true` — then restart the instance and have them reopen the invite link. See [Enable multi-user login](./enable-multi-user-login.md) for the full authenticated-mode setup.
 
 ---
 
@@ -82,17 +82,17 @@ Every step above has a CLI counterpart, handy for scripting onboarding. They map
 
 ```sh
 # Create the invite (returns the invite URL)
-paperclipai invite create --company-id <company-id> --payload-json '{"role":"operator"}'
+thinkingmach invite create --company-id <company-id> --payload-json '{"role":"operator"}'
 
 # See who's waiting, then approve
-paperclipai join list --company-id <company-id> --status pending
-paperclipai join approve <request-id> --company-id <company-id>
+thinkingmach join list --company-id <company-id> --status pending
+thinkingmach join approve <request-id> --company-id <company-id>
 
 # Confirm they're in
-paperclipai member list --company-id <company-id>
+thinkingmach member list --company-id <company-id>
 ```
 
-Revoke an outstanding invite with `paperclipai invite revoke <invite-id>` (note: that takes the invite **ID**, not the token).
+Revoke an outstanding invite with `thinkingmach invite revoke <invite-id>` (note: that takes the invite **ID**, not the token).
 
 ---
 

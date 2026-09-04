@@ -8,7 +8,7 @@ seo_description: Check who you are on an instance, update profiles, handle invit
 
 Use these commands to inspect who you are on an instance, read and update profiles, manage invites and join requests, administer users and instance settings, tune your own sidebar and inbox preferences, and pull the LLM-facing documentation the server publishes. They are the "everything around the work" surface: identity, membership, and instance configuration rather than companies, agents, or issues.
 
-Most of these commands are thin wrappers over Paperclip API endpoints. They accept the standard client flags documented in [common options](./common-options.md) — `--api-base`, `--api-key`, `--context`, `--profile`, `--data-dir`, and `--json`. Company-scoped commands additionally take `-C, --company-id <id>`; if you omit it, the CLI falls back to the company recorded in your selected profile.
+Most of these commands are thin wrappers over ThinkingMach API endpoints. They accept the standard client flags documented in [common options](./common-options.md) — `--api-base`, `--api-key`, `--context`, `--profile`, `--data-dir`, and `--json`. Company-scoped commands additionally take `-C, --company-id <id>`; if you omit it, the CLI falls back to the company recorded in your selected profile.
 
 > **Tip:** Pass `--json` on any command here when you are scripting. The default output is human-readable; `--json` emits the raw API response.
 
@@ -19,9 +19,9 @@ Most of these commands are thin wrappers over Paperclip API endpoints. They acce
 Start here when you are unsure whether the CLI is talking to the instance you think it is, or which identity it is using.
 
 ```sh
-paperclipai health
-paperclipai whoami
-paperclipai openapi
+thinkingmach health
+thinkingmach whoami
+thinkingmach openapi
 ```
 
 | Command | What it does |
@@ -41,10 +41,10 @@ The `access` group exists as a namespace for auth inspection and currently expos
 Read and update the profile attached to your authenticated session, and look up another user's profile within a company.
 
 ```sh
-paperclipai profile session
-paperclipai profile get
-paperclipai profile update --payload-json '{"displayName":"Ada Lovelace"}'
-paperclipai profile company-user <user-slug> --company-id <company-id>
+thinkingmach profile session
+thinkingmach profile get
+thinkingmach profile update --payload-json '{"displayName":"Ada Lovelace"}'
+thinkingmach profile company-user <user-slug> --company-id <company-id>
 ```
 
 | Command | Method & path | Notes |
@@ -61,12 +61,12 @@ paperclipai profile company-user <user-slug> --company-id <company-id>
 Invites let you bring a human or agent onto a company. The board operator creates and revokes them; the invited party reads the invite (and its onboarding material) by token, then accepts it.
 
 ```sh
-paperclipai invite list --company-id <company-id>
-paperclipai invite create --company-id <company-id> --payload-json '{"role":"member"}'
-paperclipai invite revoke <invite-id>
-paperclipai invite show <token>
-paperclipai invite onboarding:text <token>
-paperclipai invite accept <token> --payload-json '{}'
+thinkingmach invite list --company-id <company-id>
+thinkingmach invite create --company-id <company-id> --payload-json '{"role":"member"}'
+thinkingmach invite revoke <invite-id>
+thinkingmach invite show <token>
+thinkingmach invite onboarding:text <token>
+thinkingmach invite accept <token> --payload-json '{}'
 ```
 
 | Command | Method & path | Notes |
@@ -92,10 +92,10 @@ paperclipai invite accept <token> --payload-json '{}'
 Join requests are the inbound counterpart to invites: an agent or user asks to join a company, a board operator approves or rejects, and an approved request can mint an agent API key.
 
 ```sh
-paperclipai join list --company-id <company-id> --status pending
-paperclipai join approve <request-id> --company-id <company-id>
-paperclipai join reject <request-id> --company-id <company-id>
-paperclipai join claim-key <request-id> --claim-secret <secret>
+thinkingmach join list --company-id <company-id> --status pending
+thinkingmach join approve <request-id> --company-id <company-id>
+thinkingmach join reject <request-id> --company-id <company-id>
+thinkingmach join claim-key <request-id> --claim-secret <secret>
 ```
 
 | Command | Method & path | Notes |
@@ -116,12 +116,12 @@ The `--status` filter accepts `pending_approval`, `approved`, and `rejected`. `p
 Manage the people and agents already inside a company: list them, update roles and grants, adjust permissions, or archive a member.
 
 ```sh
-paperclipai member list --company-id <company-id>
-paperclipai member user-directory --company-id <company-id>
-paperclipai member update <member-id> --company-id <company-id> --payload-json '{...}'
-paperclipai member role-and-grants <member-id> --company-id <company-id> --payload-json '{...}'
-paperclipai member permissions <member-id> --company-id <company-id> --payload-json '{...}'
-paperclipai member archive <member-id> --company-id <company-id>
+thinkingmach member list --company-id <company-id>
+thinkingmach member user-directory --company-id <company-id>
+thinkingmach member update <member-id> --company-id <company-id> --payload-json '{...}'
+thinkingmach member role-and-grants <member-id> --company-id <company-id> --payload-json '{...}'
+thinkingmach member permissions <member-id> --company-id <company-id> --payload-json '{...}'
+thinkingmach member archive <member-id> --company-id <company-id>
 ```
 
 | Command | Method & path | Notes |
@@ -142,11 +142,11 @@ Instance-admin commands operate across the whole instance, not a single company.
 ### Users
 
 ```sh
-paperclipai admin user list --query ada
-paperclipai admin user promote <user-id>
-paperclipai admin user demote <user-id>
-paperclipai admin user company-access <user-id>
-paperclipai admin user company-access:update <user-id> --payload-json '{...}'
+thinkingmach admin user list --query ada
+thinkingmach admin user promote <user-id>
+thinkingmach admin user demote <user-id>
+thinkingmach admin user company-access <user-id>
+thinkingmach admin user company-access:update <user-id> --payload-json '{...}'
 ```
 
 | Command | Method & path | Notes |
@@ -160,12 +160,12 @@ paperclipai admin user company-access:update <user-id> --payload-json '{...}'
 ### Instance settings & maintenance
 
 ```sh
-paperclipai instance scheduler-heartbeats
-paperclipai instance settings:general
-paperclipai instance settings:general:update --payload-json '{...}'
-paperclipai instance settings:experimental
-paperclipai instance settings:experimental:update --payload-json '{...}'
-paperclipai instance database-backup
+thinkingmach instance scheduler-heartbeats
+thinkingmach instance settings:general
+thinkingmach instance settings:general:update --payload-json '{...}'
+thinkingmach instance settings:experimental
+thinkingmach instance settings:experimental:update --payload-json '{...}'
+thinkingmach instance database-backup
 ```
 
 | Command | Method & path | Notes |
@@ -186,15 +186,15 @@ paperclipai instance database-backup
 These commands tune your own view of the product — what the navigation sidebar shows and which board inbox items you have dismissed. They are personal, not company policy.
 
 ```sh
-paperclipai sidebar preferences
-paperclipai sidebar preferences:update --payload-json '{...}'
-paperclipai sidebar project-preferences --company-id <company-id>
-paperclipai sidebar project-preferences:update --company-id <company-id> --payload-json '{...}'
-paperclipai sidebar badges --company-id <company-id>
+thinkingmach sidebar preferences
+thinkingmach sidebar preferences:update --payload-json '{...}'
+thinkingmach sidebar project-preferences --company-id <company-id>
+thinkingmach sidebar project-preferences:update --company-id <company-id> --payload-json '{...}'
+thinkingmach sidebar badges --company-id <company-id>
 
-paperclipai inbox dismissals --company-id <company-id>
-paperclipai inbox dismiss --company-id <company-id> --payload-json '{"itemKey":"run:<run-id>"}'
-paperclipai inbox dismiss --company-id <company-id> --payload-json '{"itemKey":"attention:<attention-key>","kind":"snooze","snoozedUntil":"2026-07-13T09:00:00.000Z"}'
+thinkingmach inbox dismissals --company-id <company-id>
+thinkingmach inbox dismiss --company-id <company-id> --payload-json '{"itemKey":"run:<run-id>"}'
+thinkingmach inbox dismiss --company-id <company-id> --payload-json '{"itemKey":"attention:<attention-key>","kind":"snooze","snoozedUntil":"2026-07-13T09:00:00.000Z"}'
 ```
 
 | Command | Method & path | Notes |
@@ -216,9 +216,9 @@ paperclipai inbox dismiss --company-id <company-id> --payload-json '{"itemKey":"
 Board-claim tokens are the one-time bootstrap mechanism that promotes a browser-authenticated user to instance owner on an `authenticated` instance. OpenClaw is the integration helper that generates an invite prompt.
 
 ```sh
-paperclipai board-claim show <token>
-paperclipai board-claim claim <token> --payload-json '{}'
-paperclipai openclaw invite-prompt --company-id <company-id> --payload-json '{...}'
+thinkingmach board-claim show <token>
+thinkingmach board-claim claim <token> --payload-json '{}'
+thinkingmach openclaw invite-prompt --company-id <company-id> --payload-json '{...}'
 ```
 
 | Command | Method & path | Notes |
@@ -236,13 +236,13 @@ paperclipai openclaw invite-prompt --company-id <company-id> --payload-json '{..
 The server publishes a public skill catalog and a set of LLM-facing prompt documents. Pull these when you are configuring agents or feeding context to an AI operator.
 
 ```sh
-paperclipai available-skill list
-paperclipai available-skill index
-paperclipai available-skill get <skill-name>
+thinkingmach available-skill list
+thinkingmach available-skill index
+thinkingmach available-skill get <skill-name>
 
-paperclipai llm agent-configuration
-paperclipai llm agent-configuration:adapter <adapter-type>
-paperclipai llm agent-icons
+thinkingmach llm agent-configuration
+thinkingmach llm agent-configuration:adapter <adapter-type>
+thinkingmach llm agent-icons
 ```
 
 | Command | Method & path | Notes |

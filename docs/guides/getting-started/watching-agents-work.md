@@ -7,7 +7,7 @@ seo_description: Turn on the CEO's heartbeat and follow its first execution cycl
 
 You have a company with a goal and a CEO agent configured. This guide covers what happens next: enabling the CEO's heartbeat, watching it work through its first execution cycle, reviewing the strategy it produces, and seeing the first tasks appear on the board.
 
-For most people this is the most satisfying moment in Paperclip — the point where something you set up starts doing things on its own. It's also worth understanding what the CEO is doing and why, so you can make good decisions when it asks for your input.
+For most people this is the most satisfying moment in ThinkingMach — the point where something you set up starts doing things on its own. It's also worth understanding what the CEO is doing and why, so you can make good decisions when it asks for your input.
 
 ---
 
@@ -80,7 +80,7 @@ The CEO cannot create tasks or assign work until you approve its strategy. This 
 
    ![The approve, request revision, and reject buttons on the strategy approval page](../../user-guides/screenshots/light/approvals/approve-reject-buttons.png)
 
-   - **Approve** — The CEO's strategy is accepted. Paperclip queues the CEO to wake automatically, so follow-up work usually begins shortly after approval.
+   - **Approve** — The CEO's strategy is accepted. ThinkingMach queues the CEO to wake automatically, so follow-up work usually begins shortly after approval.
    - **Request revision** — Leave a note explaining what needs to change. The CEO will receive your feedback, revise the strategy, and resubmit.
    - **Reject** — The strategy is declined outright. The CEO will receive a rejection and can propose a new strategy.
 

@@ -7,7 +7,7 @@ seo_description: Pin the questions you ask daily — is the launch blocked, what
 
 You already know the handful of questions you ask every day. *Is the launch still blocked?* *What changed on the migration this week?* *Are we shipping, and if not, what's the next action?* Answering them means opening the board, filtering, reading, and holding it all in your head — again tomorrow.
 
-A **status card** does that for you and keeps the answer on a shelf. You write one message describing what you care about, and Paperclip's Summarizer turns it into a live summary that updates as the underlying work moves. The cards sit together on a shared **Status** board, so the answer is the same one everybody else sees.
+A **status card** does that for you and keeps the answer on a shelf. You write one message describing what you care about, and ThinkingMach's Summarizer turns it into a live summary that updates as the underlying work moves. The cards sit together on a shared **Status** board, so the answer is the same one everybody else sees.
 
 ## Turn it on
 
@@ -16,7 +16,7 @@ A **status card** does that for you and keeps the answer on a shelf. You write o
 
 This flag gates the whole feature, not just the UI. With it off, the **Status** item disappears from the sidebar, `/status` redirects you to the dashboard, and every status-card API route responds `404 Not Found` with `{ "error": "Status cards are not enabled" }`.
 
-Status Cards is one of the features Paperclip Cloud decides for you. On a Cloud-managed instance the toggle carries a **Managed by Paperclip Cloud** badge and is greyed out — see [If a toggle is locked](overview.md#if-a-toggle-is-locked). It is off by default on both Cloud and self-hosted instances, so if you run Paperclip yourself, the switch is yours to flip.
+Status Cards is one of the features ThinkingMach Cloud decides for you. On a Cloud-managed instance the toggle carries a **Managed by ThinkingMach Cloud** badge and is greyed out — see [If a toggle is locked](overview.md#if-a-toggle-is-locked). It is off by default on both Cloud and self-hosted instances, so if you run ThinkingMach yourself, the switch is yours to flip.
 
 You also need the built-in **Summarizer** agent provisioned and ready for the company. Cards can't be set up without one — the request fails with *"Summarizer built-in agent is not configured"*.
 
@@ -34,7 +34,7 @@ Under it, **Agent** picks who runs the card. Leave it on *Summarizer (default)* 
 
 ![The New card dialog: a single What do you want to keep an eye on? field with worked examples beneath it, and an Agent picker](../user-guides/screenshots/light/status-cards/new-card-dialog.png)
 
-Click **Create card** and the card appears immediately in a *Setting up* state while the agent works. Behind the scenes Paperclip creates a real task, assigns it to that agent, and the agent:
+Click **Create card** and the card appears immediately in a *Setting up* state while the agent works. Behind the scenes ThinkingMach creates a real task, assigns it to that agent, and the agent:
 
 1. Compiles your message into structured company-search queries and writes them back with an auto-generated card title.
 2. Runs those queries and writes the first full summary — in the same run, without waiting for a second task.
@@ -76,11 +76,11 @@ The stored state of a card is one of five values, and the board turns those into
 
 Archived cards get their own **Archived** row below the board.
 
-A card lands in `error` when its generation task reaches `done`, `cancelled`, or `blocked` without a summary being written — a blocked task is stuck waiting on a human, so Paperclip treats it as stalled rather than in flight and releases the card so you can run it again.
+A card lands in `error` when its generation task reaches `done`, `cancelled`, or `blocked` without a summary being written — a blocked task is stuck waiting on a human, so ThinkingMach treats it as stalled rather than in flight and releases the card so you can run it again.
 
 ## How updating works
 
-The important thing to know first: **noticing a change is free, writing an update is not.** Paperclip re-runs the card's compiled query in the database, compares the result with the fingerprint it stored last time, and only spends model tokens when something meaningful actually moved. Every update is a real task assigned to the card's summarizer agent, and it costs what an agent run costs.
+The important thing to know first: **noticing a change is free, writing an update is not.** ThinkingMach re-runs the card's compiled query in the database, compares the result with the fingerprint it stored last time, and only spends model tokens when something meaningful actually moved. Every update is a real task assigned to the card's summarizer agent, and it costs what an agent run costs.
 
 You choose how eager the card is in **Settings → Auto-update policy**:
 
@@ -111,11 +111,11 @@ Anything you untick still shows up in the next update; it just doesn't trigger o
 Two more settings sit under **Advanced**, and both only apply to automatic updates — a manual Refresh always runs:
 
 - **Active hours** — a start time, an end time, and a timezone. Outside the window the card goes to **Paused — hours** and changes batch into a single update when the window reopens. Windows that cross midnight work fine.
-- **Daily token cap** — once the card's updates have spent this many tokens today, it goes to **Paused — budget**. Leave it blank and Paperclip applies a default cap of 100,000 tokens per day. The day boundary is UTC.
+- **Daily token cap** — once the card's updates have spent this many tokens today, it goes to **Paused — budget**. Leave it blank and ThinkingMach applies a default cap of 100,000 tokens per day. The day boundary is UTC.
 
 ### Full rebuilds vs. patches
 
-Most updates are **incremental**: the agent gets the previous summary and only the issues that changed, and patches the text. Paperclip switches to a **full rebuild** — the whole summary rewritten from a bounded snapshot — when you ask for one explicitly, when there's no summary yet, when more than 10 issues changed at once, after you edit the message or switch the agent, after the query is recompiled, after restoring from archive, or after nine incremental updates in a row as a drift guard.
+Most updates are **incremental**: the agent gets the previous summary and only the issues that changed, and patches the text. ThinkingMach switches to a **full rebuild** — the whole summary rewritten from a bounded snapshot — when you ask for one explicitly, when there's no summary yet, when more than 10 issues changed at once, after you edit the message or switch the agent, after the query is recompiled, after restoring from archive, or after nine incremental updates in a row as a drift guard.
 
 ### Issues the summary mentions
 

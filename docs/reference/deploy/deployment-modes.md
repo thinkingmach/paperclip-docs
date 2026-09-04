@@ -5,9 +5,9 @@ seo_description: Two runtime modes and one exposure choice. The mode sets how th
 
 # Deployment Modes
 
-Paperclip has two runtime modes and one exposure choice. The mode determines how the board operator authenticates; the exposure choice determines whether the instance stays private or is reachable publicly.
+ThinkingMach has two runtime modes and one exposure choice. The mode determines how the board operator authenticates; the exposure choice determines whether the instance stays private or is reachable publicly.
 
-Use this page when you are deciding how to run the instance, migrating an existing install, or checking what `paperclipai doctor` expects.
+Use this page when you are deciding how to run the instance, migrating an existing install, or checking what `thinkingmach doctor` expects.
 
 ---
 
@@ -19,7 +19,7 @@ Use this page when you are deciding how to run the instance, migrating an existi
 | `authenticated` + `private` | Private network | Login required | Tailscale, VPN, LAN |
 | `authenticated` + `public` | Internet-facing | Login required | Hosted production |
 
-> **Note:** `local_trusted` is the default. If you never change anything, Paperclip behaves like a trusted local operator tool.
+> **Note:** `local_trusted` is the default. If you never change anything, ThinkingMach behaves like a trusted local operator tool.
 
 ---
 
@@ -34,7 +34,7 @@ This is the simplest operating mode.
 
 Choose this when:
 
-- you are installing Paperclip for yourself
+- you are installing ThinkingMach for yourself
 - you want the fastest path to a working instance
 - you are not exposing the app to other users or devices
 
@@ -47,7 +47,7 @@ Do not choose this when:
 Set it during onboarding:
 
 ```sh
-pnpm paperclipai onboard
+pnpm thinkingmach onboard
 ```
 
 ---
@@ -74,7 +74,7 @@ Choose this when the instance should be reachable from other trusted devices but
 Example onboarding path:
 
 ```sh
-pnpm paperclipai onboard
+pnpm thinkingmach onboard
 ```
 
 Then choose the authenticated private option.
@@ -82,7 +82,7 @@ Then choose the authenticated private option.
 If you need to allow a custom hostname, add it explicitly:
 
 ```sh
-pnpm paperclipai allowed-hostname my-machine.tailnet.ts.net
+pnpm thinkingmach allowed-hostname my-machine.tailnet.ts.net
 ```
 
 See [Tailscale Private Access](./tailscale-private-access.md) for the private-network workflow.
@@ -96,12 +96,12 @@ Use this for internet-facing deployments.
 - `doctor` runs stricter checks
 - The deployment should be treated as a real hosted service
 
-Choose this when you are publishing Paperclip on the public internet.
+Choose this when you are publishing ThinkingMach on the public internet.
 
 Example onboarding path:
 
 ```sh
-pnpm paperclipai onboard
+pnpm thinkingmach onboard
 ```
 
 Then choose the authenticated public option.
@@ -110,7 +110,7 @@ Then choose the authenticated public option.
 
 ## Migrating Modes
 
-If you start in `local_trusted` and later move to an authenticated deployment, Paperclip emits a one-time board-claim URL at startup.
+If you start in `local_trusted` and later move to an authenticated deployment, ThinkingMach emits a one-time board-claim URL at startup.
 
 The claim link looks like this:
 
@@ -133,13 +133,13 @@ A signed-in user visits the link to claim board ownership. That flow:
 The canonical way to change mode after setup is through configuration:
 
 ```sh
-pnpm paperclipai configure --section server
+pnpm thinkingmach configure --section server
 ```
 
 You can also override the mode for a run with an environment variable:
 
 ```sh
-PAPERCLIP_DEPLOYMENT_MODE=authenticated pnpm paperclipai run
+THINKINGMACH_DEPLOYMENT_MODE=authenticated pnpm thinkingmach run
 ```
 
-> **Tip:** If `paperclipai doctor` is complaining about host or auth settings, check the deployment mode first. A lot of apparent configuration errors are really mode mismatches.
+> **Tip:** If `thinkingmach doctor` is complaining about host or auth settings, check the deployment mode first. A lot of apparent configuration errors are really mode mismatches.

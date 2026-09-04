@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.1001.0
 seo_title: Routines API
-seo_description: Paperclip's recurring execution layer. Run an agent on a schedule, fire it from a webhook, or kick it off manually, and see what a routine does not do.
+seo_description: ThinkingMach's recurring execution layer. Run an agent on a schedule, fire it from a webhook, or kick it off manually, and see what a routine does not do.
 ---
 
 # Routines
 
-Routines are Paperclip's recurring execution layer. Use them when you want an agent to run on a schedule, respond to a webhook, or be kicked off manually through the API.
+Routines are ThinkingMach's recurring execution layer. Use them when you want an agent to run on a schedule, respond to a webhook, or be kicked off manually through the API.
 
 A routine does not do the work itself. It creates a run, and that run usually creates or links to an execution issue for the assigned agent.
 
@@ -172,7 +172,7 @@ curl -X POST "http://localhost:3100/api/companies/company-1/routines" \
         "label": "Company name",
         "type": "text",
         "required": true,
-        "defaultValue": "Paperclip"
+        "defaultValue": "ThinkingMach"
       }
     ]
   }'
@@ -203,7 +203,7 @@ const res = await fetch("/api/companies/company-1/routines", {
         label: "Company name",
         type: "text",
         required: true,
-        defaultValue: "Paperclip",
+        defaultValue: "ThinkingMach",
       },
     ],
   }),
@@ -239,7 +239,7 @@ response = requests.post(
                 "label": "Company name",
                 "type": "text",
                 "required": True,
-                "defaultValue": "Paperclip",
+                "defaultValue": "ThinkingMach",
             }
         ],
     },
@@ -654,8 +654,8 @@ What the code checks:
 Accepted headers depend on signing mode:
 
 - `bearer` uses `Authorization: Bearer <secret>`
-- `hmac_sha256` uses `X-Paperclip-Signature` plus `X-Paperclip-Timestamp`, signing the timestamp, a dot, and the exact body
-- `github_hmac` uses `X-Hub-Signature-256`, falling back to `X-Paperclip-Signature`, over the exact body with no timestamp
+- `hmac_sha256` uses `X-ThinkingMach-Signature` plus `X-ThinkingMach-Timestamp`, signing the timestamp, a dot, and the exact body
+- `github_hmac` uses `X-Hub-Signature-256`, falling back to `X-ThinkingMach-Signature`, over the exact body with no timestamp
 - `none` does not require a signature
 
 For timestamped HMAC validation, the server enforces the replay window from the trigger.
@@ -772,7 +772,7 @@ A suppressed automatic firing records a `failureReason` you can read back from t
 |---|---|---|
 | `no_external_activity` | `skipped_no_activity` | The activity gate found nothing new since the routine's last dispatched run. |
 | `paused` | `Skipped because the project is paused` | The routine's project was paused at tick time. |
-| `worktree_execution_cutoff` | `skipped_worktree_execution_cutoff` | The server is running inside a development worktree (`PAPERCLIP_IN_WORKTREE`) where automatic run execution is not armed for this routine — either the worktree isn't armed at all, or the routine was created before the worktree's activation cutoff. This applies to scheduled ticks and webhook firings alike. |
+| `worktree_execution_cutoff` | `skipped_worktree_execution_cutoff` | The server is running inside a development worktree (`THINKINGMACH_IN_WORKTREE`) where automatic run execution is not armed for this routine — either the worktree isn't armed at all, or the routine was created before the worktree's activation cutoff. This applies to scheduled ticks and webhook firings alike. |
 
 A run skipped by the concurrency policy carries no `failureReason` — it records the live execution issue in `linkedIssueId` instead.
 

@@ -27,7 +27,7 @@ The summary above the list reads back the current state — **Allowed for**, **A
 
 ## Read the risk classification
 
-Each action carries a classification Paperclip derives from the provider's tool metadata and name:
+Each action carries a classification ThinkingMach derives from the provider's tool metadata and name:
 
 - **read** — no known mutation.
 - **write** — creates or changes something.
@@ -60,10 +60,10 @@ The refresh reports how many actions it discovered — *"Found 24 actions"* — 
 
 | How the connection was set up | A newly discovered or changed action |
 | --- | --- |
-| **Managed — "Connect with Paperclip"** | New or changed actions are normally quarantined on refresh. Where safe defaults are enabled, read-classified actions are exempt. Check the resulting action list |
+| **Managed — "Connect with ThinkingMach"** | New or changed actions are normally quarantined on refresh. Where safe defaults are enabled, read-classified actions are exempt. Check the resulting action list |
 | **Your own credential or OAuth client** — the ordinary catalog setup for most connectors | Becomes **active** on discovery. It is then governed by the action policies already in force for that connection, not held in a separate review queue |
 | **A custom MCP server you pasted a URL for** | Becomes active on discovery, as above |
-| **A Paperclip example connection** | Safe defaults exempt read-classified actions; new or changed write and destructive actions are held back |
+| **A ThinkingMach example connection** | Safe defaults exempt read-classified actions; new or changed write and destructive actions are held back |
 
 For the ordinary case, the wizard projects the app's action defaults into policies when you finish setup, rather than using a review queue as the access state. This means **you should not assume a refresh can only ever reduce what an agent can do.**
 
@@ -81,9 +81,9 @@ A permission switch cannot grant something the connector was never allowed to do
 
 ## The shell exception
 
-Per-action settings govern tool calls through Paperclip's tool gateway. They do not govern commands an agent runs in its own workspace shell.
+Per-action settings govern tool calls through ThinkingMach's tool gateway. They do not govern commands an agent runs in its own workspace shell.
 
-When you change a permission on a GitHub connection bound to an agent identity, Paperclip says so at that moment: *"Shell Git and gh use this account for the run and are not constrained by per-tool Ask-first controls."* Read that as scoped to GitHub and to shell Git and `gh` — it is not a statement that other connectors are sandboxed.
+When you change a permission on a GitHub connection bound to an agent identity, ThinkingMach says so at that moment: *"Shell Git and gh use this account for the run and are not constrained by per-tool Ask-first controls."* Read that as scoped to GitHub and to shell Git and `gh` — it is not a statement that other connectors are sandboxed.
 
 ## Related
 

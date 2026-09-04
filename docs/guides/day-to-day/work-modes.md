@@ -6,7 +6,7 @@ seo_description: Standard mode wants work done; Ask mode wants a question answer
 
 # Work modes
 
-Every Paperclip task carries a work mode that tells the agent what kind of output the task wants. Standard mode wants work done. Ask mode, new in v2026.626.0, wants a question answered. The difference decides how much machinery spins up when the agent picks up the task.
+Every ThinkingMach task carries a work mode that tells the agent what kind of output the task wants. Standard mode wants work done. Ask mode, new in v2026.626.0, wants a question answered. The difference decides how much machinery spins up when the agent picks up the task.
 
 ## Background
 

@@ -1,6 +1,6 @@
 ---
 seo_title: Connect Your First Connector
-seo_description: Connect one read-only service to Paperclip and give an agent a task that uses it, without granting write access to anything.
+seo_description: Connect one read-only service to ThinkingMach and give an agent a task that uses it, without granting write access to anything.
 ---
 
 # Connect your first connector
@@ -13,7 +13,7 @@ The worked example is **Hugging Face**, chosen because it offers a simple setup:
 
 ## Before you start
 
-- Paperclip running, with a company you can administer. See [Installation](../guides/getting-started/installation.md).
+- ThinkingMach running, with a company you can administer. See [Installation](../guides/getting-started/installation.md).
 - At least one hired agent. See [Hire your first agent](../guides/getting-started/your-first-agent.md).
 - **Only if you follow the Hugging Face example:** a free [Hugging Face](https://huggingface.co) account, signed in in the same browser. If you choose a different first connector, follow that connector's prerequisites instead; you do not need a Hugging Face account.
 
@@ -21,7 +21,7 @@ The worked example is **Hugging Face**, chosen because it offers a simple setup:
 
 In the left sidebar, select **Connectors**.
 
-The page lists every connector Paperclip can set up. Use **Search connectors** to find **Hugging Face**, then select **Connect**.
+The page lists every connector ThinkingMach can set up. Use **Search connectors** to find **Hugging Face**, then select **Connect**.
 
 ## 2. Choose who it is for
 
@@ -35,11 +35,11 @@ Under **Which agents can use this connection**, choose **Just agents I pick** an
 
 ## 3. Sign in
 
-Paperclip now shows the setup paths this connector supports. Hugging Face has one: **Sign in with Hugging Face**.
+ThinkingMach now shows the setup paths this connector supports. Hugging Face has one: **Sign in with Hugging Face**.
 
-Select it. Paperclip registers itself with Hugging Face's authorization server, opens the provider's consent screen, and asks for the `read-mcp` scope. Approve it there.
+Select it. ThinkingMach registers itself with Hugging Face's authorization server, opens the provider's consent screen, and asks for the `read-mcp` scope. Approve it there.
 
-You do not create an OAuth app, and you do not paste a token. If the provider ever refuses that automatic registration, Paperclip stops and asks you for a client instead of silently failing — that path is in [Connect a custom MCP server](custom-mcp-servers.md).
+You do not create an OAuth app, and you do not paste a token. If the provider ever refuses that automatic registration, ThinkingMach stops and asks you for a client instead of silently failing — that path is in [Connect a custom MCP server](custom-mcp-servers.md).
 
 ## 4. Turn off everything that is not a read
 
