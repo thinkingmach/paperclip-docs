@@ -243,7 +243,7 @@ function writeFixture(dir, name, payload) {
 function runCompare(args, fixtureDir) {
   const r = spawnSync(process.execPath, [COMPARE_SCRIPT, ...args], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtureDir },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtureDir },
   });
   return { code: r.status, stdout: r.stdout, stderr: r.stderr };
 }
@@ -427,7 +427,7 @@ test("compare-window: rename after prior modification moves old path state", () 
 });
 
 // ----------------------------------------------------------------------------
-// compare-window:integration — live network test against paperclipai/paperclip
+// compare-window:integration — live network test against thinkingmach/paperclip
 // ----------------------------------------------------------------------------
 
 test("compare-window:integration v2026.318.0...v2026.512.0 (live)", () => {
@@ -446,8 +446,8 @@ test("compare-window:integration v2026.318.0...v2026.512.0 (live)", () => {
     "v2026.512.0",
     "--json",
     "--repo",
-    "paperclipai/paperclip",
-  ], { encoding: "utf8", env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: "" } });
+    "thinkingmach/paperclip",
+  ], { encoding: "utf8", env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: "" } });
   if (r.status !== 0) {
     throw new Error(`live run failed (exit ${r.status}). stderr=${r.stderr}`);
   }
@@ -475,7 +475,7 @@ function runDrift(args, fixtureDir, cwd) {
   const r = spawnSync(process.execPath, [DRIFT_SCRIPT, ...args], {
     cwd,
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtureDir },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtureDir },
   });
   return { code: r.status, stdout: r.stdout, stderr: r.stderr };
 }
@@ -514,7 +514,7 @@ test("check-drift: parent path drift caught (high confidence)", () => {
 
   const r = spawnSync(process.execPath, [scriptInRoot, "--json", "--against", "master"], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);
@@ -550,7 +550,7 @@ test("check-drift: env var drift caught (high confidence)", () => {
 
   const r = spawnSync(process.execPath, [scriptInRoot, "--json", "--against", "master"], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);
@@ -592,7 +592,7 @@ test("check-drift: permission catalog + role-grant drift caught (high confidence
 
   const r = spawnSync(process.execPath, [scriptInRoot, "--json", "--against", "master"], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);
@@ -629,7 +629,7 @@ test("check-drift: no permission drift when docs match parent", () => {
 
   const r = spawnSync(process.execPath, [scriptInRoot, "--json", "--against", "master"], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);
@@ -659,7 +659,7 @@ test("check-drift: REST route drift caught (medium confidence)", () => {
 
   const r = spawnSync(process.execPath, [scriptInRoot, "--json", "--against", "master"], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);
@@ -683,7 +683,7 @@ test("check-drift: no false positive when doc uses {id} but parent uses :id", ()
 
   const r = spawnSync(process.execPath, [scriptInRoot, "--json", "--against", "master"], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);
@@ -714,7 +714,7 @@ test("check-drift: table routes can resolve in any parent route file", () => {
 
   const r = spawnSync(process.execPath, [scriptInRoot, "--json", "--against", "master"], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);
@@ -756,7 +756,7 @@ test("check-drift: env vars can verify against tree-discovered package sources",
 
   const r = spawnSync(process.execPath, [scriptInRoot, "--json", "--against", "master"], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);
@@ -785,8 +785,8 @@ test("check-drift: cache is keyed by resolved SHA, never a moving ref name", () 
     encoding: "utf8",
     env: {
       ...process.env,
-      PAPERCLIP_SYNC_FIXTURE_DIR: fixtures,
-      PAPERCLIP_SYNC_CACHE_DIR: cacheDir,
+      THINKINGMACH_SYNC_FIXTURE_DIR: fixtures,
+      THINKINGMACH_SYNC_CACHE_DIR: cacheDir,
     },
   });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
@@ -824,7 +824,7 @@ test("check-drift: ref comes from .sync-state.json when --against is absent", ()
 
   const r = spawnSync(process.execPath, [scriptInRoot, "--json"], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);
@@ -865,14 +865,14 @@ function runVerify(scriptInRoot, docPath, fixtures, extraArgs = []) {
   const r = spawnSync(process.execPath, [scriptInRoot, docPath, "--json", "--against", "master", ...extraArgs], {
     cwd: dirname(dirname(dirname(scriptInRoot))),
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   return { code: r.status, stdout: r.stdout, stderr: r.stderr };
 }
 
 test("verify-edit: CLI command verification — pass", () => {
   const { root, fixtures, scriptInRoot } = makeVerifyFixture();
-  writeFile(root, "docs/reference/cli/foo.md", "# Foo\n\nRun:\n\n```sh\npaperclipai foo\n```\n");
+  writeFile(root, "docs/reference/cli/foo.md", "# Foo\n\nRun:\n\n```sh\nthinkingmach foo\n```\n");
   // Directory listing for cli/src/commands containing foo.ts.
   writeVerifyContents(fixtures, "cli/src/commands", "master", {
     status: 200,
@@ -900,7 +900,7 @@ test("verify-edit: CLI command verification — pass", () => {
 
 test("verify-edit: CLI command verification — fail", () => {
   const { root, fixtures, scriptInRoot } = makeVerifyFixture();
-  writeFile(root, "docs/reference/cli/bar.md", "# Bar\n\n```sh\npaperclipai bar\n```\n");
+  writeFile(root, "docs/reference/cli/bar.md", "# Bar\n\n```sh\nthinkingmach bar\n```\n");
   // No bar in commands.
   writeVerifyContents(fixtures, "cli/src/commands", "master", {
     status: 200,
@@ -1173,7 +1173,7 @@ test("screenshots: instance env does not forward host credentials", () => {
     const env = instanceEnv(home);
 
     assert(env.HOME === home, `HOME should point at scratch home, got ${env.HOME}`);
-    assert(env.PAPERCLIP_HOME === home, `PAPERCLIP_HOME should point at scratch home, got ${env.PAPERCLIP_HOME}`);
+    assert(env.THINKINGMACH_HOME === home, `THINKINGMACH_HOME should point at scratch home, got ${env.THINKINGMACH_HOME}`);
     // DATABASE_URL is pinned to "" (not omitted) so it wins over the parent
     // repo's `.env`, which dotenv loads with `override: false`. The host's real
     // value must never leak through — an empty pin is what forces embedded Postgres.
@@ -1298,7 +1298,7 @@ test("detect-renames: two candidates → file-overlap wins over shared-prefix", 
 
 // ----------------------------------------------------------------------------
 // check-tag-accuracy (hermetic end-to-end: real git fixture repo + stubbed
-// parent via PAPERCLIP_SYNC_FIXTURE_DIR — no network)
+// parent via THINKINGMACH_SYNC_FIXTURE_DIR — no network)
 // ----------------------------------------------------------------------------
 
 const TAGACC_SCRIPT = join(SELF_DIR, "check-tag-accuracy.mjs");
@@ -1364,7 +1364,7 @@ test("check-tag-accuracy: flags a post-tag leak, keeps in-tag page clean, scopes
   const r = spawnSync(
     process.execPath,
     [join(dir, "scripts/sync/check-tag-accuracy.mjs"), "--tag", "faketag", "--base", "HEAD~1", "--head", "HEAD", "--json"],
-    { cwd: dir, encoding: "utf8", env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixDir } },
+    { cwd: dir, encoding: "utf8", env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixDir } },
   );
   assert(r.status === 0, `gate should always exit 0, got ${r.status}. stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);
@@ -1390,7 +1390,7 @@ test("check-tag-accuracy: flags a post-tag leak, keeps in-tag page clean, scopes
 
 
 // ----------------------------------------------------------------------------
-// Parent snapshot mode (PAPERCLIP_SYNC_LOCAL_SRC) — regression tests for the
+// Parent snapshot mode (THINKINGMACH_SYNC_LOCAL_SRC) — regression tests for the
 // 2026-11 drift false positives: a capped env scan, prose CLI mentions, and
 // route registrations the matcher couldn't read.
 // ----------------------------------------------------------------------------
@@ -1404,8 +1404,8 @@ function makeSnapshot(files) {
 }
 
 function runDriftSnapshot(scriptInRoot, snapDir) {
-  const env = { ...process.env, PAPERCLIP_SYNC_LOCAL_SRC: snapDir };
-  delete env.PAPERCLIP_SYNC_FIXTURE_DIR;
+  const env = { ...process.env, THINKINGMACH_SYNC_LOCAL_SRC: snapDir };
+  delete env.THINKINGMACH_SYNC_FIXTURE_DIR;
   const r = spawnSync(process.execPath, [scriptInRoot, "--json", "--against", SNAP_SHA], { encoding: "utf8", env });
   assert(r.status === 0, `expected exit 0, got ${r.status}; stderr=${r.stderr}`);
   return JSON.parse(r.stdout);
@@ -1454,7 +1454,7 @@ test("check-drift: API-mode env cap is reported, never silent", () => {
   writeFixtureContents(fixtures, ".env.example", "master", { status: 200, content_base64: Buffer.from("PORT=1\n").toString("base64") });
   const r = spawnSync(process.execPath, [scriptInRoot, "--json", "--against", "master"], {
     encoding: "utf8",
-    env: { ...process.env, PAPERCLIP_SYNC_FIXTURE_DIR: fixtures },
+    env: { ...process.env, THINKINGMACH_SYNC_FIXTURE_DIR: fixtures },
   });
   const out = JSON.parse(r.stdout);
   assert(out.source === "github-api", `expected github-api, got ${out.source}`);
@@ -1467,11 +1467,11 @@ test("check-drift snapshot: CLI commands come from code, not quoted prose", () =
   writeFile(root, "docs/reference/cli/service.md", [
     "# Service",
     "",
-    "You'll see `Installed the managed paperclipai payload and command shim.`",
-    "Run `paperclipai service install` to install it.",
+    "You'll see `Installed the managed thinkingmach payload and command shim.`",
+    "Run `thinkingmach service install` to install it.",
     "",
     "```sh",
-    "paperclipai ghostcmd --now",
+    "thinkingmach ghostcmd --now",
     "```",
     "",
   ].join("\n"));
@@ -1481,7 +1481,7 @@ test("check-drift snapshot: CLI commands come from code, not quoted prose", () =
   });
   const out = runDriftSnapshot(scriptInRoot, snap);
   const cli = out.drift.filter((d) => d.kind === "cli-command-missing").map((d) => d.documented);
-  assert(JSON.stringify(cli) === JSON.stringify(["paperclipai ghostcmd"]), `got ${JSON.stringify(cli)}`);
+  assert(JSON.stringify(cli) === JSON.stringify(["thinkingmach ghostcmd"]), `got ${JSON.stringify(cli)}`);
   rmSync(root, { recursive: true, force: true });
   rmSync(snap, { recursive: true, force: true });
 });
@@ -1504,7 +1504,7 @@ test("check-drift snapshot: routes via arrays, router[method], path constants an
   const snap = makeSnapshot({
     "packages/shared/src/company-import-transfer.ts": 'export const IMPORT_TRANSFERS_PATH = "/import/transfers";\n',
     "server/src/routes/companies.ts": [
-      'import { IMPORT_TRANSFERS_PATH } from "@paperclipai/shared";',
+      'import { IMPORT_TRANSFERS_PATH } from "@thinkingmach/shared";',
       'router.get(["/mcp/requests/:id", "/dot-mcp/requests/:id"], h);',
       'for (const method of ["get", "post"]) router[method]("/companies/:companyId/chats/:agentRef", h);',
       "router.post(IMPORT_TRANSFERS_PATH, h);",
@@ -1522,13 +1522,13 @@ test("check-drift snapshot: routes via arrays, router[method], path constants an
 
 test("verify-edit snapshot: .requiredOption() flags verify, unknown flags don't", () => {
   const { root, scriptInRoot } = makeVerifyFixture();
-  writeFile(root, "docs/reference/cli/runtime.md", "# Runtime\n\n```sh\npaperclipai runtime import-remote ./dir --sha256 abc --bogus\n```\n");
+  writeFile(root, "docs/reference/cli/runtime.md", "# Runtime\n\n```sh\nthinkingmach runtime import-remote ./dir --sha256 abc --bogus\n```\n");
   const snap = makeSnapshot({
     "cli/src/commands/runtime.ts": 'program.command("runtime").command("import-remote <d>").requiredOption("--sha256 <digest>", "x");\n',
     "cli/src/index.ts": "\n",
   });
-  const env = { ...process.env, PAPERCLIP_SYNC_LOCAL_SRC: snap };
-  delete env.PAPERCLIP_SYNC_FIXTURE_DIR;
+  const env = { ...process.env, THINKINGMACH_SYNC_LOCAL_SRC: snap };
+  delete env.THINKINGMACH_SYNC_FIXTURE_DIR;
   const r = spawnSync(process.execPath, [scriptInRoot, "docs/reference/cli/runtime.md", "--json", "--against", SNAP_SHA], { cwd: root, encoding: "utf8", env });
   assert(r.status === 0, `exit ${r.status}; stderr=${r.stderr}`);
   const out = JSON.parse(r.stdout);
@@ -1545,8 +1545,8 @@ test("verify-edit snapshot: a git-archive extract (no .git) is fully scanned", (
   for (let i = 0; i < 800; i++) files[`server/src/a${String(i).padStart(3, "0")}.ts`] = "export {};\n";
   files["server/src/services/kimi-connection-probe.ts"] = 'const key = env["KIMI_API_KEY"];\n';
   const snap = makeSnapshot(files);
-  const env = { ...process.env, PAPERCLIP_SYNC_LOCAL_SRC: snap };
-  delete env.PAPERCLIP_SYNC_FIXTURE_DIR;
+  const env = { ...process.env, THINKINGMACH_SYNC_LOCAL_SRC: snap };
+  delete env.THINKINGMACH_SYNC_FIXTURE_DIR;
   const r = spawnSync(process.execPath, [scriptInRoot, "docs/reference/adapters/kimi.md", "--json", "--against", SNAP_SHA], {
     cwd: root,
     encoding: "utf8",

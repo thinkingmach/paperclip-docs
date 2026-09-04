@@ -6,7 +6,7 @@ seo_description: The surface behind catalog teams — ready-made starter groups 
 
 # Teams Catalog API
 
-The teams catalog API is the control-plane surface behind catalog *teams* — the ready-made starter groups Paperclip ships with the app. A catalog team bundles a small set of agents, projects, tasks, and the skills they need, so you can drop a whole working unit into a company in one step. These endpoints let you browse the catalog, inspect a single team and its files, see what is already installed in a company, preview an import, and install a team.
+The teams catalog API is the control-plane surface behind catalog *teams* — the ready-made starter groups ThinkingMach ships with the app. A catalog team bundles a small set of agents, projects, tasks, and the skills they need, so you can drop a whole working unit into a company in one step. These endpoints let you browse the catalog, inspect a single team and its files, see what is already installed in a company, preview an import, and install a team.
 
 For the user-facing concept and CLI workflow, see [Teams Commands](../cli/teams.md) and the [Team Catalog guide](../../guides/org/team-catalog.md). This page documents the raw HTTP endpoints that those tools call.
 

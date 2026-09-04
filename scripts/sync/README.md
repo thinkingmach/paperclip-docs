@@ -20,15 +20,15 @@ This directory holds data, not code. The skill itself is the orchestrator; it re
 | Setting | Effect |
 |---|---|
 | *(default)* | Download `repos/<parent>/tarball/<sha>` once into `/tmp/paperclip-sync/src-<sha>/` and reuse it. The four newest snapshots are kept. |
-| `PAPERCLIP_SYNC_LOCAL_SRC=<dir>` | Use an existing checkout or `git archive` extract at the right commit. |
-| `PAPERCLIP_SYNC_NO_SNAPSHOT=1` | Use the GitHub contents API. The env-var scan is capped at 700 files in this mode, and the output says so in `warnings`. |
-| `PAPERCLIP_SYNC_FIXTURE_DIR=<dir>` | Tests only: read JSON fixtures. Snapshot mode is off. |
+| `THINKINGMACH_SYNC_LOCAL_SRC=<dir>` | Use an existing checkout or `git archive` extract at the right commit. |
+| `THINKINGMACH_SYNC_NO_SNAPSHOT=1` | Use the GitHub contents API. The env-var scan is capped at 700 files in this mode, and the output says so in `warnings`. |
+| `THINKINGMACH_SYNC_FIXTURE_DIR=<dir>` | Tests only: read JSON fixtures. Snapshot mode is off. |
 
 Both scripts add `source` (`snapshot` / `github-api`) and `warnings` to their JSON output. Before November 2026 the API path silently capped the env scan at 700 files while parent `server/src` alone had ~1,665, which produced the same ~40 false drift items every run.
 
 ## Branch model
 
-- **`main` (docs)** tracks the latest **released** paperclip tag (e.g. `v2026.512.0`). Deploys to docs.paperclip.ing.
+- **`main` (docs)** tracks the latest **released** paperclip tag (e.g. `v2026.512.0`). Deploys to docs.thinkingmach.com.
 - **`nightly` (docs)** tracks parent's `main` HEAD. Deploys to the Cloudflare Pages branch preview.
 
 `.sync-state.json` therefore has a different value on each branch:
@@ -45,7 +45,7 @@ Both scripts add `source` (`snapshot` / `github-api`) and `warnings` to their JS
 
 Each watcher entry declares:
 
-- `parent_paths` — globs in github.com/paperclipai/paperclip to watch.
+- `parent_paths` — globs in github.com/thinkingmach/paperclip to watch.
 - `docs_paths` — globs in this repo where corresponding doc edits live.
 - `tier` — `auto-merge` (mechanical, schema-bound), `pr` (judgment calls), or `context-only` (informs other watchers but never produces edits directly).
 - `detect` — short prose telling the skill *how* to recognise a doc-relevant change in those files (e.g. "new `program.command()` calls", "new top-level dir").

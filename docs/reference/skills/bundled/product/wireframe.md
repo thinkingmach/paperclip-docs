@@ -27,8 +27,8 @@ This is a **bundled** catalog skill — part of the bundled baseline kit. For ho
 
 | Field | Value |
 |---|---|
-| Catalog id | `paperclipai:bundled:product:wireframe` |
-| Canonical key | `paperclipai/bundled/product/wireframe` |
+| Catalog id | `thinkingmach:bundled:product:wireframe` |
+| Canonical key | `thinkingmach/bundled/product/wireframe` |
 | Catalog path | `catalog/bundled/product/wireframe` |
 | Kind | `bundled` |
 | Category | `product` |
@@ -42,7 +42,7 @@ This is a **bundled** catalog skill — part of the bundled baseline kit. For ho
 | Tags | `design`, `wireframe`, `ux`, `prototyping`, `svg` |
 | Files | 7 |
 | Content hash | `sha256:0bd9a9fdc656d529e3f97c00cd504dcf72d3a4fecb8b0504ca2fe3e00d63287f` |
-| Package | `@paperclipai/skills-catalog@0.3.1` |
+| Package | `@thinkingmach/skills-catalog@0.3.1` |
 
 ## File inventory
 
@@ -64,7 +64,7 @@ The block below is the complete, authoritative `SKILL.md` for this skill — the
 ---
 name: wireframe
 description: Produce low-fidelity black-and-white UI wireframes as standalone SVG files, optionally bundled into a single-page HTML viewer and published via the here-now skill. Use when the user asks to "wireframe X", "sketch a screen for", "draft a layout", "low-fi mockup", "rough mock", "make a page to view the wireframes", "build a viewer for these screens", or to "deploy / publish / host the wireframes". Do NOT use when the user wants production UI code, branded designs, hi-fi mockups, or animated/interactive prototypes — use frontend-design or similar instead.
-key: paperclipai/bundled/product/wireframe
+key: thinkingmach/bundled/product/wireframe
 recommendedForRoles:
   - designer
   - product

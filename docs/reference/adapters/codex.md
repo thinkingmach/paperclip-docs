@@ -1,14 +1,14 @@
 ---
 paperclip_version: v2026.1106.0
 seo_title: Codex Adapter
-seo_description: Run OpenAI's Codex CLI on the Paperclip host as a local coding agent, with persistent session state and a managed CODEX_HOME per agent.
+seo_description: Run OpenAI's Codex CLI on the ThinkingMach host as a local coding agent, with persistent session state and a managed CODEX_HOME per agent.
 ---
 
 # Codex
 
-Codex does the work; Paperclip hands it the ticket, the goal behind it and the reviewer. `codex_local` runs OpenAI's Codex CLI on the same machine as Paperclip. You configure the adapter once and test it. Then you assign a task, and Paperclip wakes Codex with that task, its place under the company goal and any review step that has to sign off before it closes.
+Codex does the work; ThinkingMach hands it the ticket, the goal behind it and the reviewer. `codex_local` runs OpenAI's Codex CLI on the same machine as ThinkingMach. You configure the adapter once and test it. Then you assign a task, and ThinkingMach wakes Codex with that task, its place under the company goal and any review step that has to sign off before it closes.
 
-> **Heads-up:** New Codex agents run on [Paperclip Runner](/reference/adapters/paperclip-runner/#new-codex-and-claude-agents-use-the-runner) by default when the execution environment is macOS or Linux x64/ARM64 with GNU libc `2.39` or newer. Those agents are saved as `paperclip_runner` with `provider: "codex"`. The Runner is documented as experimental. To keep the classic adapter described on this page, choose **Legacy runner** under **Advanced → Runner** (or send `runner: "legacy"` from the API). Existing agents keep the runner they already have.
+> **Heads-up:** New Codex agents run on [ThinkingMach Runner](/reference/adapters/paperclip-runner/#new-codex-and-claude-agents-use-the-runner) by default when the execution environment is macOS or Linux x64/ARM64 with GNU libc `2.39` or newer. Those agents are saved as `paperclip_runner` with `provider: "codex"`. The Runner is documented as experimental. To keep the classic adapter described on this page, choose **Legacy runner** under **Advanced → Runner** (or send `runner: "legacy"` from the API). Existing agents keep the runner they already have.
 
 ---
 
@@ -18,14 +18,14 @@ Use it when:
 
 - You already use the Codex CLI on the host machine.
 - You want session continuity across heartbeats.
-- You want Paperclip to manage a per-company Codex home when possible.
-- You want repo instructions, Paperclip instructions and Codex's own runtime behavior to work together.
+- You want ThinkingMach to manage a per-company Codex home when possible.
+- You want repo instructions, ThinkingMach instructions and Codex's own runtime behavior to work together.
 
 Use something else when:
 
 - The runtime lives behind a webhook or remote API. Use [HTTP](/reference/adapters/http/).
 - You only need a shell command or script. Use [Process](/reference/adapters/process/).
-- The Codex CLI is not installed or can't be executed from the Paperclip host.
+- The Codex CLI is not installed or can't be executed from the ThinkingMach host.
 
 ---
 
@@ -55,14 +55,14 @@ Most agents need only a few of these fields. Set `model` if you want a specific 
 | `instructionsFilePath` | no | Markdown file prepended to the stdin prompt sent to `codex exec`. |
 | `modelReasoningEffort` | no | Reasoning effort override passed through Codex config. The choices depend on the model. See [Reasoning effort](#reasoning-effort). |
 | `search` | no | Runs Codex with `--search`. |
-| `fastMode` | no | Enables Codex Fast mode by setting `service_tier="fast"` and `features.fast_mode=true`, on the models listed in [Models](#models) that support it, and is passed through for manual model ids. When the configured model can't use it, Paperclip ignores the setting and notes why. |
+| `fastMode` | no | Enables Codex Fast mode by setting `service_tier="fast"` and `features.fast_mode=true`, on the models listed in [Models](#models) that support it, and is passed through for manual model ids. When the configured model can't use it, ThinkingMach ignores the setting and notes why. |
 | `dangerouslyBypassApprovalsAndSandbox` | no | Runs Codex with `--dangerously-bypass-approvals-and-sandbox` so unattended runs never stop for approval. Defaults to on when you leave it unset. See [Permissions](#permissions). |
 | `command` | no | Defaults to `codex`. |
 | `extraArgs` | no | Extra CLI arguments appended to the Codex invocation. |
 | `env` | no | Environment variables passed to the runtime. Secret refs are supported. |
 | `timeoutSec` | no | Run timeout in seconds. On local and SSH targets, `0` means no adapter wall-clock timeout. On a sandbox target, `0` or an unset value uses the 14,400-second sandbox default. Use a positive value to override it or a negative value to opt out of the adapter timeout. |
 | `graceSec` | no | Grace period before a forced stop. |
-| `outputInactivityTimeoutMs` | no | How long the adapter waits for Codex output before treating the run as stuck. The timer resets whenever Codex writes output (and, on Linux, when its processes show real CPU, disk or child-process activity). Defaults to 30 minutes (`1800000`). Set it to `null` to switch the monitor off. Paperclip's platform-level one-hour silent-run safety net still applies. When it fires, the run fails with a message like `monitor: no codex activity (output or process) for 30m 0s`. |
+| `outputInactivityTimeoutMs` | no | How long the adapter waits for Codex output before treating the run as stuck. The timer resets whenever Codex writes output (and, on Linux, when its processes show real CPU, disk or child-process activity). Defaults to 30 minutes (`1800000`). Set it to `null` to switch the monitor off. ThinkingMach's platform-level one-hour silent-run safety net still applies. When it fires, the run fails with a message like `monitor: no codex activity (output or process) for 30m 0s`. |
 | `workspaceStrategy` | no | Execution workspace strategy, such as `git_worktree`. |
 | `workspaceRuntime` | no | Reserved workspace runtime metadata. |
 
@@ -96,9 +96,9 @@ Some `codex_local` settings have no Runner equivalent, including a custom `comma
 
 ### Permissions
 
-Codex agents run in full-auto mode by default. If you leave `dangerouslyBypassApprovalsAndSandbox` unset, Paperclip passes `--dangerously-bypass-approvals-and-sandbox`, so Codex works through a task without pausing for approvals no one is around to give.
+Codex agents run in full-auto mode by default. If you leave `dangerouslyBypassApprovalsAndSandbox` unset, ThinkingMach passes `--dangerously-bypass-approvals-and-sandbox`, so Codex works through a task without pausing for approvals no one is around to give.
 
-Paperclip skips the bypass, keeping Codex in its writable workspace sandbox or in the mode you picked, when any of these is true (the last three only count while `dangerouslyBypassApprovalsAndSandbox` is unset):
+ThinkingMach skips the bypass, keeping Codex in its writable workspace sandbox or in the mode you picked, when any of these is true (the last three only count while `dangerouslyBypassApprovalsAndSandbox` is unset):
 
 - You set `dangerouslyBypassApprovalsAndSandbox` to `false`.
 - Your `extraArgs` pick a sandbox mode or profile yourself, for example `--sandbox`, `--profile`, `--full-auto` or a `sandbox_mode=` config override.
@@ -115,11 +115,11 @@ Codex normally hides any variable whose name contains `KEY`, `SECRET` or `TOKEN`
 
 These stay out regardless:
 
-- Codex's own login keys (`OPENAI_API_KEY` and `CODEX_API_KEY`), plus managed provider keys, observability credentials and Paperclip's own `PAPERCLIP_GITHUB_*`, `PAPERCLIP_RUNNER_*`, `PAPERCLIP_NATIVE_*` and `PAPERCLIP_ACPX_*` secrets, even if you set them in `env`.
-- Host secrets you didn't assign. Nothing is pulled from the Paperclip host's environment.
+- Codex's own login keys (`OPENAI_API_KEY` and `CODEX_API_KEY`), plus managed provider keys, observability credentials and ThinkingMach's own `THINKINGMACH_GITHUB_*`, `THINKINGMACH_RUNNER_*`, `THINKINGMACH_NATIVE_*` and `THINKINGMACH_ACPX_*` secrets, even if you set them in `env`.
+- Host secrets you didn't assign. Nothing is pulled from the ThinkingMach host's environment.
 - Names with wildcard characters.
 
-`PAPERCLIP_API_KEY` and the agent's identity variables are delivered as before. Remove a variable from `env` and the shell loses access to it at the next launch.
+`THINKINGMACH_API_KEY` and the agent's identity variables are delivered as before. Remove a variable from `env` and the shell loses access to it at the next launch.
 
 > **Warning:** Assigning a credential this way gives the run's shell commands real access to it, and a command the model chooses to run can read it. Only assign credentials the agent is meant to use, with no more service permissions than it needs.
 
@@ -135,18 +135,18 @@ Run the environment test before you assign real work. On the agent's **Harness /
 - The installed Codex CLI is new enough for the selected model. With ChatGPT sign-in, `gpt-6.1-sol` needs Codex `0.159.0` or newer, and `gpt-6-sol` and `gpt-6-luna` need `0.157.0` or newer. The test runs `codex --version` where the agent runs (locally, over SSH or in the sandbox) and reports `codex_cli_version_compatible` or `codex_cli_version_incompatible`. When the CLI is too old, the hello probe is skipped.
 - The hello probe can run `codex exec --json -` with the prompt `Respond with hello.`
 
-If the probe fails, fix the command or auth path before saving the adapter. If the Codex backend rejects the model for your ChatGPT account, the test reports `codex_hello_probe_model_rejected` and names the likely cause: a Codex CLI that's too old, a plan that doesn't include the model or a rollout that hasn't reached your account yet. In a sandbox, the fix for an old CLI is to promote an image that ships the Codex version Paperclip pins.
+If the probe fails, fix the command or auth path before saving the adapter. If the Codex backend rejects the model for your ChatGPT account, the test reports `codex_hello_probe_model_rejected` and names the likely cause: a Codex CLI that's too old, a plan that doesn't include the model or a rollout that hasn't reached your account yet. In a sandbox, the fix for an old CLI is to promote an image that ships the Codex version ThinkingMach pins.
 
 ### Authentication and per-agent homes
 
-Each `codex_local` agent runs against its own managed Codex home, so one agent can't spend against another agent's login or share its Codex state. Paperclip seeds credentials into that home before launching Codex:
+Each `codex_local` agent runs against its own managed Codex home, so one agent can't spend against another agent's login or share its Codex state. ThinkingMach seeds credentials into that home before launching Codex:
 
-- **The host Codex login is inherited by default.** If you're signed in to Codex on the Paperclip host with a ChatGPT-subscription login, Paperclip links that login into the agent's managed home. You don't log in again per company or per agent.
-- **A per-agent API key wins when you set one.** If the agent's `env` carries `OPENAI_API_KEY`, Paperclip writes that key into the managed home as API-key auth. On the ACP engine, `CODEX_API_KEY` works the same way.
-- **Your own `CODEX_HOME` is left alone.** If you point the adapter at a `CODEX_HOME` outside Paperclip's managed company tree, Paperclip treats it as self-managed and never seeds or overwrites it.
+- **The host Codex login is inherited by default.** If you're signed in to Codex on the ThinkingMach host with a ChatGPT-subscription login, ThinkingMach links that login into the agent's managed home. You don't log in again per company or per agent.
+- **A per-agent API key wins when you set one.** If the agent's `env` carries `OPENAI_API_KEY`, ThinkingMach writes that key into the managed home as API-key auth. On the ACP engine, `CODEX_API_KEY` works the same way.
+- **Your own `CODEX_HOME` is left alone.** If you point the adapter at a `CODEX_HOME` outside ThinkingMach's managed company tree, ThinkingMach treats it as self-managed and never seeds or overwrites it.
 - **No silent credential-less runs.** If a managed home has no usable login and no configured API key, the run fails fast with a clear adapter error instead of hitting a `401` from the provider.
 
-**Signing in inside a sandbox.** When the agent runs in a Paperclip sandbox with no ready Codex login, the environment test reports that authentication is missing and Paperclip can start an interactive device login. Complete it in your browser and Paperclip promotes the subscription credential into the company scope, so later heartbeats reuse it. Paperclip also keeps a company-scoped, identity-keyed cache of subscription credentials (one per account). The cache never seeds an empty host and never switches which account an agent uses. Set `PAPERCLIP_CODEX_AUTH_CACHE` to `0`, `false`, `no` or `off` on the Paperclip host to turn it off.
+**Signing in inside a sandbox.** When the agent runs in a ThinkingMach sandbox with no ready Codex login, the environment test reports that authentication is missing and ThinkingMach can start an interactive device login. Complete it in your browser and ThinkingMach promotes the subscription credential into the company scope, so later heartbeats reuse it. ThinkingMach also keeps a company-scoped, identity-keyed cache of subscription credentials (one per account). The cache never seeds an empty host and never switches which account an agent uses. Set `THINKINGMACH_CODEX_AUTH_CACHE` to `0`, `false`, `no` or `off` on the ThinkingMach host to turn it off.
 
 **`CODEX_HOME` in a sandbox.** The adapter stages only an allowlist into the sandbox: `config.json`, `config.toml`, `instructions.md`, `auth.json` and `skills`. Runtime state the `codex` binary writes (session databases, `plugins/`, `cache/`, `sessions/`, `shell_snapshots/` and similar) stays on the host. Local and SSH targets read the managed home in place.
 
@@ -162,7 +162,7 @@ Once the test passes, give the agent one small task you can check quickly:
 
 Assigning the task wakes the agent by default. You don't need a heartbeat timer, and new agents start with **Heartbeat on interval** off. To test without waiting, click **Run now** in the agent header.
 
-On that run, Paperclip launches Codex with the task in its wake context, including `PAPERCLIP_TASK_ID` and `PAPERCLIP_WAKE_REASON` (for example `issue_assigned`). Codex checks the task out, which moves it to **In Progress**. Only one agent can hold a task in that state at a time. Codex posts progress in the task thread. Every task traces back to the company goal, so the agent can see why the work exists, not only what it is.
+On that run, ThinkingMach launches Codex with the task in its wake context, including `THINKINGMACH_TASK_ID` and `THINKINGMACH_WAKE_REASON` (for example `issue_assigned`). Codex checks the task out, which moves it to **In Progress**. Only one agent can hold a task in that state at a time. Codex posts progress in the task thread. Every task traces back to the company goal, so the agent can see why the work exists, not only what it is.
 
 When Codex finishes, the task moves to **Done**, or to **In Review** if the task has a reviewer or approver. The runtime routes the work to that person or agent, and a requested change sends it back to Codex.
 
@@ -178,7 +178,7 @@ If the task doesn't move, open the agent's **Runs**, then the latest run. Its **
 
 ## Reset a Codex session
 
-Paperclip keeps Codex's conversation across heartbeats so the agent can continue work instead of starting over. Reset it when a session has gone wrong, or when you want the agent to start clean on its next heartbeat.
+ThinkingMach keeps Codex's conversation across heartbeats so the agent can continue work instead of starting over. Reset it when a session has gone wrong, or when you want the agent to start clean on its next heartbeat.
 
 - **Reset everything for the agent.** In the agent header, open **More actions (⋯)** and choose **Reset Sessions**.
 - **Reset for specific tasks.** On a run's page, use the **clear session for these tasks** link.
@@ -196,12 +196,12 @@ A model change may also start a fresh session.
 
 Codex preserves the `previous_response_id` chain so heartbeats can continue the same conversation. The session codec also preserves these location hints when present: `cwd`, `workspaceId`, `repoUrl` and `repoRef`.
 
-On native Codex (Paperclip Runner, `provider: "codex"`), a few behaviors differ:
+On native Codex (ThinkingMach Runner, `provider: "codex"`), a few behaviors differ:
 
-- **A turn cut off by a restart can resume once.** If a server restart kills a native Codex turn mid-flight, Paperclip makes sure the old process is gone, then resumes the request once in the same conversation and workspace and asks the agent to check unfinished commands or outside actions before carrying on. It doesn't resend the task. The run log records the interrupted turn with `provider_turn_lost_on_restore`. Anything that can't be reconciled stops for a person.
-- **Codex keeps its own base prompt.** Paperclip sends task context as additive `developerInstructions`, so Codex's stock base instructions stay in place. Conversations created before this change keep their saved prompt when resumed. Reset those sessions if you want the stock base instructions back.
-- **A model your ChatGPT account can't use says so.** The task shows **Model unavailable.** Paperclip doesn't retry that request automatically. Choose a supported model or clear the task's model override, then retry.
-- **A busy model retries on its own.** When the selected model is at capacity, Paperclip shows **Model at capacity** and retries after one minute, then after two.
+- **A turn cut off by a restart can resume once.** If a server restart kills a native Codex turn mid-flight, ThinkingMach makes sure the old process is gone, then resumes the request once in the same conversation and workspace and asks the agent to check unfinished commands or outside actions before carrying on. It doesn't resend the task. The run log records the interrupted turn with `provider_turn_lost_on_restore`. Anything that can't be reconciled stops for a person.
+- **Codex keeps its own base prompt.** ThinkingMach sends task context as additive `developerInstructions`, so Codex's stock base instructions stay in place. Conversations created before this change keep their saved prompt when resumed. Reset those sessions if you want the stock base instructions back.
+- **A model your ChatGPT account can't use says so.** The task shows **Model unavailable.** ThinkingMach doesn't retry that request automatically. Choose a supported model or clear the task's model override, then retry.
+- **A busy model retries on its own.** When the selected model is at capacity, ThinkingMach shows **Model at capacity** and retries after one minute, then after two.
 
 ---
 
@@ -209,7 +209,7 @@ On native Codex (Paperclip Runner, `provider: "codex"`), a few behaviors differ:
 
 Codex runs through one of two engines, selected by `engine`:
 
-- **`auto` (default): ACP.** Paperclip runs Codex through the Agent Client Protocol. If the host doesn't meet the ACP prerequisites, the run fails with a setup error explaining why. Paperclip never switches engines on its own.
+- **`auto` (default): ACP.** ThinkingMach runs Codex through the Agent Client Protocol. If the host doesn't meet the ACP prerequisites, the run fails with a setup error explaining why. ThinkingMach never switches engines on its own.
 - **`acp`: always ACP.**
 - **`cli`: always the classic Codex CLI.** Skips ACP entirely.
 
@@ -222,12 +222,12 @@ When the engine resolves to ACP, these fields apply:
 | `agentCommand` | package-local `codex-acp` | Optional override for the Codex ACP server command. |
 | `mode` | `persistent` | `persistent` keeps ACP session state between runs, and `oneshot` starts fresh each run. |
 | `nonInteractivePermissions` | `deny` | What to do if the ACP agent asks for input outside an interactive session: `deny` the request or `fail` the run. |
-| `stateDir` | Paperclip-managed | Optional ACP session-state directory. Defaults to company- and agent-scoped storage. |
+| `stateDir` | ThinkingMach-managed | Optional ACP session-state directory. Defaults to company- and agent-scoped storage. |
 | `warmHandleIdleMs` | `0` | How long to keep the ACP process warm between runs, in milliseconds. `0` closes it after each run while keeping persistent session state. |
 
 The old standalone `acpx_local` adapter is retired, and its capabilities live here. Pick `codex_local` (or `claude_local` / `gemini_local`) and leave `engine` on `auto`.
 
-**ACP in sandbox environments.** You can keep `engine` on `auto` in a Paperclip sandbox that provides Paperclip's bidirectional process session. An environment that only runs one-shot commands can't host an ACP session, so an `auto` run there fails with a setup error rather than switching to the CLI. Set `engine: "cli"` for those environments.
+**ACP in sandbox environments.** You can keep `engine` on `auto` in a ThinkingMach sandbox that provides ThinkingMach's bidirectional process session. An environment that only runs one-shot commands can't host an ACP session, so an `auto` run there fails with a setup error rather than switching to the CLI. Set `engine: "cli"` for those environments.
 
 ---
 
@@ -239,9 +239,9 @@ The `model` picker lists known Codex model ids, newest version first and most ca
 
 Fast mode (`fastMode`) is supported on `gpt-6.1-sol`, `gpt-6-astra`, `gpt-6-sol`, `gpt-6-luna`, `gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-5.5` and `gpt-5.4`.
 
-This is a curated list. The picker doesn't fill itself from OpenAI's model catalog, because that catalog also includes image, audio and embedding models Codex can't run. To add models to the dropdown, for example ones served through your own gateway, declare them with [`PAPERCLIP_ADAPTER_MODELS`](/reference/deploy/environment-variables/#adding-models-to-the-model-picker).
+This is a curated list. The picker doesn't fill itself from OpenAI's model catalog, because that catalog also includes image, audio and embedding models Codex can't run. To add models to the dropdown, for example ones served through your own gateway, declare them with [`THINKINGMACH_ADAPTER_MODELS`](/reference/deploy/environment-variables/#adding-models-to-the-model-picker).
 
-You can also type a model id that isn't in the list. Paperclip treats it as a manual model id and passes it straight to the Codex CLI. The environment test tells you whether Codex can run it for your account.
+You can also type a model id that isn't in the list. ThinkingMach treats it as a manual model id and passes it straight to the Codex CLI. The environment test tells you whether Codex can run it for your account.
 
 Leave `model` empty to let Codex choose: the adapter omits `--model` and the Codex CLI uses its own default. The bare `gpt-5.6` alias is rewritten to `gpt-5.6-sol`, so an agent still set to the old alias keeps working without the CLI's "model metadata not found" warning.
 
@@ -267,23 +267,23 @@ The profile ships with an empty `adapterConfig`, so it doesn't choose a model fo
 
 ## Skills and instructions
 
-**Skills injection.** Codex injects Paperclip skills into the effective `CODEX_HOME/skills` directory. In the default managed-home mode, Paperclip uses a per-company Codex home under the active instance and seeds it from the shared Codex home for auth continuity. Inside a managed worktree instance, that home is worktree-isolated so sessions, logs and skills don't leak across checkouts.
+**Skills injection.** Codex injects ThinkingMach skills into the effective `CODEX_HOME/skills` directory. In the default managed-home mode, ThinkingMach uses a per-company Codex home under the active instance and seeds it from the shared Codex home for auth continuity. Inside a managed worktree instance, that home is worktree-isolated so sessions, logs and skills don't leak across checkouts.
 
-For manual local CLI use outside Paperclip, run:
+For manual local CLI use outside ThinkingMach, run:
 
 ```
-pnpm paperclipai agent local-cli codexcoder --company-id <company-id>
+pnpm thinkingmach agent local-cli codexcoder --company-id <company-id>
 ```
 
 That command installs missing skills, creates an agent API key and prints shell exports you can use to run Codex as that agent.
 
-**Instructions file.** If you set `instructionsFilePath`, Paperclip reads that file and prepends it to the stdin prompt on every run. That is separate from Codex's own repo instruction discovery: if the working directory contains an `AGENTS.md`, Codex can still load it. Use `instructionsFilePath` for Paperclip-managed instructions and repo-local files when you want Codex to pick them up from the workspace.
+**Instructions file.** If you set `instructionsFilePath`, ThinkingMach reads that file and prepends it to the stdin prompt on every run. That is separate from Codex's own repo instruction discovery: if the working directory contains an `AGENTS.md`, Codex can still load it. Use `instructionsFilePath` for ThinkingMach-managed instructions and repo-local files when you want Codex to pick them up from the workspace.
 
 ---
 
 ## Custom providers and gateways
 
-Codex has no CLI flag or env var for a custom OpenAI-compatible endpoint. Custom endpoints live as `[model_providers.<id>]` tables in `$CODEX_HOME/config.toml`. To route Codex at your own gateway without hand-editing that file, set `PAPERCLIP_CODEX_PROVIDERS` on the Paperclip host:
+Codex has no CLI flag or env var for a custom OpenAI-compatible endpoint. Custom endpoints live as `[model_providers.<id>]` tables in `$CODEX_HOME/config.toml`. To route Codex at your own gateway without hand-editing that file, set `THINKINGMACH_CODEX_PROVIDERS` on the ThinkingMach host:
 
 ```
 {
@@ -303,13 +303,13 @@ Codex has no CLI flag or env var for a custom OpenAI-compatible endpoint. Custom
 - `model_provider` is optional. When set, it must match one of your `providers` entries, and `model` picks the model within that provider.
 - String values may use `{env:VAR}` placeholders, expanded server-side against the run env and `process.env`. Prefer Codex's own `env_key` for the bearer key. Unresolvable placeholders are left intact.
 
-Paperclip writes these definitions into a managed region of the per-company Codex home's `config.toml`, between `# >>> paperclip codex providers ... managed, do not edit >>>` marker comments. Your existing config is preserved, conflicting definitions are replaced by the managed ones, and the original file is restored after the run. This merge only happens for the managed Codex home. If your adapter config sets `env.CODEX_HOME`, Paperclip leaves it untouched and surfaces a note.
+ThinkingMach writes these definitions into a managed region of the per-company Codex home's `config.toml`, between `# >>> paperclip codex providers ... managed, do not edit >>>` marker comments. Your existing config is preserved, conflicting definitions are replaced by the managed ones, and the original file is restored after the run. This merge only happens for the managed Codex home. If your adapter config sets `env.CODEX_HOME`, ThinkingMach leaves it untouched and surfaces a note.
 
 ---
 
 ## Next steps
 
-- [Paperclip Runner](/reference/adapters/paperclip-runner/): native Codex, runner choice and upgrading an existing agent
+- [ThinkingMach Runner](/reference/adapters/paperclip-runner/): native Codex, runner choice and upgrading an existing agent
 - [Agents](/guides/org/agents/): Harness / Runtime, runs, sessions and **Reset Sessions**
 - [Issues](/guides/day-to-day/issues/): creating tasks, statuses and reviewers
 - [Execution policy](/guides/power/execution-policy/): how review and approval stages route work

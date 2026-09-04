@@ -60,5 +60,5 @@ Limitations: public web only, and only the two actions the public server exposes
 
 ## Sources
 
-- [Exa definition](https://github.com/paperclipai/paperclip/blob/8de28c12e4c77b5fe0089ddeaf9ea18d216344c9/packages/shared/src/app-definitions/exa.json) — method label, server, and guidance.
-- [Permission review](https://github.com/paperclipai/paperclip/blob/8de28c12e4c77b5fe0089ddeaf9ea18d216344c9/doc/connections/tool-method-permission-reviews.json) — the two public actions and what is excluded.
+- [Exa definition](https://github.com/thinkingmach/paperclip/blob/8de28c12e4c77b5fe0089ddeaf9ea18d216344c9/packages/shared/src/app-definitions/exa.json) — method label, server, and guidance.
+- [Permission review](https://github.com/thinkingmach/paperclip/blob/8de28c12e4c77b5fe0089ddeaf9ea18d216344c9/doc/connections/tool-method-permission-reviews.json) — the two public actions and what is excluded.

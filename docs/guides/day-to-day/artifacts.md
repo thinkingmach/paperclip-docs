@@ -14,7 +14,7 @@ Think of it as your company's shelf of finished and in-progress work product. If
 
 ## What counts as an artifact
 
-An artifact is something an agent produced in the course of doing work. Paperclip pulls three kinds of output into the Artifacts page and presents them as one unified list:
+An artifact is something an agent produced in the course of doing work. ThinkingMach pulls three kinds of output into the Artifacts page and presents them as one unified list:
 
 - **Documents** — keyed documents an agent wrote or revised on an issue (for example a plan, a brief, or a report). System-managed documents are filtered out, so you only see the real deliverables.
 - **Attachments** — files attached directly to an issue, whether by an agent or by a person: images, PDFs, videos, CSVs, JSON, and so on.
@@ -106,7 +106,7 @@ A few details worth knowing:
 
 The tab is a quick answer to "what came out of this task?" It's also where you add files of your own. See [Uploading files to a task](#uploading-files-to-a-task). You can't delete outputs from it.
 
-Implementation reference: [artifact cards](https://github.com/paperclipai/paperclip/blob/a6306ba606eb87c89b9ef0344e9fe8e0025580f9/ui/src/components/artifacts/IssueArtifactCard.tsx), [CSV preview limits](https://github.com/paperclipai/paperclip/blob/a6306ba606eb87c89b9ef0344e9fe8e0025580f9/ui/src/lib/artifact-card-data.ts), and [media gallery](https://github.com/paperclipai/paperclip/blob/a6306ba606eb87c89b9ef0344e9fe8e0025580f9/ui/src/components/ImageGalleryModal.tsx).
+Implementation reference: [artifact cards](https://github.com/thinkingmach/paperclip/blob/a6306ba606eb87c89b9ef0344e9fe8e0025580f9/ui/src/components/artifacts/IssueArtifactCard.tsx), [CSV preview limits](https://github.com/thinkingmach/paperclip/blob/a6306ba606eb87c89b9ef0344e9fe8e0025580f9/ui/src/lib/artifact-card-data.ts), and [media gallery](https://github.com/thinkingmach/paperclip/blob/a6306ba606eb87c89b9ef0344e9fe8e0025580f9/ui/src/components/ImageGalleryModal.tsx).
 
 > **Note:** if your instance has switched back to the old layout with **Classic Task Interface** (under **Legacy** in **Settings → Experimental**), there's no Artifacts tab — a task's attachments stay in the **Attachments** section on the task page. See [Experimental features](../../experimental/overview.md).
 
@@ -137,17 +137,17 @@ This is separate from the **Preview data** button on a CSV card in the Artifacts
 
 ### HTML reports
 
-Agents often deliver reports as a single HTML file with charts, tables, or filters. HTML attachments and workspace `.html` / `.htm` files open rendered, so you can use the report right inside Paperclip. Switch to **Raw** to read the source, and download to get the original file.
+Agents often deliver reports as a single HTML file with charts, tables, or filters. HTML attachments and workspace `.html` / `.htm` files open rendered, so you can use the report right inside ThinkingMach. Switch to **Raw** to read the source, and download to get the original file.
 
-The report runs in a locked-down sandbox. Its scripts can drive the page itself, but they can't read your Paperclip session, cookies, or storage, and they can't touch the rest of the app. Network requests, remote scripts, styles, images, and fonts, forms, pop-ups, and navigating away are all blocked. So a report has to be self-contained: inline its scripts and styles, and embed images and fonts as `data:` URLs. A report that loads a charting library from a CDN won't work until that library is embedded.
+The report runs in a locked-down sandbox. Its scripts can drive the page itself, but they can't read your ThinkingMach session, cookies, or storage, and they can't touch the rest of the app. Network requests, remote scripts, styles, images, and fonts, forms, pop-ups, and navigating away are all blocked. So a report has to be self-contained: inline its scripts and styles, and embed images and fonts as `data:` URLs. A report that loads a charting library from a CDN won't work until that library is embedded.
 
-Implementation reference: [upload controls](https://github.com/paperclipai/paperclip/blob/8de28c12e4c77b5fe0089ddeaf9ea18d216344c9/ui/src/components/artifacts/ArtifactUploadControls.tsx), [CSV table](https://github.com/paperclipai/paperclip/blob/8de28c12e4c77b5fe0089ddeaf9ea18d216344c9/ui/src/components/CsvPreview.tsx), and [HTML sandbox policy](https://github.com/paperclipai/paperclip/blob/8de28c12e4c77b5fe0089ddeaf9ea18d216344c9/ui/src/lib/html-preview.ts).
+Implementation reference: [upload controls](https://github.com/thinkingmach/paperclip/blob/8de28c12e4c77b5fe0089ddeaf9ea18d216344c9/ui/src/components/artifacts/ArtifactUploadControls.tsx), [CSV table](https://github.com/thinkingmach/paperclip/blob/8de28c12e4c77b5fe0089ddeaf9ea18d216344c9/ui/src/components/CsvPreview.tsx), and [HTML sandbox policy](https://github.com/thinkingmach/paperclip/blob/8de28c12e4c77b5fe0089ddeaf9ea18d216344c9/ui/src/lib/html-preview.ts).
 
 ---
 
 ## Reading a file in the in-app viewer
 
-When an agent's writing links a real file from an issue's workspace, you can read it without downloading anything. Click the file chip or link and Paperclip opens an **in-app file viewer** — a slide-over sheet that loads the file's contents right there in the app.
+When an agent's writing links a real file from an issue's workspace, you can read it without downloading anything. Click the file chip or link and ThinkingMach opens an **in-app file viewer** — a slide-over sheet that loads the file's contents right there in the app.
 
 What you see depends on the file type:
 
@@ -163,7 +163,7 @@ A few files can't be previewed, and the viewer tells you plainly why instead of 
 
 ## Inline file links in agent writing
 
-Agents don't only attach files — they also *mention* them. When an agent references a workspace file in its markdown or a comment, Paperclip turns that reference into a clickable **file chip** instead of leaving it as plain text. Click the chip and the same in-app file viewer opens to that exact file.
+Agents don't only attach files — they also *mention* them. When an agent references a workspace file in its markdown or a comment, ThinkingMach turns that reference into a clickable **file chip** instead of leaving it as plain text. Click the chip and the same in-app file viewer opens to that exact file.
 
 This works for paths written inside inline code, including ones that point at a specific spot in the file. All of these become chips:
 
@@ -210,9 +210,9 @@ Each document carries a small **comment count chip** in its header showing how m
 
 ### Highlights that survive edits
 
-Comments stay pinned to the text they're about, even as the document keeps changing underneath them. Paperclip re-anchors each highlight as agents revise the document, so a note you left yesterday still points at the right passage today. An anchor that's holding firmly is **active**.
+Comments stay pinned to the text they're about, even as the document keeps changing underneath them. ThinkingMach re-anchors each highlight as agents revise the document, so a note you left yesterday still points at the right passage today. An anchor that's holding firmly is **active**.
 
-When the underlying text shifts enough that Paperclip is no longer certain, the anchor degrades gracefully rather than pointing at the wrong words. A highlight whose text has moved or changed is flagged **stale** (its highlight is muted and marked as needing review), and if the anchored passage disappears entirely the thread becomes **orphaned** — its conversation is preserved in the panel, it just no longer has a span to sit on. Either way you keep the discussion; you never lose a comment because the document moved on.
+When the underlying text shifts enough that ThinkingMach is no longer certain, the anchor degrades gracefully rather than pointing at the wrong words. A highlight whose text has moved or changed is flagged **stale** (its highlight is muted and marked as needing review), and if the anchored passage disappears entirely the thread becomes **orphaned** — its conversation is preserved in the panel, it just no longer has a span to sit on. Either way you keep the discussion; you never lose a comment because the document moved on.
 
 ### Share a single comment
 
@@ -222,7 +222,7 @@ Every comment is addressable. Open a thread and use **Copy link** to grab a deep
 
 ## The Artifacts V1 presentation (experimental)
 
-Paperclip is trying out a refreshed look for artifacts across the three places you meet them: the **Artifacts** page, a task's **Artifacts** tab, and the task thread. It's off by default, and everything else on this page describes the default look. To try it, an instance admin opens **Settings → Experimental** and turns on **Artifacts V1**. See [Experimental features](../../experimental/overview.md).
+ThinkingMach is trying out a refreshed look for artifacts across the three places you meet them: the **Artifacts** page, a task's **Artifacts** tab, and the task thread. It's off by default, and everything else on this page describes the default look. To try it, an instance admin opens **Settings → Experimental** and turns on **Artifacts V1**. See [Experimental features](../../experimental/overview.md).
 
 It changes how artifacts look, not what they are. Your artifacts, search, and links stay the same, and turning the setting off brings the current cards straight back.
 

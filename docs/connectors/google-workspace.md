@@ -6,7 +6,7 @@ seo_description: Connect Gmail, Drive, and Calendar with one Google account, cho
 
 # Google Workspace
 
-> **Warning:** **Google verification pending.** Paperclip has not yet completed Google app verification. You may see an unverified-app warning during authorization. If Google offers an **Advanced** option to continue to Paperclip, you can choose to proceed after reviewing the requested access. This option is not available for every account; Workspace administrator restrictions and other Google access requirements still apply. Contact [support@paperclip.ing](mailto:support@paperclip.ing) if you cannot connect.
+> **Warning:** **Google verification pending.** ThinkingMach has not yet completed Google app verification. You may see an unverified-app warning during authorization. If Google offers an **Advanced** option to continue to ThinkingMach, you can choose to proceed after reviewing the requested access. This option is not available for every account; Workspace administrator restrictions and other Google access requirements still apply. Contact [support@thinkingmach.com](mailto:support@thinkingmach.com) if you cannot connect.
 
 One Google account, one connection, and you choose which services it covers. Before you sign in, you pick Gmail, Drive (which includes Docs, Sheets, and Slides), and Calendar, and decide for each one whether agents can only read or can also make changes. Agents then get only the actions for the services you picked and Google actually granted.
 
@@ -27,11 +27,11 @@ Some things are only on the older connectors. Google Workspace does not offer Go
 
 - A Google Workspace account that can already open the mail, files, and calendars you want agents to use.
 - Developer Preview registration for that account, confirmed by Google.
-- If your instance is not enrolled with Paperclip Cloud, your own Google OAuth client. [Set up your own Google OAuth app](google-setup.md) is the complete procedure; enable the APIs listed there for each service you plan to select.
+- If your instance is not enrolled with ThinkingMach Cloud, your own Google OAuth client. [Set up your own Google OAuth app](google-setup.md) is the complete procedure; enable the APIs listed there for each service you plan to select.
 
 ## Choose services and access
 
-When you start the connection, Paperclip opens a **Connect Google Workspace** picker before it sends you to Google. Each service has a switch and an access menu:
+When you start the connection, ThinkingMach opens a **Connect Google Workspace** picker before it sends you to Google. Each service has a switch and an access menu:
 
 | Service | What it covers | Access choices |
 | --- | --- | --- |
@@ -39,9 +39,9 @@ When you start the connection, Paperclip opens a **Connect Google Workspace** pi
 | **Drive** | Drive files, plus Docs, Sheets, and Slides | **Read only** or **Read & write** |
 | **Calendar** | Your calendars and events | **Read only** or **Read & write** |
 
-All three start switched on with **Read & write**. Switch a service off to leave it out entirely, or set it to **Read only**. You need at least one service on to continue. If you select **Cancel**, Paperclip creates nothing and remembers your choices for the next try.
+All three start switched on with **Read & write**. Switch a service off to leave it out entirely, or set it to **Read only**. You need at least one service on to continue. If you select **Cancel**, ThinkingMach creates nothing and remembers your choices for the next try.
 
-Your picks decide what Paperclip asks Google for:
+Your picks decide what ThinkingMach asks Google for:
 
 | Service | **Read only** requests | **Read & write** requests |
 | --- | --- | --- |
@@ -55,7 +55,7 @@ A service you switch off is not requested at all, and nothing it would have unlo
 
 1. Open **Connectors** and select **Google Workspace**.
 2. Read the access line above the main button. It says who the connection signs in as and which agents can use it. Google Workspace connects as you or as an organization identity. To change the identity, narrow the agents, or pick another sign-in method, select **Change**.
-3. Choose how to sign in. Paperclip uses the Paperclip-managed sign-in when your instance offers it, and you have nothing to set up in Google Cloud. To use your own Google OAuth app instead, pick it under **Change** and supply the client ID and secret from [Set up your own Google OAuth app](google-setup.md).
+3. Choose how to sign in. ThinkingMach uses the ThinkingMach-managed sign-in when your instance offers it, and you have nothing to set up in Google Cloud. To use your own Google OAuth app instead, pick it under **Change** and supply the client ID and secret from [Set up your own Google OAuth app](google-setup.md).
 4. Start the connection. The service picker opens; choose services and access, then select **Continue**.
 5. Complete Google's consent screen with the registered Workspace account.
 
@@ -79,19 +79,19 @@ A few things worth knowing:
 - **Gmail never sends.** Google's `gmail.compose` scope would allow sending, but sending is not on the reviewed list, so agents can only leave drafts for a person to send. Archiving, trashing, and other label changes are not available here either.
 - **Drive creates and copies, but does not edit arbitrary files.** The `drive.file` scope only reaches files the app created or opened. To change content inside a document, spreadsheet, or deck, agents use the Docs, Sheets, and Slides actions. Deleting, moving, and re-sharing files are not available.
 - **Calendar writes include deleting.** `delete_event` comes with **Read & write** access, so give it **Ask first** or switch it **Off** if you do not want agents removing events.
-- **Anything new stays off.** If Google adds a tool to its servers, it is not enabled until Paperclip reviews it.
+- **Anything new stays off.** If Google adds a tool to its servers, it is not enabled until ThinkingMach reviews it.
 
 ## When you decline part of Google's consent
 
-Google's consent screen can let you untick individual permissions. Paperclip only enables actions backed by permissions Google reports as granted, and never more than you chose in the picker. If you decline one, only the actions that need it are disabled; everything else keeps working.
+Google's consent screen can let you untick individual permissions. ThinkingMach only enables actions backed by permissions Google reports as granted, and never more than you chose in the picker. If you decline one, only the actions that need it are disabled; everything else keeps working.
 
 For example, if you leave Drive and Calendar on but decline Docs editing on Google's screen, Drive and Calendar work as chosen while the Docs actions stay unavailable. Under **Read & write**, one permission covers both reading and editing for Docs, Sheets, Slides, and Calendar events, so declining it removes that service's reads as well as its writes. If you want an agent to read but not change something, choose **Read only** in the picker rather than declining at Google.
 
 An agent that calls an action you have not granted gets *"This Google action needs a permission you have not granted. Reconnect Google Workspace to change access."*
 
-The same limit applies the other way. If your Google account already granted Paperclip broader access in the past, the connection still stops at what you picked this time.
+The same limit applies the other way. If your Google account already granted ThinkingMach broader access in the past, the connection still stops at what you picked this time.
 
-**Reconnect** signs you in again with the access you saved. It does not open the picker, so you cannot widen or narrow access there. If Paperclip cannot find your saved choices, it stops rather than falling back to the defaults, so a reconnect never quietly asks for more than you had.
+**Reconnect** signs you in again with the access you saved. It does not open the picker, so you cannot widen or narrow access there. If ThinkingMach cannot find your saved choices, it stops rather than falling back to the defaults, so a reconnect never quietly asks for more than you had.
 
 To change access, select **Add account** on the **Google Workspace** row in **Connectors**, make your choices in the picker, and complete Google's consent. That creates a new connection, so set its actions on the **Permissions** tab, then remove the old connection.
 
@@ -110,8 +110,8 @@ Expect your next event, which you can confirm in Google Calendar. This checks th
 | Problem | Likely cause | Fix |
 | --- | --- | --- |
 | Google refuses before the consent screen | Developer Preview registration is incomplete for the account or Cloud project | Finish registration and retry |
-| The Paperclip-managed sign-in is not offered | The instance is not enrolled with Paperclip Cloud, or Cloud is not offering the Google Workspace profile | Use your own Google OAuth app, or ask an administrator about enrollment |
-| A new Paperclip-managed Google Workspace sign-in is rejected | New Google Workspace requests rely on an updated Paperclip-hosted OAuth broker, and an older broker may reject them | Try again later, or use your own Google OAuth app. Existing single-service Google connections keep working |
+| The ThinkingMach-managed sign-in is not offered | The instance is not enrolled with ThinkingMach Cloud, or Cloud is not offering the Google Workspace profile | Use your own Google OAuth app, or ask an administrator about enrollment |
+| A new ThinkingMach-managed Google Workspace sign-in is rejected | New Google Workspace requests rely on an updated ThinkingMach-hosted OAuth broker, and an older broker may reject them | Try again later, or use your own Google OAuth app. Existing single-service Google connections keep working |
 | **Continue** is greyed out in the picker | Every service is switched off | Switch on at least one service |
 | A whole service's actions are missing | The service was switched off in the picker, or you declined its permissions at Google | Select **Add account** on the **Google Workspace** row, switch the service on, approve it at Google, then remove the old connection |
 | Read actions work but write actions are missing | The service is on **Read only** | Select **Add account** on the **Google Workspace** row, choose **Read & write**, approve the new permissions at Google, then remove the old connection |

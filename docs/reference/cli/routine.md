@@ -6,9 +6,9 @@ seo_description: Manage recurring and event-driven work: the payload a routine s
 
 # Routine Commands
 
-Routines are Paperclip's recurring and event-driven work. A routine carries a payload describing the work to spawn, a status, a revision history, and one or more triggers — schedules, webhooks, or public API endpoints — that fire it. Reach for these commands when you want your AI to set up automation that runs on its own (a nightly summary, a webhook that turns inbound events into tasks), inspect what a routine has done, or pause everything in an emergency. The singular `routine` group talks to the control-plane REST API; the plural `routines` group is a local database-maintenance escape hatch.
+Routines are ThinkingMach's recurring and event-driven work. A routine carries a payload describing the work to spawn, a status, a revision history, and one or more triggers — schedules, webhooks, or public API endpoints — that fire it. Reach for these commands when you want your AI to set up automation that runs on its own (a nightly summary, a webhook that turns inbound events into tasks), inspect what a routine has done, or pause everything in an emergency. The singular `routine` group talks to the control-plane REST API; the plural `routines` group is a local database-maintenance escape hatch.
 
-> **Note:** Like every other work object in Paperclip, the actual work a routine produces runs server-side. These commands create, configure, fire, and observe routines through the API — they do not execute the work themselves. See [What Runs Where](../../guides/welcome/key-concepts.md).
+> **Note:** Like every other work object in ThinkingMach, the actual work a routine produces runs server-side. These commands create, configure, fire, and observe routines through the API — they do not execute the work themselves. See [What Runs Where](../../guides/welcome/key-concepts.md).
 
 ---
 
@@ -21,7 +21,7 @@ There are two groups here, and they are not interchangeable.
 | `routine` (singular) | The control-plane REST API | Day-to-day: list, create, update, fire, and inspect routines and their triggers. |
 | `routines` (plural) | The configured local database directly | Local maintenance only — pausing every routine in one company on a local instance. |
 
-The `routine` commands take the standard client flags (`--api-base`, `--api-key`, `--context`, `--profile`, `--json`, and `--data-dir`). The single `routines disable-all` command does not go through the API at all — it opens the local Paperclip database and flips routine statuses in place.
+The `routine` commands take the standard client flags (`--api-base`, `--api-key`, `--context`, `--profile`, `--json`, and `--data-dir`). The single `routines disable-all` command does not go through the API at all — it opens the local ThinkingMach database and flips routine statuses in place.
 
 ---
 
@@ -30,8 +30,8 @@ The `routine` commands take the standard client flags (`--api-base`, `--api-key`
 List the routines in a company. Company-scoped, so it needs a company id.
 
 ```sh
-paperclipai routine list --company-id <company-id>
-paperclipai routine list --company-id <company-id> --project-id <project-id>
+thinkingmach routine list --company-id <company-id>
+thinkingmach routine list --company-id <company-id> --project-id <project-id>
 ```
 
 | Flag | Use |
@@ -46,7 +46,7 @@ paperclipai routine list --company-id <company-id> --project-id <project-id>
 Fetch one routine by id, including its current payload, status, and triggers.
 
 ```sh
-paperclipai routine get <routine-id>
+thinkingmach routine get <routine-id>
 ```
 
 ---
@@ -56,7 +56,7 @@ paperclipai routine get <routine-id>
 Create a routine in a company. The routine definition is supplied as a JSON payload, which keeps the CLI in lockstep with the API schema — anything the API accepts, you can send.
 
 ```sh
-paperclipai routine create --company-id <company-id> --payload-json '{
+thinkingmach routine create --company-id <company-id> --payload-json '{
   "name": "Nightly status digest",
   "description": "Summarize the day's closed issues",
   "status": "active"
@@ -77,7 +77,7 @@ paperclipai routine create --company-id <company-id> --payload-json '{
 Patch an existing routine. Send only the fields you want to change as a JSON payload — this is a partial update against the same schema `create` uses, so it is how you pause a routine (`{"status":"paused"}`), rename it, or rewrite its payload.
 
 ```sh
-paperclipai routine update <routine-id> --payload-json '{"status": "paused"}'
+thinkingmach routine update <routine-id> --payload-json '{"status": "paused"}'
 ```
 
 | Flag | Use |
@@ -97,7 +97,7 @@ Routine edits are versioned. Each `update` (and each trigger change that the ser
 List the revision history for a routine, newest first.
 
 ```sh
-paperclipai routine revisions <routine-id>
+thinkingmach routine revisions <routine-id>
 ```
 
 ### `routine revision:restore`
@@ -105,7 +105,7 @@ paperclipai routine revisions <routine-id>
 Restore a prior revision. This does not rewind history — it makes the chosen revision the current definition by creating a new latest revision from it, so the rollback is itself auditable.
 
 ```sh
-paperclipai routine revision:restore <routine-id> <revision-id>
+thinkingmach routine revision:restore <routine-id> <revision-id>
 ```
 
 Both arguments are positional: the routine id first, then the revision id you pulled from `routine revisions`.
@@ -121,8 +121,8 @@ A routine *run* is one firing of the routine — what the schedule, webhook, or 
 List the recent runs for a routine. Use this to confirm a schedule is actually firing, or to debug why a webhook produced nothing.
 
 ```sh
-paperclipai routine runs <routine-id>
-paperclipai routine runs <routine-id> --limit 50
+thinkingmach routine runs <routine-id>
+thinkingmach routine runs <routine-id> --limit 50
 ```
 
 | Flag | Use |
@@ -134,8 +134,8 @@ paperclipai routine runs <routine-id> --limit 50
 Fire a routine immediately, regardless of its schedule. The optional payload is merged into the run as input — useful for testing, for one-off invocations, or for kicking a routine that is configured but not yet on a schedule.
 
 ```sh
-paperclipai routine run <routine-id>
-paperclipai routine run <routine-id> --payload-json '{"reason": "manual smoke test"}'
+thinkingmach routine run <routine-id>
+thinkingmach routine run <routine-id> --payload-json '{"reason": "manual smoke test"}'
 ```
 
 | Flag | Use |
@@ -153,7 +153,7 @@ Triggers are what cause a routine to run. A routine can have several. There are 
 | Trigger kind | Fires the routine when… | Notes |
 |---|---|---|
 | `schedule` | A cron/recurrence schedule is due. | The standard "run nightly / hourly / weekly" trigger. Its behavior under overlap and missed windows is governed by concurrency and catch-up. |
-| `webhook` | An external system POSTs to the trigger's webhook URL. | Carries a secret you can rotate. Use it to turn inbound events into Paperclip work. |
+| `webhook` | An external system POSTs to the trigger's webhook URL. | Carries a secret you can rotate. Use it to turn inbound events into ThinkingMach work. |
 | `api` (public) | A caller fires its public endpoint by `publicId`. | Fired with `routine trigger:fire`; the public id is shareable without exposing the routine id. |
 
 The exact shape of a trigger (its kind, schedule expression, webhook config, concurrency policy, and catch-up policy) is set through the JSON payload on `trigger:create` and `trigger:update`. The CLI passes that payload straight to the API, so the trigger schema is the source of truth for the available fields.
@@ -172,7 +172,7 @@ Decide these deliberately. A digest that aggregates "since last run" usually wan
 Attach a new trigger to a routine. The routine id is the argument; the trigger definition is the payload.
 
 ```sh
-paperclipai routine trigger:create <routine-id> --payload-json '{
+thinkingmach routine trigger:create <routine-id> --payload-json '{
   "kind": "schedule",
   "schedule": "0 7 * * *"
 }'
@@ -187,7 +187,7 @@ paperclipai routine trigger:create <routine-id> --payload-json '{
 Patch an existing trigger. The argument here is the *trigger* id, not the routine id. Use it to change a schedule, adjust concurrency or catch-up, or enable/disable the trigger.
 
 ```sh
-paperclipai routine trigger:update <trigger-id> --payload-json '{"schedule": "0 */2 * * *"}'
+thinkingmach routine trigger:update <trigger-id> --payload-json '{"schedule": "0 */2 * * *"}'
 ```
 
 | Flag | Use |
@@ -199,7 +199,7 @@ paperclipai routine trigger:update <trigger-id> --payload-json '{"schedule": "0 
 Remove a trigger from its routine.
 
 ```sh
-paperclipai routine trigger:delete <trigger-id>
+thinkingmach routine trigger:delete <trigger-id>
 ```
 
 ### `routine trigger:rotate-secret`
@@ -207,7 +207,7 @@ paperclipai routine trigger:delete <trigger-id>
 Rotate the secret on a webhook trigger. Do this if a secret leaks or on a regular rotation schedule. The old secret stops working once rotated, so update the caller that posts to the webhook in the same change.
 
 ```sh
-paperclipai routine trigger:rotate-secret <trigger-id>
+thinkingmach routine trigger:rotate-secret <trigger-id>
 ```
 
 ### `routine trigger:fire`
@@ -215,8 +215,8 @@ paperclipai routine trigger:rotate-secret <trigger-id>
 Fire a public (`api`) trigger by its `publicId`. This is the endpoint you hand to an external caller — it is keyed by the public id, not the routine id, so it can be shared without revealing internal ids.
 
 ```sh
-paperclipai routine trigger:fire <public-id>
-paperclipai routine trigger:fire <public-id> --payload-json '{"event": "deploy.finished"}'
+thinkingmach routine trigger:fire <public-id>
+thinkingmach routine trigger:fire <public-id> --payload-json '{"event": "deploy.finished"}'
 ```
 
 | Flag | Use |
@@ -227,18 +227,18 @@ paperclipai routine trigger:fire <public-id> --payload-json '{"event": "deploy.f
 
 ## `routines disable-all`
 
-This is the local maintenance command — the "stop everything" switch. It pauses every non-archived routine in one company by writing directly to the configured local Paperclip database, without going through the API. Reach for it when a local instance is misbehaving and you want all scheduled and webhook-driven work to stop firing immediately.
+This is the local maintenance command — the "stop everything" switch. It pauses every non-archived routine in one company by writing directly to the configured local ThinkingMach database, without going through the API. Reach for it when a local instance is misbehaving and you want all scheduled and webhook-driven work to stop firing immediately.
 
 ```sh
-paperclipai routines disable-all --company-id <company-id>
-paperclipai routines disable-all --company-id <company-id> --json
+thinkingmach routines disable-all --company-id <company-id>
+thinkingmach routines disable-all --company-id <company-id> --json
 ```
 
 | Flag | Use |
 |---|---|
-| `-C, --company-id <id>` | Company whose routines to pause. Required (falls back to `PAPERCLIP_COMPANY_ID`). |
-| `-c, --config <path>` | Path to the Paperclip config file, if not the default. |
-| `-d, --data-dir <path>` | Paperclip data directory root, to isolate state from `~/.paperclip`. |
+| `-C, --company-id <id>` | Company whose routines to pause. Required (falls back to `THINKINGMACH_COMPANY_ID`). |
+| `-c, --config <path>` | Path to the ThinkingMach config file, if not the default. |
+| `-d, --data-dir <path>` | ThinkingMach data directory root, to isolate state from `~/.paperclip`. |
 | `--json` | Output the raw result object instead of a human summary. |
 
 What it does, precisely:

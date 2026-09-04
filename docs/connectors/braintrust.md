@@ -14,11 +14,11 @@ The connection uses Braintrust's hosted MCP server. Every method is read and wri
 
 ## Before you connect
 
-- **Know your organization's region.** Braintrust hosts data in the US or the EU, and Paperclip offers a separate pair of methods for each. Pick the region your organization's data lives in. Switching regions will not fix a credential error.
-- **Pick how to sign in.** Browser sign-in uses your Braintrust account and needs nothing set up first. For an API key, create one in Braintrust under **Settings → API keys**. A separate key for Paperclip is easiest to remove later.
+- **Know your organization's region.** Braintrust hosts data in the US or the EU, and ThinkingMach offers a separate pair of methods for each. Pick the region your organization's data lives in. Switching regions will not fix a credential error.
+- **Pick how to sign in.** Browser sign-in uses your Braintrust account and needs nothing set up first. For an API key, create one in Braintrust under **Settings → API keys**. A separate key for ThinkingMach is easiest to remove later.
 - **Decide which agents should see the data.** Traces and datasets often hold prompts, model outputs, and customer content.
 
-Access always follows the Braintrust account or key you connect. Paperclip cannot widen or narrow those permissions, and it does not add a project boundary of its own: a project named in an agent's request is not a limit.
+Access always follows the Braintrust account or key you connect. ThinkingMach cannot widen or narrow those permissions, and it does not add a project boundary of its own: a project named in an agent's request is not a limit.
 
 Running a self-hosted Braintrust? Use [Custom MCP servers](custom-mcp-servers.md) with your deployment's MCP address instead.
 
@@ -35,19 +35,19 @@ Running a self-hosted Braintrust? Use [Custom MCP servers](custom-mcp-servers.md
    | **Sign in with Braintrust (EU)** | EU | Browser sign-in |
    | **Use a Braintrust API key (EU)** | EU | API key |
 
-4. Before you sign in, Paperclip shows a summary of what the connection can do, including the costs, permanent deletes, and automation risks covered below. Read it.
-5. Complete browser sign-in, or paste your API key. For browser sign-in, Paperclip registers its client with Braintrust automatically, so there is nothing to set up in a developer console.
+4. Before you sign in, ThinkingMach shows a summary of what the connection can do, including the costs, permanent deletes, and automation risks covered below. Read it.
+5. Complete browser sign-in, or paste your API key. For browser sign-in, ThinkingMach registers its client with Braintrust automatically, so there is nothing to set up in a developer console.
 6. Finish setup and open **Permissions** to review the action list.
 
-Paperclip stores the key or sign-in as a secret and sends it to Braintrust on each call. Agents never see it.
+ThinkingMach stores the key or sign-in as a secret and sends it to Braintrust on each call. Agents never see it.
 
 ## Choose access
 
-Paperclip classifies every Braintrust action by name, using a list it reviewed against Braintrust's tool reference:
+ThinkingMach classifies every Braintrust action by name, using a list it reviewed against Braintrust's tool reference:
 
 - **Reads**: SQL queries, schema and experiment summaries, object and trace lookups, monitoring charts and views, documentation search, and loading a Braintrust skill.
 - **Destructive**: `edit_dataset_rows`, because one action can insert, replace, or permanently delete rows, and `set_automation_status`, because turning an automation on can apply data retention or send data elsewhere.
-- **Writes**: everything else, including evaluations, evaluator and scorer tests, dataset additions, dashboards, alerts, and Topics processing. Any action Paperclip has not reviewed is also treated as a write.
+- **Writes**: everything else, including evaluations, evaluator and scorer tests, dataset additions, dashboards, alerts, and Topics processing. Any action ThinkingMach has not reviewed is also treated as a write.
 
 A Braintrust annotation can raise an action's risk but never lowers a reviewed one.
 
@@ -72,7 +72,7 @@ Compare the answer with Braintrust's own view of the same organization.
 
 ## Disconnect
 
-Removing the connection in Paperclip clears its stored credentials and stops agents using it. If you used an API key, also deactivate the key in Braintrust so copies elsewhere stop working. Braintrust does not publish a way for Paperclip to revoke a browser sign-in on its side, so removing the connection does not cancel that sign-in in Braintrust. See [Reauthorize, revoke, or disconnect](reauthorize-and-disconnect.md).
+Removing the connection in ThinkingMach clears its stored credentials and stops agents using it. If you used an API key, also deactivate the key in Braintrust so copies elsewhere stop working. Braintrust does not publish a way for ThinkingMach to revoke a browser sign-in on its side, so removing the connection does not cancel that sign-in in Braintrust. See [Reauthorize, revoke, or disconnect](reauthorize-and-disconnect.md).
 
 ## Troubleshooting and limitations
 
@@ -84,7 +84,7 @@ Removing the connection in Paperclip clears its stored credentials and stops age
 | An agent is waiting on an action | It is set to **Ask first** | Approve or decline it — see [Answer a connector review request](review-requests.md) |
 | A new action is not available | Changed actions are held for review | Select **Refresh actions** on **Permissions** and review the new entries |
 
-Limitations: one region per connection. Paperclip has no project filter for Braintrust. This connector does not send Paperclip's own traces to Braintrust.
+Limitations: one region per connection. ThinkingMach has no project filter for Braintrust. This connector does not send ThinkingMach's own traces to Braintrust.
 
 ## Related guides
 
@@ -96,5 +96,5 @@ Limitations: one region per connection. Paperclip has no project filter for Brai
 
 ## Sources
 
-- [Braintrust definition](https://github.com/paperclipai/paperclip/blob/043f2514e67c50320433a0013fb228a75a51325c/packages/shared/src/app-definitions/braintrust.json) — methods, regions, endpoints, key placement, and warnings.
-- [Braintrust risk rules](https://github.com/paperclipai/paperclip/blob/043f2514e67c50320433a0013fb228a75a51325c/server/src/services/connectors/braintrust/risk.ts) and [connector policy registry](https://github.com/paperclipai/paperclip/blob/043f2514e67c50320433a0013fb228a75a51325c/server/src/services/connectors/tool-policy.ts) — reviewed reads, destructive actions, write default, and held-back changed actions.
+- [Braintrust definition](https://github.com/thinkingmach/paperclip/blob/043f2514e67c50320433a0013fb228a75a51325c/packages/shared/src/app-definitions/braintrust.json) — methods, regions, endpoints, key placement, and warnings.
+- [Braintrust risk rules](https://github.com/thinkingmach/paperclip/blob/043f2514e67c50320433a0013fb228a75a51325c/server/src/services/connectors/braintrust/risk.ts) and [connector policy registry](https://github.com/thinkingmach/paperclip/blob/043f2514e67c50320433a0013fb228a75a51325c/server/src/services/connectors/tool-policy.ts) — reviewed reads, destructive actions, write default, and held-back changed actions.

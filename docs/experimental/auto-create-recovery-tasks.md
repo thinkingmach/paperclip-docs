@@ -6,11 +6,11 @@ seo_description: Dependency chains die quietly behind paused agents, missing rev
 
 # Auto-Create Recovery Tasks
 
-> **Removed in this release.** The **Auto-Create Recovery Tasks** card is gone from **Settings → Experimental** in v2026.1012.0, along with its **Preview** and **Run now** actions and the API behind them. Paperclip still runs its built-in dependency wake backstop, but it no longer creates recovery tasks through this setting. The rest of this page describes the feature as it worked on older builds.
+> **Removed in this release.** The **Auto-Create Recovery Tasks** card is gone from **Settings → Experimental** in v2026.1012.0, along with its **Preview** and **Run now** actions and the API behind them. ThinkingMach still runs its built-in dependency wake backstop, but it no longer creates recovery tasks through this setting. The rest of this page describes the feature as it worked on older builds.
 
 A task dependency chain can die quietly: a blocker assigned to a paused agent, an `in_review` issue whose reviewer no longer exists, work still blocked by a cancelled task. Nothing is scheduled to wake anyone, so downstream work waits forever.
 
-Paperclip's liveness detection finds those dead chains on every scheduler heartbeat. With **Auto-Create Recovery Tasks** on, it goes one step further: for each stalled chain with recent activity, it creates a high-priority **recovery task** — *"Unblock liveness incident for PAP-1234"* — assigns it to the most appropriate available agent, and wires it in as a blocker so the original work resumes automatically once the incident is resolved.
+ThinkingMach's liveness detection finds those dead chains on every scheduler heartbeat. With **Auto-Create Recovery Tasks** on, it goes one step further: for each stalled chain with recent activity, it creates a high-priority **recovery task** — *"Unblock liveness incident for PAP-1234"* — assigns it to the most appropriate available agent, and wires it in as a blocker so the original work resumes automatically once the incident is resolved.
 
 ## How you turned it on (older builds)
 
@@ -18,7 +18,7 @@ On builds before v2026.1012.0, this is how the setting worked:
 
 1. You went to **Settings → Experimental** and found the **Auto-Create Recovery Tasks** card — *"Let the heartbeat scheduler create recovery tasks for task dependency chains found inside the configured lookback window."*
 2. You set **Lookback hours** (1–720, default 24). Only chains whose dependency path saw activity inside this window got recovery tasks — older, abandoned graphs were left untouched.
-3. You flipped the toggle. Before enabling, Paperclip showed a **Confirm auto-recovery** preview: every recovery task that would be created right then, each with the stuck issue, the detected state, the reason, and the recovery target. You chose **Enable only** (turn it on without acting on current findings) or **Enable and create N** (turn it on and create them immediately).
+3. You flipped the toggle. Before enabling, ThinkingMach showed a **Confirm auto-recovery** preview: every recovery task that would be created right then, each with the stuck issue, the detected state, the reason, and the recovery target. You chose **Enable only** (turn it on without acting on current findings) or **Enable and create N** (turn it on and create them immediately).
 
 The card also had stand-alone **Preview** and **Run now** buttons, so you could inspect findings any time or trigger a sweep on demand, and **Save hours** to adjust the window later. The footer confirmed the active window: *"Current window: last N hours."*
 

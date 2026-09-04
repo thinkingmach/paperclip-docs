@@ -6,9 +6,9 @@ seo_description: Turn a request into a plan an executor can run: a child task gr
 
 # Task Planning
 
-> Turn a Paperclip issue or request into a structured implementation plan with child task graph, blockers, owners, and acceptance criteria, then save it as the issue `plan` document.
+> Turn a ThinkingMach issue or request into a structured implementation plan with child task graph, blockers, owners, and acceptance criteria, then save it as the issue `plan` document.
 
-Turn a Paperclip issue or request into an implementation plan the executor can actually run: a child task graph, real blockers, named owners, and a defined acceptance bar — saved as the issue `plan` document. Avoid plans that read well but can't be split into work.
+Turn a ThinkingMach issue or request into an implementation plan the executor can actually run: a child task graph, real blockers, named owners, and a defined acceptance bar — saved as the issue `plan` document. Avoid plans that read well but can't be split into work.
 
 This is a **bundled** catalog skill — part of the bundled baseline kit. For how to install, audit, update, assign, and reset catalog skills, see the [Skills reference](../../../skills.md#3-app-shipped-catalog).
 
@@ -29,8 +29,8 @@ This is a **bundled** catalog skill — part of the bundled baseline kit. For ho
 
 | Field | Value |
 |---|---|
-| Catalog id | `paperclipai:bundled:paperclip-operations:task-planning` |
-| Canonical key | `paperclipai/bundled/paperclip-operations/task-planning` |
+| Catalog id | `thinkingmach:bundled:paperclip-operations:task-planning` |
+| Canonical key | `thinkingmach/bundled/paperclip-operations/task-planning` |
 | Catalog path | `catalog/bundled/paperclip-operations/task-planning` |
 | Kind | `bundled` |
 | Category | `paperclip-operations` |
@@ -44,7 +44,7 @@ This is a **bundled** catalog skill — part of the bundled baseline kit. For ho
 | Tags | `paperclip`, `planning`, `issues`, `delegation` |
 | Files | 1 |
 | Content hash | `sha256:487c3116eead89fef4f71c984329c41836bd69951b7ef9ed8736c69435e02438` |
-| Package | `@paperclipai/skills-catalog@0.3.1` |
+| Package | `@thinkingmach/skills-catalog@0.3.1` |
 
 ## File inventory
 
@@ -59,8 +59,8 @@ The block below is the complete, authoritative `SKILL.md` for this skill — the
 ````markdown skill-source
 ---
 name: task-planning
-description: Turn a Paperclip issue or request into a structured implementation plan with child task graph, blockers, owners, and acceptance criteria, then save it as the issue `plan` document.
-key: paperclipai/bundled/paperclip-operations/task-planning
+description: Turn a ThinkingMach issue or request into a structured implementation plan with child task graph, blockers, owners, and acceptance criteria, then save it as the issue `plan` document.
+key: thinkingmach/bundled/paperclip-operations/task-planning
 recommendedForRoles:
   - manager
   - engineer
@@ -74,7 +74,7 @@ tags:
 
 # Task Planning
 
-Produce implementation plans that the Paperclip executor can actually run: explicit child issues, real blockers, named owners, and a defined acceptance bar. Avoid plans that read well but cannot be split into work.
+Produce implementation plans that the ThinkingMach executor can actually run: explicit child issues, real blockers, named owners, and a defined acceptance bar. Avoid plans that read well but cannot be split into work.
 
 ## When to use
 
@@ -125,14 +125,14 @@ Required sections, in order:
 
 ## Filing the plan
 
-Use the Paperclip API to write the plan document, then comment:
+Use the ThinkingMach API to write the plan document, then comment:
 
 - `PUT /api/issues/{issueId}/documents/plan` with the markdown body. If `plan` already exists, include the latest `baseRevisionId`.
 - `POST /api/issues/{issueId}/comments` with a short summary that links the plan: `/<prefix>/issues/<issue-id>#document-plan`.
 - If approval is required: `POST /api/issues/{issueId}/interactions` with `kind: request_confirmation`, `targetRevisionId` set to the new plan revision, `continuationPolicy: wake_assignee`, and `idempotencyKey: "confirmation:{issueId}:plan:{revisionId}"`.
 - Set the issue to `in_review` after creating the confirmation. Stay assigned so the acceptance wakes the planner.
 
-When the plan is accepted, see the companion skill for converting accepted plans into Paperclip executable tasks. Key requirements covered there: produce a compact task matrix (task, owner, initial status, blockers); encode every hard dependency as `blockedByIssueIds` — parent/child nesting alone does not block execution; and verify the created issue graph before closing the source planning issue.
+When the plan is accepted, see the companion skill for converting accepted plans into ThinkingMach executable tasks. Key requirements covered there: produce a compact task matrix (task, owner, initial status, blockers); encode every hard dependency as `blockedByIssueIds` — parent/child nesting alone does not block execution; and verify the created issue graph before closing the source planning issue.
 
 ## Anti-patterns
 

@@ -27,8 +27,8 @@ This is an **optional** catalog skill — opt-in (install when you need it). For
 
 | Field | Value |
 |---|---|
-| Catalog id | `paperclipai:optional:content:release-announcement` |
-| Canonical key | `paperclipai/optional/content/release-announcement` |
+| Catalog id | `thinkingmach:optional:content:release-announcement` |
+| Canonical key | `thinkingmach/optional/content/release-announcement` |
 | Catalog path | `catalog/optional/content/release-announcement` |
 | Kind | `optional` |
 | Category | `content` |
@@ -42,7 +42,7 @@ This is an **optional** catalog skill — opt-in (install when you need it). For
 | Tags | `release`, `changelog`, `announcement`, `communication` |
 | Files | 1 |
 | Content hash | `sha256:f22a9ed696e6614c6db2757a149f48b3295e81f78c27d065d9cb164cf4f8a9bd` |
-| Package | `@paperclipai/skills-catalog@0.3.1` |
+| Package | `@thinkingmach/skills-catalog@0.3.1` |
 
 ## File inventory
 
@@ -58,7 +58,7 @@ The block below is the complete, authoritative `SKILL.md` for this skill — the
 ---
 name: release-announcement
 description: Write a release announcement — changelog, blog post, in-app note, or social post — that leads with user impact, names the audience, and includes upgrade/migration steps without filler.
-key: paperclipai/optional/content/release-announcement
+key: thinkingmach/optional/content/release-announcement
 recommendedForRoles:
   - devrel
   - product

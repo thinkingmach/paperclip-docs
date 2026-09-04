@@ -6,13 +6,13 @@ seo_description: Let agents read, create, and update Linear issues. Browser sign
 
 # Linear
 
-Agents can read Linear issues, create new ones, and update existing ones — useful for keeping engineering work in Linear while agents do the work in Paperclip.
+Agents can read Linear issues, create new ones, and update existing ones — useful for keeping engineering work in Linear while agents do the work in ThinkingMach.
 
 ## Before you connect
 
 - A Linear account with access to the workspace and teams you want agents to use.
 
-That is all for browser sign-in. Paperclip registers its own OAuth client with Linear's MCP server when you connect, so there is no app to create in Linear's developer settings.
+That is all for browser sign-in. ThinkingMach registers its own OAuth client with Linear's MCP server when you connect, so there is no app to create in Linear's developer settings.
 
 ## Connect Linear
 
@@ -20,9 +20,9 @@ That is all for browser sign-in. Paperclip registers its own OAuth client with L
 2. Read the access line above the main button. It says who the connection signs in as and which agents can use it. To pick a different identity or narrow the agents, select **Change**.
 3. Select **Continue to sign in**, sign in as the account whose access the connection should have, and approve access.
 
-Paperclip asks Linear for the `read` and `write` scopes, so agents can read issues and also create and update them. Which of those actions an agent may actually run is still your call on the **Permissions** tab.
+ThinkingMach asks Linear for the `read` and `write` scopes, so agents can read issues and also create and update them. Which of those actions an agent may actually run is still your call on the **Permissions** tab.
 
-Sign-in needs your Paperclip address to be HTTPS, or a local `localhost` address.
+Sign-in needs your ThinkingMach address to be HTTPS, or a local `localhost` address.
 
 ### Use an API key instead
 
@@ -41,7 +41,7 @@ A key restricted to **Read** permission works, and it is the simplest way to get
 
 Reach is whatever the authorizing Linear account has. That usually means every team and project that person can see, because Linear workspaces are commonly open internally.
 
-> **Note:** There is no team or project picker in Paperclip. Fields describing workspace, team, and project scope exist in the connector's definition, but they do not narrow what an agent can reach — the limit is the authorizing account's own access in Linear. If an agent should only touch one team's issues, authorize with an account restricted to that team, or rely on action settings and clear instructions rather than assuming a resource filter.
+> **Note:** There is no team or project picker in ThinkingMach. Fields describing workspace, team, and project scope exist in the connector's definition, but they do not narrow what an agent can reach — the limit is the authorizing account's own access in Linear. If an agent should only touch one team's issues, authorize with an account restricted to that team, or rely on action settings and clear instructions rather than assuming a resource filter.
 
 Issue creation and updates are writes. Leave them on **Ask first** while you are learning how an agent behaves — an agent that files issues enthusiastically is noisy for the whole team. Reads can stay **Allowed**. See [Set action permissions](action-permissions.md).
 
@@ -63,17 +63,17 @@ Compare against the issue in Linear. A read of a known issue confirms the creden
 | --- | --- | --- |
 | Authorization does not finish | The Linear window was closed, or consent was declined | Return to the connection and try again; your setup is kept |
 | An issue cannot be found | The authorizing account cannot see that team or project | Grant access in Linear; no reconnect needed |
-| The agent reaches more teams than expected | Reach follows the authorizing account, not a Paperclip filter | Authorize with a more limited account |
+| The agent reaches more teams than expected | Reach follows the authorizing account, not a ThinkingMach filter | Authorize with a more limited account |
 | Agent-created issues look like they came from a person | The connection uses a personal identity | Use a dedicated agent account |
-| Sign-in will not start on a self-hosted instance | Paperclip is served over plain HTTP on a non-local address | Serve Paperclip over HTTPS, or use **Use an API key** |
+| Sign-in will not start on a self-hosted instance | ThinkingMach is served over plain HTTP on a non-local address | Serve ThinkingMach over HTTPS, or use **Use an API key** |
 | A write fails with a permission error on a key connection | The API key has **Read** permission only | Expected for a read-only key; set the write actions to **Off** |
 | **Needs attention** | The grant was revoked in Linear, or the API key was deleted | Select **Reconnect** |
 
-Limitations: one workspace per connection. No team or project restriction inside Paperclip. Linear's own rate limits apply.
+Limitations: one workspace per connection. No team or project restriction inside ThinkingMach. Linear's own rate limits apply.
 
 ## Related guides
 
-- [Connector overview](https://paperclip.ing/product/connectors/linear/)
+- [Connector overview](https://thinkingmach.com/product/connectors/linear/)
 
 - [Jira](jira.md), [Asana](asana.md), [Todoist](todoist.md) — other work tracking connectors.
 - [Use separate accounts for people and agents](separate-accounts.md)

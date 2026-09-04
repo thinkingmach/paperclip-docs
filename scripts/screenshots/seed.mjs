@@ -1,5 +1,5 @@
 /**
- * seed.mjs — create a rich, realistic demo dataset on a running Paperclip
+ * seed.mjs — create a rich, realistic demo dataset on a running ThinkingMach
  * instance so the screenshot pipeline captures a company that looks genuinely
  * in-use rather than a blank demo.
  *
@@ -801,9 +801,9 @@ export default async function seed({ baseUrl = BASE_URL } = {}) {
       const finance = [
         { eventKind: "inference_charge", biller: "Anthropic", amountCents: 18_400, direction: "debit" },
         { eventKind: "inference_charge", biller: "OpenAI", amountCents: 9_250, direction: "debit" },
-        { eventKind: "platform_fee", biller: "Paperclip", amountCents: 4_900, direction: "debit" },
+        { eventKind: "platform_fee", biller: "ThinkingMach", amountCents: 4_900, direction: "debit" },
         { eventKind: "credit_purchase", biller: "Anthropic", amountCents: 50_000, direction: "credit" },
-        { eventKind: "log_storage_charge", biller: "Paperclip", amountCents: 1_200, direction: "debit" },
+        { eventKind: "log_storage_charge", biller: "ThinkingMach", amountCents: 1_200, direction: "debit" },
       ];
       let financeEvents = 0;
       for (let i = 0; i < finance.length; i++) {
@@ -939,7 +939,7 @@ export default async function seed({ baseUrl = BASE_URL } = {}) {
       icon: "terminal",
       adapterType: "claude_local",
       adapterConfig: {
-        // No maxTurnsPerRun: claude_local defaults to Paperclip Runner since
+        // No maxTurnsPerRun: claude_local defaults to ThinkingMach Runner since
         // v2026.1106.0, which rejects it with a 422 ("cannot honor these settings").
         model: "claude-sonnet-5-5",
         timeoutSec: 1800,
@@ -1062,7 +1062,7 @@ export default async function seed({ baseUrl = BASE_URL } = {}) {
         {
           title: "Adopt upstream sandbox proxy fix",
           description:
-            "Upstream shipped the fix in https://github.com/paperclipai/paperclip/pull/8512 — verify it covers our case, tracked upstream in https://github.com/paperclipai/paperclip/issues/4419.",
+            "Upstream shipped the fix in https://github.com/thinkingmach/paperclip/pull/8512 — verify it covers our case, tracked upstream in https://github.com/thinkingmach/paperclip/issues/4419.",
           status: "in_progress",
           priority: "medium",
           assigneeAgentId: workerAgentId ?? undefined,
@@ -1406,7 +1406,7 @@ export default async function seed({ baseUrl = BASE_URL } = {}) {
   let pluginId = null;
   await step("resolve plugin id", async () => {
     const plugins = asList(await get("/api/plugins", baseUrl));
-    const pick = plugins.find((pl) => (pl.pluginKey ?? pl.key) === "paperclipai.plugin-llm-wiki")
+    const pick = plugins.find((pl) => (pl.pluginKey ?? pl.key) === "thinkingmach.plugin-llm-wiki")
       ?? plugins.find((pl) => /wiki/i.test(pl.displayName ?? pl.name ?? ""))
       ?? plugins[0];
     pluginId = pick?.id ?? null;
@@ -1581,7 +1581,7 @@ export default async function seed({ baseUrl = BASE_URL } = {}) {
  *
  * Why this exists: the demo agents are `process` adapters that echo a line and
  * exit. They complete *successfully* without declaring what happened to the
- * issue they were woken for, and Paperclip treats a successful run with no
+ * issue they were woken for, and ThinkingMach treats a successful run with no
  * disposition as work that stalled — it moves the issue to `blocked` and posts
  * a "Successful run missing issue disposition" notice into the thread
  * (server/src/services/issues.ts, heartbeat.ts). That is right for a real agent

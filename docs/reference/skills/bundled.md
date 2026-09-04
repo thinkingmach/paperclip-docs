@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.618.0
 seo_title: Bundled Skills Catalog
-seo_description: Catalog entries shipping with Paperclip's baseline kit — versioned with the app, browseable through the catalog API, installable into any company.
+seo_description: Catalog entries shipping with ThinkingMach's baseline kit — versioned with the app, browseable through the catalog API, installable into any company.
 ---
 
 # Bundled Skills
 
-Bundled skills are catalog entries that ship with Paperclip's baseline kit. They are versioned with the app, browseable through the catalog API, and installable into a company when a team needs that operating pattern.
+Bundled skills are catalog entries that ship with ThinkingMach's baseline kit. They are versioned with the app, browseable through the catalog API, and installable into a company when a team needs that operating pattern.
 
 For the catalog mechanics, start with the [Skills reference](../skills.md#3-app-shipped-catalog). For optional add-ons, see the [Optional skills](./optional.md) index.
 
@@ -14,11 +14,11 @@ For the catalog mechanics, start with the [Skills reference](../skills.md#3-app-
 
 - [Doc Maintenance](./bundled/docs/doc-maintenance.md) — keep project documentation aligned with recent code and feature changes.
 
-## Paperclip operations
+## ThinkingMach operations
 
-- [Issue Triage](./bundled/paperclip-operations/issue-triage.md) — classify stale, blocked, in-review, or stalled Paperclip issues and choose the next action.
-- [Status Card Query](./bundled/paperclip-operations/status-card-query.md) — author Paperclip status cards, and compile a card's prose prompt into bounded search queries and its first summary.
-- [Task Planning](./bundled/paperclip-operations/task-planning.md) — turn approved plans into Paperclip issues with ownership, dependencies, and acceptance criteria.
+- [Issue Triage](./bundled/paperclip-operations/issue-triage.md) — classify stale, blocked, in-review, or stalled ThinkingMach issues and choose the next action.
+- [Status Card Query](./bundled/paperclip-operations/status-card-query.md) — author ThinkingMach status cards, and compile a card's prose prompt into bounded search queries and its first summary.
+- [Task Planning](./bundled/paperclip-operations/task-planning.md) — turn approved plans into ThinkingMach issues with ownership, dependencies, and acceptance criteria.
 
 ## Product
 

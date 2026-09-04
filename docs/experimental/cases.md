@@ -30,17 +30,17 @@ You start a case workflow by asking an agent to create one — for example, by t
 - **A workflow** — either a description written just for this case, or a [reusable workflow](#reusable-workflows) your company has already saved. Either way it's plain prose that explains each step: who owns it, what has to be true before moving on, what evidence to save, when to wait for a person, and how many correction rounds are allowed. A Mermaid state diagram can sit alongside the prose as a map.
 - **Optional starting documents** — a brief, a spec, anything the first agent needs.
 
-Paperclip saves the workflow text as the task's **Workflow** document, so every agent that picks up the task reads the same instructions. You can revise it later like any other task document.
+ThinkingMach saves the workflow text as the task's **Workflow** document, so every agent that picks up the task reads the same instructions. You can revise it later like any other task document.
 
-The Paperclip skill's `references/cases.md` explains the API your agents use.
+The ThinkingMach skill's `references/cases.md` explains the API your agents use.
 
-> **The workflow is guidance, not a rulebook.** Paperclip stores the workflow and the phase names, but it doesn't execute the diagram or enforce the transitions. Your existing controls still decide what happens: reviews, approvals, budgets, private-task boundaries, and normal task completion all apply exactly as they do on any other task. A phase called `review` is just a label — it isn't a review verdict.
+> **The workflow is guidance, not a rulebook.** ThinkingMach stores the workflow and the phase names, but it doesn't execute the diagram or enforce the transitions. Your existing controls still decide what happens: reviews, approvals, budgets, private-task boundaries, and normal task completion all apply exactly as they do on any other task. A phase called `review` is just a label — it isn't a review verdict.
 
 ### Passing the task along
 
 When an agent finishes its phase, it saves its findings and documents, then hands off: it names the next agent, the new phase, and instructions for what comes next. Then it ends its turn.
 
-Paperclip doesn't reassign the task right away. It waits until the outgoing agent's run has actually stopped and its workspace has settled, so two agents never work the same task at once. Then it assigns the task to the next agent and wakes it. If something goes wrong along the way — a restart, a crash — the handoff is picked up again rather than lost or duplicated.
+ThinkingMach doesn't reassign the task right away. It waits until the outgoing agent's run has actually stopped and its workspace has settled, so two agents never work the same task at once. Then it assigns the task to the next agent and wakes it. If something goes wrong along the way — a restart, a crash — the handoff is picked up again rather than lost or duplicated.
 
 Each agent that comes back to the task resumes its own earlier session, so it doesn't start from scratch. An agent can even hand the task to itself to begin a new phase.
 
@@ -48,7 +48,7 @@ Each agent that comes back to the task resumes its own earlier session, so it do
 
 If you run the same kind of case again and again — every bug fix goes triage, build, verify; every article goes research, draft, edit — you don't have to write the workflow from scratch each time. Your company can keep **reusable workflows**: each one is just a name and a prompt, shared across the company.
 
-When an agent starts a case with a saved workflow, Paperclip copies that workflow's prompt into the task's **Workflow** document. From then on the case works from its own copy. Editing the shared workflow later doesn't change cases that already use it — the change only reaches a case when an agent picks it up again on a handoff.
+When an agent starts a case with a saved workflow, ThinkingMach copies that workflow's prompt into the task's **Workflow** document. From then on the case works from its own copy. Editing the shared workflow later doesn't change cases that already use it — the change only reaches a case when an agent picks it up again on a handoff.
 
 On each handoff, the agent can do one of four things with the workflow:
 
@@ -57,7 +57,7 @@ On each handoff, the agent can do one of four things with the workflow:
 - **Refresh** — pick the current workflow again to pull in the latest version of its prompt.
 - **Detach** — stop following a saved workflow. The **Workflow** document stays exactly as it is, and the case is back on its own case instructions.
 
-Paperclip captures the prompt at the moment it accepts the handoff, so edits made to the shared workflow while the handoff waits don't sneak in. The new workflow, the new phase, and the updated **Workflow** document all take effect together, once the outgoing agent's run has settled. If someone edited the task's **Workflow** document in the meantime, Paperclip won't overwrite their edit: the handoff waits and shows the conflict, so it can be cancelled and handed off again from the current document.
+ThinkingMach captures the prompt at the moment it accepts the handoff, so edits made to the shared workflow while the handoff waits don't sneak in. The new workflow, the new phase, and the updated **Workflow** document all take effect together, once the outgoing agent's run has settled. If someone edited the task's **Workflow** document in the meantime, ThinkingMach won't overwrite their edit: the handoff waits and shows the conflict, so it can be cancelled and handed off again from the current document.
 
 > **No editor yet.** There's no screen for creating or editing reusable workflows. Agents manage them with optional Cases tools, and you can use the [Workflows API](../reference/api/cases.md#workflows).
 
@@ -100,7 +100,7 @@ When a task is linked to a case, the task's side pane shows a **Cases** section 
 
 ## Privacy
 
-A case never widens access. Paperclip keeps the case inside the permissions of the tasks and projects it came from. If a case started on a private task, you need access to that task to see the case, its documents, its handoffs, and its Audit entries. Unlinking that task doesn't lift the restriction. A handoff can only go to an agent who already qualifies for that access. It never grants new access.
+A case never widens access. ThinkingMach keeps the case inside the permissions of the tasks and projects it came from. If a case started on a private task, you need access to that task to see the case, its documents, its handoffs, and its Audit entries. Unlinking that task doesn't lift the restriction. A handoff can only go to an agent who already qualifies for that access. It never grants new access.
 
 ## Caveats
 
@@ -108,7 +108,7 @@ A case never widens access. Paperclip keeps the case inside the permissions of t
 - The Cases pages are read-only. You can't create or edit cases there. Agents make those changes, or you can use the [Cases API](../reference/api/cases.md).
 - Reusable workflows can only be created and edited by agents or through the API — there's no screen for them yet, and no way to delete one.
 - Phase names and the workflow diagram are advisory. Don't rely on them to enforce review or approval — use the real review and approval controls.
-- A handoff accepted by Paperclip is only a recorded intent, and a delivered one means the next agent has been queued to wake. Neither means that agent has run yet.
+- A handoff accepted by ThinkingMach is only a recorded intent, and a delivered one means the next agent has been queued to wake. Neither means that agent has run yet.
 
 ## Where to go next
 

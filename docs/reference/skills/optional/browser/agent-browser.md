@@ -29,8 +29,8 @@ This is an **optional** catalog skill — opt-in (install when you need it). For
 
 | Field | Value |
 |---|---|
-| Catalog id | `paperclipai:optional:browser:agent-browser` |
-| Canonical key | `paperclipai/optional/browser/agent-browser` |
+| Catalog id | `thinkingmach:optional:browser:agent-browser` |
+| Canonical key | `thinkingmach/optional/browser/agent-browser` |
 | Catalog path | `catalog/optional/browser/agent-browser` |
 | Kind | `optional` |
 | Category | `browser` |
@@ -44,7 +44,7 @@ This is an **optional** catalog skill — opt-in (install when you need it). For
 | Tags | `browser`, `puppeteer`, `playwright`, `verification` |
 | Files | 1 |
 | Content hash | `sha256:eabb2c9f7b5e1a27ebb1e05a711d61433a266478154cd671a685e99e67aadea2` |
-| Package | `@paperclipai/skills-catalog@0.3.1` |
+| Package | `@thinkingmach/skills-catalog@0.3.1` |
 
 ## File inventory
 
@@ -60,7 +60,7 @@ The block below is the complete, authoritative `SKILL.md` for this skill — the
 ---
 name: agent-browser
 description: Drive a real browser to inspect or interact with a web page or app — navigate, take screenshots, read console and network, fill simple forms — for verification tasks, not unattended automation.
-key: paperclipai/optional/browser/agent-browser
+key: thinkingmach/optional/browser/agent-browser
 recommendedForRoles:
   - qa
   - engineer

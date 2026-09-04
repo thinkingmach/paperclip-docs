@@ -8,7 +8,7 @@ seo_description: Agents decide what to do; the tool gateway decides whether they
 
 Your agents are good at deciding *what* to do. The **tool gateway** is what decides whether they are allowed to actually do it. It sits between an agent and every external tool you have connected — a Model Context Protocol (MCP) server, a spreadsheet, an internal HTTP service — and brokers each call: it looks up who is asking, checks the tool-access policy, and then allows the call, blocks it, asks a human first, or defers it to a runtime that isn't ready yet. Everything it decides lands in an audit trail you can read back.
 
-Around that broker sit the pieces you configure. **Applications** and **connections** are the things you connect to. A **catalog** is the list of tools a connection actually offers. A **profile** is a named bundle of "these tools are in scope", which you **bind** to a company, an agent, a project, a routine, an issue, or a gateway. **Policies** are the rules layered on top — block this, rate-limit that, ask a person before this one. And a **named MCP gateway** is a front door you can hand to an outside MCP client, so that client speaks plain MCP while Paperclip quietly applies all of the above.
+Around that broker sit the pieces you configure. **Applications** and **connections** are the things you connect to. A **catalog** is the list of tools a connection actually offers. A **profile** is a named bundle of "these tools are in scope", which you **bind** to a company, an agent, a project, a routine, an issue, or a gateway. **Policies** are the rules layered on top — block this, rate-limit that, ask a person before this one. And a **named MCP gateway** is a front door you can hand to an outside MCP client, so that client speaks plain MCP while ThinkingMach quietly applies all of the above.
 
 Every route below is company-scoped, and company access is checked on every request. If you are new to the API, read the [API Overview](./overview.md) first for base URL, authentication, and error-code conventions; this page builds on those and won't repeat them.
 
@@ -40,7 +40,7 @@ An **application** is the thing you are connecting to, and a **connection** is o
 
 ### Catalog entries
 
-Refreshing a connection pulls in its **catalog** — one entry per tool the connection offers, with the tool's `name`, `description`, `inputSchema`, and a `riskLevel`. Risk levels come from a fixed set: `low`, `medium`, `high`, `critical`, `read`, `write`, `destructive`. Each entry also carries a `versionHash` and a `schemaHash`, which is how Paperclip notices that a tool you previously trusted has quietly changed shape.
+Refreshing a connection pulls in its **catalog** — one entry per tool the connection offers, with the tool's `name`, `description`, `inputSchema`, and a `riskLevel`. Risk levels come from a fixed set: `low`, `medium`, `high`, `critical`, `read`, `write`, `destructive`. Each entry also carries a `versionHash` and a `schemaHash`, which is how ThinkingMach notices that a tool you previously trusted has quietly changed shape.
 
 ### Profiles, entries, and bindings
 
@@ -60,14 +60,14 @@ Conditions come in named groups — `arguments`, `actor`, `context`, `risk`, `cr
 
 ### Explicit tool grants
 
-Besides profiles and policies, an agent or a person can hold a stored `tools:use` permission grant. When no policy has already decided a call, Paperclip checks those grants before it looks at profiles, and a matching grant allows the call with reason `allow_explicit_grant`.
+Besides profiles and policies, an agent or a person can hold a stored `tools:use` permission grant. When no policy has already decided a call, ThinkingMach checks those grants before it looks at profiles, and a matching grant allows the call with reason `allow_explicit_grant`.
 
 A grant's `scope` decides what it covers, and it is enforced exactly as written:
 
 - A `null` or empty `{}` scope is a broad grant — it covers every tool.
 - An `allow` value (a single string or a list) must name the tool being called. Each entry is `tool:<name>` (the gateway name or the upstream tool name), `connection:<connectionId>`, or `application:<applicationId>`. If nothing in the list matches, the grant doesn't cover the call. An empty `allow` list, or one with a blank or non-string entry, covers nothing.
 - Any other keys narrow the grant further, and every one of them must match. The understood keys are `actorType`, `agentId`, `projectId`, `routineId`, `issueId`, `gatewayId`, `applicationId`, `connectionId`, `catalogEntryId`, `applicationKey`, `providerType`, `toolName`, and `riskLevel`, each as a non-empty string, or its plural form (`agentIds`, `toolNames`, and so on) as a non-empty list of strings.
-- A key Paperclip doesn't recognise, a value of the wrong type, or a scope that isn't an object makes the grant cover nothing.
+- A key ThinkingMach doesn't recognise, a value of the wrong type, or a scope that isn't an object makes the grant cover nothing.
 
 A grant that doesn't cover a call never widens into a broader allow. The call simply carries on to the profile check, and if no profile permits it either, it ends as `deny_default`. The same rules apply to discovery, so a tool outside the grant doesn't show up in the tool list. If an agent loses a tool it used before upgrading, check its grant's `scope` first.
 
@@ -79,7 +79,7 @@ Every brokered call ends in one of five decisions: `allow`, `deny`, `require_app
 
 ## Named MCP Gateways
 
-A named gateway is how you hand an outside MCP client — an editor, a desktop agent, another service — a single governed endpoint. The client authenticates with a bearer token you mint, asks for a tool list, and calls tools; Paperclip resolves the token to the gateway, applies the gateway's profile and your policies, and forwards only what is allowed.
+A named gateway is how you hand an outside MCP client — an editor, a desktop agent, another service — a single governed endpoint. The client authenticates with a bearer token you mint, asks for a tool list, and calls tools; ThinkingMach resolves the token to the gateway, applies the gateway's profile and your policies, and forwards only what is allowed.
 
 ### List gateways
 
@@ -115,7 +115,7 @@ An invalid payload comes back `422 Unprocessable Entity` as `{ "error": "Invalid
 The four config blocks are where a gateway's manners live, and each has a sensible default:
 
 - **`headerPolicy`** — whether caller headers pass through (`callerPassthrough`, off by default with an empty `allowedHeaders`), any `staticHeaders` you always attach, `generatedMetadata` headers, and which `responseHeaders` come back. By default it forwards MCP-required headers and safe cache headers.
-- **`metadataPolicy`** — which identifiers Paperclip is allowed to tell the upstream tool about: `forwardCompanyId`, `forwardGatewayId`, `forwardProjectId`, `forwardIssueId`, `forwardAgentId`, `forwardRunId`, and `forwardCorrelationId`. Only `forwardCorrelationId` is on by default, so nothing about your company leaks unless you say so.
+- **`metadataPolicy`** — which identifiers ThinkingMach is allowed to tell the upstream tool about: `forwardCompanyId`, `forwardGatewayId`, `forwardProjectId`, `forwardIssueId`, `forwardAgentId`, `forwardRunId`, and `forwardCorrelationId`. Only `forwardCorrelationId` is on by default, so nothing about your company leaks unless you say so.
 - **`authConfig`** — bearer-token behaviour. By default bearer auth is enabled with a `pcgw` token prefix, a 90-day default TTL, `requireFiniteExpiry` on, and `longLivedTokenRequiresOverride` on. OAuth is present but disabled.
 - **`onDemandToolsConfig`** — off by default. When enabled it exposes two meta-tools, `search_tools` and `run_tool`, instead of a long static list, which keeps a large catalog from flooding the client's context.
 
@@ -173,20 +173,20 @@ The `POST` speaks JSON-RPC. Authenticate with `Authorization: Bearer <gateway-to
 
 | Method | What happens |
 |---|---|
-| `initialize` | Returns `protocolVersion` `2025-03-26`, a `capabilities` block advertising `tools`, and `serverInfo` naming `Paperclip MCP Gateway`. |
+| `initialize` | Returns `protocolVersion` `2025-03-26`, a `capabilities` block advertising `tools`, and `serverInfo` naming `ThinkingMach MCP Gateway`. |
 | `notifications/initialized` | Acknowledged with `202 Accepted` and no body. |
 | `tools/list` | Returns the tools this gateway's profile allows, each with `name`, `title`, `description`, and `inputSchema`. |
 | `tools/call` | Runs a tool. Takes `params.name` and `params.arguments`; a missing name is a JSON-RPC error `-32602` with `params.name is required`. |
 
 Anything else returns `404` with JSON-RPC error `-32601`, `Method not found`. When a call is refused, the JSON-RPC `error` object carries a `data.reasonCode` so you can tell a policy block apart from a broken upstream.
 
-Paperclip limits how many tool listings run at once. When that limit is reached and the waiting queue is full too, `tools/list` returns `503 Service Unavailable` with JSON-RPC error `-32603`, the message `Tool discovery is busy. Retry shortly.`, and `data.reasonCode` `tool_discovery_busy`. Nothing is wrong with your gateway or token — wait a moment and list again.
+ThinkingMach limits how many tool listings run at once. When that limit is reached and the waiting queue is full too, `tools/list` returns `503 Service Unavailable` with JSON-RPC error `-32603`, the message `Tool discovery is busy. Retry shortly.`, and `data.reasonCode` `tool_discovery_busy`. Nothing is wrong with your gateway or token — wait a moment and list again.
 
 ---
 
 ## Agent Sessions
 
-Named gateways are for outside clients. An agent working inside Paperclip uses a **session** instead: a short-lived token scoped to one agent and one run.
+Named gateways are for outside clients. An agent working inside ThinkingMach uses a **session** instead: a short-lived token scoped to one agent and one run.
 
 ### Create a session
 
@@ -237,7 +237,7 @@ The call body takes:
 | `approvedActionRequestId` | no | The approval you are cashing in, when a previous attempt returned `require_approval`. |
 | `idempotencyKey` | no | Makes a retry safe — the same key won't run the tool twice. |
 
-If the provider rejects a saved OAuth token mid-call, Paperclip refreshes the token but does not replay your call. You get `409 Conflict` with the code `oauth_refreshed_retry_required` and *"The provider rejected the saved OAuth token, which has now been refreshed. Retry the action explicitly; the original call was not replayed."* Send the call again when you are sure repeating it is safe.
+If the provider rejects a saved OAuth token mid-call, ThinkingMach refreshes the token but does not replay your call. You get `409 Conflict` with the code `oauth_refreshed_retry_required` and *"The provider rejected the saved OAuth token, which has now been refreshed. Retry the action explicitly; the original call was not replayed."* Send the call again when you are sure repeating it is safe.
 
 ### An agent authorizing its own connection
 
@@ -250,7 +250,7 @@ POST /api/agents/me/connections/{connectionId}/token
 
 `start-authorization` kicks off an OAuth authorization and returns `{ "url": ... }` (plus a `handoff` block when one applies) — send the person to `url` to finish consent. Its body takes an optional `subjectUserId`, `scopes`, and `returnTo`.
 
-`token` mints a short-lived token the agent can present to the upstream service. It needs a run id, so a token without one is refused `401` with `{ "error": "Agent run id required", "code": "run_id_required" }`, and if you also send an `X-Paperclip-Run-Id` header it must match the token's run or you get `403` with `run_id_mismatch`. A successful mint returns `200` with `status` `minted` and the `token`, `tokenType`, `expiresAt`, `ttlSeconds`, `scope`, and `grantId`. If the connection is backed by static credentials rather than a broker, minting is refused with `409 Conflict` and `status` `use_env_lease` — the signal to reach the credential through an audited environment lease instead.
+`token` mints a short-lived token the agent can present to the upstream service. It needs a run id, so a token without one is refused `401` with `{ "error": "Agent run id required", "code": "run_id_required" }`, and if you also send an `X-ThinkingMach-Run-Id` header it must match the token's run or you get `403` with `run_id_mismatch`. A successful mint returns `200` with `status` `minted` and the `token`, `tokenType`, `expiresAt`, `ttlSeconds`, `scope`, and `grantId`. If the connection is backed by static credentials rather than a broker, minting is refused with `409 Conflict` and `status` `use_env_lease` — the signal to reach the credential through an audited environment lease instead.
 
 ---
 
@@ -282,13 +282,13 @@ A trust rule remembers the catalog `versionHash` and `schemaHash` it was created
 
 ## Redaction
 
-Paperclip never stores raw tool arguments. Before anything is written to the audit trail, values are summarized and scrubbed: keys that look like secrets (`api_key`, `authorization`, `password`, `token`, `client_secret`, and similar) are replaced with `[REDACTED]`, and so are values matching known credential shapes. Long strings are truncated, and long arrays are capped. What you get back is a `redactionPlan` with a `redactedFieldCount` and the list of `redactedFields`, plus a hash you can compare across calls without ever seeing the values.
+ThinkingMach never stores raw tool arguments. Before anything is written to the audit trail, values are summarized and scrubbed: keys that look like secrets (`api_key`, `authorization`, `password`, `token`, `client_secret`, and similar) are replaced with `[REDACTED]`, and so are values matching known credential shapes. Long strings are truncated, and long arrays are capped. What you get back is a `redactionPlan` with a `redactedFieldCount` and the list of `redactedFields`, plus a hash you can compare across calls without ever seeing the values.
 
 ---
 
 ## Runtime Slots
 
-A `local_stdio` connection runs a real process, and a **runtime slot** is Paperclip's handle on it — its status, health, last error, and idle deadline.
+A `local_stdio` connection runs a real process, and a **runtime slot** is ThinkingMach's handle on it — its status, health, last error, and idle deadline.
 
 ```
 GET  /api/tool-gateway/runtime-slots?companyId={companyId}
@@ -354,7 +354,7 @@ The underlying actions, if you need them, are `tool_gateway.session_created`, `s
 
 ## Wiring up an App
 
-The Apps surface is the friendly path to all of the above — pick something from a gallery, connect it, and let Paperclip generate a sensible profile and a set of ask-first rules for you.
+The Apps surface is the friendly path to all of the above — pick something from a gallery, connect it, and let ThinkingMach generate a sensible profile and a set of ask-first rules for you.
 
 ```
 GET  /api/companies/{companyId}/tools/gallery
@@ -364,7 +364,7 @@ POST /api/companies/{companyId}/tools/apps/{connectionId}/finish
 GET  /api/companies/{companyId}/tools/apps/attention
 ```
 
-`preflight` returns the metadata Paperclip needs to render the connect screen for a gallery app before you commit to it — pass an optional `methodKey` query to preview one specific auth method. `connect` creates the application, the connection, and the catalog in one step, and responds `201 Created`. If the app authenticates with OAuth, the response's `auth` block comes back with a `startUrl` you send the person to. `finish` then decides `access` and, from it, builds the profile, its entries, its bindings, and the ask-first policies — the response tells you how many of each it made.
+`preflight` returns the metadata ThinkingMach needs to render the connect screen for a gallery app before you commit to it — pass an optional `methodKey` query to preview one specific auth method. `connect` creates the application, the connection, and the catalog in one step, and responds `201 Created`. If the app authenticates with OAuth, the response's `auth` block comes back with a `startUrl` you send the person to. `finish` then decides `access` and, from it, builds the profile, its entries, its bindings, and the ask-first policies — the response tells you how many of each it made.
 
 The `attention` route is the one to poll on a dashboard: it lists apps that need a human — a broken health check, an expired credential, newly appeared tools nobody has reviewed.
 
@@ -375,7 +375,7 @@ POST /api/tools/oauth/{connectionId}/start
 GET  /api/tools/oauth/callback
 ```
 
-These need a public base URL configured; without one you get `422 Unprocessable Entity` with `OAuth connections require PAPERCLIP_PUBLIC_URL or an auth public base URL`.
+These need a public base URL configured; without one you get `422 Unprocessable Entity` with `OAuth connections require THINKINGMACH_PUBLIC_URL or an auth public base URL`.
 
 You can also start from a config file you already have:
 
@@ -469,7 +469,7 @@ GET /api/tool-connections/{connectionId}/usage?range={7d|30d}
 
 The old per-toolkit **services** routes under `/api/tool-connections/{connectionId}/services` are gone, along with the Composio broker they drove. Composio is now an ordinary remote MCP connection (see [Connect apps through an MCP aggregator](../../connectors/mcp-aggregators.md)).
 
-A connection saved under the old broker still exists, but Paperclip no longer runs it. It reads back with `healthStatus` `error`, its tools are left out of discovery, and a tool call, catalog refresh, reconnect, or OAuth start against it is refused with `422 Unprocessable Entity` and the code `composio_broker_retired`. The message tells you what to do:
+A connection saved under the old broker still exists, but ThinkingMach no longer runs it. It reads back with `healthStatus` `error`, its tools are left out of discovery, and a tool call, catalog refresh, reconnect, or OAuth start against it is refused with `422 Unprocessable Entity` and the code `composio_broker_retired`. The message tells you what to do:
 
 > *"This legacy Composio connection is no longer supported. Add a new Composio MCP connection from Connectors, then remove this connection. Existing credentials and permissions are not migrated."*
 

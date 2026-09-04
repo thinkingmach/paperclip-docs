@@ -52,7 +52,7 @@ A case also has these core fields:
 | `completedAt` | Set by the server when the status becomes `done` or `cancelled`, and cleared otherwise. |
 | `workIssueId` | The case's primary task, if it has one. Every handoff reuses this same task. Set by the handoff routes, not by create or update. |
 | `workflowId` | The [reusable workflow](#workflows) the case currently follows, or `null` when it runs on its own case instructions. Set by the handoff routes. |
-| `phase` | The current phase name, as set by the last applied handoff (for example `triage` or `verification`). A free-form label — Paperclip doesn't enforce phase order. |
+| `phase` | The current phase name, as set by the last applied handoff (for example `triage` or `verification`). A free-form label — ThinkingMach doesn't enforce phase order. |
 | `handoffVersion` | A counter that increases each time a handoff is accepted. Send it back as `expectedHandoffVersion` so a handoff fails cleanly if someone else routed the case first. |
 
 ### Status values
@@ -195,7 +195,7 @@ Notes:
 - Setting `status` to `done` or `cancelled` stamps `completedAt`; any other status clears it.
 - `projectId`, `parentCaseId`, and every label id are validated against the company; a mismatch returns `422 Unprocessable Entity` (e.g. `{ "error": "One or more labels do not belong to company" }`).
 - `phase`, `workIssueId`, and assignment aren't editable here — they change only through [case handoffs](#case-handoffs).
-- When an agent run writes to a case, the run must still own its task. A Paperclip Runner run whose task has moved on (for example, after it handed the task off) gets `403 Forbidden` with `{ "error": "The task is no longer writable by this run" }`. The same applies to document, annotation, and attachment writes.
+- When an agent run writes to a case, the run must still own its task. A ThinkingMach Runner run whose task has moved on (for example, after it handed the task off) gets `403 Forbidden` with `{ "error": "The task is no longer writable by this run" }`. The same applies to document, annotation, and attachment writes.
 - The update records a matching event on the case timeline — `status_changed`, `fields_changed`, `child_linked`, `label_added` / `label_removed`, or a generic `updated`.
 
 ---
@@ -376,7 +376,7 @@ Upload rules:
 
 - Exactly one file is accepted; the field name must be `file` (`{ "error": "Missing file field 'file'" }` otherwise).
 - Empty files are rejected with `422 Unprocessable Entity` (`{ "error": "Attachment is empty" }`).
-- Files larger than the deployment-level attachment size limit (`PAPERCLIP_ATTACHMENT_MAX_BYTES`) are rejected with `422 Unprocessable Entity` (`{ "error": "Attachment exceeds {n} bytes" }`). The default limit is 10 MiB. This cap is set per instance, not per company.
+- Files larger than the deployment-level attachment size limit (`THINKINGMACH_ATTACHMENT_MAX_BYTES`) are rejected with `422 Unprocessable Entity` (`{ "error": "Attachment exceeds {n} bytes" }`). The default limit is 10 MiB. This cap is set per instance, not per company.
 
 A successful upload responds `201 Created`, records an `attachment_added` event, and (for agent runs) auto-links the run's issue with role `work`.
 
@@ -428,9 +428,9 @@ Events are typed by `kind`:
 
 ## Case handoffs
 
-A handoff passes a case's primary task from one agent to the next — or to `done` to close the case. The task stays the same; only its assignee, the case `phase` (and `workflowId`, if the handoff [adopts a workflow](#adopting-a-workflow)), and the `handoffVersion` change. Agents on the Paperclip Runner use the native `create_case`, `read_case`, `update_case`, and `handoff_case` tools, which go through the same rules as these routes. (For reusable workflow definitions, see [Workflows](#workflows).)
+A handoff passes a case's primary task from one agent to the next — or to `done` to close the case. The task stays the same; only its assignee, the case `phase` (and `workflowId`, if the handoff [adopts a workflow](#adopting-a-workflow)), and the `handoffVersion` change. Agents on the ThinkingMach Runner use the native `create_case`, `read_case`, `update_case`, and `handoff_case` tools, which go through the same rules as these routes. (For reusable workflow definitions, see [Workflows](#workflows).)
 
-Handoffs are durable. Paperclip records the intent first, waits until the outgoing agent's run has stopped and its workspace has settled, then reassigns the task and queues the next agent's wake-up. A restart in the middle picks the handoff up again rather than losing or duplicating it. Only one handoff can be pending per case at a time.
+Handoffs are durable. ThinkingMach records the intent first, waits until the outgoing agent's run has stopped and its workspace has settled, then reassigns the task and queues the next agent's wake-up. A restart in the middle picks the handoff up again rather than losing or duplicating it. Only one handoff can be pending per case at a time.
 
 On the routes below, `{caseId}` must be the case UUID — the human-readable identifier isn't accepted here.
 
@@ -458,7 +458,7 @@ There are two shapes. An **agent handoff** sends the primary task to an agent:
 
 #### Adopting a workflow
 
-`workflowId` tells Paperclip what to do with the case's reusable workflow on this handoff:
+`workflowId` tells ThinkingMach what to do with the case's reusable workflow on this handoff:
 
 | Value | Effect |
 |---|---|
@@ -466,9 +466,9 @@ There are two shapes. An **agent handoff** sends the primary task to an agent:
 | a workflow ID | Adopt that workflow's latest prompt into the task's `workflow` document. Send the case's current `workflowId` to refresh it. |
 | `null` | Detach. The case's `workflowId` becomes `null`; the `workflow` document is kept as it is. |
 
-The prompt is captured when the handoff is accepted, together with the `workflow` document's current revision — later edits to the shared definition don't affect this handoff. The new workflow, the new `phase`, and the document revision are applied together when the handoff is applied, after the outgoing run settles. If the `workflow` document changed after acceptance, Paperclip doesn't overwrite it: the handoff moves to `cancelled` with `lastError` set to `Document was updated by someone else`, and the task, phase, and workflow stay as they were. Reload the case and hand off again.
+The prompt is captured when the handoff is accepted, together with the `workflow` document's current revision — later edits to the shared definition don't affect this handoff. The new workflow, the new `phase`, and the document revision are applied together when the handoff is applied, after the outgoing run settles. If the `workflow` document changed after acceptance, ThinkingMach doesn't overwrite it: the handoff moves to `cancelled` with `lastError` set to `Document was updated by someone else`, and the task, phase, and workflow stay as they were. Reload the case and hand off again.
 
-A **done handoff** asks Paperclip to close the case when its primary task completes:
+A **done handoff** asks ThinkingMach to close the case when its primary task completes:
 
 | Field | Required | Notes |
 |---|---|---|
@@ -557,7 +557,7 @@ A **workflow** is a reusable, company-shared set of case instructions: just a `n
 
 Like the rest of this page, these routes return `403` with `{ "error": "Cases are disabled" }` until `enableCases` is on. There's no UI for workflows yet, and no delete route.
 
-Agents on the Paperclip Runner manage workflows with four optional Cases tools: `list_workflows`, `read_workflow`, `create_workflow`, and `update_workflow`. They call the routes below.
+Agents on the ThinkingMach Runner manage workflows with four optional Cases tools: `list_workflows`, `read_workflow`, `create_workflow`, and `update_workflow`. They call the routes below.
 
 ### List Workflows
 

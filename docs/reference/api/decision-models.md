@@ -6,7 +6,7 @@ seo_description: Configure the shared OpenAI or OpenRouter connection that pays 
 
 # Decision Models
 
-Some optional Paperclip features ask a small, fast model a quick, structured question instead of waking a full agent — a yes/no probability, a pick from a short list, or a score on a scale. A **decision model** is the one shared API connection a company chooses to pay for those requests.
+Some optional ThinkingMach features ask a small, fast model a quick, structured question instead of waking a full agent — a yes/no probability, a pick from a short list, or a score on a scale. A **decision model** is the one shared API connection a company chooses to pay for those requests.
 
 Use this API to:
 
@@ -15,7 +15,7 @@ Use this API to:
 - run the fixed setup test, and
 - list recent requests with their cost.
 
-There's no general endpoint for asking your own questions — only Paperclip's built-in features send decision requests. In the app, all of this lives in the **Decision model** section of **Company Settings** and the **Decisions** view under **Audit → Costs**; see [Costs and Budgets](../../guides/day-to-day/costs.md#decisions).
+There's no general endpoint for asking your own questions — only ThinkingMach's built-in features send decision requests. In the app, all of this lives in the **Decision model** section of **Company Settings** and the **Decisions** view under **Audit → Costs**; see [Costs and Budgets](../../guides/day-to-day/costs.md#decisions).
 
 All paths are under `/api/companies/{companyId}/decision-model`. If you're new to the API, read the [API Overview](./overview.md) first for base URL, authentication, and error conventions.
 
@@ -88,7 +88,7 @@ The response has:
 
 You can't enable decisions without a connection — the request fails validation with `Select a connection before enabling decisions`. The response is the updated `settings` object.
 
-`allowBackground` starts **on** the first time a company is configured. Once you turn it off, it stays off — including when you change connections or leave the field out of a later update. Requests made with background sponsorship are attributed to **Paperclip services** rather than a person.
+`allowBackground` starts **on** the first time a company is configured. Once you turn it off, it stays off — including when you change connections or leave the field out of a later update. Requests made with background sponsorship are attributed to **ThinkingMach services** rather than a person.
 
 Setting `enabled` to `false` stops new requests. It doesn't cancel or erase requests already sent. If the selected connection is deleted, the settings are kept but requests are blocked until you pick another one.
 
@@ -155,7 +155,7 @@ Each entry has:
 - `status` and `errorCode`
 - `inputTokens`, `outputTokens`, `costCents`, `costStatus`
 
-The setup test appears with `feature: "settings.test"`. Paperclip doesn't keep the inputs, questions, answers, or raw provider responses — only this metadata.
+The setup test appears with `feature: "settings.test"`. ThinkingMach doesn't keep the inputs, questions, answers, or raw provider responses — only this metadata.
 
 ---
 
@@ -164,7 +164,7 @@ The setup test appears with `feature: "settings.test"`. Paperclip doesn't keep t
 Decision requests are ordinary spend:
 
 - Each one lands in the cost ledger and counts against the company budget, plus any agent and project budgets that apply to the work it ran for.
-- Requests with no agent show up as a `Paperclip services` row (`agentId: null`) in [`costs/by-agent`](./costs.md#breakdown-views).
+- Requests with no agent show up as a `ThinkingMach services` row (`agentId: null`) in [`costs/by-agent`](./costs.md#breakdown-views).
 - Costs are kept to a fraction of a cent. OpenRouter's reported cost is used as-is; OpenAI costs are estimated from a fixed rate. When there's no reliable price, the cost is unknown — never zero.
 
 ---

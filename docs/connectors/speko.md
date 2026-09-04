@@ -1,39 +1,39 @@
 ---
 paperclip_version: v2026.1106.0
 seo_title: Speko Voice Connector
-seo_description: Talk to a Paperclip agent out loud with Speko. Connect a voice persona, start calls from a task, and set up callbacks and incoming phone calls.
+seo_description: Talk to a ThinkingMach agent out loud with Speko. Connect a voice persona, start calls from a task, and set up callbacks and incoming phone calls.
 ---
 
 # Speko (voice)
 
-Sometimes it's quicker to say what you need than to type it. Speko lets you talk to a Paperclip agent by voice: ask for work, add a spoken follow-up, and hear the result. Speko handles the audio, and Paperclip keeps the task, its history, and the agent's work.
+Sometimes it's quicker to say what you need than to type it. Speko lets you talk to a ThinkingMach agent by voice: ask for work, add a spoken follow-up, and hear the result. Speko handles the audio, and ThinkingMach keeps the task, its history, and the agent's work.
 
-One connection links one Speko voice persona to one Paperclip agent.
+One connection links one Speko voice persona to one ThinkingMach agent.
 
 > **Warning:** Speko is experimental. Browser voice is the main path. Outgoing and incoming phone calls are also experimental and haven't been fully tested against live phone lines yet.
 
 ## Before you connect
 
 - **Chat connectors** must be on for the instance. It is an experimental setting, off by default, under **Instance settings → Experimental**.
-- A public HTTPS address for Paperclip. Speko calls back into Paperclip during a conversation. A local instance needs a tunnel or reverse proxy you've set up yourself.
+- A public HTTPS address for ThinkingMach. Speko calls back into ThinkingMach during a conversation. A local instance needs a tunnel or reverse proxy you've set up yourself.
 - A Speko account. Speko bills voice usage separately from your agents' costs.
 
 ## Connect Speko
 
-1. In Speko, open your agents (**Open Speko agents** links there). Create a dedicated agent for Paperclip and choose its voice. Keep only Speko's default tools; Paperclip adds its own task tools to the persona.
+1. In Speko, open your agents (**Open Speko agents** links there). Create a dedicated agent for ThinkingMach and choose its voice. Keep only Speko's default tools; ThinkingMach adds its own task tools to the persona.
 2. Copy the agent's ID and create a Speko API key.
-3. In Paperclip, open **Connectors**, find **Speko**, and select **Connect**.
-4. Choose the Paperclip agent this voice will speak for. It stays fixed for the connection.
-5. Paste the **Speko agent ID** and **Speko API key**, then click **Connect Speko**. Paperclip saves both, plus a generated callback signing secret, in the company vault.
+3. In ThinkingMach, open **Connectors**, find **Speko**, and select **Connect**.
+4. Choose the ThinkingMach agent this voice will speak for. It stays fixed for the connection.
+5. Paste the **Speko agent ID** and **Speko API key**, then click **Connect Speko**. ThinkingMach saves both, plus a generated callback signing secret, in the company vault.
 6. On **Test your Speko voice connection**, start a conversation. Ask the agent to do some work, add a spoken follow-up, and listen for its result. Then click **Verify test conversation**.
 
-Before testing, check the recording and retention settings in your Speko workspace. Speko may keep recordings according to those settings; Paperclip keeps the task history.
+Before testing, check the recording and retention settings in your Speko workspace. Speko may keep recordings according to those settings; ThinkingMach keeps the task history.
 
 ## Talk to an agent from a task
 
 On a task assigned to an agent with an active Speko connection, click **Talk to** followed by the agent's name. If the agent has more than one voice persona, pick one under **Voice persona** first.
 
-During a call you can mute or use **Repeat answer**. Click **End call** when you're done. Ending the call doesn't stop the work: accepted tasks keep running in Paperclip. Calls are limited to ten minutes.
+During a call you can mute or use **Repeat answer**. Click **End call** when you're done. Ending the call doesn't stop the work: accepted tasks keep running in ThinkingMach. Calls are limited to ten minutes.
 
 ## Phone calls
 
@@ -76,13 +76,13 @@ The team catalog includes an optional **Speko Company Phone Agent**: a voice rec
 | Problem | Likely cause | Fix |
 | --- | --- | --- |
 | **Speko** isn't offered under **Connectors** | **Chat connectors** is off | Ask an administrator to enable it |
-| Setup asks for a public HTTPS callback origin | Paperclip has no public address | Configure a public HTTPS URL or tunnel, then try again |
+| Setup asks for a public HTTPS callback origin | ThinkingMach has no public address | Configure a public HTTPS URL or tunnel, then try again |
 | "Voice is unavailable. Check the Speko connection in Apps." | The task's voice connection is inactive | Open the connection and reconnect it |
 | No phone numbers are listed | The Speko workspace has no verified numbers | Buy or import a number in Speko, add credits, then **Refresh numbers** |
 | "That code does not match this live call." | The code was misheard or belongs to another call | Ask the phone agent to repeat the code |
 
 - Speko charges are billed by Speko and aren't included in agent costs.
-- To update the persona or API key, use **Reconnect**. Existing task assignments stay attached to their history. Removing the connection stops new voice requests; accepted work and task history stay in Paperclip.
+- To update the persona or API key, use **Reconnect**. Existing task assignments stay attached to their history. Removing the connection stops new voice requests; accepted work and task history stay in ThinkingMach.
 
 ## Related guides
 

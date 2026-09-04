@@ -22,7 +22,7 @@ There is no browser sign-in and no free profile; the key is the only way in. Usa
 2. Read the access line above the main button. It says who the connection belongs to and which agents can use it. Select **Change** to narrow the agents or to reach the optional settings below.
 3. Paste the key into the **Your Telem.AI key** field and select **Connect**.
 
-Paperclip stores the key as a secret and sends it to Telem.AI on each call; agents never see it.
+ThinkingMach stores the key as a secret and sends it to Telem.AI on each call; agents never see it.
 
 ### Optional settings
 
@@ -44,7 +44,7 @@ This connector reads from the public web; it does not reach into your own data. 
 Three things are still worth deciding:
 
 - **Who pays.** Every agent with access draws on the same Telem account. A higher tier means more search work per query. If one busy agent runs up usage, give it its own connection with a separate key.
-- **What Telem sees.** Paperclip tells Telem which company, project, task, agent, and run each search came from, so you can trace usage on the Telem side. Search terms themselves go to the search providers, so keep private details out of queries.
+- **What Telem sees.** ThinkingMach tells Telem which company, project, task, agent, and run each search came from, so you can trace usage on the Telem side. Search terms themselves go to the search providers, so keep private details out of queries.
 - **What agents do with results.** Search results are outside content. An agent should treat them as information to check, not instructions to follow. See [Set action permissions](action-permissions.md) for keeping follow-on actions in other connectors behind **Ask first**.
 
 ## Try it
@@ -78,6 +78,6 @@ Limitations: one Telem account per connection. The available actions are whateve
 
 ## Sources
 
-- [Telem.AI definition](https://github.com/paperclipai/paperclip/blob/abbd88007f059dbadbd3f266febf264577b6ee78/packages/shared/src/app-definitions/telem.json) — method, credential field, and optional settings.
-- [Connection setup](https://github.com/paperclipai/paperclip/blob/abbd88007f059dbadbd3f266febf264577b6ee78/ui/src/features/connections/ConnectionSetupFlow.tsx) — where optional settings appear and how list choices behave.
-- [Tool connection service](https://github.com/paperclipai/paperclip/blob/abbd88007f059dbadbd3f266febf264577b6ee78/server/src/services/tool-access.ts) — context forwarded to Telem.AI with each call.
+- [Telem.AI definition](https://github.com/thinkingmach/paperclip/blob/abbd88007f059dbadbd3f266febf264577b6ee78/packages/shared/src/app-definitions/telem.json) — method, credential field, and optional settings.
+- [Connection setup](https://github.com/thinkingmach/paperclip/blob/abbd88007f059dbadbd3f266febf264577b6ee78/ui/src/features/connections/ConnectionSetupFlow.tsx) — where optional settings appear and how list choices behave.
+- [Tool connection service](https://github.com/thinkingmach/paperclip/blob/abbd88007f059dbadbd3f266febf264577b6ee78/server/src/services/tool-access.ts) — context forwarded to Telem.AI with each call.

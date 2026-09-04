@@ -16,10 +16,10 @@
 //
 // Exit code is always 0 (verification is advisory).
 //
-// Testing hook: PAPERCLIP_SYNC_FIXTURE_DIR redirects gh api calls to JSON
+// Testing hook: THINKINGMACH_SYNC_FIXTURE_DIR redirects gh api calls to JSON
 // fixtures (same shape as check-drift.mjs).
 //
-// PAPERCLIP_SYNC_LOCAL_SRC=<dir> reads parent files from a local checkout at
+// THINKINGMACH_SYNC_LOCAL_SRC=<dir> reads parent files from a local checkout at
 // the --against ref instead of the GitHub API (no rate limit).
 
 import { spawnSync } from "node:child_process";
@@ -48,14 +48,14 @@ import {
 const SELF_DIR = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(SELF_DIR, "../..");
 const CACHE_ROOT = "/tmp/paperclip-sync";
-const FIXTURE_DIR = process.env.PAPERCLIP_SYNC_FIXTURE_DIR || null;
+const FIXTURE_DIR = process.env.THINKINGMACH_SYNC_FIXTURE_DIR || null;
 // Optional local checkout of the parent repo at the --against ref. Reading
 // from disk avoids the GitHub API entirely (no rate limit, much faster).
-const LOCAL_SRC = process.env.PAPERCLIP_SYNC_LOCAL_SRC || null;
+const LOCAL_SRC = process.env.THINKINGMACH_SYNC_LOCAL_SRC || null;
 // Full parent snapshot at the pinned SHA (lib/parent-source.mjs). Set in
-// main(): PAPERCLIP_SYNC_LOCAL_SRC when given, otherwise a one-time tarball
+// main(): THINKINGMACH_SYNC_LOCAL_SRC when given, otherwise a one-time tarball
 // download per commit. null means "use the contents API" (fixture mode,
-// PAPERCLIP_SYNC_NO_SNAPSHOT, or a failed download).
+// THINKINGMACH_SYNC_NO_SNAPSHOT, or a failed download).
 let SNAPSHOT = null;
 const API_ENV_SOURCE_CAP = 700;
 const warnings = [];
@@ -212,7 +212,7 @@ function ghResolveSha(repo, ref) {
     const r = spawnSync("git", ["-C", LOCAL_SRC, "rev-parse", "HEAD"], { encoding: "utf8" });
     const head = (r.stdout || "").trim();
     if (head && !head.startsWith(ref) && !ref.startsWith(head.slice(0, 7))) {
-      process.stderr.write(`warning: PAPERCLIP_SYNC_LOCAL_SRC is at ${head.slice(0, 7)}, not ${ref}\n`);
+      process.stderr.write(`warning: THINKINGMACH_SYNC_LOCAL_SRC is at ${head.slice(0, 7)}, not ${ref}\n`);
     }
     return head.slice(0, 7) || null;
   }
@@ -507,7 +507,7 @@ function sniffDocKind(docPath, content) {
   if (/docs\/reference\/deploy\/environment-variables\.md$/.test(docPath)) return "env";
   // Out-of-tree fallback: look at content.
   if (/^##\s+(GET|POST|PUT|PATCH|DELETE)\s+\/api\//m.test(content)) return "api";
-  if (/\bpaperclipai\s+[a-z]/.test(content) && /##\s*(Usage|Options|Flags)/i.test(content)) return "cli";
+  if (/\bthinkingmach\s+[a-z]/.test(content) && /##\s*(Usage|Options|Flags)/i.test(content)) return "cli";
   // adapter docs typically reference adapterType / Cursor SDK / adapter / etc.
   if (/^#\s+.*\b(Adapter|Cursor|OpenClaw|Claude|Codex|HTTP|Local)\b/i.test(content) &&
       /(adapterType|adapterConfig|## (Common Fields|Config|Configuration))/i.test(content)) {
@@ -526,7 +526,7 @@ function isConfigSection(sectionPath) {
 function extractCliCommands(regions, content, docPath) {
   if (!isCliDoc(docPath)) return [];
   const out = [];
-  const re = /(?:^|[\s`(])(?:pnpm\s+)?paperclipai\s+([a-z][a-z-]*)(?:\s+([a-z][a-z-]*))?/g;
+  const re = /(?:^|[\s`(])(?:pnpm\s+)?thinkingmach\s+([a-z][a-z-]*)(?:\s+([a-z][a-z-]*))?/g;
   const seen = new Set();
   let m;
   while ((m = re.exec(content))) {
@@ -539,7 +539,7 @@ function extractCliCommands(regions, content, docPath) {
     const line = lineOfOffset(content, m.index);
     out.push({
       kind: "cli-command",
-      value: `paperclipai ${key}`,
+      value: `thinkingmach ${key}`,
       head,
       sub: sub || null,
       location: `${docPath}:${line}`,
@@ -868,8 +868,8 @@ function fetchEnvSources(repo, ref, refSlug) {
   if (sources.length > API_ENV_SOURCE_CAP) {
     warn(
       `warning: env-var scan was capped at ${API_ENV_SOURCE_CAP} of ${sources.length} parent files (GitHub API mode). ` +
-        `Unverified env-var claims may be false positives. Unset PAPERCLIP_SYNC_NO_SNAPSHOT or set ` +
-        `PAPERCLIP_SYNC_LOCAL_SRC to scan everything.`
+        `Unverified env-var claims may be false positives. Unset THINKINGMACH_SYNC_NO_SNAPSHOT or set ` +
+        `THINKINGMACH_SYNC_LOCAL_SRC to scan everything.`
     );
   }
   for (const s of sources.slice(0, API_ENV_SOURCE_CAP)) {
@@ -978,24 +978,24 @@ function isExternallySuppliedEnvVar(name) {
 
 function isRuntimeInjectedEnvVar(name) {
   return new Set([
-    "PAPERCLIP_AGENT_ID",
-    "PAPERCLIP_COMPANY_ID",
-    "PAPERCLIP_API_URL",
-    "PAPERCLIP_API_KEY",
-    "PAPERCLIP_RUN_ID",
-    "PAPERCLIP_TASK_ID",
-    "PAPERCLIP_WAKE_REASON",
-    "PAPERCLIP_WAKE_COMMENT_ID",
-    "PAPERCLIP_WAKE_PAYLOAD_JSON",
-    "PAPERCLIP_APPROVAL_ID",
-    "PAPERCLIP_APPROVAL_STATUS",
-    "PAPERCLIP_LINKED_ISSUE_IDS",
-    "PAPERCLIP_WORKSPACE_CWD",
-    "PAPERCLIP_WORKSPACE_PATH",
-    "PAPERCLIP_WORKSPACE_REPO_ROOT",
-    "PAPERCLIP_WORKSPACE_BRANCH",
-    "PAPERCLIP_PROJECT_ID",
-    "PAPERCLIP_ISSUE_ID",
+    "THINKINGMACH_AGENT_ID",
+    "THINKINGMACH_COMPANY_ID",
+    "THINKINGMACH_API_URL",
+    "THINKINGMACH_API_KEY",
+    "THINKINGMACH_RUN_ID",
+    "THINKINGMACH_TASK_ID",
+    "THINKINGMACH_WAKE_REASON",
+    "THINKINGMACH_WAKE_COMMENT_ID",
+    "THINKINGMACH_WAKE_PAYLOAD_JSON",
+    "THINKINGMACH_APPROVAL_ID",
+    "THINKINGMACH_APPROVAL_STATUS",
+    "THINKINGMACH_LINKED_ISSUE_IDS",
+    "THINKINGMACH_WORKSPACE_CWD",
+    "THINKINGMACH_WORKSPACE_PATH",
+    "THINKINGMACH_WORKSPACE_REPO_ROOT",
+    "THINKINGMACH_WORKSPACE_BRANCH",
+    "THINKINGMACH_PROJECT_ID",
+    "THINKINGMACH_ISSUE_ID",
   ]).has(name);
 }
 
@@ -1060,7 +1060,7 @@ function readDefaultRepo() {
   } catch {
     // ignore
   }
-  return "paperclipai/paperclip";
+  return "thinkingmach/paperclip";
 }
 
 function usage() {

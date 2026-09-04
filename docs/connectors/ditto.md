@@ -17,25 +17,25 @@ The connection uses Ditto's hosted MCP server. Every method is read and write, a
 Pick one of two ways in:
 
 - **Your own Ditto account**, for browser sign-in. The connection acts as the Ditto user who signs in, with that user's Ditto permissions. There is nothing to set up first.
-- **A workspace API key.** In Ditto, open **Developers → API keys** and create a key for Paperclip. API keys need developer integrations on your Ditto plan.
+- **A workspace API key.** In Ditto, open **Developers → API keys** and create a key for ThinkingMach. API keys need developer integrations on your Ditto plan.
 
-Know what a key reaches before you choose it. A Ditto API key is not scoped: it reaches all data in its workspace, including permanent deletes, and Ditto attributes every action to the person who created it. Paperclip cannot narrow an existing key. Create a separate key just for Paperclip, so you can remove it without affecting anything else.
+Know what a key reaches before you choose it. A Ditto API key is not scoped: it reaches all data in its workspace, including permanent deletes, and Ditto attributes every action to the person who created it. ThinkingMach cannot narrow an existing key. Create a separate key just for ThinkingMach, so you can remove it without affecting anything else.
 
 ## Connect Ditto
 
 1. Open **Connectors** and select **Ditto**.
 2. Read the access line above the main button. It says who the connection signs in as and which agents can use it. Select **Change** to narrow the agents or to switch the method.
 3. Pick how to connect:
-   - **Sign in with Ditto** is the default. Paperclip registers its client with Ditto automatically, so there is nothing to set up in a developer console.
+   - **Sign in with Ditto** is the default. ThinkingMach registers its client with Ditto automatically, so there is nothing to set up in a developer console.
    - **Use an API key** — paste the key you created in Ditto.
-4. Before you connect, Paperclip shows what the connection can do, including the warning about deletes and links. Read it.
+4. Before you connect, ThinkingMach shows what the connection can do, including the warning about deletes and links. Read it.
 5. Finish setup and open **Permissions** to review the action list.
 
-Paperclip stores the key or sign-in as a secret and sends it to Ditto on each call, in the `token` header format Ditto expects. Agents never see it.
+ThinkingMach stores the key or sign-in as a secret and sends it to Ditto on each call, in the `token` header format Ditto expects. Agents never see it.
 
 ## Choose access
 
-Paperclip uses a reviewed rule for Ditto, because several Ditto tools change saved text even though their names sound harmless:
+ThinkingMach uses a reviewed rule for Ditto, because several Ditto tools change saved text even though their names sound harmless:
 
 - **Reads**: tools whose names start with `list_`, `get_`, or `search_`, plus `suggest_edit`, which checks text against your style guide rules. A tool Ditto marks read-only is also a read.
 - **Destructive**: any tool that deletes, removes, or destroys. Ditto deletes cannot be undone.
@@ -64,7 +64,7 @@ Compare the rules and search results with what you see in Ditto.
 
 ## Disconnect
 
-Remove the connection in Paperclip to stop agents using it. If you connected with an API key, also delete the key on Ditto's **Developers** page. See [Reauthorize, revoke, or disconnect](reauthorize-and-disconnect.md).
+Remove the connection in ThinkingMach to stop agents using it. If you connected with an API key, also delete the key on Ditto's **Developers** page. See [Reauthorize, revoke, or disconnect](reauthorize-and-disconnect.md).
 
 ## Troubleshooting and limitations
 
@@ -76,7 +76,7 @@ Remove the connection in Paperclip to stop agents using it. If you connected wit
 | An agent is waiting on an action | It is set to **Ask first** | Approve or decline it — see [Answer a connector review request](review-requests.md) |
 | Code no longer finds a text item | A link or unlink action changed its developer ID | Set link and unlink actions to **Ask first** |
 
-Limitations: Paperclip has no project filter for Ditto. Ditto's separate documentation server is not part of this connector.
+Limitations: ThinkingMach has no project filter for Ditto. Ditto's separate documentation server is not part of this connector.
 
 ## Related guides
 
@@ -88,5 +88,5 @@ Limitations: Paperclip has no project filter for Ditto. Ditto's separate documen
 
 ## Sources
 
-- [Ditto definition](https://github.com/paperclipai/paperclip/blob/043f2514e67c50320433a0013fb228a75a51325c/packages/shared/src/app-definitions/ditto.json) — methods, endpoint, key placement, and warnings.
-- [Risk classification](https://github.com/paperclipai/paperclip/blob/043f2514e67c50320433a0013fb228a75a51325c/server/src/services/tool-access/catalog/descriptors.ts) — the reviewed Ditto rule for reads, writes, and deletes.
+- [Ditto definition](https://github.com/thinkingmach/paperclip/blob/043f2514e67c50320433a0013fb228a75a51325c/packages/shared/src/app-definitions/ditto.json) — methods, endpoint, key placement, and warnings.
+- [Risk classification](https://github.com/thinkingmach/paperclip/blob/043f2514e67c50320433a0013fb228a75a51325c/server/src/services/tool-access/catalog/descriptors.ts) — the reviewed Ditto rule for reads, writes, and deletes.

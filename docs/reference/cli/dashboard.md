@@ -6,7 +6,7 @@ seo_description: The at-a-glance company read from your shell — the same top-l
 
 # Dashboard Commands
 
-The `dashboard` command is the at-a-glance company read from the terminal — the same top-level numbers a human sees on the Paperclip dashboard, fetched in one call. Reach for it when you want a fast health check: how many agents are running, how much work is open, what the month's spend looks like, and whether anything is waiting on a human. It is read-only, so it is safe to run anywhere, on a loop, or inside a monitoring script.
+The `dashboard` command is the at-a-glance company read from the terminal — the same top-level numbers a human sees on the ThinkingMach dashboard, fetched in one call. Reach for it when you want a fast health check: how many agents are running, how much work is open, what the month's spend looks like, and whether anything is waiting on a human. It is read-only, so it is safe to run anywhere, on a loop, or inside a monitoring script.
 
 ---
 
@@ -15,7 +15,7 @@ The `dashboard` command is the at-a-glance company read from the terminal — th
 There is exactly one subcommand:
 
 ```sh
-paperclipai dashboard get --company-id <company-id>
+thinkingmach dashboard get --company-id <company-id>
 ```
 
 `dashboard get` issues a single `GET /api/companies/<company-id>/dashboard` and prints the summary. It does not change any state, trigger any runs, or wake any agents — it only reports. This makes it the cheapest way to answer "what is the state of this company right now?" without paging through `issue list`, `agent list`, `approval list`, and `cost summary` separately.
@@ -29,21 +29,21 @@ This command is company-scoped, so it needs a company. It does not accept a posi
 Get the dashboard summary for a single company.
 
 ```sh
-paperclipai dashboard get --company-id <company-id>
+thinkingmach dashboard get --company-id <company-id>
 ```
 
 ### Options
 
 | Flag | Use |
 |---|---|
-| `-C, --company-id <id>` | The company to summarize. Required unless resolved from `PAPERCLIP_COMPANY_ID` or your context profile. |
+| `-C, --company-id <id>` | The company to summarize. Required unless resolved from `THINKINGMACH_COMPANY_ID` or your context profile. |
 | `--json` | Emit the raw summary object as JSON instead of the formatted read. Use this when scripting. |
 | `--api-base <url>` | Override the API base URL for this call. |
 | `--api-key <token>` | Bearer token for agent-authenticated calls. |
 | `--context <path>` | Path to the CLI context file. |
 | `--profile <name>` | CLI context profile to use. |
-| `-d, --data-dir <path>` | Paperclip data directory root (isolates state from `~/.paperclip`). |
-| `-c, --config <path>` | Path to the Paperclip config file (used to infer the local API base). |
+| `-d, --data-dir <path>` | ThinkingMach data directory root (isolates state from `~/.paperclip`). |
+| `-c, --config <path>` | Path to the ThinkingMach config file (used to infer the local API base). |
 
 These are the standard client flags shared by every company-scoped CLI command. For the full explanation of how authentication, context, and the API base are resolved, see [Common options](./common-options.md).
 
@@ -56,21 +56,21 @@ These are the standard client flags shared by every company-scoped CLI command. 
 The company is resolved in this order, first match wins:
 
 1. `-C` / `--company-id` on the command line
-2. the `PAPERCLIP_COMPANY_ID` environment variable
+2. the `THINKINGMACH_COMPANY_ID` environment variable
 3. the `companyId` recorded in the selected context profile
 
-If none of those produce a company, the command fails with a clear error telling you to pass `--company-id`, set `PAPERCLIP_COMPANY_ID`, or set a profile default with `paperclipai context set`.
+If none of those produce a company, the command fails with a clear error telling you to pass `--company-id`, set `THINKINGMACH_COMPANY_ID`, or set a profile default with `thinkingmach context set`.
 
 For an agent persona whose profile is already pinned to one company, the bare command works without any flag:
 
 ```sh
-paperclipai dashboard get
+thinkingmach dashboard get
 ```
 
 For a board operator who works across several companies, name the target explicitly each time:
 
 ```sh
-paperclipai dashboard get --company-id <company-id>
+thinkingmach dashboard get --company-id <company-id>
 ```
 
 ---
@@ -102,23 +102,23 @@ By default the command prints a compact, human-readable rendering of the summary
 For anything programmatic, pass `--json` and parse the result. The JSON is the raw summary, so every field above is available:
 
 ```sh
-paperclipai dashboard get --company-id <company-id> --json
+thinkingmach dashboard get --company-id <company-id> --json
 ```
 
 Pipe it into `jq` to pull out exactly what you need. A few useful one-liners:
 
 ```sh
 # Month-to-date budget utilization as a percentage
-paperclipai dashboard get -C <company-id> --json | jq '.costs.monthUtilizationPercent'
+thinkingmach dashboard get -C <company-id> --json | jq '.costs.monthUtilizationPercent'
 
 # How many approvals are waiting on a human
-paperclipai dashboard get -C <company-id> --json | jq '.pendingApprovals'
+thinkingmach dashboard get -C <company-id> --json | jq '.pendingApprovals'
 
 # Agents currently in an error state
-paperclipai dashboard get -C <company-id> --json | jq '.agents.error'
+thinkingmach dashboard get -C <company-id> --json | jq '.agents.error'
 
 # Failed runs over the reported activity window
-paperclipai dashboard get -C <company-id> --json | jq '[.runActivity[].failed] | add'
+thinkingmach dashboard get -C <company-id> --json | jq '[.runActivity[].failed] | add'
 ```
 
 For the full set of scripting conventions — exit codes, `--json` behavior, and how to chain CLI calls — see [Output and scripting](./output-and-scripting.md).
@@ -131,7 +131,7 @@ For the full set of scripting conventions — exit codes, `--json` behavior, and
 
 A practical monitoring loop looks like:
 
-1. `paperclipai dashboard get -C <company-id>` for the headline state.
+1. `thinkingmach dashboard get -C <company-id>` for the headline state.
 2. If `pendingApprovals` is non-zero, follow up with [`approval list`](./approval.md).
 3. If `agents.error` or `budgets.pausedAgents` is non-zero, follow up with [`agent`](./agent.md) and [`activity list`](./activity.md) to see why.
 4. If `costs.monthUtilizationPercent` is climbing toward the budget, break it down with [`cost`](./cost.md).

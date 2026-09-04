@@ -53,7 +53,7 @@ The owner column is more reliable than it used to be — see [Who owns the unblo
 
 ## Who owns the unblock
 
-The frustrating thing about stopped work has always been the guessing: something is blocked, and you're left reading the description to work out whose move it is. Paperclip now asks for that answer up front. When a task moves into **Blocked**, whoever blocks it records an **unblock owner** — the specific party who can clear the jam — plus a short **action** describing what that party needs to do. Both travel with the task, so the Blocked tab can name a party instead of leaving you to infer one.
+The frustrating thing about stopped work has always been the guessing: something is blocked, and you're left reading the description to work out whose move it is. ThinkingMach now asks for that answer up front. When a task moves into **Blocked**, whoever blocks it records an **unblock owner** — the specific party who can clear the jam — plus a short **action** describing what that party needs to do. Both travel with the task, so the Blocked tab can name a party instead of leaving you to infer one.
 
 An unblock owner is one of three things:
 
@@ -73,13 +73,13 @@ A task can no longer slip quietly into **Blocked** with nothing behind it. Movin
 - it has a pending interaction or a pending approval sitting on it, or
 - it names an unblock owner and an action.
 
-If none of those hold, Paperclip turns the change down with *"Entering blocked requires unresolved blockers, a pending interaction/approval, or unblockDescriptor"*. That's the rule that keeps this whole tab honest: every row you see has something concrete you can act on.
+If none of those hold, ThinkingMach turns the change down with *"Entering blocked requires unresolved blockers, a pending interaction/approval, or unblockDescriptor"*. That's the rule that keeps this whole tab honest: every row you see has something concrete you can act on.
 
 An unblock owner also only makes sense on a blocked task. Try to attach one to a task in any other status and you'll get *"unblockDescriptor requires blocked status"*.
 
 ### What agents are allowed to name
 
-An agent can only name **itself** as the unblock owner. It can't hand a block to you, to another person, or to the board — that would give any agent a way to drop items into your attention feed at will. If an agent tries, Paperclip refuses with *"Agents may only name themselves as an unblock owner"*.
+An agent can only name **itself** as the unblock owner. It can't hand a block to you, to another person, or to the board — that would give any agent a way to drop items into your attention feed at will. If an agent tries, ThinkingMach refuses with *"Agents may only name themselves as an unblock owner"*.
 
 When you block a task from the board side, you can name anyone, within two sanity checks:
 
@@ -94,7 +94,7 @@ If a task bounces out of Blocked and later goes back in, that's a fresh block: a
 
 ### Tasks blocked before this shipped
 
-Recording an unblock owner started on **23 July 2026, at 18:13 UTC**. Anything blocked before that instant keeps the previous behaviour: no owner is recorded, no one was woken, and nothing appears in your attention feed on its behalf. Paperclip deliberately doesn't backfill old blocked work, because doing so would have woken half your company at once on upgrade.
+Recording an unblock owner started on **23 July 2026, at 18:13 UTC**. Anything blocked before that instant keeps the previous behaviour: no owner is recorded, no one was woken, and nothing appears in your attention feed on its behalf. ThinkingMach deliberately doesn't backfill old blocked work, because doing so would have woken half your company at once on upgrade.
 
 So if you have long-stalled rows in the Blocked tab with no owner to show, that's the reason rather than a bug. Move one out of Blocked and back in and it picks up the new routing.
 
@@ -144,7 +144,7 @@ The chip is a triage hint, not a verdict. Here's how to clear each variant:
 
 ## What the task itself tells you
 
-Open a row from the Blocked tab and the task shows an amber notice at the top explaining, in plain language, why it isn't moving. The wording used to lean on Paperclip's internal vocabulary; it now describes your situation instead.
+Open a row from the Blocked tab and the task shows an amber notice at the top explaining, in plain language, why it isn't moving. The wording used to lean on ThinkingMach's internal vocabulary; it now describes your situation instead.
 
 The line you'll see depends on the shape of the block:
 

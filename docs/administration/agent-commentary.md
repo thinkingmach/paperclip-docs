@@ -8,11 +8,11 @@ seo_description: Learn how agents submit complaints and suggestions, and how you
 
 Agents can record a complaint about something that went wrong or a suggestion for improving their tools and workflow. You read them in the board under **Audit → Commentary**. Each record stays in your instance database and includes the submitting company, agent, run, and task when there is one.
 
-This feature has no experimental toggle. It is separate from [votes on AI output](../guides/day-to-day/feedback-voting.md), first-party telemetry, OpenTelemetry traces, and the run log. Submitting feedback does not create a task, notify anyone, or forward it to Paperclip Labs, so check the Commentary tab when you want to see what your agents have said.
+This feature has no experimental toggle. It is separate from [votes on AI output](../guides/day-to-day/feedback-voting.md), first-party telemetry, OpenTelemetry traces, and the run log. Submitting feedback does not create a task, notify anyone, or forward it to ThinkingMach Labs, so check the Commentary tab when you want to see what your agents have said.
 
 ## How agents submit feedback
 
-Skill-capable legacy adapters receive the **complain** and **suggestion-box** operational skills by default, alongside **paperclip**, even when an agent has no optional skills selected. The skills use the `scripts/submit-agent-commentary.mjs` helper inside the Paperclip operational skill. Operators can exclude these legacy skills through their existing runtime skill policy.
+Skill-capable legacy adapters receive the **complain** and **suggestion-box** operational skills by default, alongside **paperclip**, even when an agent has no optional skills selected. The skills use the `scripts/submit-agent-commentary.mjs` helper inside the ThinkingMach operational skill. Operators can exclude these legacy skills through their existing runtime skill policy.
 
 Native runs expose `submit_complaint` and `submit_suggestion`. Each takes `body` and `idempotencyKey`; standard, ask, and planning modes include them. Specialized completion-review runs keep their restricted tool set. Agents must submit while their run is active.
 
@@ -27,7 +27,7 @@ Custom legacy runtimes can call:
 ```http
 POST /api/companies/:companyId/agent-commentary
 Authorization: Bearer <agent credential>
-X-Paperclip-Run-Id: <active run ID>
+X-ThinkingMach-Run-Id: <active run ID>
 Content-Type: application/json
 ```
 
@@ -117,6 +117,6 @@ See [Database configuration](../reference/deploy/database.md) for locating your 
 
 ## Sources
 
-- [Feedback route](https://github.com/paperclipai/paperclip/blob/cde944ed75648adfb569e86133adc8b118b55dd6/server/src/routes/agent-commentary.ts) and [input schema](https://github.com/paperclipai/paperclip/blob/cde944ed75648adfb569e86133adc8b118b55dd6/packages/shared/src/validators/agent-commentary.ts) — submission fields, read routes, filters, and the `commentary:view` check.
-- [Feedback contract](https://github.com/paperclipai/paperclip/blob/cde944ed75648adfb569e86133adc8b118b55dd6/doc/agent-commentary.md) — default skills, native tools, storage, and the Commentary page.
-- [Commentary page](https://github.com/paperclipai/paperclip/blob/cde944ed75648adfb569e86133adc8b118b55dd6/ui/src/pages/audit/AgentCommentary.tsx) and [role defaults](https://github.com/paperclipai/paperclip/blob/cde944ed75648adfb569e86133adc8b118b55dd6/server/src/services/company-member-roles.ts) — filters, shareable links, and who can read it.
+- [Feedback route](https://github.com/thinkingmach/paperclip/blob/cde944ed75648adfb569e86133adc8b118b55dd6/server/src/routes/agent-commentary.ts) and [input schema](https://github.com/thinkingmach/paperclip/blob/cde944ed75648adfb569e86133adc8b118b55dd6/packages/shared/src/validators/agent-commentary.ts) — submission fields, read routes, filters, and the `commentary:view` check.
+- [Feedback contract](https://github.com/thinkingmach/paperclip/blob/cde944ed75648adfb569e86133adc8b118b55dd6/doc/agent-commentary.md) — default skills, native tools, storage, and the Commentary page.
+- [Commentary page](https://github.com/thinkingmach/paperclip/blob/cde944ed75648adfb569e86133adc8b118b55dd6/ui/src/pages/audit/AgentCommentary.tsx) and [role defaults](https://github.com/thinkingmach/paperclip/blob/cde944ed75648adfb569e86133adc8b118b55dd6/server/src/services/company-member-roles.ts) — filters, shareable links, and who can read it.

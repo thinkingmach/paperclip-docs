@@ -24,21 +24,21 @@ There is no browser sign-in; the token is the only way in. A token acts for its 
 2. Read the access line above the main button. It says who the connection belongs to and which agents can use it. Select **Change** to narrow the agents or to reach the advanced setting below.
 3. Paste your API token into **Your Unikraft key** and select **Connect**.
 
-Paperclip checks the token with Unikraft before saving the connection, by reading your quotas in the default metro. The token stays in Paperclip's vault and is sent to Unikraft as a Bearer header; agents never see it.
+ThinkingMach checks the token with Unikraft before saving the connection, by reading your quotas in the default metro. The token stays in ThinkingMach's vault and is sent to Unikraft as a Bearer header; agents never see it.
 
 ### Optional setting
 
 | Setting | What it does |
 | --- | --- |
-| **Default metro** | Advanced. The metro Paperclip uses to check the token, and for any action that does not name a metro. Choose Dallas (`dal`), Frankfurt (`fra`), San Francisco (`sfo`), Singapore (`sin`), or Washington, DC (`was`). Frankfurt is the default. |
+| **Default metro** | Advanced. The metro ThinkingMach uses to check the token, and for any action that does not name a metro. Choose Dallas (`dal`), Frankfurt (`fra`), San Francisco (`sfo`), Singapore (`sin`), or Washington, DC (`was`). Frankfurt is the default. |
 
-Unikraft Cloud has no single global API; each metro serves its own. Every action accepts an optional `metro` argument, so an agent can still work in any of the five metros from one connection. Paperclip only sends your token to those published metro hosts.
+Unikraft Cloud has no single global API; each metro serves its own. Every action accepts an optional `metro` argument, so an agent can still work in any of the five metros from one connection. ThinkingMach only sends your token to those published metro hosts.
 
 ## Choose access
 
 The connection exposes Unikraft's published API: 105 actions, covering 89 platform operations and 16 sandbox operations. Action names come from Unikraft, such as `unikraft_get_instances`, `unikraft_create_instance`, `unikraft_delete_volume_by_uuid`, and `unikraft_sandbox_run_command`. Sandbox actions start with `unikraft_sandbox_` and take the name or UUID of the instance to work inside.
 
-Paperclip sorts the actions into three groups:
+ThinkingMach sorts the actions into three groups:
 
 | Group | Examples |
 | --- | --- |
@@ -73,12 +73,12 @@ Compare the list with the Unikraft Cloud console.
 | The token is rejected at setup | The token was revoked or copied incompletely | Create a new token in the console and reconnect |
 | An action says Unikraft denied access | The token belongs to a different organization or has been revoked | Check the token in the console, then reconnect with one for the right organization |
 | An action is refused for its metro | The metro is not one of the five published metros | Use `dal`, `fra`, `sfo`, `sin`, or `was` |
-| A command or write timed out | Calls time out after 10 seconds by default and never run longer than 30, and the work may still be running in Unikraft | Check the instance before retrying; Paperclip never retries changes automatically |
+| A command or write timed out | Calls time out after 10 seconds by default and never run longer than 30, and the work may still be running in Unikraft | Check the instance before retrying; ThinkingMach never retries changes automatically |
 | A request or response fails on size | Bodies are limited to 8 MiB | Use smaller files or narrower requests |
-| Actions changed after an update | Paperclip refreshed the catalog | Open the connection and review the **Permissions** tab; new and changed actions need review |
+| Actions changed after an update | ThinkingMach refreshed the catalog | Open the connection and review the **Permissions** tab; new and changed actions need review |
 | **Needs attention** | The token was revoked | Select **Reconnect** with a valid token |
 
-Limitations: one Unikraft organization token per connection. API token only; there is no OAuth sign-in. The audit event stream is not offered as an action. Older `kraft.cloud` hosts are not reachable through this connection. The connector never touches files or runs commands on the Paperclip server itself, and it does not reuse a Unikraft CLI login on the host.
+Limitations: one Unikraft organization token per connection. API token only; there is no OAuth sign-in. The audit event stream is not offered as an action. Older `kraft.cloud` hosts are not reachable through this connection. The connector never touches files or runs commands on the ThinkingMach server itself, and it does not reuse a Unikraft CLI login on the host.
 
 ## Related guides
 
@@ -89,8 +89,8 @@ Limitations: one Unikraft organization token per connection. API token only; the
 
 ## Sources
 
-- [Unikraft definition](https://github.com/paperclipai/paperclip/blob/d69631b01b9c658f80bf8bed389863dce82643e1/packages/shared/src/app-definitions/unikraft.json) — method, token field, default metro, and warnings.
-- [Unikraft client](https://github.com/paperclipai/paperclip/blob/d69631b01b9c658f80bf8bed389863dce82643e1/server/src/services/connectors/unikraft/client.ts) — token check, metro hosts, sandbox routing, and the still-running wait result.
-- [Generated action catalog](https://github.com/paperclipai/paperclip/blob/d69631b01b9c658f80bf8bed389863dce82643e1/server/src/services/connectors/unikraft/operations.generated.json) — the 105 actions, their risk hints, and the streaming endpoint.
-- [Native REST client](https://github.com/paperclipai/paperclip/blob/d69631b01b9c658f80bf8bed389863dce82643e1/server/src/services/native-rest-client.ts) — risk grouping and the 8 MiB limit.
-- [Tool gateway](https://github.com/paperclipai/paperclip/blob/d69631b01b9c658f80bf8bed389863dce82643e1/server/src/services/tool-gateway.ts) — the 10-second default and 30-second cap.
+- [Unikraft definition](https://github.com/thinkingmach/paperclip/blob/d69631b01b9c658f80bf8bed389863dce82643e1/packages/shared/src/app-definitions/unikraft.json) — method, token field, default metro, and warnings.
+- [Unikraft client](https://github.com/thinkingmach/paperclip/blob/d69631b01b9c658f80bf8bed389863dce82643e1/server/src/services/connectors/unikraft/client.ts) — token check, metro hosts, sandbox routing, and the still-running wait result.
+- [Generated action catalog](https://github.com/thinkingmach/paperclip/blob/d69631b01b9c658f80bf8bed389863dce82643e1/server/src/services/connectors/unikraft/operations.generated.json) — the 105 actions, their risk hints, and the streaming endpoint.
+- [Native REST client](https://github.com/thinkingmach/paperclip/blob/d69631b01b9c658f80bf8bed389863dce82643e1/server/src/services/native-rest-client.ts) — risk grouping and the 8 MiB limit.
+- [Tool gateway](https://github.com/thinkingmach/paperclip/blob/d69631b01b9c658f80bf8bed389863dce82643e1/server/src/services/tool-gateway.ts) — the 10-second default and 30-second cap.

@@ -1,14 +1,14 @@
 ---
 paperclip_version: v2026.1106.0
 seo_title: Adapter Errors and What They Mean
-seo_description: Exact Paperclip adapter and task messages, the stage each one comes from, and what to check before you retry the run.
+seo_description: Exact ThinkingMach adapter and task messages, the stage each one comes from, and what to check before you retry the run.
 ---
 
 # Adapter errors and what they mean
 
 Match the exact error message to its adapter and failure stage, then check the documented cause before retrying. A failed environment test, a run that hit its time limit and a task another agent already holds all look like "the agent didn't work", but each one needs a different check.
 
-This page covers messages from the classic Codex adapter (`codex_local`), run time limits shared by the local adapters, and the task-level notices Paperclip posts when a run ends badly. New Codex agents run on [Paperclip Runner](paperclip-runner.md#new-codex-and-claude-agents-use-the-runner) by default on supported machines, and Runner agents can report different wording. If your message isn't listed, see [When your message isn't here](#when-your-message-isnt-here).
+This page covers messages from the classic Codex adapter (`codex_local`), run time limits shared by the local adapters, and the task-level notices ThinkingMach posts when a run ends badly. New Codex agents run on [ThinkingMach Runner](paperclip-runner.md#new-codex-and-claude-agents-use-the-runner) by default on supported machines, and Runner agents can report different wording. If your message isn't listed, see [When your message isn't here](#when-your-message-isnt-here).
 
 ## Find your message
 
@@ -24,12 +24,12 @@ This page covers messages from the classic Codex adapter (`codex_local`), run ti
 | `monitor: no codex activity (output or process) for 30m 0s` | Failed run | Was the run quiet or stuck? |
 | `exited with code 143` | Failed run | Timeout or out of memory |
 | `409 Conflict` on checkout | Run aborts | Another agent holds the task |
-| `Paperclip needs a disposition before this issue can continue.` | Task thread | The run ended without setting a status |
+| `ThinkingMach needs a disposition before this issue can continue.` | Task thread | The run ended without setting a status |
 | `issue_rewake_throttled` | Run history | Repeated runs made no progress |
 
 ## Before you retry anything
 
-Write down four things first: your Paperclip version, the agent's adapter or runner, the stage that failed (environment test, run or task checkout), and the exact message. Existing agents keep the runner they were created with, so a new default doesn't tell you how an older agent runs.
+Write down four things first: your ThinkingMach version, the agent's adapter or runner, the stage that failed (environment test, run or task checkout), and the exact message. Existing agents keep the runner they were created with, so a new default doesn't tell you how an older agent runs.
 
 Then check what the failed attempt already did. A failed run doesn't prove nothing happened. If the agent might have pushed a branch, sent a message or changed another system, look at that system before you start the work again.
 
@@ -43,7 +43,7 @@ These come from the **Test Environment** check on a `codex_local` agent. Each re
 OPENAI_API_KEY is not set. Codex runs may fail until authentication is configured.
 ```
 
-Code: `codex_openai_api_key_missing`. This one is a warning, not a failure. The [test](https://github.com/paperclipai/paperclip/blob/35cbd15175280b60526c993f699197333f8477d3/packages/adapters/codex-local/src/server/test.ts#L381-L386) found neither a key nor Codex's own sign-in. If you use ChatGPT sign-in, check that Codex is signed in on the machine where the agent runs. Never paste a key into a task, an issue or a support thread.
+Code: `codex_openai_api_key_missing`. This one is a warning, not a failure. The [test](https://github.com/thinkingmach/paperclip/blob/35cbd15175280b60526c993f699197333f8477d3/packages/adapters/codex-local/src/server/test.ts#L381-L386) found neither a key nor Codex's own sign-in. If you use ChatGPT sign-in, check that Codex is signed in on the machine where the agent runs. Never paste a key into a task, an issue or a support thread.
 
 ### Codex CLI is installed, but authentication is not ready
 
@@ -51,7 +51,7 @@ Code: `codex_openai_api_key_missing`. This one is a warning, not a failure. The 
 Codex CLI is installed, but authentication is not ready.
 ```
 
-Code: `codex_hello_probe_auth_required`. Paperclip found the `codex` command, but the hello probe failed with an authentication error. Finding the command and being signed in are separate checks. Put the key in the agent's adapter config rather than only your shell, so Paperclip writes it into that agent's managed Codex home, or run `codex login` on the host. Then run the test again. Don't keep assigning work until it passes.
+Code: `codex_hello_probe_auth_required`. ThinkingMach found the `codex` command, but the hello probe failed with an authentication error. Finding the command and being signed in are separate checks. Put the key in the agent's adapter config rather than only your shell, so ThinkingMach writes it into that agent's managed Codex home, or run `codex login` on the host. Then run the test again. Don't keep assigning work until it passes.
 
 ### Codex hello probe timed out
 
@@ -59,7 +59,7 @@ Code: `codex_hello_probe_auth_required`. Paperclip found the `codex` command, bu
 Codex hello probe timed out.
 ```
 
-Code: `codex_hello_probe_timed_out`. The test's own probe ran out of time. This isn't a task run hitting its limit, so raising `timeoutSec` won't fix it. The [source hint](https://github.com/paperclipai/paperclip/blob/35cbd15175280b60526c993f699197333f8477d3/packages/adapters/codex-local/src/server/test.ts#L515-L521) says to retry the probe, and if it keeps timing out, check that Codex can answer `Respond with hello` from the same working directory by hand.
+Code: `codex_hello_probe_timed_out`. The test's own probe ran out of time. This isn't a task run hitting its limit, so raising `timeoutSec` won't fix it. The [source hint](https://github.com/thinkingmach/paperclip/blob/35cbd15175280b60526c993f699197333f8477d3/packages/adapters/codex-local/src/server/test.ts#L515-L521) says to retry the probe, and if it keeps timing out, check that Codex can answer `Respond with hello` from the same working directory by hand.
 
 ### Codex hello probe failed
 
@@ -83,7 +83,7 @@ A time limit and a quiet-run monitor measure different things. Find out which on
 Timed out after ${timeoutSec}s
 ```
 
-The run hit the agent's wall-clock limit. Paperclip fills in the number from `timeoutSec`, so you'll see something like `Timed out after 300s`. The same wording comes from the [classic Codex adapter](https://github.com/paperclipai/paperclip/blob/35cbd15175280b60526c993f699197333f8477d3/packages/adapters/codex-local/src/server/execute.ts#L1502-L1514) and several other local adapters, including Claude Code, Gemini, Cursor and Pi.
+The run hit the agent's wall-clock limit. ThinkingMach fills in the number from `timeoutSec`, so you'll see something like `Timed out after 300s`. The same wording comes from the [classic Codex adapter](https://github.com/thinkingmach/paperclip/blob/35cbd15175280b60526c993f699197333f8477d3/packages/adapters/codex-local/src/server/execute.ts#L1502-L1514) and several other local adapters, including Claude Code, Gemini, Cursor and Pi.
 
 Look at the last output and any partial work. For Codex on local and SSH targets, `0` means no adapter time limit. A longer limit gives the work more time, but it won't tell you why the run was slow. If the task is too big for one run, split it into child tasks.
 
@@ -107,17 +107,17 @@ The run failed with `exited with code 143`, which is SIGTERM. The [stuck-heartbe
 
 `POST /api/issues/{id}/checkout` returned `409`. This is an HTTP status, not an adapter error. Two agents were woken for the same task, and the first one holds it. Don't retry. Pick a different task, or if both agents are meant to share the work, split it into child tasks with their own owners.
 
-### Paperclip needs a disposition
+### ThinkingMach needs a disposition
 
 ```text
-Paperclip needs a disposition before this issue can continue.
+ThinkingMach needs a disposition before this issue can continue.
 ```
 
-The run succeeded but didn't leave the task in a clear state: done, in review with a real reviewer, blocked with a named blocker, or handed off. Paperclip wakes the same agent once to finish the job. If that attempt also ends without a status, Paperclip posts a second notice that starts *"Paperclip could not resolve this issue's missing disposition automatically."* and the task waits for a person. The [stuck-heartbeat guide](../../how-to/debug-stuck-heartbeat.md) has the full rules. The lasting fix is instructions that tell agents to set a status before they finish.
+The run succeeded but didn't leave the task in a clear state: done, in review with a real reviewer, blocked with a named blocker, or handed off. ThinkingMach wakes the same agent once to finish the job. If that attempt also ends without a status, ThinkingMach posts a second notice that starts *"ThinkingMach could not resolve this issue's missing disposition automatically."* and the task waits for a person. The [stuck-heartbeat guide](../../how-to/debug-stuck-heartbeat.md) has the full rules. The lasting fix is instructions that tell agents to set a status before they finish.
 
 ### issue_rewake_throttled
 
-A recovery wake was skipped with reason `issue_rewake_throttled`. After two successful runs on the same task made no visible progress, Paperclip waits longer before the next recovery wake, from two minutes up to 30. Read the latest run, then add a comment with the missing information or resume the work yourself.
+A recovery wake was skipped with reason `issue_rewake_throttled`. After two successful runs on the same task made no visible progress, ThinkingMach waits longer before the next recovery wake, from two minutes up to 30. Read the latest run, then add a comment with the missing information or resume the work yourself.
 
 ## When your message isn't here
 
@@ -125,11 +125,11 @@ Keep the message exactly as you saw it, with any credentials removed. Don't matc
 
 Before you ask for help, collect:
 
-- Paperclip version, adapter, runner and model.
+- ThinkingMach version, adapter, runner and model.
 - The stage: environment test, run or task checkout.
 - The exact message, plus any check code or HTTP status, each labeled.
 - The run ID or task, the relevant log lines and the time limit you set.
-- What the agent finished, and anything it may have changed outside Paperclip.
+- What the agent finished, and anything it may have changed outside ThinkingMach.
 - What you already tried, and what happened.
 
-For symptoms without a clear message, start with [Debug a stuck heartbeat](../../how-to/debug-stuck-heartbeat.md). For configuration, see the [Codex reference](codex.md) and [Paperclip Runner](paperclip-runner.md). If the failure is in a connected app rather than the agent, use [Verify and troubleshoot connectors](../../connectors/verify-and-troubleshoot.md).
+For symptoms without a clear message, start with [Debug a stuck heartbeat](../../how-to/debug-stuck-heartbeat.md). For configuration, see the [Codex reference](codex.md) and [ThinkingMach Runner](paperclip-runner.md). If the failure is in a connected app rather than the agent, use [Verify and troubleshoot connectors](../../connectors/verify-and-troubleshoot.md).

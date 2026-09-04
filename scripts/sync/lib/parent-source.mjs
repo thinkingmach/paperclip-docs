@@ -10,11 +10,11 @@
 //
 // The fix is to read a full, pinned snapshot of the parent repo from disk:
 //
-//   1. PAPERCLIP_SYNC_LOCAL_SRC=<dir>  — use this checkout/extract as-is.
+//   1. THINKINGMACH_SYNC_LOCAL_SRC=<dir>  — use this checkout/extract as-is.
 //   2. otherwise (live mode)           — download the tarball for the resolved
 //                                         commit SHA once, into
 //                                         $CACHE_ROOT/src-<sha>/, and reuse it.
-//   3. PAPERCLIP_SYNC_NO_SNAPSHOT=1, fixture mode, or a failed download
+//   3. THINKINGMACH_SYNC_NO_SNAPSHOT=1, fixture mode, or a failed download
 //                                      — fall back to the contents API (capped,
 //                                         and the cap is reported, never silent).
 //
@@ -44,16 +44,16 @@ const SKIP_DIRS = new Set([".git", "node_modules", "dist", "build", ".next", ".t
  * `log` receives one-line progress/warning messages (stderr in the CLIs).
  */
 export function ensureParentSnapshot({ repo, sha, cacheRoot, fixtureMode, log = () => {} }) {
-  const local = process.env.PAPERCLIP_SYNC_LOCAL_SRC;
+  const local = process.env.THINKINGMACH_SYNC_LOCAL_SRC;
   if (local) {
     if (!existsSync(local)) {
-      log(`warning: PAPERCLIP_SYNC_LOCAL_SRC=${local} does not exist; falling back to the GitHub API`);
+      log(`warning: THINKINGMACH_SYNC_LOCAL_SRC=${local} does not exist; falling back to the GitHub API`);
       return null;
     }
     return local;
   }
   if (fixtureMode) return null;
-  if (process.env.PAPERCLIP_SYNC_NO_SNAPSHOT) return null;
+  if (process.env.THINKINGMACH_SYNC_NO_SNAPSHOT) return null;
   if (!sha || !/^[0-9a-f]{40}$/i.test(sha)) return null;
 
   const dir = join(cacheRoot, `src-${sha}`);

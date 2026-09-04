@@ -6,7 +6,7 @@ seo_description: See the machinery that turns an accepted plan into child tasks,
 
 # Task Plan Decomposition
 
-When an agent's plan is accepted, Paperclip decomposes it into child tasks — and it guarantees that decomposition happens **exactly once**, even if the agent retries or a run is interrupted mid-creation. Normally that machinery is invisible: you just see sub-tasks appear. The **Task Plan Decomposition** flag makes it visible.
+When an agent's plan is accepted, ThinkingMach decomposes it into child tasks — and it guarantees that decomposition happens **exactly once**, even if the agent retries or a run is interrupted mid-creation. Normally that machinery is invisible: you just see sub-tasks appear. The **Task Plan Decomposition** flag makes it visible.
 
 It adds a read-only **Plan decomposition** section to task detail pages showing, per accepted plan revision, how many child tasks were requested, how many were actually created, and which ones — so you can validate that sub-task creation behaved correctly.
 
@@ -17,7 +17,7 @@ This panel is a debugging and validation surface. The app's own description is c
 ## Turn it on
 
 1. Go to **Settings → Experimental**.
-2. Under **Paperclip Developer Mode**, turn on **Task Plan Decomposition** — *"Show accepted-plan decomposition history on task detail pages."*
+2. Under **ThinkingMach Developer Mode**, turn on **Task Plan Decomposition** — *"Show accepted-plan decomposition history on task detail pages."*
 
 The setting is instance-wide and takes effect immediately.
 

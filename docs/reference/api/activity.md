@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.1106.0
 seo_title: Activity API
-seo_description: Paperclip's audit trail: what changed, who changed it, which object, and when. Two reads of the same underlying log, for auditing and for debugging.
+seo_description: ThinkingMach's audit trail: what changed, who changed it, which object, and when. Two reads of the same underlying log, for auditing and for debugging.
 ---
 
 # Activity
 
-Activity is Paperclip's audit trail. Use it when you want to answer: what changed, who changed it, which object changed, and when did it happen?
+Activity is ThinkingMach's audit trail. Use it when you want to answer: what changed, who changed it, which object changed, and when did it happen?
 
 There are two reads of the same underlying log. The plain company feed (`/activity`) is a lightweight, newest-first list meant for quick review. The richer audit feed (`/audit/agent-actions`) is the one the UI's unified Activity page is built on — it adds cursor pagination, a scope toggle, attribution (which agent, which run, on whose behalf), and CSV export. If you need the history for one issue or one heartbeat run, use the issue and run-specific endpoints below.
 
@@ -173,7 +173,7 @@ Streams the audit feed as a CSV attachment. It takes the same filter parameters 
 
 This endpoint always requires the `audit:view_agent_actions` permission — there is no basic tier for the export.
 
-The export is itself an auditable act: Paperclip records an `audit.exported` activity event capturing who exported, the filter set they used, and how many rows left the system.
+The export is itself an auditable act: ThinkingMach records an `audit.exported` activity event capturing who exported, the filter set they used, and how many rows left the system.
 
 The columns are, in order: `createdAt`, `action`, `actorType`, `actorId`, `agentId`, `runId`, `responsibleUserId`, `entityType`, `entityId`, `issueIdentifier`, `issueTitle`, `commentExcerpt`, `documentKey`.
 
@@ -227,7 +227,7 @@ POST /api/companies/{companyId}/activity
 
 Creates a new activity log entry. This endpoint is board-only.
 
-Most Paperclip routes write activity automatically, so you usually do not call this yourself unless you are building a custom admin integration or recording a system event.
+Most ThinkingMach routes write activity automatically, so you usually do not call this yourself unless you are building a custom admin integration or recording a system event.
 
 Request body:
 
@@ -418,7 +418,7 @@ Notes:
 - The route checks company access before returning anything.
 - The response is a compact issue summary, not the full issue record.
 
-Agents that run inside a sandbox can call both run routes above too — along with the company run list, live runs, and a run's details, events, log, and workspace operations — because Paperclip's sandbox bridge now forwards these read-only diagnostics calls. The usual permission checks still apply, so a sandboxed agent sees exactly the run history a locally running agent with the same key would.
+Agents that run inside a sandbox can call both run routes above too — along with the company run list, live runs, and a run's details, events, log, and workspace operations — because ThinkingMach's sandbox bridge now forwards these read-only diagnostics calls. The usual permission checks still apply, so a sandboxed agent sees exactly the run history a locally running agent with the same key would.
 
 ## Activity record
 

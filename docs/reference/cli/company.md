@@ -6,7 +6,7 @@ seo_description: Inspect and manage the top-level container that every agent, pr
 
 # Company Commands
 
-Companies are the top-level container in Paperclip: every agent, project, goal, issue, and budget lives inside one. Use `paperclipai company` when you want to inspect companies, edit their settings and branding, move a whole company between instances as a portable package, pull feedback traces, or delete a company when the server policy allows it.
+Companies are the top-level container in ThinkingMach: every agent, project, goal, issue, and budget lives inside one. Use `thinkingmach company` when you want to inspect companies, edit their settings and branding, move a whole company between instances as a portable package, pull feedback traces, or delete a company when the server policy allows it.
 
 A board operator sees and manages every company on the instance. An agent persona is scoped to exactly one company, so company-scoped reads and the deletion guard rails resolve against that single company unless you pass an explicit ID.
 
@@ -27,17 +27,17 @@ Two commands — `feedback:list` and `feedback:export` — take the company as a
 These are read-only and safe to run anywhere.
 
 ```sh
-paperclipai company list
-paperclipai company get <company-id>
-paperclipai company current
-paperclipai company stats
+thinkingmach company list
+thinkingmach company get <company-id>
+thinkingmach company current
+thinkingmach company stats
 ```
 
 | Command | What it returns |
 |---|---|
 | `company list` | Every company you can see. Human output shows `id`, `name`, `status`, monthly budget and spend (in cents), and whether new agents require board approval. |
 | `company get <companyId>` | The full record for one company. |
-| `company current` | The full record for the company in scope, resolved from `-C, --company-id`, the context file, `PAPERCLIP_COMPANY_ID`, or the agent credential — no positional ID needed. |
+| `company current` | The full record for the company in scope, resolved from `-C, --company-id`, the context file, `THINKINGMACH_COMPANY_ID`, or the agent credential — no positional ID needed. |
 | `company stats` | Instance-level company statistics from `/api/companies/stats`. |
 
 `company list` with an agent credential returns only your scoped company; with a board credential it returns every company on the instance.
@@ -51,13 +51,13 @@ paperclipai company stats
 `create`, `update`, and `branding:update` send raw JSON payloads through to the API. The CLI does not validate the shape — it forwards your `--payload-json` to the server, which applies the matching schema (`CreateCompany`, `UpdateCompany`, `UpdateCompanyBranding`). Build the object the API expects and pass it as a single JSON string.
 
 ```sh
-paperclipai company create \
+thinkingmach company create \
   --payload-json '{"name":"Acme","issuePrefix":"ACME"}'
 
-paperclipai company update <company-id> \
+thinkingmach company update <company-id> \
   --payload-json '{"budgetMonthlyCents":500000}'
 
-paperclipai company branding:update <company-id> \
+thinkingmach company branding:update <company-id> \
   --payload-json '{"primaryColor":"#1f6feb","logoUrl":"https://cdn.example.com/acme.png"}'
 ```
 
@@ -74,7 +74,7 @@ paperclipai company branding:update <company-id> \
 ## Archive
 
 ```sh
-paperclipai company archive <company-id>
+thinkingmach company archive <company-id>
 ```
 
 `company archive` posts to `/api/companies/{id}/archive` and takes no payload. Archiving is the reversible way to take a company out of active rotation. Reach for [`company delete`](#delete-a-company) only when you genuinely need the records gone and the server is configured to permit it.
@@ -83,7 +83,7 @@ paperclipai company archive <company-id>
 
 ## Export and Import
 
-Paperclip companies are portable. `company export` writes a company to a folder of markdown-backed files (plus a `.paperclip.yaml` manifest and any binary assets), and `company import` reads that package back — from a local path, a `.zip`, or a GitHub repository — into a new or existing company.
+ThinkingMach companies are portable. `company export` writes a company to a folder of markdown-backed files (plus a `.paperclip.yaml` manifest and any binary assets), and `company import` reads that package back — from a local path, a `.zip`, or a GitHub repository — into a new or existing company.
 
 The package is full-fidelity: alongside the company record, agents, projects, and skills, it carries tasks with their comments, labels, blocked-by relationships, documents, work products, and monitors, plus routines with their schedule triggers, and attachments as content-addressed files. Approvals, cost history, and activity log entries stay behind on the source instance — they describe what happened there rather than how the company is configured.
 
@@ -92,7 +92,7 @@ The package is full-fidelity: alongside the company record, agents, projects, an
 ### Export a portable package
 
 ```sh
-paperclipai company export <company-id> \
+thinkingmach company export <company-id> \
   --out ./exports/acme \
   --include company,agents,projects,issues,skills
 ```
@@ -115,11 +115,11 @@ On success the command prints the resolved output path, the package root, the nu
 ### Import a package
 
 ```sh
-paperclipai company import ./exports/acme \
+thinkingmach company import ./exports/acme \
   --target new \
   --new-company-name "Acme (imported)"
 
-paperclipai company import https://github.com/acme/company-pack \
+thinkingmach company import https://github.com/acme/company-pack \
   --target existing --company-id <company-id> \
   --collision replace --yes
 ```
@@ -154,10 +154,10 @@ Imported agents always come in with their timer heartbeats switched off, regardl
 If you would rather drive the server's portability routes directly with a hand-built payload, four passthrough commands post your `--payload-json` to the raw routes. These do not read or write local files — they are the API endpoints behind `export`/`import` exposed for scripting.
 
 ```sh
-paperclipai company export:preview <company-id> --payload-json '{...}'
-paperclipai company export:api <company-id> --payload-json '{...}'
-paperclipai company import:preview <company-id> --payload-json '{...}'
-paperclipai company import:apply <company-id> --payload-json '{...}'
+thinkingmach company export:preview <company-id> --payload-json '{...}'
+thinkingmach company export:api <company-id> --payload-json '{...}'
+thinkingmach company import:preview <company-id> --payload-json '{...}'
+thinkingmach company import:apply <company-id> --payload-json '{...}'
 ```
 
 | Command | Route |
@@ -176,8 +176,8 @@ Prefer the high-level `export`/`import` commands for day-to-day work; they handl
 Feedback traces capture votes and reviews recorded against agent work. Use these two commands to read them or pull them out for analysis. Both require `-C, --company-id <id>`.
 
 ```sh
-paperclipai company feedback:list --company-id <company-id> --status open --vote down
-paperclipai company feedback:export --company-id <company-id> --from 2026-01-01 --format ndjson --out ./feedback.ndjson
+thinkingmach company feedback:list --company-id <company-id> --status open --vote down
+thinkingmach company feedback:export --company-id <company-id> --from 2026-01-01 --format ndjson --out ./feedback.ndjson
 ```
 
 | Flag | Use |
@@ -208,8 +208,8 @@ paperclipai company feedback:export --company-id <company-id> --from 2026-01-01 
 `company delete` is destructive and intentionally hard to trigger by accident. It removes a company and its records permanently.
 
 ```sh
-paperclipai company delete PAP --yes --confirm PAP
-paperclipai company delete 5cbe79ee-acb3-4597-896e-7662742593cd \
+thinkingmach company delete PAP --yes --confirm PAP
+thinkingmach company delete 5cbe79ee-acb3-4597-896e-7662742593cd \
   --yes --confirm 5cbe79ee-acb3-4597-896e-7662742593cd
 ```
 
@@ -225,12 +225,12 @@ The selector argument is either a company ID (UUID) or an issue prefix/shortname
 
 Deletion has to clear four separate checks, by design:
 
-1. **Server policy.** The instance must have `PAPERCLIP_ENABLE_COMPANY_DELETION` enabled. If it is off, the API rejects the delete regardless of your flags.
+1. **Server policy.** The instance must have `THINKINGMACH_ENABLE_COMPANY_DELETION` enabled. If it is off, the API rejects the delete regardless of your flags.
 2. **`--yes`.** Without it the command errors immediately — no API call is made.
 3. **`--confirm <value>`.** The value must match the resolved company's ID or its issue prefix (prefix match is case-insensitive). A mismatch errors with the expected ID and prefix so you can correct it.
 4. **Unambiguous resolution.** In `auto` mode, a selector that matches both a different company's ID and another's prefix is rejected as ambiguous — re-run with `--by id` or `--by prefix`.
 
-Resolution order: the CLI tries an ID lookup when the selector looks like a UUID (or `--by id`), then your scoped company from context, then a board-wide company list. With an agent credential, the board-wide lookup is unavailable — deletion is company-scoped, so use the current company's ID or prefix (via `--company-id` or `PAPERCLIP_COMPANY_ID`), not another company's.
+Resolution order: the CLI tries an ID lookup when the selector looks like a UUID (or `--by id`), then your scoped company from context, then a board-wide company list. With an agent credential, the board-wide lookup is unavailable — deletion is company-scoped, so use the current company's ID or prefix (via `--company-id` or `THINKINGMACH_COMPANY_ID`), not another company's.
 
 > **Warning:** There is no undo. If you only need to take a company out of rotation, use [`company archive`](#archive) instead.
 

@@ -12,7 +12,7 @@
 // Usage:
 //   node scripts/sync/check-drift.mjs [--json] [--repo OWNER/REPO] [--against REF]
 //
-// Testing hook: if PAPERCLIP_SYNC_FIXTURE_DIR is set, all `gh api` calls are
+// Testing hook: if THINKINGMACH_SYNC_FIXTURE_DIR is set, all `gh api` calls are
 // redirected to read JSON fixtures from that directory:
 //   - contents:   <dir>/contents-<slug>-<ref>.json    (slug = path with / → __)
 //                 fixture body: { status: 200|404, content_base64?: "..." }
@@ -45,12 +45,12 @@ import {
 const SELF_DIR = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(SELF_DIR, "../..");
 const DOCS = join(ROOT, "docs");
-const CACHE_ROOT = process.env.PAPERCLIP_SYNC_CACHE_DIR || "/tmp/paperclip-sync";
-const FIXTURE_DIR = process.env.PAPERCLIP_SYNC_FIXTURE_DIR || null;
+const CACHE_ROOT = process.env.THINKINGMACH_SYNC_CACHE_DIR || "/tmp/paperclip-sync";
+const FIXTURE_DIR = process.env.THINKINGMACH_SYNC_FIXTURE_DIR || null;
 // Caching is normally off in fixture mode (fixtures are already deterministic
 // per ref, so there's nothing to save). Tests that need to exercise the
-// cache-key path opt in explicitly by setting PAPERCLIP_SYNC_CACHE_DIR.
-const CACHE_ENABLED = !FIXTURE_DIR || !!process.env.PAPERCLIP_SYNC_CACHE_DIR;
+// cache-key path opt in explicitly by setting THINKINGMACH_SYNC_CACHE_DIR.
+const CACHE_ENABLED = !FIXTURE_DIR || !!process.env.THINKINGMACH_SYNC_CACHE_DIR;
 // Directory holding a full snapshot of the parent at the resolved SHA (see
 // lib/parent-source.mjs). Set in main(); null means "use the contents API".
 let SNAPSHOT = null;
@@ -186,7 +186,7 @@ function ghResolveSha(repo, ref) {
     }
     return ref;
   }
-  // A full SHA needs no lookup. This also lets PAPERCLIP_SYNC_LOCAL_SRC runs
+  // A full SHA needs no lookup. This also lets THINKINGMACH_SYNC_LOCAL_SRC runs
   // work offline.
   if (/^[0-9a-f]{40}$/i.test(ref)) return ref.toLowerCase();
   const r = spawnSync("gh", ["api", `repos/${repo}/commits/${ref}`, "-q", ".sha"], { encoding: "utf8" });
@@ -295,7 +295,7 @@ function frontmatterEnd(content) {
   // If the file opens with a YAML frontmatter block (--- ... ---), return the
   // character offset just past the closing delimiter; otherwise 0. Prose inside
   // seo_title / seo_description regularly contains phrases like "the single
-  // paperclipai binary" or "wiring paperclipai into a script" that the CLI and
+  // thinkingmach binary" or "wiring thinkingmach into a script" that the CLI and
   // parent-path scanners would otherwise misread as command invocations or file
   // references. Skipping the frontmatter region (rather than stripping it) keeps
   // the 1-based line numbers of real, body-text hits intact.
@@ -333,16 +333,16 @@ function collectParentPaths(docFiles) {
 
 // --- Class 2: CLI commands -------------------------------------------------
 
-const CLI_INVOCATION_RE = /(?:^|\s)(?:pnpm\s+)?paperclipai\s+([a-z][a-z-]*)(?:\s+([a-z][a-z-]*))?/gm;
+const CLI_INVOCATION_RE = /(?:^|\s)(?:pnpm\s+)?thinkingmach\s+([a-z][a-z-]*)(?:\s+([a-z][a-z-]*))?/gm;
 // Common subcommand directories in cli/src/commands to consult.
 const CLI_CMD_DIRS = ["cli/src/commands", "cli/src/commands/client"];
-// Words that follow `paperclipai` but are flags or non-commands.
+// Words that follow `thinkingmach` but are flags or non-commands.
 const CLI_FALSE_POSITIVES = new Set(["--help", "--version", "-V", "-h", "-v"]);
 
 // Offsets of text that is presented as a command: lines inside fenced code
 // blocks, and inline code spans that *start* with the CLI name. Prose and
-// quoted output (`Installed the managed paperclipai payload…`) are not
-// commands, so a `paperclipai <word>` there is not a documented command.
+// quoted output (`Installed the managed thinkingmach payload…`) are not
+// commands, so a `thinkingmach <word>` there is not a documented command.
 function commandRanges(content) {
   const ranges = [];
   const fenceRe = /^(\s*)(```|~~~)[^\n]*\n([\s\S]*?)^\1\2[ \t]*$/gm;
@@ -359,7 +359,7 @@ function commandRanges(content) {
   while ((s = spanRe.exec(content))) {
     if (inFence(s.index)) continue;
     const body = s[2];
-    if (/^\s*(?:\$\s+)?(?:(?:pnpm|npx|pnpm\s+exec)\s+)?paperclipai\s/.test(body)) {
+    if (/^\s*(?:\$\s+)?(?:(?:pnpm|npx|pnpm\s+exec)\s+)?thinkingmach\s/.test(body)) {
       const start = s.index + s[1].length;
       ranges.push([start, start + body.length]);
     }
@@ -379,8 +379,8 @@ function collectCliCommands(docFiles) {
     let m;
     while ((m = CLI_INVOCATION_RE.exec(content))) {
       if (m.index < fmEnd) continue; // skip seo_title / seo_description prose
-      // The regex may consume a leading space; judge the "paperclipai" token.
-      if (!isCommandText(m.index + m[0].indexOf("paperclipai"))) continue;
+      // The regex may consume a leading space; judge the "thinkingmach" token.
+      if (!isCommandText(m.index + m[0].indexOf("thinkingmach"))) continue;
       const head = m[1];
       const sub = m[2];
       if (CLI_FALSE_POSITIVES.has(head)) continue;
@@ -551,24 +551,24 @@ function isExternallySuppliedEnvVar(name) {
 
 function isRuntimeInjectedEnvVar(name) {
   return new Set([
-    "PAPERCLIP_AGENT_ID",
-    "PAPERCLIP_COMPANY_ID",
-    "PAPERCLIP_API_URL",
-    "PAPERCLIP_API_KEY",
-    "PAPERCLIP_RUN_ID",
-    "PAPERCLIP_TASK_ID",
-    "PAPERCLIP_WAKE_REASON",
-    "PAPERCLIP_WAKE_COMMENT_ID",
-    "PAPERCLIP_WAKE_PAYLOAD_JSON",
-    "PAPERCLIP_APPROVAL_ID",
-    "PAPERCLIP_APPROVAL_STATUS",
-    "PAPERCLIP_LINKED_ISSUE_IDS",
-    "PAPERCLIP_WORKSPACE_CWD",
-    "PAPERCLIP_WORKSPACE_PATH",
-    "PAPERCLIP_WORKSPACE_REPO_ROOT",
-    "PAPERCLIP_WORKSPACE_BRANCH",
-    "PAPERCLIP_PROJECT_ID",
-    "PAPERCLIP_ISSUE_ID",
+    "THINKINGMACH_AGENT_ID",
+    "THINKINGMACH_COMPANY_ID",
+    "THINKINGMACH_API_URL",
+    "THINKINGMACH_API_KEY",
+    "THINKINGMACH_RUN_ID",
+    "THINKINGMACH_TASK_ID",
+    "THINKINGMACH_WAKE_REASON",
+    "THINKINGMACH_WAKE_COMMENT_ID",
+    "THINKINGMACH_WAKE_PAYLOAD_JSON",
+    "THINKINGMACH_APPROVAL_ID",
+    "THINKINGMACH_APPROVAL_STATUS",
+    "THINKINGMACH_LINKED_ISSUE_IDS",
+    "THINKINGMACH_WORKSPACE_CWD",
+    "THINKINGMACH_WORKSPACE_PATH",
+    "THINKINGMACH_WORKSPACE_REPO_ROOT",
+    "THINKINGMACH_WORKSPACE_BRANCH",
+    "THINKINGMACH_PROJECT_ID",
+    "THINKINGMACH_ISSUE_ID",
   ]).has(name);
 }
 
@@ -755,7 +755,7 @@ function readDefaultRepo() {
   } catch {
     // ignore
   }
-  return "paperclipai/paperclip";
+  return "thinkingmach/paperclip";
 }
 
 function readSyncStateRef() {
@@ -869,7 +869,7 @@ function main() {
           drift.push({
             kind: "cli-command-missing",
             doc: `${relative(ROOT, d.file)}${d.line ? `:${d.line}` : ""}`,
-            documented: `paperclipai ${name}`,
+            documented: `thinkingmach ${name}`,
             parent_searched: `${CLI_CMD_DIRS.join(", ")}@${against}`,
             confidence: "high",
             suggest: "Search the parent CLI for the command. It may have been renamed or moved to a different group.",
@@ -901,8 +901,8 @@ function main() {
       if (eligible !== null && eligible > sources.length) {
         warn(
           `warning: env-var scan was capped at ${sources.length} of ${eligible} parent files (GitHub API mode). ` +
-            `env-var-missing results may be false positives. Unset PAPERCLIP_SYNC_NO_SNAPSHOT or set ` +
-            `PAPERCLIP_SYNC_LOCAL_SRC to scan everything.`
+            `env-var-missing results may be false positives. Unset THINKINGMACH_SYNC_NO_SNAPSHOT or set ` +
+            `THINKINGMACH_SYNC_LOCAL_SRC to scan everything.`
         );
       }
       searchedLabel = `${Object.keys(contentsByPath).length} selected source files${

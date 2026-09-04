@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.1106.0
-seo_title: Deploy Paperclip with Docker
+seo_title: Deploy ThinkingMach with Docker
 seo_description: Run a self-contained instance without installing Node or pnpm on the host. Covers the quickstart image, manual builds, and configuration.
 ---
 
 # Docker
 
-Use Docker when you want a self-contained Paperclip instance without installing Node or pnpm on the host machine.
+Use Docker when you want a self-contained ThinkingMach instance without installing Node or pnpm on the host machine.
 
 This page covers the quickstart image, the manual image build, the cloud image variant, and what persists between container restarts.
 
@@ -34,18 +34,18 @@ Defaults:
 Override them with environment variables:
 
 ```sh
-PAPERCLIP_PORT=3200 PAPERCLIP_DATA_DIR=../data/pc \
+THINKINGMACH_PORT=3200 THINKINGMACH_DATA_DIR=../data/pc \
   docker compose -f docker/docker-compose.quickstart.yml up --build
 ```
 
-> **Note:** `PAPERCLIP_DATA_DIR` is resolved relative to the compose file in `docker/`, so `../data/pc` maps to `data/pc` in the repository root.
+> **Note:** `THINKINGMACH_DATA_DIR` is resolved relative to the compose file in `docker/`, so `../data/pc` maps to `data/pc` in the repository root.
 
 ### Set your secrets once
 
 Before the first start, put two secrets in `docker/.env`, each its own value from `openssl rand -hex 32`:
 
 - `BETTER_AUTH_SECRET` signs sessions. Compose refuses to start without it.
-- `PAPERCLIP_TOOL_ACTION_SIGNING_SECRET` signs approvals for approval-gated tools. It's separate from the session secret. Both Compose files (`docker-compose.quickstart.yml` and `docker-compose.yml`) pass it into the container. If you leave it empty, the instance still starts, but it can't issue signed tool-action approvals.
+- `THINKINGMACH_TOOL_ACTION_SIGNING_SECRET` signs approvals for approval-gated tools. It's separate from the session secret. Both Compose files (`docker-compose.quickstart.yml` and `docker-compose.yml`) pass it into the container. If you leave it empty, the instance still starts, but it can't issue signed tool-action approvals.
 
 Keep the same values across restarts. Don't generate new ones for an existing deployment.
 
@@ -62,26 +62,26 @@ docker build --target production -t paperclip-local .
 docker run --name paperclip \
   -p 3100:3100 \
   -e HOST=0.0.0.0 \
-  -e PAPERCLIP_HOME=/paperclip \
+  -e THINKINGMACH_HOME=/paperclip \
   -v "$(pwd)/data/docker-paperclip:/paperclip" \
   paperclip-local
 ```
 
-Use this when you want tight control over the container lifecycle or are embedding Paperclip into a larger Docker workflow.
+Use this when you want tight control over the container lifecycle or are embedding ThinkingMach into a larger Docker workflow.
 
-> **Note:** Name the `production` stage explicitly. The Dockerfile declares a `cloud` stage *after* `production`, and a build with no `--target` picks the last stage in the file — so leaving it off would quietly give you the cloud variant instead. Paperclip's own published image is pinned the same way.
+> **Note:** Name the `production` stage explicitly. The Dockerfile declares a `cloud` stage *after* `production`, and a build with no `--target` picks the last stage in the file — so leaving it off would quietly give you the cloud variant instead. ThinkingMach's own published image is pinned the same way.
 
 ### Custom images
 
-The shipped image starts with `node server/dist-runtime/index.mjs`, a precompiled bundle that loads faster than compiling at boot. If your custom image runs `server/dist/index.js` through tsx, switch to the bundle. When you build from source, run `pnpm --filter @paperclipai/server build` first, then `pnpm --filter @paperclipai/server build:runtime` to produce it.
+The shipped image starts with `node server/dist-runtime/index.mjs`, a precompiled bundle that loads faster than compiling at boot. If your custom image runs `server/dist/index.js` through tsx, switch to the bundle. When you build from source, run `pnpm --filter @thinkingmach/server build` first, then `pnpm --filter @thinkingmach/server build:runtime` to produce it.
 
 ---
 
 ## Cloud Image Variant
 
-Paperclip publishes a second image alongside the regular one: the **cloud variant**. If you are self-hosting, you almost certainly want the plain tag. The cloud variant exists for managed deployments and carries extra weight you do not need.
+ThinkingMach publishes a second image alongside the regular one: the **cloud variant**. If you are self-hosting, you almost certainly want the plain tag. The cloud variant exists for managed deployments and carries extra weight you do not need.
 
-The only difference is what is pre-built inside it. The cloud variant is the production image plus a small set of sandbox-provider plugins that have already been compiled. Managed instances receive a `plugins.autoInstall` list through `PAPERCLIP_MANAGED_CONFIG` and install those plugins from the bundled catalog at boot, which works only when each plugin's `dist/` output is already present in the image. The default image ships the plugin source but not the build output, so auto-install skips those plugins and logs that the bundle is not present.
+The only difference is what is pre-built inside it. The cloud variant is the production image plus a small set of sandbox-provider plugins that have already been compiled. Managed instances receive a `plugins.autoInstall` list through `THINKINGMACH_MANAGED_CONFIG` and install those plugins from the bundled catalog at boot, which works only when each plugin's `dist/` output is already present in the image. The default image ships the plugin source but not the build output, so auto-install skips those plugins and logs that the bundle is not present.
 
 Cloud images are published under the same tag set as the regular image, each tag carrying a `-cloud` suffix:
 
@@ -120,7 +120,7 @@ If the bind mount is removed, the instance starts fresh on the next run.
 
 ### File ownership on startup
 
-The entrypoint makes sure the container's `node` user owns everything under `PAPERCLIP_HOME` before the app starts. To keep boots fast on volumes with lots of agent worktrees and `node_modules` trees, it walks the whole tree only once for each volume and node UID/GID. After that it records the result in `.paperclip-ownership-verified` at the top of the data directory, and later boots run only a quick shallow check. Delete that file if you want the next boot to run the full check again. If the container starts as a non-root user, the entrypoint can't change ownership, so it skips all of this.
+The entrypoint makes sure the container's `node` user owns everything under `THINKINGMACH_HOME` before the app starts. To keep boots fast on volumes with lots of agent worktrees and `node_modules` trees, it walks the whole tree only once for each volume and node UID/GID. After that it records the result in `.paperclip-ownership-verified` at the top of the data directory, and later boots run only a quick shallow check. Delete that file if you want the next boot to run the full check again. If the container starts as a non-root user, the entrypoint can't change ownership, so it skips all of this.
 
 If you set `USER_UID` or `USER_GID` to something other than the image default (`1000`), the container remaps the `node` user without walking the data volume. The first boot with new IDs still runs the ownership check above, which repairs the whole tree if anything has the wrong owner. Once that's recorded, later boots start in seconds, even on large volumes.
 
@@ -143,7 +143,7 @@ If you want those adapters to run inside the container, pass the relevant API ke
 docker run --name paperclip \
   -p 3100:3100 \
   -e HOST=0.0.0.0 \
-  -e PAPERCLIP_HOME=/paperclip \
+  -e THINKINGMACH_HOME=/paperclip \
   -e OPENAI_API_KEY=sk-... \
   -e ANTHROPIC_API_KEY=sk-... \
   -e GEMINI_API_KEY=... \
@@ -155,13 +155,13 @@ Without those keys, the app still runs. The adapter environment test will simply
 
 ### Remote runner provider pack
 
-The standard image also bundles the remote runner's provider pack at `/opt/paperclip-runner/provider-pack` and points `PAPERCLIP_RUNNER_REMOTE_PROVIDER_PACK_PATH` at it. Remote OpenCode and ACPX runs need that pack, so with it in place they no longer fail with `runner_remote_provider_artifact_incompatible`.
+The standard image also bundles the remote runner's provider pack at `/opt/paperclip-runner/provider-pack` and points `THINKINGMACH_RUNNER_REMOTE_PROVIDER_PACK_PATH` at it. Remote OpenCode and ACPX runs need that pack, so with it in place they no longer fail with `runner_remote_provider_artifact_incompatible`.
 
 If you build your own image on top of the standard one, you inherit the pack automatically. If you build from source, pass the full 40-character Git SHA as a build argument — the pack only builds when the commit is known, and a local build without it skips the pack with a log line:
 
 ```sh
 docker build --target production \
-  --build-arg PAPERCLIP_BUILD_COMMIT="$(git rev-parse HEAD)" \
+  --build-arg THINKINGMACH_BUILD_COMMIT="$(git rev-parse HEAD)" \
   -t paperclip-local .
 ```
 

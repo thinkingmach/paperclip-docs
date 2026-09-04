@@ -46,9 +46,9 @@ Prefer **Allow once** until you are comfortable authorizing that action with oth
 
 ## What the agent experiences
 
-An agent calling an Ask-first action does not get an error and does not get a result — it gets told approval is required, and it waits. Paperclip wakes the agent again when you answer.
+An agent calling an Ask-first action does not get an error and does not get a result — it gets told approval is required, and it waits. ThinkingMach wakes the agent again when you answer.
 
-Approval means approve and run: Paperclip attempts the stored call using its saved arguments. Approval is not proof that the provider operation succeeded; check the execution result. An agent should not re-issue the call after an approval; if the wake says it executed, that result is the result.
+Approval means approve and run: ThinkingMach attempts the stored call using its saved arguments. Approval is not proof that the provider operation succeeded; check the execution result. An agent should not re-issue the call after an approval; if the wake says it executed, that result is the result.
 
 A declined request means the action did not happen. The agent is expected to change approach rather than retry the same call.
 

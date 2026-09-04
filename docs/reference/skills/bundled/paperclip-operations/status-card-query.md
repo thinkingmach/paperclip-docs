@@ -5,7 +5,7 @@ seo_description: Describe a slice of work in plain English — blocked launch wo
 
 # Status Card Query
 
-> Create and maintain agent-authored Paperclip status cards, or compile a prose interest prompt into bounded CompanySearchQuery objects and write the first summary from the assigned Summarizer run.
+> Create and maintain agent-authored ThinkingMach status cards, or compile a prose interest prompt into bounded CompanySearchQuery objects and write the first summary from the assigned Summarizer run.
 
 A status card lets you describe a slice of work in plain English — "blocked or in-review launch work updated this week" — and get a card that keeps itself current. This skill teaches an agent both halves of that: how to author a card in the first place, and how to turn its prose prompt into the bounded search queries that decide which issues the card actually covers, then write the first summary.
 
@@ -30,8 +30,8 @@ Status cards are an experimental feature. The authoring routes are available onl
 
 | Field | Value |
 |---|---|
-| Catalog id | `paperclipai:bundled:paperclip-operations:status-card-query` |
-| Canonical key | `paperclipai/bundled/paperclip-operations/status-card-query` |
+| Catalog id | `thinkingmach:bundled:paperclip-operations:status-card-query` |
+| Canonical key | `thinkingmach/bundled/paperclip-operations/status-card-query` |
 | Catalog path | `catalog/bundled/paperclip-operations/status-card-query` |
 | Kind | `bundled` |
 | Category | `paperclip-operations` |
@@ -45,7 +45,7 @@ Status cards are an experimental feature. The authoring routes are available onl
 | Tags | `paperclip`, `status`, `search`, `reporting`, `operations` |
 | Files | 1 |
 | Content hash | `sha256:2b6e53bf8491f027afdbd6961ad84f677cfd385a0a6a73616ea84111ca8886ed` |
-| Package | `@paperclipai/skills-catalog@0.3.1` |
+| Package | `@thinkingmach/skills-catalog@0.3.1` |
 
 ## File inventory
 
@@ -61,24 +61,24 @@ Agent-authored cards need the `tasks:assign` permission and stay company-scoped.
 - An agent may author at most 20 cards.
 - An `interestPrompt` may be at most 4,000 characters.
 
-The skill normalises the run-provided API base first, so the same snippet works whether `PAPERCLIP_API_URL` ends in `/api` or not, then creates the card:
+The skill normalises the run-provided API base first, so the same snippet works whether `THINKINGMACH_API_URL` ends in `/api` or not, then creates the card:
 
 ```bash
-PAPERCLIP_API_BASE="${PAPERCLIP_API_URL%/}"
-PAPERCLIP_API_BASE="${PAPERCLIP_API_BASE%/api}"
+THINKINGMACH_API_BASE="${THINKINGMACH_API_URL%/}"
+THINKINGMACH_API_BASE="${THINKINGMACH_API_BASE%/api}"
 
 curl -sS -X POST \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"interestPrompt":"Blocked or in-review launch work updated this week"}' \
-  "$PAPERCLIP_API_BASE/api/companies/$PAPERCLIP_COMPANY_ID/status-cards"
+  "$THINKINGMACH_API_BASE/api/companies/$THINKINGMACH_COMPANY_ID/status-cards"
 ```
 
 Creation returns `201` and queues compilation on its own — you don't have to schedule anything. Keep the card id from the response. From there, `PATCH /api/status-cards/{statusCardId}` sharpens the prompt on a card you own, and `POST /api/status-cards/{statusCardId}/refresh` with `{"full": false}` asks for a refresh.
 
 ## Mode 2 — compiling the prompt
 
-As the Summarizer, your job is to turn the card's prose prompt into an array of Paperclip company-search queries. The array has **union semantics**: an issue that matches any query belongs to the card. So prefer a single narrow query, and add a second only when the prompt genuinely describes two distinct populations.
+As the Summarizer, your job is to turn the card's prose prompt into an array of ThinkingMach company-search queries. The array has **union semantics**: an issue that matches any query belongs to the card. So prefer a single narrow query, and add a second only when the prompt genuinely describes two distinct populations.
 
 ### CompanySearchQuery fields
 

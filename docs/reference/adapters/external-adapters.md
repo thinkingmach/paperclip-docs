@@ -6,19 +6,19 @@ seo_description: Ship an adapter as its own npm package or local directory when 
 
 # External Adapters
 
-External adapters let you ship a Paperclip adapter as its own npm package or local directory. Use them when you want independent versioning, separate distribution, or a runtime that should not live inside the Paperclip repo.
+External adapters let you ship a ThinkingMach adapter as its own npm package or local directory. Use them when you want independent versioning, separate distribution, or a runtime that should not live inside the ThinkingMach repo.
 
 ---
 
 ## When To Use
 
-- You want to distribute an adapter independently from Paperclip.
+- You want to distribute an adapter independently from ThinkingMach.
 - You are building an internal adapter for your team or workspace.
-- You need a local plugin that can be installed and reloaded without editing Paperclip source.
+- You need a local plugin that can be installed and reloaded without editing ThinkingMach source.
 
 ## When Not To Use
 
-- The adapter should ship with Paperclip itself. Use a built-in adapter.
+- The adapter should ship with ThinkingMach itself. Use a built-in adapter.
 - You only need a one-off local command. Use [Process](./process.md).
 - The runtime is already covered by the built-in local adapters.
 
@@ -28,13 +28,13 @@ External adapters let you ship a Paperclip adapter as its own npm package or loc
 
 | Area | Built-in | External |
 |---|---|---|
-| Source | Paperclip repo | Separate npm package or local directory |
-| Installation | Ships with Paperclip | Installed through the Adapter Manager or `POST /api/adapters/install` |
-| Updates | Requires a Paperclip release | Independent package versioning |
-| UI parser | Static import inside Paperclip | Optional `./ui-parser` export |
+| Source | ThinkingMach repo | Separate npm package or local directory |
+| Installation | Ships with ThinkingMach | Installed through the Adapter Manager or `POST /api/adapters/install` |
+| Updates | Requires a ThinkingMach release | Independent package versioning |
+| UI parser | Static import inside ThinkingMach | Optional `./ui-parser` export |
 | Registration | Hardcoded in the host | Loaded at startup from the adapter plugin store |
 
-> **Tip:** External adapters are the right choice whenever you want to own the release lifecycle of the adapter separately from the Paperclip app.
+> **Tip:** External adapters are the right choice whenever you want to own the release lifecycle of the adapter separately from the ThinkingMach app.
 
 ---
 
@@ -152,7 +152,7 @@ The UI parser is optional, but it is the difference between raw log text and a r
 
 ## Runtime Lifecycle
 
-1. Paperclip loads the adapter package at startup.
+1. ThinkingMach loads the adapter package at startup.
 2. The plugin store records the package name, local path, and installed version.
 3. The adapter becomes available to the board UI and the server registry.
 4. The Adapter Manager can disable, reload, reinstall, or remove the adapter later.
@@ -198,7 +198,7 @@ The operator-facing walkthrough of pausing, resuming, and removing overrides liv
 
 - Prefer a local path install while developing the adapter.
 - Use npm installation when you want the package to behave like any other dependency.
-- Keep the package self-contained. The host expects the adapter to load cleanly without modifying Paperclip source.
+- Keep the package self-contained. The host expects the adapter to load cleanly without modifying ThinkingMach source.
 - Treat the adapter package as the source of truth for its own config documentation.
 
 ---

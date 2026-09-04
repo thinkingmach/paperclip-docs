@@ -1,18 +1,18 @@
 ---
 paperclip_version: v2026.1106.0
 seo_title: Hermes Adapter
-seo_description: Run Hermes Agent by Nous Research on the Paperclip host, with persistent memory and a 30-plus tool suite available to the agent on every run.
+seo_description: Run Hermes Agent by Nous Research on the ThinkingMach host, with persistent memory and a 30-plus tool suite available to the agent on every run.
 ---
 
 # Hermes
 
-`hermes_local` runs [Hermes Agent](https://github.com/NousResearch/hermes-agent) — a full-featured AI agent by Nous Research — on the same machine as Paperclip. Use it when you want persistent memory, a 30+ tool suite, 80+ loadable skills, multi-provider model routing, and MCP client support in a single adapter.
+`hermes_local` runs [Hermes Agent](https://github.com/NousResearch/hermes-agent) — a full-featured AI agent by Nous Research — on the same machine as ThinkingMach. Use it when you want persistent memory, a 30+ tool suite, 80+ loadable skills, multi-provider model routing, and MCP client support in a single adapter.
 
 ---
 
 ## When To Use
 
-- Hermes is a built-in adapter — no plugin install required. Paperclip ships `hermes_local` out of the box.
+- Hermes is a built-in adapter — no plugin install required. ThinkingMach ships `hermes_local` out of the box.
 - You need persistent memory, FTS5 session search, or sub-agent delegation.
 - You want to route to multiple inference providers (Anthropic, OpenRouter, OpenAI, Nous, OpenAI Codex, Copilot, Copilot ACP, HuggingFace, ZAI, Kimi Coding, MiniMax, Kilocode).
 - You want filesystem checkpoints for rollback safety.
@@ -58,7 +58,7 @@ seo_description: Run Hermes Agent by Nous Research on the Paperclip host, with p
 | `verbose` | no | `false` | Verbose output. |
 | `quiet` | no | `true` | Clean output — no banner or spinner. |
 | `promptTemplate` | no | built-in | Custom prompt template (see below). |
-| `paperclipApiUrl` | no | — | Optional API base override. When unset, the prompt uses `PAPERCLIP_API_URL` from the adapter's `env` if you set one there, then the server's `PAPERCLIP_API_URL`. |
+| `paperclipApiUrl` | no | — | Optional API base override. When unset, the prompt uses `THINKINGMACH_API_URL` from the adapter's `env` if you set one there, then the server's `THINKINGMACH_API_URL`. |
 
 ---
 
@@ -66,7 +66,7 @@ seo_description: Run Hermes Agent by Nous Research on the Paperclip host, with p
 
 Hermes manages its own model. Set it in `~/.hermes/config.yaml` or through Hermes's own configuration, and leave the adapter's `model` field empty. This keeps the "add a Hermes agent" flow one-click: if Hermes is already configured on your machine, you're done.
 
-To pin a different model for one agent, set the optional `model` field in the adapter config, for example `anthropic/claude-sonnet-4`. Paperclip passes it to Hermes with `-m`.
+To pin a different model for one agent, set the optional `model` field in the adapter config, for example `anthropic/claude-sonnet-4`. ThinkingMach passes it to Hermes with `-m`.
 
 ---
 
@@ -86,10 +86,10 @@ Sessions are tagged as `tool` source so they don't clutter the user's interactiv
 
 The adapter scans two skill sources and merges them in the UI:
 
-- **Paperclip-managed skills** — bundled with the adapter, togglable from the board UI.
+- **ThinkingMach-managed skills** — bundled with the adapter, togglable from the board UI.
 - **Hermes-native skills** — from `~/.hermes/skills/`, read-only, always loaded.
 
-`listSkills` and `syncSkills` expose the unified snapshot so the Paperclip UI shows both categories in one view.
+`listSkills` and `syncSkills` expose the unified snapshot so the ThinkingMach UI shows both categories in one view.
 
 ---
 
@@ -99,7 +99,7 @@ Use `{{variable}}` syntax in `promptTemplate`:
 
 | Variable | Description |
 |---|---|
-| `{{agentId}}` | Paperclip agent ID |
+| `{{agentId}}` | ThinkingMach agent ID |
 | `{{agentName}}` | Agent display name |
 | `{{companyId}}` | Company ID |
 | `{{companyName}}` | Company name |
@@ -108,7 +108,7 @@ Use `{{variable}}` syntax in `promptTemplate`:
 | `{{taskTitle}}` | Task title |
 | `{{taskBody}}` | Task instructions |
 | `{{projectName}}` | Project name |
-| `{{paperclipApiUrl}}` | Paperclip API base URL |
+| `{{paperclipApiUrl}}` | ThinkingMach API base URL |
 | `{{commentId}}` | Comment ID (when woken by a comment) |
 | `{{wakeReason}}` | Reason this run was triggered |
 
@@ -129,7 +129,7 @@ The adapter spawns Hermes Agent in single-query mode (`hermes chat -q ...`). Her
 3. Post-processes Hermes ASCII banners, setext headings, and `+--+` table borders into clean GFM markdown.
 4. Reclassifies benign stderr (MCP init messages, structured logs) so they don't appear as errors.
 5. Tags sessions as `tool` source.
-6. Reports results back to Paperclip with cost, usage, and session state.
+6. Reports results back to ThinkingMach with cost, usage, and session state.
 
 ---
 

@@ -1,14 +1,14 @@
 ---
 paperclip_version: v2026.1106.0
 seo_title: Claude Code Adapter
-seo_description: Run Anthropic's Claude Code CLI on the Paperclip host, with session persistence, skills injection, and configuration managed from your agent.
+seo_description: Run Anthropic's Claude Code CLI on the ThinkingMach host, with session persistence, skills injection, and configuration managed from your agent.
 ---
 
 # Claude Code
 
-`claude_local` runs Anthropic's Claude Code CLI on the same machine as Paperclip. Use it when you want a local coding agent with session persistence, skills injection, and full access to the configured working directory.
+`claude_local` runs Anthropic's Claude Code CLI on the same machine as ThinkingMach. Use it when you want a local coding agent with session persistence, skills injection, and full access to the configured working directory.
 
-> **Heads-up:** New Claude Code agents now run on [Paperclip Runner](paperclip-runner.md#new-codex-and-claude-agents-use-the-runner) by default when the execution environment is macOS or Linux x64/ARM64 with GNU libc `2.39` or newer (a Mac reached over SSH stays on the Legacy runner unless you pick the Runner yourself). Those agents are saved as `paperclip_runner` with `provider: "acpx"` and `acpxAgent: "claude"`, and a blank model resolves to `claude-opus-5-5`. To keep the classic adapter described on this page, choose **Legacy runner** under **Advanced → Runner** (or send `runner: "legacy"` from the API). Existing agents keep the runner they already have.
+> **Heads-up:** New Claude Code agents now run on [ThinkingMach Runner](paperclip-runner.md#new-codex-and-claude-agents-use-the-runner) by default when the execution environment is macOS or Linux x64/ARM64 with GNU libc `2.39` or newer (a Mac reached over SSH stays on the Legacy runner unless you pick the Runner yourself). Those agents are saved as `paperclip_runner` with `provider: "acpx"` and `acpxAgent: "claude"`, and a blank model resolves to `claude-opus-5-5`. To keep the classic adapter described on this page, choose **Legacy runner** under **Advanced → Runner** (or send `runner: "legacy"` from the API). Existing agents keep the runner they already have.
 
 ---
 
@@ -16,8 +16,8 @@ seo_description: Run Anthropic's Claude Code CLI on the Paperclip host, with ses
 
 - You already use Claude Code on the host machine.
 - You want a local agent that can read and write files in a working directory.
-- You want Paperclip to resume the same Claude session across heartbeats.
-- You want the adapter to sync Paperclip skills into Claude's skill path automatically.
+- You want ThinkingMach to resume the same Claude session across heartbeats.
+- You want the adapter to sync ThinkingMach skills into Claude's skill path automatically.
 
 ## When Not To Use
 
@@ -38,33 +38,33 @@ seo_description: Run Anthropic's Claude Code CLI on the Paperclip host, with ses
 | `env` | no | Environment variables passed to Claude Code. Secret refs are supported. |
 | `command` | no | Defaults to `claude`. Override only if you need a different executable path. |
 | `extraArgs` | no | Extra CLI arguments appended to the Claude invocation. |
-| `effort` | no | Reasoning effort passed with `--effort`. The choices depend on the model — see [Reasoning Effort](#reasoning-effort). In a sandbox environment whose Claude CLI is too old to advertise `--effort`, Paperclip drops the flag and warns you to upgrade the environment's Claude Code to restore reasoning-effort control. |
+| `effort` | no | Reasoning effort passed with `--effort`. The choices depend on the model — see [Reasoning Effort](#reasoning-effort). In a sandbox environment whose Claude CLI is too old to advertise `--effort`, ThinkingMach drops the flag and warns you to upgrade the environment's Claude Code to restore reasoning-effort control. |
 | `chrome` | no | Passes `--chrome` when enabled. |
 | `maxTurnsPerRun` | no | Caps the number of agentic turns in one heartbeat. Defaults to `300`. |
-| `dangerouslySkipPermissions` | no | Defaults to `true` because Paperclip runs Claude in headless `--print` mode. When on, local and remote runs alike get `--dangerously-skip-permissions`, covering built-in and connected tools. See [Permissions](#permissions). |
+| `dangerouslySkipPermissions` | no | Defaults to `true` because ThinkingMach runs Claude in headless `--print` mode. When on, local and remote runs alike get `--dangerously-skip-permissions`, covering built-in and connected tools. See [Permissions](#permissions). |
 | `timeoutSec` | no | Run timeout in seconds. On local and SSH targets, `0` means no adapter wall-clock timeout. On a sandbox target, `0` or an unset value uses the 14,400-second sandbox default; use a positive value to override it or a negative value to opt out of the adapter timeout. |
 | `graceSec` | no | Grace period before a forced stop. |
 | `workspaceStrategy` | no | Execution workspace strategy, such as `git_worktree`. |
 | `workspaceRuntime` | no | Reserved workspace runtime metadata. |
 
-> **Note:** Claude Code is a headless adapter. The environment test is more important here than in a normal CLI session because Paperclip needs to know the command, path, auth mode, and model all work together.
+> **Note:** Claude Code is a headless adapter. The environment test is more important here than in a normal CLI session because ThinkingMach needs to know the command, path, auth mode, and model all work together.
 
 ### OpenRouter requests
 
-When `ANTHROPIC_BASE_URL`, from the agent's environment or the server's, points at OpenRouter, Paperclip keeps your `ANTHROPIC_CUSTOM_HEADERS` and adds its own app attribution headers (`HTTP-Referer`, `X-Title`, `X-OpenRouter-Title`, and `X-OpenRouter-Categories`). Your authentication and routing headers stay as they are, but attribution headers with those names are replaced.
+When `ANTHROPIC_BASE_URL`, from the agent's environment or the server's, points at OpenRouter, ThinkingMach keeps your `ANTHROPIC_CUSTOM_HEADERS` and adds its own app attribution headers (`HTTP-Referer`, `X-Title`, `X-OpenRouter-Title`, and `X-OpenRouter-Categories`). Your authentication and routing headers stay as they are, but attribution headers with those names are replaced.
 
 ---
 
 ## Permissions
 
-Paperclip runs Claude Code without anyone watching, so there's no one to click "approve" on a permission prompt. With `dangerouslySkipPermissions` on (the default), Claude runs in full-auto mode: it can use its built-in tools and any tools from connected services — such as MCP servers — without stopping to ask.
+ThinkingMach runs Claude Code without anyone watching, so there's no one to click "approve" on a permission prompt. With `dangerouslySkipPermissions` on (the default), Claude runs in full-auto mode: it can use its built-in tools and any tools from connected services — such as MCP servers — without stopping to ask.
 
-This works the same whether the agent runs on the Paperclip host or on a remote target. Remote runs used to get a hand-picked list of allowed tools instead of full bypass; that list missed connected tools and anything Claude added in later releases, so remote runs now get the same full bypass as local ones.
+This works the same whether the agent runs on the ThinkingMach host or on a remote target. Remote runs used to get a hand-picked list of allowed tools instead of full bypass; that list missed connected tools and anything Claude added in later releases, so remote runs now get the same full bypass as local ones.
 
 A couple of things to know:
 
-- **Sandboxes running as root.** Claude refuses full bypass when it runs as the root user, unless it knows it's inside a sandbox. When the agent runs in a Paperclip-managed sandbox, Paperclip sets `IS_SANDBOX=1` so Claude accepts the bypass there.
-- **Other root processes.** Outside a managed sandbox, run Claude as a non-root user. Paperclip doesn't quietly fall back to a narrower permission mode — if Claude refuses to launch, the run fails so you can fix the setup.
+- **Sandboxes running as root.** Claude refuses full bypass when it runs as the root user, unless it knows it's inside a sandbox. When the agent runs in a ThinkingMach-managed sandbox, ThinkingMach sets `IS_SANDBOX=1` so Claude accepts the bypass there.
+- **Other root processes.** Outside a managed sandbox, run Claude as a non-root user. ThinkingMach doesn't quietly fall back to a narrower permission mode — if Claude refuses to launch, the run fails so you can fix the setup.
 
 > **Tip:** Want Claude to stop and refuse anything it would normally ask about? Set `dangerouslySkipPermissions` to `false`. Keep in mind that in a headless run, a tool that needs approval simply won't run.
 
@@ -89,7 +89,7 @@ The same levels apply to the Bedrock versions of these models. If you switch to 
 
 Claude Code can run through one of two engines — ACP or the classic Claude CLI — selected by the `engine` field:
 
-- **`auto` (default) — ACP.** Paperclip runs Claude through the Agent Client Protocol (ACP). If the host doesn't meet the ACP prerequisites, the run fails with a setup error explaining why — Paperclip never switches engines on its own.
+- **`auto` (default) — ACP.** ThinkingMach runs Claude through the Agent Client Protocol (ACP). If the host doesn't meet the ACP prerequisites, the run fails with a setup error explaining why — ThinkingMach never switches engines on its own.
 - **`acp` — always ACP.** Force the Agent Client Protocol path.
 - **`cli` — always the Claude CLI.** Force the classic CLI wrapper and skip ACP entirely.
 
@@ -102,7 +102,7 @@ When the engine resolves to ACP (`auto` or `acp`), these extra fields apply:
 | `agentCommand` | package-local `claude-agent-acp` | Optional override for the Claude ACP server command. |
 | `mode` | `persistent` | `persistent` keeps ACP session state between runs; `oneshot` starts fresh each run. |
 | `nonInteractivePermissions` | `deny` | What to do if the ACP agent asks for input outside an interactive session — `deny` the request or `fail` the run. |
-| `stateDir` | Paperclip-managed | Optional ACP session-state directory. Defaults to Paperclip's company- and agent-scoped storage. |
+| `stateDir` | ThinkingMach-managed | Optional ACP session-state directory. Defaults to ThinkingMach's company- and agent-scoped storage. |
 | `warmHandleIdleMs` | `0` | How long to keep the ACP process warm between runs, in milliseconds. `0` closes it after each run while still retaining persistent session state. |
 | `stalledToolTimeoutSec` | `1800` | Ends the turn as failed with `acpx_tool_stalled` when a pending tool call gets no ACP update for this many seconds. `0` turns the watchdog off. |
 
@@ -110,14 +110,14 @@ When the engine resolves to ACP (`auto` or `acp`), these extra fields apply:
 
 On ACP, a tool call that goes quiet can't hold a run open forever:
 
-- **Stalled tool calls end the turn.** If a pending tool call gets no updates for 30 minutes, Paperclip ends the turn as failed with `acpx_tool_stalled`. The default always stays at least 15 minutes longer than any `MCP_TOOL_TIMEOUT` or `BASH_MAX_TIMEOUT_MS` you set in `env`, so Claude's own limits fire first. Set `stalledToolTimeoutSec` to change the bound, or `0` to turn it off. The run result also notes whether the stalled call had asked for permission.
-- **MCP tool calls get a deadline.** When a run attaches runtime MCP servers, Paperclip sets `MCP_TOOL_TIMEOUT` to 15 minutes (`900000` ms) for Claude, so one hung MCP tool can't stall the turn. A value you set yourself in `env` wins.
+- **Stalled tool calls end the turn.** If a pending tool call gets no updates for 30 minutes, ThinkingMach ends the turn as failed with `acpx_tool_stalled`. The default always stays at least 15 minutes longer than any `MCP_TOOL_TIMEOUT` or `BASH_MAX_TIMEOUT_MS` you set in `env`, so Claude's own limits fire first. Set `stalledToolTimeoutSec` to change the bound, or `0` to turn it off. The run result also notes whether the stalled call had asked for permission.
+- **MCP tool calls get a deadline.** When a run attaches runtime MCP servers, ThinkingMach sets `MCP_TOOL_TIMEOUT` to 15 minutes (`900000` ms) for Claude, so one hung MCP tool can't stall the turn. A value you set yourself in `env` wins.
 
 > **Heads-up:** ACP is where the old standalone `acpx_local` adapter's capabilities now live. That adapter has been retired — pick `claude_local` (or `codex_local` / `gemini_local`) and leave `engine` on `auto` to get ACP by default.
 
 ### ACP in sandbox environments
 
-You can keep `engine` on `auto` when this agent runs in a Paperclip sandbox environment. If that sandbox provides Paperclip's bidirectional process session, Paperclip keeps the ACP engine and its structured live transcript; you do not add a separate bridge setting to the adapter config.
+You can keep `engine` on `auto` when this agent runs in a ThinkingMach sandbox environment. If that sandbox provides ThinkingMach's bidirectional process session, ThinkingMach keeps the ACP engine and its structured live transcript; you do not add a separate bridge setting to the adapter config.
 
 An environment that only runs one-shot commands cannot host an ACP session, so an `auto` run there fails with a setup error rather than switching to the Claude CLI. Set `engine: "cli"` when you want the CLI lane — for example on such environments.
 
@@ -125,13 +125,13 @@ An environment that only runs one-shot commands cannot host an ACP session, so a
 
 ## Model Discovery
 
-When you pick a model in the agent config form, Claude Code fills the model dropdown from a live query to Anthropic's API instead of a hard-coded list — so a Claude model that shipped after your last Paperclip update still shows up without waiting for a new release.
+When you pick a model in the agent config form, Claude Code fills the model dropdown from a live query to Anthropic's API instead of a hard-coded list — so a Claude model that shipped after your last ThinkingMach update still shows up without waiting for a new release.
 
 Here's how the list is built:
 
-- **With an API key.** If `ANTHROPIC_API_KEY` is set, the adapter calls the Anthropic models endpoint (`/v1/models`) — at `ANTHROPIC_BASE_URL` if you've set one, otherwise `https://api.anthropic.com` — and offers everything it returns. The live results are merged with Paperclip's built-in list and de-duplicated, so you always see at least the known-good models, plus anything new from your account.
+- **With an API key.** If `ANTHROPIC_API_KEY` is set, the adapter calls the Anthropic models endpoint (`/v1/models`) — at `ANTHROPIC_BASE_URL` if you've set one, otherwise `https://api.anthropic.com` — and offers everything it returns. The live results are merged with ThinkingMach's built-in list and de-duplicated, so you always see at least the known-good models, plus anything new from your account.
 - **On Bedrock.** If the adapter detects AWS Bedrock (for example `CLAUDE_CODE_USE_BEDROCK=1`), it offers the region-qualified Bedrock model IDs instead, such as `us.anthropic.claude-opus-5-5`, `us.anthropic.claude-sonnet-5-5`, `us.anthropic.claude-sonnet-5`, and `us.anthropic.claude-fable-5-1`.
-- **No key, or the lookup fails.** If there's no API key, or the request times out or comes back empty, you simply get Paperclip's built-in fallback list. Discovery never blocks you from saving an adapter.
+- **No key, or the lookup fails.** If there's no API key, or the request times out or comes back empty, you simply get ThinkingMach's built-in fallback list. Discovery never blocks you from saving an adapter.
 
 Whichever way the list is built, the dropdown shows it in the same order the Claude app uses, so you find the model you expect where you expect it. The newest release of each family comes first, from most to least capable — Fable, Mythos, Opus, Sonnet, then Haiku — followed by older releases grouped by family with the newest versions first. A model alias sorts ahead of its dated snapshots, and any id that doesn't look like a Claude model keeps its place at the end of the list.
 
@@ -147,7 +147,7 @@ Discovered models are cached for about a minute (keyed to the API key and base U
 >
 > If the installed CLI is older, the environment test and the run both fail fast with `claude_cli_version_incompatible` instead of launching against an unsupported binary — upgrade Claude Code on the target host to use the model.
 >
-> In a sandbox environment there's usually nothing for you to upgrade. When the sandbox's default `claude` command is too old for the selected model, Paperclip installs the exact minimum version into a private folder in the workspace (`.paperclip-runtime/claude-cli/<version>`), verifies it, and uses it for both the environment test and normal runs, reusing it next time. The image's own CLI, your model, your account, and your engine stay as they are. If the install or the version check fails, you still get `claude_cli_version_incompatible`. Local and SSH targets and custom `command` values stay yours to upgrade.
+> In a sandbox environment there's usually nothing for you to upgrade. When the sandbox's default `claude` command is too old for the selected model, ThinkingMach installs the exact minimum version into a private folder in the workspace (`.paperclip-runtime/claude-cli/<version>`), verifies it, and uses it for both the environment test and normal runs, reusing it next time. The image's own CLI, your model, your account, and your engine stay as they are. If the install or the version check fails, you still get `claude_cli_version_incompatible`. Local and SSH targets and custom `command` values stay yours to upgrade.
 
 ---
 
@@ -168,9 +168,9 @@ The session codec also preserves the important location hints from Claude's own 
 
 ### Resuming a session's workspace
 
-When Paperclip resumes a `claude_local` session, the saved `cwd` is the **host workspace cwd** — the path on the machine where Paperclip runs — not whatever cwd a remote sandbox happened to report. That keeps resume paths stable when the agent executes against a remote sandbox.
+When ThinkingMach resumes a `claude_local` session, the saved `cwd` is the **host workspace cwd** — the path on the machine where ThinkingMach runs — not whatever cwd a remote sandbox happened to report. That keeps resume paths stable when the agent executes against a remote sandbox.
 
-Before the heartbeat trusts a saved cwd, `isUnsafeSessionWorkspaceCwd` checks it against a small set of system roots (`/`, `/tmp`, `/var`, `/var/tmp`, `/var/run`, `/usr`, `/etc`, `/proc`, `/sys`, `/dev`, `/run`, `/private`, `/private/tmp`). If the saved cwd resolves to one of those, Paperclip rejects it and falls back to the agent home workspace instead of letting the agent loose on a system directory.
+Before the heartbeat trusts a saved cwd, `isUnsafeSessionWorkspaceCwd` checks it against a small set of system roots (`/`, `/tmp`, `/var`, `/var/tmp`, `/var/run`, `/usr`, `/etc`, `/proc`, `/sys`, `/dev`, `/run`, `/private`, `/private/tmp`). If the saved cwd resolves to one of those, ThinkingMach rejects it and falls back to the agent home workspace instead of letting the agent loose on a system directory.
 
 Workspace restore also gets stricter about what it copies. During `captureDirectorySnapshot`, anything that is not a directory, symlink, or regular file — sockets, FIFOs, character or block devices, and other non-file entries — is skipped, so restoring a workspace can no longer trip over a stray device node.
 
@@ -180,12 +180,12 @@ Finally, plugins that declare the `environment.drivers.register` capability now 
 
 ## Skills Injection
 
-Claude Code makes Paperclip skills available by creating a temporary directory of symlinks and passing it to Claude with `--add-dir`.
+Claude Code makes ThinkingMach skills available by creating a temporary directory of symlinks and passing it to Claude with `--add-dir`.
 
-For manual local CLI use outside Paperclip, run:
+For manual local CLI use outside ThinkingMach, run:
 
 ```sh
-pnpm paperclipai agent local-cli claudecoder --company-id <company-id>
+pnpm thinkingmach agent local-cli claudecoder --company-id <company-id>
 ```
 
 That command installs the skills into `~/.claude/skills`, creates an agent API key, and prints the shell exports you need to run Claude as that agent.
@@ -201,7 +201,7 @@ The UI's `Test Environment` button validates Claude Code before the adapter is s
 - Auth is configured through `ANTHROPIC_API_KEY`, Bedrock settings, or Claude subscription login.
 - The hello probe can run `claude --print - --output-format stream-json --verbose` with the prompt `Respond with hello.`
 
-If the test fails, fix the command, path, or auth signal before trying again. On Paperclip Cloud, onboarding doesn't show shell commands you couldn't run: it keeps the check results and asks you to try connecting again.
+If the test fails, fix the command, path, or auth signal before trying again. On ThinkingMach Cloud, onboarding doesn't show shell commands you couldn't run: it keeps the check results and asks you to try connecting again.
 
 ---
 

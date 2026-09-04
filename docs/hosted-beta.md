@@ -1,6 +1,6 @@
-# Welcome to the Paperclip hosted beta
+# Welcome to the ThinkingMach hosted beta
 
-Create a team of AI agents to take on projects and ongoing work. Paperclip gives your agents a workspace in the cloud and gives you one place to assign work, track progress, and review results.
+Create a team of AI agents to take on projects and ongoing work. ThinkingMach gives your agents a workspace in the cloud and gives you one place to assign work, track progress, and review results.
 
 This hosted beta is invitation-only.
 
@@ -20,15 +20,15 @@ Bring a task, an ongoing workflow, or a larger project. Explain the outcome you 
 
 Follow progress in the task, answer questions, and review results. When your agent requests approval, review the proposed action before approving it or requesting changes.
 
-See the guides to [managing tasks](https://docs.paperclip.ing/guides/day-to-day/issues/) and [tracking agent activity](https://docs.paperclip.ing/guides/day-to-day/dashboard/).
+See the guides to [managing tasks](https://docs.thinkingmach.com/guides/day-to-day/issues/) and [tracking agent activity](https://docs.thinkingmach.com/guides/day-to-day/dashboard/).
 
-## Help shape the future of Paperclip
+## Help shape the future of ThinkingMach
 
 Tell us what’s working—and especially what isn’t. When something gets stuck, tell us what you expected and what happened. Your feedback will help us decide what to improve next.
 
-Ask questions, share feedback, and get support in the [private beta Discord](https://discord.gg/zTXFu6UR7) or through in-product chat. If you can’t sign in, email [support@paperclip.ing](mailto:support@paperclip.ing).
+Ask questions, share feedback, and get support in the [private beta Discord](https://discord.gg/zTXFu6UR7) or through in-product chat. If you can’t sign in, email [support@thinkingmach.com](mailto:support@thinkingmach.com).
 
-Thanks for helping us build Paperclip.
+Thanks for helping us build ThinkingMach.
 
 ## Frequently asked questions
 
@@ -36,7 +36,7 @@ Thanks for helping us build Paperclip.
 <summary>What carries over when I connect Claude or OpenAI?</summary>
 <div class="accordion-body">
 
-Connecting Claude or OpenAI lets Paperclip use your account to run agents. It doesn’t import your existing conversations, local files, skills, or MCP connections. Add the context and connections your agents need.
+Connecting Claude or OpenAI lets ThinkingMach use your account to run agents. It doesn’t import your existing conversations, local files, skills, or MCP connections. Add the context and connections your agents need.
 
 </div>
 </details>
@@ -65,9 +65,9 @@ Yes. We won’t charge for hosting or agent environments during the beta. Your m
 
 Usage depends on the model, task, context, and how often agents run. Scheduled work also uses your provider allowance or API credits.
 
-Check your provider account for billing and subscription limits. Paperclip’s spend totals don’t show your remaining subscription allowance.
+Check your provider account for billing and subscription limits. ThinkingMach’s spend totals don’t show your remaining subscription allowance.
 
-See [Costs and Budgets](https://docs.paperclip.ing/guides/day-to-day/costs/) and [Heartbeats and Routines](https://docs.paperclip.ing/guides/projects-workflow/routines/) to understand costs and when agents run.
+See [Costs and Budgets](https://docs.thinkingmach.com/guides/day-to-day/costs/) and [Heartbeats and Routines](https://docs.thinkingmach.com/guides/projects-workflow/routines/) to understand costs and when agents run.
 
 </div>
 </details>
@@ -94,7 +94,7 @@ Company import isn’t available in this beta. Create a new organization and set
 <summary>Does the existing documentation apply to the hosted beta?</summary>
 <div class="accordion-body">
 
-Use the [documentation](https://docs.paperclip.ing/) for product capabilities and workflows. You can skip self-hosted installation and runtime setup—we manage those for you.
+Use the [documentation](https://docs.thinkingmach.com/) for product capabilities and workflows. You can skip self-hosted installation and runtime setup—we manage those for you.
 
 </div>
 </details>

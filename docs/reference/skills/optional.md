@@ -21,7 +21,7 @@ For the catalog mechanics, start with the [Skills reference](../skills.md#3-app-
 
 ## Finance
 
-- [Ramp](./optional/finance/ramp.md) — follow Ramp's official agent playbooks (onboarding, cards, spend controls) under Paperclip's approval gates and host allowlist.
+- [Ramp](./optional/finance/ramp.md) — follow Ramp's official agent playbooks (onboarding, cards, spend controls) under ThinkingMach's approval gates and host allowlist.
 
 ## Product
 
@@ -33,7 +33,7 @@ For the catalog mechanics, start with the [Skills reference](../skills.md#3-app-
 
 ## Software Development
 
-- [Prepare MCP Integration](./optional/software-development/prepare-mcp-integration.md) — research a new MCP or vendor integration, gate it on exact-revision human approval, then ship one governed Paperclip connector per approved connection.
+- [Prepare MCP Integration](./optional/software-development/prepare-mcp-integration.md) — research a new MCP or vendor integration, gate it on exact-revision human approval, then ship one governed ThinkingMach connector per approved connection.
 
 ## See also
 

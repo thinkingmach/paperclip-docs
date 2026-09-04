@@ -1,10 +1,10 @@
 ---
 paperclip_version: v2026.1106.0
-seo_title: Deploy Paperclip to a VPS or Fly.io
+seo_title: Deploy ThinkingMach to a VPS or Fly.io
 seo_description: A pragmatic recipe for a working URL with persistent data. Fly.io is the fast path, a single VPS the boring backup, both from the same Docker image.
 ---
 
-# Deploy Paperclip to a VPS or Fly.io
+# Deploy ThinkingMach to a VPS or Fly.io
 
 A pragmatic recipe to get a working URL with persistent data. Fly.io is the fast path; a single VPS is the boring backup. Both use the same Docker image.
 
@@ -19,7 +19,7 @@ A pragmatic recipe to get a working URL with persistent data. Fly.io is the fast
         │  ─ agent runners (adapters) │
         └──────┬───────────────┬──────┘
                │               │
-        DATABASE_URL    PAPERCLIP_HOME volume
+        DATABASE_URL    THINKINGMACH_HOME volume
                │               │
         ┌──────▼─────┐   ┌─────▼─────┐
         │ Postgres   │   │ Persistent │
@@ -27,7 +27,7 @@ A pragmatic recipe to get a working URL with persistent data. Fly.io is the fast
         └────────────┘   └────────────┘
 ```
 
-The container holds the API, the UI, and any adapter processes the runtime spawns (`claude`, `codex`). Postgres lives outside the container. Uploads, secrets, and instance config live on the mounted volume at `PAPERCLIP_HOME`.
+The container holds the API, the UI, and any adapter processes the runtime spawns (`claude`, `codex`). Postgres lives outside the container. Uploads, secrets, and instance config live on the mounted volume at `THINKINGMACH_HOME`.
 
 ---
 
@@ -52,12 +52,12 @@ Edit `fly.toml` so the volume mounts at `/paperclip` and the internal port is `3
 ```sh
 flyctl secrets set \
   HOST=0.0.0.0 \
-  PAPERCLIP_HOME=/paperclip \
-  PAPERCLIP_DEPLOYMENT_MODE=authenticated \
-  PAPERCLIP_DEPLOYMENT_EXPOSURE=public \
-  PAPERCLIP_PUBLIC_URL=https://paperclip.example.com \
+  THINKINGMACH_HOME=/paperclip \
+  THINKINGMACH_DEPLOYMENT_MODE=authenticated \
+  THINKINGMACH_DEPLOYMENT_EXPOSURE=public \
+  THINKINGMACH_PUBLIC_URL=https://paperclip.example.com \
   DATABASE_URL=postgres://...:5432/paperclip \
-  PAPERCLIP_AGENT_JWT_SECRET=$(openssl rand -hex 32) \
+  THINKINGMACH_AGENT_JWT_SECRET=$(openssl rand -hex 32) \
   ANTHROPIC_API_KEY=sk-...
 flyctl deploy
 flyctl certs add paperclip.example.com
@@ -75,12 +75,12 @@ On a $5–10/mo VPS with Docker installed:
 docker run -d --name paperclip --restart=always \
   -p 80:3100 \
   -e HOST=0.0.0.0 \
-  -e PAPERCLIP_HOME=/paperclip \
-  -e PAPERCLIP_DEPLOYMENT_MODE=authenticated \
-  -e PAPERCLIP_DEPLOYMENT_EXPOSURE=public \
-  -e PAPERCLIP_PUBLIC_URL=https://paperclip.example.com \
+  -e THINKINGMACH_HOME=/paperclip \
+  -e THINKINGMACH_DEPLOYMENT_MODE=authenticated \
+  -e THINKINGMACH_DEPLOYMENT_EXPOSURE=public \
+  -e THINKINGMACH_PUBLIC_URL=https://paperclip.example.com \
   -e DATABASE_URL=postgres://... \
-  -e PAPERCLIP_AGENT_JWT_SECRET=... \
+  -e THINKINGMACH_AGENT_JWT_SECRET=... \
   -v /opt/paperclip:/paperclip \
   paperclip-local
 ```
@@ -99,7 +99,7 @@ Migrations run automatically on container start against `DATABASE_URL`. If your 
 
 Default: **co-located** in the same container. Local adapters (`claude_local`, `codex_local`) run as child processes when a heartbeat fires. This is fine until you outgrow the container's CPU/memory.
 
-Move runners to **separate** machines once heartbeats start contending with the API: configure adapters to point at a remote runner pool, or run a second container with the same `DATABASE_URL` and `PAPERCLIP_API_URL` and accept only agent traffic. Worth it past a handful of busy agents.
+Move runners to **separate** machines once heartbeats start contending with the API: configure adapters to point at a remote runner pool, or run a second container with the same `DATABASE_URL` and `THINKINGMACH_API_URL` and accept only agent traffic. Worth it past a handful of busy agents.
 
 ---
 
@@ -107,7 +107,7 @@ Move runners to **separate** machines once heartbeats start contending with the 
 
 - **Logs.** Fly: `flyctl logs`. VPS: `docker logs -f paperclip`. Health: `GET /api/health` (checks the database too) or `GET /api/liveness` (process only, no database work).
 - **Metrics.** The dashboard exposes per-agent run history, costs, and budget at `/<prefix>/agents/<key>/runs`.
-- **Alerts.** Hook on a non-200 from `/api/liveness` for frequent process checks, and from `/api/health` for database readiness, and on `paperclipai doctor` exit code (run it from a Fly machine SSH or a cron) for config drift.
+- **Alerts.** Hook on a non-200 from `/api/liveness` for frequent process checks, and from `/api/health` for database readiness, and on `thinkingmach doctor` exit code (run it from a Fly machine SSH or a cron) for config drift.
 
 ---
 

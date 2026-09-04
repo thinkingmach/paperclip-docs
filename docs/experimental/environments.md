@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.1106.0
 seo_title: Environments: Remote Execution Targets
-seo_description: Run agents somewhere other than the Paperclip host. Define named targets over SSH or a provider sandbox, and assign them per instance or per agent.
+seo_description: Run agents somewhere other than the ThinkingMach host. Define named targets over SSH or a provider sandbox, and assign them per instance or per agent.
 ---
 
 # Environments
 
-By default, agent runs execute on the Paperclip host itself. **Environments** let you define named, reusable execution targets — a remote machine over SSH, or a sandbox from a provider plugin — and assign them per instance or per agent. Each environment carries its own configuration and, for sandbox environments, supports connection probing and reusable custom images.
+By default, agent runs execute on the ThinkingMach host itself. **Environments** let you define named, reusable execution targets — a remote machine over SSH, or a sandbox from a provider plugin — and assign them per instance or per agent. Each environment carries its own configuration and, for sandbox environments, supports connection probing and reusable custom images.
 
 ![Environment management in instance settings](../user-guides/screenshots/light/experimental/environments.png)
 
@@ -25,7 +25,7 @@ The **Environments** tab in **Settings** is always visible, but until you flip t
 
 1. Open **Settings → Environments**.
 2. Click the **+** button (its tooltip reads **Add environment**) and pick a driver:
-   - **Local** — runs on the Paperclip host (the default behavior, as an explicit choice).
+   - **Local** — runs on the ThinkingMach host (the default behavior, as an explicit choice).
    - **SSH** — a remote machine: host, user, key, and remote path.
    - **Sandbox** — a sandbox provider installed as a plugin (see [Sandbox Providers](../reference/adapters/sandbox-providers.md)); each provider brings its own config fields.
 3. Use **Test** to probe the connection before saving.
@@ -47,7 +47,7 @@ UI-only gate: the Environments page content, the agent override picker, and the 
 ## Caveats
 
 - Sandbox environments require a provider plugin that supports run execution; custom-image capture additionally requires the provider to advertise interactive setup and template capture.
-- Some provider plugins run Paperclip's Runner inside their own environment instead of giving Paperclip a shell. For those, the **Test** button on an agent's configuration starts a short-lived private session, verifies that Runner starts and answers, and passes only once that session is cleaned up — so you can confirm the setup before real tasks reach it.
+- Some provider plugins run ThinkingMach's Runner inside their own environment instead of giving ThinkingMach a shell. For those, the **Test** button on an agent's configuration starts a short-lived private session, verifies that Runner starts and answers, and passes only once that session is cleaned up — so you can confirm the setup before real tasks reach it.
 - Environment management is restricted to board operators regardless of the flag.
 
 ## Where to go next

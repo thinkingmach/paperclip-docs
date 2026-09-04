@@ -8,7 +8,7 @@ seo_description: Inspect a company's structure and execution surface from the te
 
 Use these commands when you need to inspect the *structure* and *execution surface* of a company from the terminal: the org chart, the agent configurations behind each role, the execution workspaces where runs actually do their work, the environments and leases that back them, and the per-project workspaces. These are the lower-level inspection and control commands you reach for when you are debugging a run, wiring up an environment, or confirming what infrastructure a company is sitting on — not the day-to-day task flow.
 
-All of these commands are read-and-control wrappers over the Paperclip API. They TRIGGER and OBSERVE server-side state; the actual execution (runtime services, runtime commands, environment probes) runs on the Paperclip runtime, not in the CLI.
+All of these commands are read-and-control wrappers over the ThinkingMach API. They TRIGGER and OBSERVE server-side state; the actual execution (runtime services, runtime commands, environment probes) runs on the ThinkingMach runtime, not in the CLI.
 
 > **Note:** Every command here accepts the common client flags — `--data-dir`, `--api-base`, `--api-key`, `--context`, `--profile`, and `--json`. See [Common Options](./common-options.md). Company-scoped subcommands also accept `-C, --company-id <id>`; ID- and project-scoped subcommands take the id as a positional argument instead.
 
@@ -19,9 +19,9 @@ All of these commands are read-and-control wrappers over the Paperclip API. They
 Use `org` to pull the company's org chart — either as structured data or as a rendered diagram you can drop into a doc or a status update.
 
 ```sh
-paperclipai org get --company-id <company-id>
-paperclipai org svg --company-id <company-id> --out org.svg
-paperclipai org png --company-id <company-id> --out org.png
+thinkingmach org get --company-id <company-id>
+thinkingmach org svg --company-id <company-id> --out org.svg
+thinkingmach org png --company-id <company-id> --out org.png
 ```
 
 | Command | What it returns |
@@ -33,7 +33,7 @@ paperclipai org png --company-id <company-id> --out org.png
 `get` is company-scoped and respects `--json` like every other read command. `svg` and `png` fetch binary image data:
 
 - With `--out <path>`, the bytes are written to that file and the command prints a small `{ out, bytes }` summary.
-- Without `--out`, the raw image bytes stream to stdout — pipe them to a file yourself (`paperclipai org png -C <company-id> > org.png`) or into another tool.
+- Without `--out`, the raw image bytes stream to stdout — pipe them to a file yourself (`thinkingmach org png -C <company-id> > org.png`) or into another tool.
 
 > **Tip:** Reach for `org svg`/`org png` when you want a shareable snapshot of the reporting structure. Use `org get` when you are scripting and need the underlying data.
 
@@ -44,7 +44,7 @@ paperclipai org png --company-id <company-id> --out org.png
 `agent-config list` returns the agent configuration summaries for a company — the resolved adapter/model setup behind each agent, in one place. Use it to audit which configurations are in play before you change an environment or hire.
 
 ```sh
-paperclipai agent-config list --company-id <company-id>
+thinkingmach agent-config list --company-id <company-id>
 ```
 
 It is company-scoped and read-only. Pair it with `--json` when you want to diff configurations across companies or feed them into another tool.
@@ -56,13 +56,13 @@ It is company-scoped and read-only. Pair it with `--json` when you want to diff 
 Execution workspaces are the server-side sandboxes where heartbeat runs do their work. Use the `workspace` commands to list them, inspect a single one, check whether it is safe to close, review its operation history, update its settings, or drive its runtime.
 
 ```sh
-paperclipai workspace list --company-id <company-id>
-paperclipai workspace get <execution-workspace-id>
-paperclipai workspace close-readiness <execution-workspace-id>
-paperclipai workspace operations <execution-workspace-id>
-paperclipai workspace update <execution-workspace-id> --payload-json '{...}'
-paperclipai workspace runtime-service <execution-workspace-id> start --payload-json '{...}'
-paperclipai workspace runtime-command <execution-workspace-id> run --payload-json '{...}'
+thinkingmach workspace list --company-id <company-id>
+thinkingmach workspace get <execution-workspace-id>
+thinkingmach workspace close-readiness <execution-workspace-id>
+thinkingmach workspace operations <execution-workspace-id>
+thinkingmach workspace update <execution-workspace-id> --payload-json '{...}'
+thinkingmach workspace runtime-service <execution-workspace-id> start --payload-json '{...}'
+thinkingmach workspace runtime-command <execution-workspace-id> run --payload-json '{...}'
 ```
 
 | Command | Arguments | Use |
@@ -78,8 +78,8 @@ paperclipai workspace runtime-command <execution-workspace-id> run --payload-jso
 For both `runtime-service` and `runtime-command`, the `<action>` positional is one of `start`, `stop`, `restart`, or `run`. The `--payload-json` flag carries the runtime target as a JSON body and defaults to `{}` when omitted.
 
 ```sh
-paperclipai workspace runtime-service <execution-workspace-id> restart --payload-json '{"service":"dev-server"}'
-paperclipai workspace runtime-command <execution-workspace-id> run --payload-json '{"command":"npm test"}'
+thinkingmach workspace runtime-service <execution-workspace-id> restart --payload-json '{"service":"dev-server"}'
+thinkingmach workspace runtime-command <execution-workspace-id> run --payload-json '{"command":"npm test"}'
 ```
 
 > **Tip:** Run `workspace close-readiness <id>` before you tear down or close a workspace. It tells you whether closing it now would interrupt active work.
@@ -93,16 +93,16 @@ paperclipai workspace runtime-command <execution-workspace-id> run --payload-jso
 Environments describe *where and how* workspaces run — the backing infrastructure (SSH hosts, containers, capabilities) that runtime services and commands execute against. A lease is a claim on an environment by a workspace. Use these commands to inventory environments, probe their health, create or update them, and inspect the leases against them.
 
 ```sh
-paperclipai environment list --company-id <company-id>
-paperclipai environment capabilities --company-id <company-id>
-paperclipai environment create --company-id <company-id> --payload-json '{...}'
-paperclipai environment get <environment-id>
-paperclipai environment leases <environment-id>
-paperclipai environment lease <lease-id>
-paperclipai environment update <environment-id> --payload-json '{...}'
-paperclipai environment delete <environment-id>
-paperclipai environment probe <environment-id>
-paperclipai environment probe-config --company-id <company-id> --payload-json '{...}'
+thinkingmach environment list --company-id <company-id>
+thinkingmach environment capabilities --company-id <company-id>
+thinkingmach environment create --company-id <company-id> --payload-json '{...}'
+thinkingmach environment get <environment-id>
+thinkingmach environment leases <environment-id>
+thinkingmach environment lease <lease-id>
+thinkingmach environment update <environment-id> --payload-json '{...}'
+thinkingmach environment delete <environment-id>
+thinkingmach environment probe <environment-id>
+thinkingmach environment probe-config --company-id <company-id> --payload-json '{...}'
 ```
 
 | Command | Arguments | Use |
@@ -122,9 +122,9 @@ Note the two distinct lease commands: `environment leases <environment-id>` list
 
 ```sh
 # Validate a config before committing it, then create the environment.
-paperclipai environment probe-config --company-id <company-id> --payload-json '{"kind":"ssh","host":"build-01.internal"}'
-paperclipai environment create --company-id <company-id> --payload-json '{"name":"build-01","kind":"ssh","host":"build-01.internal"}'
-paperclipai environment probe <environment-id>
+thinkingmach environment probe-config --company-id <company-id> --payload-json '{"kind":"ssh","host":"build-01.internal"}'
+thinkingmach environment create --company-id <company-id> --payload-json '{"name":"build-01","kind":"ssh","host":"build-01.internal"}'
+thinkingmach environment probe <environment-id>
 ```
 
 > **Tip:** `probe-config` is the dry-run path — it checks a candidate configuration without persisting anything. `probe` validates an environment that already exists. Probe first, create second.
@@ -136,12 +136,12 @@ paperclipai environment probe <environment-id>
 Project workspaces are the workspaces scoped to a single project. They are addressed by a project id (and, for the single-workspace operations, a workspace id) rather than a company id. Use these commands to list, create, update, delete, and drive the workspaces attached to one project.
 
 ```sh
-paperclipai project-workspace list <project-id>
-paperclipai project-workspace create <project-id> --payload-json '{...}'
-paperclipai project-workspace update <project-id> <workspace-id> --payload-json '{...}'
-paperclipai project-workspace delete <project-id> <workspace-id>
-paperclipai project-workspace runtime-service <project-id> <workspace-id> restart --payload-json '{...}'
-paperclipai project-workspace runtime-command <project-id> <workspace-id> run --payload-json '{...}'
+thinkingmach project-workspace list <project-id>
+thinkingmach project-workspace create <project-id> --payload-json '{...}'
+thinkingmach project-workspace update <project-id> <workspace-id> --payload-json '{...}'
+thinkingmach project-workspace delete <project-id> <workspace-id>
+thinkingmach project-workspace runtime-service <project-id> <workspace-id> restart --payload-json '{...}'
+thinkingmach project-workspace runtime-command <project-id> <workspace-id> run --payload-json '{...}'
 ```
 
 | Command | Arguments | Use |
@@ -156,9 +156,9 @@ paperclipai project-workspace runtime-command <project-id> <workspace-id> run --
 As with execution workspaces, the `<action>` for `runtime-service` and `runtime-command` is one of `start`, `stop`, `restart`, or `run`, and `--payload-json` defaults to `{}`.
 
 ```sh
-paperclipai project-workspace list <project-id>
-paperclipai project-workspace delete <project-id> <workspace-id>
-paperclipai project-workspace runtime-command <project-id> <workspace-id> run --payload-json '{"command":"pnpm build"}'
+thinkingmach project-workspace list <project-id>
+thinkingmach project-workspace delete <project-id> <workspace-id>
+thinkingmach project-workspace runtime-command <project-id> <workspace-id> run --payload-json '{"command":"pnpm build"}'
 ```
 
 > **Note:** `update` requires the workspace id positional — the command rejects the call if you omit it. `create` takes only the project id, since the workspace does not exist yet.

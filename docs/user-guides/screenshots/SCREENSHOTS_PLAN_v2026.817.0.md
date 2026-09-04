@@ -41,7 +41,7 @@ release commit (checked against `git ls-tree -r 213dabab4`).
 plugins ×5, adapters ×4, environments) still *work* — `LegacySettingsRedirect` bounces
 them to the canonical `/{prefix}/company/settings/instance/*`. Screenshots are
 unaffected (no URL chrome in a Playwright shot), but the redirect renders
-`<PaperclipLoading />` first, which is exactly the blank-page failure mode
+`<ThinkingMachLoading />` first, which is exactly the blank-page failure mode
 `capture.mjs` retries around. Repoint to canonical paths: cheaper and non-flaky.
 
 Also: `company/access` → `/{prefix}/company/settings/access` now hits
@@ -161,7 +161,7 @@ Supported path, no DB surgery needed:
 1. `POST /api/agents/:id/keys` → returns a plaintext `token`
    (`services/agents.ts:896`, board-only).
 2. Call the agent-scoped endpoints with `Authorization: Bearer <token>` and
-   `X-Paperclip-Run-Id: <runId>` — `middleware/auth.ts:372` sets
+   `X-ThinkingMach-Run-Id: <runId>` — `middleware/auth.ts:372` sets
    `actor.type = "agent"` with `runId` from that header.
 3. The seed already produces a real run id (`runnerRunId`, from the Task Runner
    wakeup), so a genuine run can back the context.

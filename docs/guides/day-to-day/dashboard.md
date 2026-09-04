@@ -10,13 +10,13 @@ The dashboard is your control centre. When your AI company is running, this is t
 
 Think of it like the cockpit instruments on a plane. You don't need to read every dial every second, but you do want a clear signal when something is off. The dashboard gives you that signal.
 
-![The Paperclip dashboard showing the current overview cards, charts, recent activity, and recent tasks](../../user-guides/screenshots/light/dashboard/dashboard-overview.png)
+![The ThinkingMach dashboard showing the current overview cards, charts, recent activity, and recent tasks](../../user-guides/screenshots/light/dashboard/dashboard-overview.png)
 
 ---
 
 ## Agents Section
 
-At the top of the dashboard, Paperclip shows your live agent activity in the **Agents** panel, followed by a row of overview cards. This is the quickest way to tell whether work is moving.
+At the top of the dashboard, ThinkingMach shows your live agent activity in the **Agents** panel, followed by a row of overview cards. This is the quickest way to tell whether work is moving.
 
 The first overview card, **Agents Enabled**, rolls your agent states into one number: the total count of enabled agents, with a line underneath that breaks out how many are running, paused, or in error. Click the card to jump to your agents list.
 

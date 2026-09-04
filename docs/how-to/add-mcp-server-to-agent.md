@@ -1,13 +1,13 @@
 ---
 seo_title: Add an MCP Server to an Agent
-seo_description: Attach a Model Context Protocol server so one agent picks up new tools — query Postgres, search a vector index, file issues — without changing Paperclip.
+seo_description: Attach a Model Context Protocol server so one agent picks up new tools — query Postgres, search a vector index, file issues — without changing ThinkingMach.
 ---
 
 # Add an MCP server to an agent's toolkit
 
-Attach a Model Context Protocol (MCP) server to a specific Paperclip agent so it picks up new tools — read a local Postgres, query a vector index, file GitHub issues — without modifying Paperclip itself. End-to-end on a fresh agent in about 10 minutes for a local server, 20 for a remote one.
+Attach a Model Context Protocol (MCP) server to a specific ThinkingMach agent so it picks up new tools — read a local Postgres, query a vector index, file GitHub issues — without modifying ThinkingMach itself. End-to-end on a fresh agent in about 10 minutes for a local server, 20 for a remote one.
 
-The mental model is unchanged: Paperclip is the control plane, the adapter launches the runtime, the runtime is what speaks MCP. So the wiring lives at the adapter and runtime layer — Paperclip's job is to scope which agent gets which adapter config, and surface the resulting tool list in the run viewer.
+The mental model is unchanged: ThinkingMach is the control plane, the adapter launches the runtime, the runtime is what speaks MCP. So the wiring lives at the adapter and runtime layer — ThinkingMach's job is to scope which agent gets which adapter config, and surface the resulting tool list in the run viewer.
 
 ---
 
@@ -15,24 +15,24 @@ The mental model is unchanged: Paperclip is the control plane, the adapter launc
 
 [Model Context Protocol](https://modelcontextprotocol.io) (see also: [glossary entry](../guides/welcome/glossary.md#m)) is an open standard for connecting language-model runtimes to external tools and data sources over a small JSON-RPC contract. An MCP server exposes a set of tools (and optionally resources and prompts) over `stdio` (local) or HTTP/SSE (remote). An MCP-aware runtime — like Claude Code or Hermes Agent — lists those tools and lets the agent call them mid-run.
 
-For Paperclip, MCP is how you give an agent a capability that doesn't fit a [skill](../reference/skills.md) (which is a markdown bundle, not executable) and that you don't want to teach the agent to call as raw HTTP. If the tool already speaks MCP, prefer that path.
+For ThinkingMach, MCP is how you give an agent a capability that doesn't fit a [skill](../reference/skills.md) (which is a markdown bundle, not executable) and that you don't want to teach the agent to call as raw HTTP. If the tool already speaks MCP, prefer that path.
 
 > **Adapter support today.** [Claude Code](../reference/adapters/claude-code.md) and [Hermes](../reference/adapters/hermes.md#tools) are the two adapters with documented MCP paths today. Claude Code inherits Claude Code's MCP client (configured at the Claude Code level); Hermes exposes MCP through its `toolsets` field. Codex, Cursor Local, Gemini CLI, OpenCode, and Pi follow the same pattern as Claude Code — whatever MCP support their CLI ships with, the adapter inherits — but that path is not documented here yet.
 
 > **Which agents this page applies to.** The steps below edit the runtime's own MCP config on the host, so they only reach agents that run with that host config: Claude Code on the **Legacy runner** (`claude_local`) and `hermes_local`. Two cases where the runtime's own config is not used:
 >
-> - **Paperclip Runner.** New Claude Code agents use [Paperclip Runner](../reference/adapters/paperclip-runner.md) by default on supported machines. Each Runner session gets a private, isolated provider home, so a `.mcp.json` file or a `claude mcp add` entry on the host isn't loaded. The exception is an agent an operator has set to [`homeMode: "preconfigured"`](../reference/adapters/paperclip-runner.md#keep-working-in-your-own-provider-home).
-> - **`claude_local` runs that carry Paperclip's own MCP servers.** When Paperclip attaches MCP servers to a run, for example from Connectors, it starts Claude with `--strict-mcp-config`. Claude then loads only those servers and ignores your `.mcp.json` and `claude mcp add` entries for that run.
+> - **ThinkingMach Runner.** New Claude Code agents use [ThinkingMach Runner](../reference/adapters/paperclip-runner.md) by default on supported machines. Each Runner session gets a private, isolated provider home, so a `.mcp.json` file or a `claude mcp add` entry on the host isn't loaded. The exception is an agent an operator has set to [`homeMode: "preconfigured"`](../reference/adapters/paperclip-runner.md#keep-working-in-your-own-provider-home).
+> - **`claude_local` runs that carry ThinkingMach's own MCP servers.** When ThinkingMach attaches MCP servers to a run, for example from Connectors, it starts Claude with `--strict-mcp-config`. Claude then loads only those servers and ignores your `.mcp.json` and `claude mcp add` entries for that run.
 >
-> The supported path on every runner is a connector. Add the server on the **Connectors** page and Paperclip attaches it to the agent's runs: see [Connect a custom MCP server](../connectors/custom-mcp-servers.md).
+> The supported path on every runner is a connector. Add the server on the **Connectors** page and ThinkingMach attaches it to the agent's runs: see [Connect a custom MCP server](../connectors/custom-mcp-servers.md).
 
 ---
 
 ## Architecture
 
 ```txt
-   ┌────────────────────┐    Paperclip checkout    ┌──────────────────────┐
-   │ Paperclip control  │─────────────────────────▶│  Adapter (claude_/   │
+   ┌────────────────────┐    ThinkingMach checkout    ┌──────────────────────┐
+   │ ThinkingMach control  │─────────────────────────▶│  Adapter (claude_/   │
    │ plane (this agent) │                          │  hermes_local)       │
    └────────────────────┘                          └──────────┬───────────┘
                                                               │ launches
@@ -50,13 +50,13 @@ For Paperclip, MCP is how you give an agent a capability that doesn't fit a [ski
                                 └──────────────────┘                └──────────────────────┘
 ```
 
-The agent never speaks MCP directly — its runtime does. That means MCP server config is per-runtime, and *scoping* (which agent sees which server) is a function of the agent's adapter config and the runtime's config file location, not a Paperclip-level switch.
+The agent never speaks MCP directly — its runtime does. That means MCP server config is per-runtime, and *scoping* (which agent sees which server) is a function of the agent's adapter config and the runtime's config file location, not a ThinkingMach-level switch.
 
 ---
 
 ## 1. Prereqs
 
-- Paperclip running locally or on a server you control. See [Installation](../guides/getting-started/installation.md).
+- ThinkingMach running locally or on a server you control. See [Installation](../guides/getting-started/installation.md).
 - An agent already hired with one of the supported adapters. See [Hire Your First Agent](../guides/getting-started/your-first-agent.md).
 - For Claude Code: the [Claude Code CLI](https://docs.claude.com/en/docs/claude-code) installed on the host running the agent.
 - For Hermes: [Hermes Agent](https://github.com/NousResearch/hermes-agent) installed (`curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash` on Linux, macOS, or WSL2).
@@ -78,7 +78,7 @@ Claude Code keeps MCP server config in three possible scopes (precedence: local 
 | **Project** | `<repo-root>/.mcp.json` | Anyone running Claude Code with that `cwd`. Committed to source control. |
 | **User** | `~/.claude.json` user-wide | Every Claude Code run by that OS user, across all projects. |
 
-For Paperclip, **prefer project scope**: each run already starts in the project's workspace, and `.mcp.json` in that directory ships with the project so other contributors and other agents working in the same project get the same servers.
+For ThinkingMach, **prefer project scope**: each run already starts in the project's workspace, and `.mcp.json` in that directory ships with the project so other contributors and other agents working in the same project get the same servers.
 
 Add a server with the Claude CLI (run on the host, in the agent's `cwd`). All `claude mcp add` options come before the server name, then `--` separates the name from the command + args that get passed to the MCP server:
 
@@ -107,7 +107,7 @@ That writes a `.mcp.json` in the project root that looks like:
 }
 ```
 
-> **Why scope matters for Paperclip.** Two agents that share a project workspace — say a CTO and a coder both pointed at the same repo — will both see project-scoped MCP servers. That's almost always what you want. If you need an MCP server visible to *one* agent only, give that agent's work its own project (so the project file is unique to that agent) or use [the local scope](#path-a--claude-code) and add it manually only on the heartbeat host running that agent.
+> **Why scope matters for ThinkingMach.** Two agents that share a project workspace — say a CTO and a coder both pointed at the same repo — will both see project-scoped MCP servers. That's almost always what you want. If you need an MCP server visible to *one* agent only, give that agent's work its own project (so the project file is unique to that agent) or use [the local scope](#path-a--claude-code) and add it manually only on the heartbeat host running that agent.
 
 Verify the server is loaded by running a one-shot probe with the same env the heartbeat uses. Claude Code's `claude mcp list` reads the same config the agent will see at run time:
 
@@ -122,7 +122,7 @@ Output looks like `filesystem: npx -y @modelcontextprotocol/server-filesystem �
 
 Hermes Agent has a built-in MCP client gated by the adapter's `toolsets` field. Enable it on the agent's adapter config, then point Hermes at the actual servers in `~/.hermes/config.yaml`.
 
-Adapter config (Paperclip side):
+Adapter config (ThinkingMach side):
 
 ```json
 {
@@ -157,7 +157,7 @@ mcp_servers:
 
 Remote servers run somewhere else — a hosted GitHub MCP, a vendor's analytics endpoint, your team's internal MCP gateway. They speak the same JSON-RPC contract over HTTP (Streamable HTTP) or SSE, and most production-grade ones authenticate via OAuth 2.1 with [PKCE](https://datatracker.ietf.org/doc/html/rfc7636).
 
-The wrinkle for Paperclip is that **Paperclip runs runtimes headlessly** — for `claude_local`, that's `claude --print …`. OAuth's redirect-and-paste flow needs an interactive shell at least once to finish auth. The pattern that works:
+The wrinkle for ThinkingMach is that **ThinkingMach runs runtimes headlessly** — for `claude_local`, that's `claude --print …`. OAuth's redirect-and-paste flow needs an interactive shell at least once to finish auth. The pattern that works:
 
 1. Add the remote server interactively *as the same OS user that runs the heartbeat*.
 2. Walk through OAuth once. The runtime persists tokens in the user's config dir and refreshes them automatically.
@@ -176,7 +176,7 @@ claude
 # Pick "github" from the list, follow the browser redirect, paste the code back.
 ```
 
-After the interactive run, `~/.claude.json` contains a refreshable OAuth token for the GitHub MCP. The next Paperclip heartbeat picks the server up automatically. Verify with `claude mcp get github` — it reports `OAuth: configured` once the flow completes.
+After the interactive run, `~/.claude.json` contains a refreshable OAuth token for the GitHub MCP. The next ThinkingMach heartbeat picks the server up automatically. Verify with `claude mcp get github` — it reports `OAuth: configured` once the flow completes.
 
 > **User scope is correct here.** Remote MCP tokens are tied to the OS user that authorised them, so user scope (rather than project) reflects reality. Don't commit OAuth tokens to a project-scoped `.mcp.json` — they don't belong in git.
 
@@ -193,7 +193,7 @@ mcp_servers:
       Authorization: "Bearer ${GITHUB_MCP_TOKEN}"
 ```
 
-`${GITHUB_MCP_TOKEN}` resolves from the agent's environment. Drop the token in as a Paperclip secret on the agent's `env` block — never bake it into the YAML:
+`${GITHUB_MCP_TOKEN}` resolves from the agent's environment. Drop the token in as a ThinkingMach secret on the agent's `env` block — never bake it into the YAML:
 
 ```json
 "env": {
@@ -211,7 +211,7 @@ For full OAuth (no static token), follow the same one-time interactive pattern a
 
 ## 4. Per-agent scoping rules
 
-The hierarchy of *who sees which MCP tools* shakes out from the runtime's config-file precedence, not from a Paperclip switch. Internalise this and the rest is mechanical:
+The hierarchy of *who sees which MCP tools* shakes out from the runtime's config-file precedence, not from a ThinkingMach switch. Internalise this and the rest is mechanical:
 
 | Where the server is registered | Which agents see it |
 |---|---|
@@ -228,7 +228,7 @@ Practical rules of thumb:
 - **One MCP server, just this agent:** give the agent's work its own project and put the server in *that* project file. Or run that agent under a dedicated OS user.
 - **One MCP server, a personal experiment:** local scope (the default for `claude mcp add`) or `HERMES_CONFIG=~/.hermes/agent-X.yaml` overridden via `env`.
 
-The CLI command name on Paperclip's side is unchanged — there's no `paperclipai mcp add` because the source of truth is the runtime's config. Lean on the runtime.
+The CLI command name on ThinkingMach's side is unchanged — there's no `thinkingmach mcp add` because the source of truth is the runtime's config. Lean on the runtime.
 
 ---
 
@@ -253,7 +253,7 @@ hermes mcp list
 
 ### b. Read the agent's run transcript
 
-Open the agent in Paperclip and click the latest run (Agents → `<agent>` → Runs). The transcript shows every tool call the agent made, including MCP tool calls (they show up with their `mcp__<server>__<tool>` namespacing). If your tool is not in the transcript and the agent had reason to use it, the server probably isn't loading.
+Open the agent in ThinkingMach and click the latest run (Agents → `<agent>` → Runs). The transcript shows every tool call the agent made, including MCP tool calls (they show up with their `mcp__<server>__<tool>` namespacing). If your tool is not in the transcript and the agent had reason to use it, the server probably isn't loading.
 
 A coming addition to this view will surface the *available* tool list at run start (not just the called ones); when that ships we'll add a screenshot below. For now, "what's available?" is best answered with `mcp list` and a quick run that explicitly asks the agent to "list your tools."
 
@@ -278,9 +278,9 @@ Round-trip: a Claude Code agent that, given an issue title and description, open
 
 ```bash
 # 1. Get a GitHub PAT (or use an existing GH App token) with `issues: write`.
-#    Store it as a Paperclip secret bound to the agent.
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/secrets" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+#    Store it as a ThinkingMach secret bound to the agent.
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/secrets" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "name": "GITHUB_MCP_TOKEN", "value": "github_pat_..." }'
 
@@ -301,13 +301,13 @@ claude mcp list
 # github: https://api.githubcopilot.com/mcp/ (HTTP) - ✓ Connected
 ```
 
-### Drive it from a Paperclip task
+### Drive it from a ThinkingMach task
 
 Create the task and assign it to the agent:
 
 ```bash
-curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/issues" \
-  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+curl -X POST "$THINKINGMACH_API_URL/api/companies/$COMPANY_ID/issues" \
+  -H "Authorization: Bearer $THINKINGMACH_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "title": "File a Github issue on acme/api",
@@ -316,7 +316,7 @@ curl -X POST "$PAPERCLIP_API_URL/api/companies/$COMPANY_ID/issues" \
   }'
 ```
 
-On its next heartbeat, the agent calls `mcp__github__create_issue` with `owner=acme`, `repo=api`, the title, and the body. The transcript shows the call and the response. The Paperclip issue moves to `done` with the GitHub issue URL pasted into the comment thread.
+On its next heartbeat, the agent calls `mcp__github__create_issue` with `owner=acme`, `repo=api`, the title, and the body. The transcript shows the call and the response. The ThinkingMach issue moves to `done` with the GitHub issue URL pasted into the comment thread.
 
 The same pattern generalises — swap the GitHub MCP for a Linear MCP, a Postgres MCP, a custom internal MCP — and the agent picks up the new toolkit on the next heartbeat without redeploying anything.
 
@@ -330,18 +330,18 @@ The runtime sees the tool; the agent doesn't think it's relevant. Either the too
 **`claude mcp list` shows `✗ Failed to connect`.**
 Run the server's command directly in the same shell — the failure message will be more specific. The most common causes: the binary isn't on `PATH` for the heartbeat's user, the working directory the server expects doesn't exist, or a required env var (an API key, a database URL) isn't set.
 
-**Different tool list under Paperclip than from the terminal.**
-First check [which agents this page applies to](#what-mcp-is): on Paperclip Runner, or on a `claude_local` run that carries Paperclip's own MCP servers, the host's `.mcp.json` and `claude mcp add` entries aren't loaded at all. Otherwise:
+**Different tool list under ThinkingMach than from the terminal.**
+First check [which agents this page applies to](#what-mcp-is): on ThinkingMach Runner, or on a `claude_local` run that carries ThinkingMach's own MCP servers, the host's `.mcp.json` and `claude mcp add` entries aren't loaded at all. Otherwise:
 the heartbeat's `cwd` or `env` differs from your shell's. Compare them — `pwd && env | sort` from inside the agent's run versus from your own shell. The most common diff is `PATH`: graphical-launched processes sometimes inherit a leaner `PATH` than a terminal session, so `npx` or `node` is missing.
 
 **Remote MCP server returns `401` after a few hours.**
-OAuth refresh failed. Re-run `claude` interactively to re-authorise. If the runtime is supposed to refresh automatically and isn't, file a bug with the runtime's project — not with Paperclip — since the token cache lives at the runtime layer.
+OAuth refresh failed. Re-run `claude` interactively to re-authorise. If the runtime is supposed to refresh automatically and isn't, file a bug with the runtime's project — not with ThinkingMach — since the token cache lives at the runtime layer.
 
 **Two agents that share a project see each other's MCP servers.**
 That's by design — project scope is shared. Move per-agent servers to user scope, or split the work into separate projects.
 
 **A server I removed is still listed.**
-Claude Code caches the parsed config briefly. Restart any long-running heartbeat session (or just wait until the next heartbeat — Paperclip starts a fresh CLI invocation per run for `claude_local`). Hermes resumes the same session by default; force a fresh start by toggling `persistSession: false` once.
+Claude Code caches the parsed config briefly. Restart any long-running heartbeat session (or just wait until the next heartbeat — ThinkingMach starts a fresh CLI invocation per run for `claude_local`). Hermes resumes the same session by default; force a fresh start by toggling `persistSession: false` once.
 
 For deeper heartbeat-level debugging — the agent isn't waking, the runtime fails to start at all — see [Debug a stuck heartbeat](./debug-stuck-heartbeat.md).
 
