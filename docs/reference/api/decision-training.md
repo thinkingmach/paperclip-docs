@@ -52,7 +52,7 @@ Everything at or before that cutoff is copied into a versioned `snapshot` object
 
 ### Code context
 
-Paperclip tries to record which code the decision was made against, so a training example can be replayed meaningfully. The `code` object carries `repoUrl`, `ref`, `commitSha`, and a `resolution` field telling you how confident that commit is:
+ThinkingMach tries to record which code the decision was made against, so a training example can be replayed meaningfully. The `code` object carries `repoUrl`, `ref`, `commitSha`, and a `resolution` field telling you how confident that commit is:
 
 | `resolution` | Meaning |
 |---|---|

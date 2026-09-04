@@ -63,9 +63,9 @@ Rules from the implementation:
 - `costCents` can be a number or a decimal string (for example `"0.0425"`), and can't be negative. Fractions of a cent are kept.
 - `occurredAt` must be an ISO datetime string.
 
-> **Priced, estimated, and unpriced usage.** Most cost events carry a real `costCents` amount, so they stay `reported`. Some runs have no provider-reported price but use a model Paperclip has a published rate for; those are recorded as `estimated`, and the provider's bill may differ. When an agent run uses tokens but Paperclip can't determine a dollar cost at all — for example a local CLI pointed at an OpenAI-compatible endpoint other than OpenAI or OpenRouter — the usage is recorded with `costStatus` set to `unpriced` instead of being logged as if it cost nothing. That keeps the token counts on the record while flagging that the money figure is an unknown rather than a real zero. Unpriced usage can block budgeted work; see [What happens at the thresholds](#what-happens-at-the-thresholds).
+> **Priced, estimated, and unpriced usage.** Most cost events carry a real `costCents` amount, so they stay `reported`. Some runs have no provider-reported price but use a model ThinkingMach has a published rate for; those are recorded as `estimated`, and the provider's bill may differ. When an agent run uses tokens but ThinkingMach can't determine a dollar cost at all — for example a local CLI pointed at an OpenAI-compatible endpoint other than OpenAI or OpenRouter — the usage is recorded with `costStatus` set to `unpriced` instead of being logged as if it cost nothing. That keeps the token counts on the record while flagging that the money figure is an unknown rather than a real zero. Unpriced usage can block budgeted work; see [What happens at the thresholds](#what-happens-at-the-thresholds).
 
-When the event is accepted, Paperclip:
+When the event is accepted, ThinkingMach:
 
 - stores the event
 - recalculates `spentMonthlyCents` for the agent and company
@@ -145,20 +145,20 @@ requests.post(
 
 ### Cache-adjusted cost
 
-Prompt caching means the amount a provider actually bills for a run is often well below what its raw token counts imply. Paperclip records the billed amount rather than the nominal one, so the dollars in the ledger match the dollars on your invoice.
+Prompt caching means the amount a provider actually bills for a run is often well below what its raw token counts imply. ThinkingMach records the billed amount rather than the nominal one, so the dollars in the ledger match the dollars on your invoice.
 
 Adapters express this through their execution result:
 
 - `costUsd` — the cost the adapter reports for the run, in US dollars.
 - `cacheAdjustedCostUsd` — the provider-billed cost after prompt-cache discounts, in US dollars. Adapters set this when they expose it separately from `costUsd`.
 
-Paperclip resolves the two into a single billed figure:
+ThinkingMach resolves the two into a single billed figure:
 
 - If `cacheAdjustedCostUsd` is a finite number that is zero or greater, that value is the billed cost.
 - Otherwise, if `costUsd` is a finite number that is zero or greater, that value is the billed cost — a provider-reported `costUsd` is treated as already cache-adjusted.
 - Otherwise there is no billed cost for the run.
 
-That resolved figure is what Paperclip converts into the `costCents` of the cost event it records for the run, so it is the number that flows into every summary, breakdown, and budget policy described below. It is also the figure used to decide `costStatus`: a run with token usage but no resolvable cost is recorded as `unpriced` rather than as a real zero.
+That resolved figure is what ThinkingMach converts into the `costCents` of the cost event it records for the run, so it is the number that flows into every summary, breakdown, and budget policy described below. It is also the figure used to decide `costStatus`: a run with token usage but no resolvable cost is recorded as `unpriced` rather than as a real zero.
 
 The run keeps both numbers. The heartbeat run's `usageJson` carries `costUsd` when the adapter reported one and `cacheAdjustedCostUsd` when a cache-adjusted amount was resolved, alongside the token counts and the `provider`, `biller`, `model`, `costStatus`, and `billingType` fields. Read them from either of:
 
@@ -260,7 +260,7 @@ What each one is for:
 - `by-biller` helps when the provider name and the billable entity are not the same.
 - `by-project` helps you connect cost back to project work rather than just an agent.
 
-In `by-agent`, charges that don't belong to an agent — such as background [decision model](./decision-models.md) requests — come back as a row with `agentId: null`. The UI labels it **Paperclip services**.
+In `by-agent`, charges that don't belong to an agent — such as background [decision model](./decision-models.md) requests — come back as a row with `agentId: null`. The UI labels it **ThinkingMach services**.
 
 Rows from `by-agent` and `by-agent-model` include `eventCount` (ledger events in the group, not distinct runs) and `estimatedEventCount`, so you can tell when a total is partly or fully an estimate.
 
@@ -464,10 +464,10 @@ These defaults apply when a policy is first created. When you update an existing
 
 ### Budget reservations
 
-A reservation is an estimate Paperclip holds against a budget before a run starts. It stops several runs from all starting at once and together overshooting a cap that each of them would have fit under alone.
+A reservation is an estimate ThinkingMach holds against a budget before a run starts. It stops several runs from all starting at once and together overshooting a cap that each of them would have fit under alone.
 
 - Set it per policy with `reservationCents`. `0` (the default) holds nothing.
-- When a run starts, Paperclip holds the largest `reservationCents` among the active hard-stop policies that cover it.
+- When a run starts, ThinkingMach holds the largest `reservationCents` among the active hard-stop policies that cover it.
 - If recorded spend plus the amounts already held would reach the cap, the run isn't started, with the reason `Available budget is reserved by unfinished runs`.
 - The hold is released once the run's cost has been recorded. It survives timeouts and server restarts until then.
 
@@ -529,7 +529,7 @@ The finance list endpoint supports:
 
 Useful event kinds include things like `inference_charge`, `platform_fee`, `credit_purchase`, `credit_refund`, and `manual_adjustment`. The API also stores `direction`, `amountCents`, `currency`, `estimated`, and optional metadata.
 
-Paperclip never converts between currencies:
+ThinkingMach never converts between currencies:
 
 - `finance-summary` keeps its headline `debitCents`, `creditCents`, `netCents`, and `estimatedDebitCents` in US dollars (`currency: "USD"`), and adds a `currencies` array with one set of totals per currency.
 - Each `finance-by-biller` and `finance-by-kind` row carries its own `currency`.
@@ -570,7 +570,7 @@ Tries again to record the cost of one run. The response is `{ "accounted": … }
 
 `GET /api/companies/{companyId}/accounting/inspect`
 
-Paperclip keeps running totals (company and agent month-to-date spend, and per-agent lifetime totals) alongside the individual cost events. Inspect recomputes those totals from scratch and lists every place they disagree. The response has `companyId`, `checkedAt`, a `fingerprint`, and `findings`. Each finding has a `kind`, the `entityId` it concerns, `actual` and `expected` values, and `repairable`:
+ThinkingMach keeps running totals (company and agent month-to-date spend, and per-agent lifetime totals) alongside the individual cost events. Inspect recomputes those totals from scratch and lists every place they disagree. The response has `companyId`, `checkedAt`, a `fingerprint`, and `findings`. Each finding has a `kind`, the `entityId` it concerns, `actual` and `expected` values, and `repairable`:
 
 - `company_projection`, `agent_projection`, `runtime_projection` — a running total doesn't match its events. These can be repaired.
 - `missing_receipt`, `missing_acknowledgement`, `receipt_mismatch`, `legacy_runtime` — a run's records are incomplete or don't match its usage report. These are reported for you to investigate; repair won't change them.
@@ -587,7 +587,7 @@ Repair resets every repairable total to its recomputed value and returns a fresh
 
 `POST /api/companies/{companyId}/accounting/invoices`
 
-Bring a provider invoice into Paperclip so you can compare it with what was recorded. Request body:
+Bring a provider invoice into ThinkingMach so you can compare it with what was recorded. Request body:
 
 - `biller` — who issued the invoice (up to 150 characters)
 - `externalId` — the invoice's own ID (up to 200 characters)
@@ -630,7 +630,7 @@ Use this to fix the amount on a recorded cost event — for example to price an 
 - `pricing` — required; where the new price came from (same shape as `pricingProvenance`)
 - `invoiceLineId` — optional; ties the correction to an imported invoice line. The line must be a USD `inference` line from the same biller, match this event in reconciliation, carry exactly `correctedCents`, and not have been used before.
 
-The response is `201` with the adjustment. Paperclip keeps the provider's original amount, updates the event's effective cost, recalculates month-to-date spend, and re-checks budgets. The event's `costStatus` becomes `estimated` when `pricing.source` is `rate_card`, and `reported` otherwise — so correcting an unpriced charge clears it from the unpriced count.
+The response is `201` with the adjustment. ThinkingMach keeps the provider's original amount, updates the event's effective cost, recalculates month-to-date spend, and re-checks budgets. The event's `costStatus` becomes `estimated` when `pricing.source` is `rate_card`, and `reported` otherwise — so correcting an unpriced charge clears it from the unpriced count.
 
 `GET /api/companies/{companyId}/accounting/events/{eventId}/adjustments` lists the corrections made to one event, newest first. Each has `previousCents`, `correctedCents`, `previousStatus`, `previousPricing`, `pricing`, `reason`, `actorId`, and `createdAt`.
 
@@ -646,7 +646,7 @@ Before you start, store the provider's admin key as a company secret and mark it
 { "providerBilling": { "provider": "openai", "accountId": "<organization id>" } }
 ```
 
-Paperclip only uses a company secret marked for the same provider and account.
+ThinkingMach only uses a company secret marked for the same provider and account.
 
 Request body:
 
@@ -666,7 +666,7 @@ The response is `{ "daysRead": …, "eventsCreated": … }`. Each day and projec
 
 This is a board-only endpoint that powers the subscription quota panels on the Costs page. The company must exist and the caller must be board-authenticated.
 
-It returns one entry for each Anthropic or OpenAI subscription account connected in AI connections that the calling user is allowed to see. It reads each account's own stored credential — never the sign-in on the machine running Paperclip. Each entry includes `provider`, `accountKey` (a stable ID for that account and credential version — never the credential itself), `accountLabel`, `ok`, `windows`, and `capturedAt` when the read succeeded. A failed read returns `ok: false` with an `errorFamily` such as `credentials_unavailable`, `authentication_required`, `permission_denied`, or `provider_unavailable`, and a general message rather than the provider's raw error. When the user has no such accounts, you get one placeholder entry each for `anthropic` and `openai` with `errorFamily: "credentials_unavailable"`.
+It returns one entry for each Anthropic or OpenAI subscription account connected in AI connections that the calling user is allowed to see. It reads each account's own stored credential — never the sign-in on the machine running ThinkingMach. Each entry includes `provider`, `accountKey` (a stable ID for that account and credential version — never the credential itself), `accountLabel`, `ok`, `windows`, and `capturedAt` when the read succeeded. A failed read returns `ok: false` with an `errorFamily` such as `credentials_unavailable`, `authentication_required`, `permission_denied`, or `provider_unavailable`, and a general message rather than the provider's raw error. When the user has no such accounts, you get one placeholder entry each for `anthropic` and `openai` with `errorFamily: "credentials_unavailable"`.
 
 ---
 

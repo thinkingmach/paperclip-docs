@@ -13,8 +13,8 @@ Two ways to authenticate: a subscription sign-in through the Grok CLI, or an xAI
 ## Before you connect
 
 - Either a subscription that covers Grok CLI sign-in, or an xAI API key from the [xAI console](https://console.x.ai/).
-- An agent that runs Grok: either the **Grok** adapter, or **Paperclip Runner** with **ACP agent** set to **Grok Build** (see [Grok Build On Paperclip Runner](../reference/adapters/grok-local.md#grok-build-on-paperclip-runner)). This is the requirement that catches people out: a runner agent pointed at any other provider won't pick the credential up.
-- For subscription sign-in only: a sign-in environment — either the Paperclip server host, or a sandbox environment that supports interactive sign-in. See [With a subscription](#with-a-subscription).
+- An agent that runs Grok: either the **Grok** adapter, or **ThinkingMach Runner** with **ACP agent** set to **Grok Build** (see [Grok Build On ThinkingMach Runner](../reference/adapters/grok-local.md#grok-build-on-paperclip-runner)). This is the requirement that catches people out: a runner agent pointed at any other provider won't pick the credential up.
+- For subscription sign-in only: a sign-in environment — either the ThinkingMach server host, or a sandbox environment that supports interactive sign-in. See [With a subscription](#with-a-subscription).
 
 ## Choose a sign-in method
 
@@ -34,7 +34,7 @@ Setup is a single screen with no separate access step. Once the account is saved
 
 ### With an API key
 
-Paste the key. Paperclip stores it as a secret and it is not readable afterwards.
+Paste the key. ThinkingMach stores it as a secret and it is not readable afterwards.
 
 ### With a subscription
 
@@ -42,16 +42,16 @@ Sign-in runs in a **sign-in environment**, and there are two kinds. Which ones y
 
 | Sign-in environment | What it needs | How you sign in |
 | --- | --- | --- |
-| **The Paperclip server host** | The `grok` CLI installed on that host, shell access to it, and an active local environment | Paperclip shows a command to paste into a terminal on that host (**Copy sign-in command**) |
-| **A sandbox environment** | A sandbox whose provider supports interactive sign-in, configured by an administrator | Sign-in happens in the environment Paperclip provides |
+| **The ThinkingMach server host** | The `grok` CLI installed on that host, shell access to it, and an active local environment | ThinkingMach shows a command to paste into a terminal on that host (**Copy sign-in command**) |
+| **A sandbox environment** | A sandbox whose provider supports interactive sign-in, configured by an administrator | Sign-in happens in the environment ThinkingMach provides |
 
-When both exist Paperclip shows a **Sign-in environment** selector. The sign-in environment may differ from where the agent later runs.
+When both exist ThinkingMach shows a **Sign-in environment** selector. The sign-in environment may differ from where the agent later runs.
 
-**On the Paperclip server host:**
+**On the ThinkingMach server host:**
 
-1. Select **Sign in**. Paperclip shows a command that sets `GROK_HOME` to a directory for this attempt and runs `grok login --device-auth`.
+1. Select **Sign in**. ThinkingMach shows a command that sets `GROK_HOME` to a directory for this attempt and runs `grok login --device-auth`.
 2. Run it in a terminal on that host and complete xAI's device sign-in.
-3. Paperclip detects the credential and finishes the connection. The attempt stays open for 30 minutes before it expires.
+3. ThinkingMach detects the credential and finishes the connection. The attempt stays open for 30 minutes before it expires.
 
 > **Note:** The sign-in uses its own `GROK_HOME`, so it neither reads nor disturbs your personal `grok` login on that machine.
 
@@ -62,9 +62,9 @@ If server-host sign-in is unavailable you will see *"Server-host subscription si
 **In a supported sandbox:**
 
 1. Select the sandbox in **Sign-in environment**, if a selector is shown, and choose subscription authentication.
-2. Wait for Paperclip to prepare the sign-in link, then use **Sign in to Grok** to open it.
-3. If Paperclip displays a device code, enter it on the provider's sign-in page. Complete authorization and return to Paperclip.
-4. Wait for Paperclip to finish the connection. If the attempt expires or fails, start a new attempt; an open provider page alone does not establish that the credential was saved.
+2. Wait for ThinkingMach to prepare the sign-in link, then use **Sign in to Grok** to open it.
+3. If ThinkingMach displays a device code, enter it on the provider's sign-in page. Complete authorization and return to ThinkingMach.
+4. Wait for ThinkingMach to finish the connection. If the attempt expires or fails, start a new attempt; an open provider page alone does not establish that the credential was saved.
 
 ## Assign the credential
 
@@ -98,15 +98,15 @@ When you connect a brand-new account this way, you also see **Allow all agents i
 
 If a task shows an authentication card, select **Fix connection** to repair the selected account without leaving the task. The account owner signs in again; the card explains when another owner must do it. After setup completes, the task resumes through normal admission. Reconnecting preserves the account's audience and agent access.
 
-If you are the responsible person and simply haven't connected your own Grok account yet, the task chat shows **AI connection needed** instead of a failure, with a card titled **Connect your Grok account**. Select **Connect Grok**, connect your own account inside the card, and the task resumes automatically. Paperclip never borrows a teammate's credential to fill the gap.
+If you are the responsible person and simply haven't connected your own Grok account yet, the task chat shows **AI connection needed** instead of a failure, with a card titled **Connect your Grok account**. Select **Connect Grok**, connect your own account inside the card, and the task resumes automatically. ThinkingMach never borrows a teammate's credential to fill the gap.
 
 ## Check your usage limits
 
 Before you hand an agent a long task, you can see how much of the provider's allowance is left. Open the saved account and find **Usage**, then select **Check usage**. This works for a Grok subscription. An API-key account shows *"Unavailable for this sign-in method."* instead of the button, because the provider has no single-key allowance to read.
 
-Paperclip reads the limits only when you ask. Opening the account, listing connections, and starting a run never trigger a check. Each limit window shows how much is used and when it resets, and is marked **Limit reached** or **Blocked** when the provider says so. **Overage** shows whether extra paid usage is available. Anything the provider leaves out shows as **Not reported**, never as zero. After a successful check, the button becomes **Refresh**.
+ThinkingMach reads the limits only when you ask. Opening the account, listing connections, and starting a run never trigger a check. Each limit window shows how much is used and when it resets, and is marked **Limit reached** or **Blocked** when the provider says so. **Overage** shows whether extra paid usage is available. Anything the provider leaves out shows as **Not reported**, never as zero. After a successful check, the button becomes **Refresh**.
 
-Grok does not always report how much of the included plan you have used. When it leaves that out, Paperclip shows **Not reported** rather than guessing.
+Grok does not always report how much of the included plan you have used. When it leaves that out, ThinkingMach shows **Not reported** rather than guessing.
 
 Checking is read-only. It does not move work to another account, stop runs at a limit, refresh the credential, or buy credit.
 
@@ -127,7 +127,7 @@ Check the agent's adapter is Grok and note which AI connection it is configured 
 Reply with the single word: ready
 ```
 
-**A reply proves** a Grok credential was accepted, the adapter matches, and the checks above passed — Paperclip refuses an ineligible binding rather than falling back. **It does not prove which account was billed**; that attribution is not surfaced per run, so check usage in the xAI console for the account you expect.
+**A reply proves** a Grok credential was accepted, the adapter matches, and the checks above passed — ThinkingMach refuses an ineligible binding rather than falling back. **It does not prove which account was billed**; that attribution is not surfaced per run, so check usage in the xAI console for the account you expect.
 
 If the run reports an incompatible connection, check the adapter before anything else.
 
@@ -143,15 +143,15 @@ If the run reports an incompatible connection, check the adapter before anything
 | *"This credential is not shared with the responsible user"* | The connection is shared with named people and the responsible user is not among them | Add that person to the connection's audience |
 | A subscription connection made during the preview stops working | Preview-era subscription credentials are not reusable and must be re-established | Reconnect the account |
 | **Sign in** is unavailable | No sign-in environment is offered on this deployment | Ask an administrator whether a sandbox sign-in environment can be enabled; otherwise use an API key |
-| The sign-in command does nothing | The `grok` CLI is missing on the host you ran it on, or you ran it on the wrong machine | Install the CLI and run the command in a terminal on the Paperclip server host itself |
+| The sign-in command does nothing | The `grok` CLI is missing on the host you ran it on, or you ran it on the wrong machine | Install the CLI and run the command in a terminal on the ThinkingMach server host itself |
 | Status **expired** or **needs attention** | The credential rotated or the key was revoked | Reconnect the account |
-| Runs fail with a quota error | xAI's plan or key limits, not a Paperclip limit | On a subscription, select **Check usage** on the saved account to see which window is exhausted and when it resets. Otherwise check usage with xAI |
+| Runs fail with a quota error | xAI's plan or key limits, not a ThinkingMach limit | On a subscription, select **Check usage** on the saved account to see which window is exhausted and when it resets. Otherwise check usage with xAI |
 
 Limitations: one connection is one xAI account, and it grants no tool access. The Grok adapter requirement is narrower than the other model providers — confirm it before planning work around this connector.
 
 ## Related guides
 
-- [Connector overview](https://paperclip.ing/product/connectors/xai/)
+- [Connector overview](https://thinkingmach.com/product/connectors/xai/)
 
 - [Anthropic](anthropic.md), [OpenAI](openai.md), [OpenRouter](openrouter.md) — the other model providers.
 - [Custom model providers](custom-model-providers.md) — compatible gateways, local endpoints, and Bedrock.

@@ -15,7 +15,7 @@ The folder view takes the structure that's already in the names and lets you wal
 
 ## A mental model
 
-Think of the slash in a secret name the way you think of the slash in a file path — with one important difference: there is no folder to create or delete. Folders in Paperclip are derived entirely from the names of your secrets. If three secrets start with `dev/github/`, a `github` folder appears inside `dev`. Delete or rename those three, and the folder is simply gone, because nothing ever recorded it in the first place.
+Think of the slash in a secret name the way you think of the slash in a file path — with one important difference: there is no folder to create or delete. Folders in ThinkingMach are derived entirely from the names of your secrets. If three secrets start with `dev/github/`, a `github` folder appears inside `dev`. Delete or rename those three, and the folder is simply gone, because nothing ever recorded it in the first place.
 
 That has a practical consequence worth holding onto: **the name is the filing decision**. Where a secret lives is not a property you set separately, it's the text you typed in the Name field. Get the name right and the folder takes care of itself.
 
@@ -26,7 +26,7 @@ The Secrets tab has a small **Folders / Flat** toggle next to the search box and
 - **Folders** shows one level at a time: subfolders first, then the secrets that live directly at this level.
 - **Flat** shows every secret in one list, exactly as before, with full names spelled out.
 
-Your choice is remembered in the browser (under `paperclip.secrets.viewMode` in local storage), so the screen comes back the way you left it. Until you pick a side, Paperclip guesses: if any secret name contains a slash you land in Folders, and if none do you get Flat — a company that never used prefixes never sees a folder tree it doesn't need.
+Your choice is remembered in the browser (under `paperclip.secrets.viewMode` in local storage), so the screen comes back the way you left it. Until you pick a side, ThinkingMach guesses: if any secret name contains a slash you land in Folders, and if none do you get Flat — a company that never used prefixes never sees a folder tree it doesn't need.
 
 ## Moving around the tree
 
@@ -54,7 +54,7 @@ While a search is active the Folders / Flat toggle is disabled, because there's 
 
 Here's the part that surprises people: creating a folder doesn't save anything. It walks you into the folder you just named, and that folder stays a staging area until a secret lands in it. If you navigate away without creating a secret, nothing was created and nothing was lost. That's not a limitation to work around, it's the same rule as everywhere else on this page — folders exist because secrets are named that way.
 
-So the second half matters. Once you're standing in a folder, **New secret** opens the create dialog with the folder path already attached to the Name field as a small chip, and a note underneath reading *Creating in `dev/github` — remove the chip to type a different path*. You type only the last part of the name — `clientsecret` — and Paperclip stores `dev/github/clientsecret`. Click the × on the chip if you'd rather type the whole path yourself.
+So the second half matters. Once you're standing in a folder, **New secret** opens the create dialog with the folder path already attached to the Name field as a small chip, and a note underneath reading *Creating in `dev/github` — remove the chip to type a different path*. You type only the last part of the name — `clientsecret` — and ThinkingMach stores `dev/github/clientsecret`. Click the × on the chip if you'd rather type the whole path yourself.
 
 An empty folder you've just staged shows **No secrets in this folder yet** with a **New secret here** button, which is the same flow with one fewer click.
 
@@ -73,7 +73,7 @@ Paths are rendered the same way everywhere they appear, including in search resu
 
 Open any secret and you'll find an **Agent access** panel listing the agents that receive it as an environment variable when a run starts. For a user-scoped secret, what each agent receives is the value belonging to the [responsible user](./secret-scopes.md) for that run.
 
-Adding an agent takes two fields. The **Agent** control opens a searchable list with a **Filter agents** box at the top — type a few letters of an agent's name or title to narrow it down, which beats scrolling once a company has grown a real roster. The **Env var** field is the name the agent will see the value under; Paperclip suggests one from the secret and uppercases what you type. Press **Add** to grant it. Each granted agent gets a row showing the environment variable it receives and an × to take the access away again.
+Adding an agent takes two fields. The **Agent** control opens a searchable list with a **Filter agents** box at the top — type a few letters of an agent's name or title to narrow it down, which beats scrolling once a company has grown a real roster. The **Env var** field is the name the agent will see the value under; ThinkingMach suggests one from the secret and uppercases what you type. Press **Add** to grant it. Each granted agent gets a row showing the environment variable it receives and an × to take the access away again.
 
 ## Further reading
 

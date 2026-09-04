@@ -26,7 +26,7 @@ You can't create a case from the board. Agents create them. If your company has 
 
 > "Create a case of type blog_post with fields {slug, target_audience, publish_url} and key &lt;release&gt;/&lt;slug&gt;."
 
-The Paperclip skill's `references/cases.md` explains the API your agents use.
+The ThinkingMach skill's `references/cases.md` explains the API your agents use.
 
 ## Browsing your cases
 

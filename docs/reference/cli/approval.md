@@ -6,7 +6,7 @@ seo_description: Clear board-gated actions from the terminal — hiring another 
 
 # Approval Commands
 
-Use these commands when an agent has hit a board-gated action — hiring another agent, locking in a CEO strategy — and a human (or board-authorized automation) needs to decide. Approvals are the governance layer that sits between what an agent *wants* to do and what it is *allowed* to do. The `approval` command group lets you list the queue, inspect a single request, create one, render a decision (approve, reject, request revision), resubmit a revised request, and leave comments — all from the terminal instead of the Paperclip UI.
+Use these commands when an agent has hit a board-gated action — hiring another agent, locking in a CEO strategy — and a human (or board-authorized automation) needs to decide. Approvals are the governance layer that sits between what an agent *wants* to do and what it is *allowed* to do. The `approval` command group lets you list the queue, inspect a single request, create one, render a decision (approve, reject, request revision), resubmit a revised request, and leave comments — all from the terminal instead of the ThinkingMach UI.
 
 This is the same Approvals queue you work in the UI — these commands give you identical control from the terminal, which is useful for scripting, integrations, or operating headless. If you've handed the CLI to an AI operator, this is also how it raises and resolves approvals.
 
@@ -36,8 +36,8 @@ Every subcommand accepts the [common client options](./common-options.md) (`--da
 List the approvals attached to a company. This is the queue you triage.
 
 ```sh
-paperclipai approval list --company-id <company-id>
-paperclipai approval list --company-id <company-id> --status pending
+thinkingmach approval list --company-id <company-id>
+thinkingmach approval list --company-id <company-id> --status pending
 ```
 
 | Flag | Use |
@@ -49,7 +49,7 @@ Without `--json`, each row prints as a compact inline record showing the approva
 
 ```sh
 # Find everything still waiting on a decision, as JSON, for a script
-paperclipai approval list --company-id <company-id> --status pending --json
+thinkingmach approval list --company-id <company-id> --status pending --json
 ```
 
 > **Tip:** Start every triage session with `approval list --status pending`. It is the shortest route from "what needs me" to a decision.
@@ -61,7 +61,7 @@ paperclipai approval list --company-id <company-id> --status pending --json
 Inspect a single approval in full before you decide on it.
 
 ```sh
-paperclipai approval get <approval-id>
+thinkingmach approval get <approval-id>
 ```
 
 This is company-agnostic — the approval ID is globally addressable, so you do not pass `--company-id`. Pair it with `--json` when you want the complete payload (the proposed hire config, the strategy text, linked issue IDs) rather than a summary.
@@ -73,7 +73,7 @@ This is company-agnostic — the approval ID is globally addressable, so you do 
 Create a request for a governed action. Agents normally generate these as part of their work, but a board operator or automation can create one explicitly.
 
 ```sh
-paperclipai approval create \
+thinkingmach approval create \
   --company-id <company-id> \
   --type hire_agent \
   --payload '{"name":"CTO","role":"engineering_lead"}' \
@@ -100,9 +100,9 @@ The `--payload` value is parsed as JSON and must be a JSON object — passing a 
 Three subcommands record a decision on a pending approval. All three take the approval ID as an argument and accept the same two optional flags.
 
 ```sh
-paperclipai approval approve <approval-id> --decision-note "Cleared budget; proceed with the hire."
-paperclipai approval reject <approval-id> --decision-note "Out of scope for this quarter."
-paperclipai approval request-revision <approval-id> --decision-note "Tighten the role to backend only, then resubmit."
+thinkingmach approval approve <approval-id> --decision-note "Cleared budget; proceed with the hire."
+thinkingmach approval reject <approval-id> --decision-note "Out of scope for this quarter."
+thinkingmach approval request-revision <approval-id> --decision-note "Tighten the role to backend only, then resubmit."
 ```
 
 | Flag | Use |
@@ -128,10 +128,10 @@ After a `request-revision`, the requester fixes the proposal and resubmits. You 
 
 ```sh
 # Resubmit unchanged
-paperclipai approval resubmit <approval-id>
+thinkingmach approval resubmit <approval-id>
 
 # Resubmit with a corrected payload
-paperclipai approval resubmit <approval-id> --payload '{"name":"CTO","role":"backend_lead"}'
+thinkingmach approval resubmit <approval-id> --payload '{"name":"CTO","role":"backend_lead"}'
 ```
 
 | Flag | Use |
@@ -147,7 +147,7 @@ When you pass `--payload`, it is parsed and validated as a JSON object exactly l
 Leave a comment on an approval to ask a clarifying question or record context without rendering a decision.
 
 ```sh
-paperclipai approval comment <approval-id> --body "What is the projected monthly cost of this hire?"
+thinkingmach approval comment <approval-id> --body "What is the projected monthly cost of this hire?"
 ```
 
 | Flag | Use |
@@ -162,19 +162,19 @@ Use comments to negotiate the details before you decide. Reserve `request-revisi
 
 ```sh
 # 1. See what is waiting
-paperclipai approval list --company-id <company-id> --status pending
+thinkingmach approval list --company-id <company-id> --status pending
 
 # 2. Inspect the one that needs attention
-paperclipai approval get <approval-id> --json
+thinkingmach approval get <approval-id> --json
 
 # 3a. If it's good, approve it
-paperclipai approval approve <approval-id> --decision-note "Approved."
+thinkingmach approval approve <approval-id> --decision-note "Approved."
 
 # 3b. If it needs work, send it back
-paperclipai approval request-revision <approval-id> --decision-note "Narrow the scope, then resubmit."
+thinkingmach approval request-revision <approval-id> --decision-note "Narrow the scope, then resubmit."
 
 # 4. The requester fixes and resubmits
-paperclipai approval resubmit <approval-id> --payload '{"...":"..."}'
+thinkingmach approval resubmit <approval-id> --payload '{"...":"..."}'
 ```
 
 ---

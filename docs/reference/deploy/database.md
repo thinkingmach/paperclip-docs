@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.1023.0
 seo_title: Database Configuration
-seo_description: Paperclip runs PostgreSQL through Drizzle ORM. One schema across every supported mode — what differs is where Postgres runs and how it is reached.
+seo_description: ThinkingMach runs PostgreSQL through Drizzle ORM. One schema across every supported mode — what differs is where Postgres runs and how it is reached.
 ---
 
 # Database
 
-Paperclip uses PostgreSQL through Drizzle ORM. The same schema works across the supported database modes; the difference is where PostgreSQL is running and how Paperclip connects to it.
+ThinkingMach uses PostgreSQL through Drizzle ORM. The same schema works across the supported database modes; the difference is where PostgreSQL is running and how ThinkingMach connects to it.
 
 Use this page when you are choosing between embedded, local Docker, or hosted PostgreSQL.
 
@@ -32,7 +32,7 @@ This is the default mode when `DATABASE_URL` is not set.
 pnpm dev
 ```
 
-On first start, Paperclip:
+On first start, ThinkingMach:
 
 1. creates `~/.paperclip/instances/default/db/`
 2. ensures the `paperclip` database exists
@@ -104,7 +104,7 @@ If you use the pooled connection in transaction mode and your pooler doesn't sup
 DATABASE_PREPARED_STATEMENTS=false
 ```
 
-Leave the variable unset everywhere else, so Paperclip keeps its normal behavior.
+Leave the variable unset everywhere else, so ThinkingMach keeps its normal behavior.
 
 > **Warning:** Use the direct connection for schema changes. Pointing migrations at the pooled endpoint is a common way to get avoidable connection errors.
 
@@ -112,7 +112,7 @@ Leave the variable unset everywhere else, so Paperclip keeps its normal behavior
 
 ## Connection Pool Settings
 
-Paperclip keeps a pool of open connections to PostgreSQL and reuses them across requests. The defaults suit most installs, so you only need these settings when you're sharing a database with other apps, running several server processes, or chasing connection limits on a hosted plan. Each one is an optional environment variable, and they apply in every database mode.
+ThinkingMach keeps a pool of open connections to PostgreSQL and reuses them across requests. The defaults suit most installs, so you only need these settings when you're sharing a database with other apps, running several server processes, or chasing connection limits on a hosted plan. Each one is an optional environment variable, and they apply in every database mode.
 
 | Variable | Default | What it does |
 |---|---|---|
@@ -120,12 +120,12 @@ Paperclip keeps a pool of open connections to PostgreSQL and reuses them across 
 | `DATABASE_IDLE_TIMEOUT_SECONDS` | `60` | Closes a connection after it has sat idle this long, so a quiet server gives its connections back. `0` keeps idle connections open indefinitely. |
 | `DATABASE_CONNECT_TIMEOUT_SECONDS` | `30` | How long to wait for a new connection before giving up. |
 | `DATABASE_MAX_LIFETIME_SECONDS` | a random 30–60 minutes | Replaces a pooled connection with a fresh one once it's this old. |
-| `DATABASE_APPLICATION_NAME` | `paperclip` | The name Paperclip's connections show in PostgreSQL's `pg_stat_activity` view, so you can tell them apart from other clients. |
+| `DATABASE_APPLICATION_NAME` | `paperclip` | The name ThinkingMach's connections show in PostgreSQL's `pg_stat_activity` view, so you can tell them apart from other clients. |
 | `DATABASE_PREPARED_STATEMENTS` | unset | Prepared statements. See [Hosted PostgreSQL](#hosted-postgresql). |
 
 Values are checked when the server starts, and a bad one stops startup with an error that names the variable instead of being quietly ignored. The number settings take whole numbers of `1` or more, except `DATABASE_IDLE_TIMEOUT_SECONDS`, which also accepts `0`. `DATABASE_PREPARED_STATEMENTS` takes `true` or `false` (`1` and `0` work too).
 
-To see Paperclip's connections, run this against your database:
+To see ThinkingMach's connections, run this against your database:
 
 ```sql
 SELECT * FROM pg_stat_activity WHERE application_name LIKE 'paperclip%';
@@ -139,7 +139,7 @@ If you've set `DATABASE_APPLICATION_NAME`, the main pool uses your name instead,
 - a second pool of the same size when `DATABASE_MIGRATION_URL` is set
 - a short-lived single connection named `paperclip-workspace-finalization-lock` while a workspace is being finalized
 
-Paperclip closes its pools when the server shuts down, and when startup fails after a pool has opened, so restarts don't leave idle connections behind.
+ThinkingMach closes its pools when the server shuts down, and when startup fails after a pool has opened, so restarts don't leave idle connections behind.
 
 ---
 
@@ -155,7 +155,7 @@ The Drizzle schema under `packages/db/src/schema/` stays the same in every case.
 
 ## What a database backup preserves
 
-A normal instance database backup includes encrypted [agent identities](../../guides/org/agent-identity.md) and locally stored [agent complaints and suggestions](../../administration/agent-commentary.md). Restoring identities also requires the matching secrets encryption key: preserve `PAPERCLIP_SECRETS_MASTER_KEY` or the instance's configured master-key file separately.
+A normal instance database backup includes encrypted [agent identities](../../guides/org/agent-identity.md) and locally stored [agent complaints and suggestions](../../administration/agent-commentary.md). Restoring identities also requires the matching secrets encryption key: preserve `THINKINGMACH_SECRETS_MASTER_KEY` or the instance's configured master-key file separately.
 
 The database does not contain the bytes of persistent agent files or locally stored uploads. Back up those filesystem directories or your configured asset storage as well; see [Storage](storage.md#persistent-agent-files).
 

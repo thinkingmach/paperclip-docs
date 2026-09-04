@@ -13,8 +13,8 @@ Two ways to authenticate: a Claude subscription, or an Anthropic API key.
 ## Before you connect
 
 - Either a Claude subscription, or an Anthropic API key from the [Anthropic console](https://console.anthropic.com/settings/keys).
-- An agent that runs on the Claude runtime: **Claude Code**, or **Paperclip Runner → ACP agents → Claude**. A standard Anthropic connection is not compatible with a Codex or OpenCode harness. For other Claude-compatible endpoints, see [Custom model providers](custom-model-providers.md).
-- For subscription sign-in only: a sign-in environment. Paperclip offers two kinds — the Paperclip server host itself, or a sandbox environment that supports interactive sign-in. Which you get depends on how your instance is configured; see [With a Claude subscription](#with-a-claude-subscription).
+- An agent that runs on the Claude runtime: **Claude Code**, or **ThinkingMach Runner → ACP agents → Claude**. A standard Anthropic connection is not compatible with a Codex or OpenCode harness. For other Claude-compatible endpoints, see [Custom model providers](custom-model-providers.md).
+- For subscription sign-in only: a sign-in environment. ThinkingMach offers two kinds — the ThinkingMach server host itself, or a sandbox environment that supports interactive sign-in. Which you get depends on how your instance is configured; see [With a Claude subscription](#with-a-claude-subscription).
 
 ## Choose a sign-in method
 
@@ -23,7 +23,7 @@ Two ways to authenticate: a Claude subscription, or an Anthropic API key.
 | **Subscription** | You already pay for a Claude plan and want agent runs to draw on it | Your Claude plan's usage limits apply |
 | **API key** | You want metered usage, separate billing, or no interactive sign-in | Anthropic bills the key's organization per token |
 
-Subscription plans carry their own usage limits, and those limits are Anthropic's, not Paperclip's. Check current plan terms with Anthropic rather than assuming a rate.
+Subscription plans carry their own usage limits, and those limits are Anthropic's, not ThinkingMach's. Check current plan terms with Anthropic rather than assuming a rate.
 
 ## Connect Anthropic
 
@@ -34,31 +34,31 @@ Setup is a single screen with no separate access step. Once the account is saved
 
 ### With an API key
 
-Paste the key. Paperclip stores it as a secret and it is not readable afterwards.
+Paste the key. ThinkingMach stores it as a secret and it is not readable afterwards.
 
 ### With a Claude subscription
 
-Paperclip never asks for your Claude password. It signs in through the `claude` CLI against a credential directory belonging to this connection alone.
+ThinkingMach never asks for your Claude password. It signs in through the `claude` CLI against a credential directory belonging to this connection alone.
 
 Sign-in runs in a **sign-in environment**, and there are two kinds. Which ones your instance offers is a configuration matter, not a choice you make per connection:
 
 | Sign-in environment | What it needs | How you sign in |
 | --- | --- | --- |
-| **The Paperclip server host** | The `claude` CLI and Python 3 on that host (the Docker image includes both), and an active local environment | Paperclip runs the sign-in on the host for you and shows a **Sign in to Claude** link in your browser. You don't need a terminal |
-| **A sandbox environment** | A sandbox whose provider supports interactive sign-in, configured by an administrator | Sign-in happens in the environment Paperclip provides; no terminal on the server host is required |
+| **The ThinkingMach server host** | The `claude` CLI and Python 3 on that host (the Docker image includes both), and an active local environment | ThinkingMach runs the sign-in on the host for you and shows a **Sign in to Claude** link in your browser. You don't need a terminal |
+| **A sandbox environment** | A sandbox whose provider supports interactive sign-in, configured by an administrator | Sign-in happens in the environment ThinkingMach provides; no terminal on the server host is required |
 
-If more than one is available, Paperclip shows a **Sign-in environment** selector. Note that the environment used to sign in may differ from the environment the agent later runs in; choosing it here does not change agent routing.
+If more than one is available, ThinkingMach shows a **Sign-in environment** selector. Note that the environment used to sign in may differ from the environment the agent later runs in; choosing it here does not change agent routing.
 
-**On the Paperclip server host:**
+**On the ThinkingMach server host:**
 
-1. Choose subscription sign-in. Paperclip shows *Preparing browser sign-in…* while it starts a private sign-in on the host.
+1. Choose subscription sign-in. ThinkingMach shows *Preparing browser sign-in…* while it starts a private sign-in on the host.
 2. Select **Sign in to Claude**. Anthropic's sign-in page opens in a new tab; authorize there.
-3. Anthropic shows you an authorization code. Paste it into the **Authorization code** field in Paperclip and select **Submit code**. Don't paste it into a task or chat.
-4. When Paperclip says *"Claude Code is signed in. Click Connect to use this account."*, select **Connect**. The attempt stays open for 30 minutes before it expires.
+3. Anthropic shows you an authorization code. Paste it into the **Authorization code** field in ThinkingMach and select **Submit code**. Don't paste it into a task or chat.
+4. When ThinkingMach says *"Claude Code is signed in. Click Connect to use this account."*, select **Connect**. The attempt stays open for 30 minutes before it expires.
 
 If you want to sign in with a different Claude account before connecting, select **Use a different account**. If the attempt expires or fails, select **Start sign-in again**.
 
-> **Note:** Behind the scenes Paperclip runs `claude setup-token` with `CLAUDE_CONFIG_DIR` pointing at a directory for this attempt only, so it neither reads nor disturbs your personal `claude` CLI login on that machine.
+> **Note:** Behind the scenes ThinkingMach runs `claude setup-token` with `CLAUDE_CONFIG_DIR` pointing at a directory for this attempt only, so it neither reads nor disturbs your personal `claude` CLI login on that machine.
 
 > **Note:** The 30-minute limit is documented for the server-host attempt. We have not established an equivalent figure for sandbox sign-in; treat any sandbox session as time-limited and complete it promptly.
 
@@ -67,9 +67,9 @@ If server-host sign-in is unavailable you will see *"Server-host subscription si
 **In a supported sandbox:**
 
 1. Select the sandbox in **Sign-in environment**, if a selector is shown, and choose subscription authentication.
-2. Wait for Paperclip to prepare the sign-in link, then use **Sign in to Claude** to open it.
-3. Complete the provider sign-in, then return the authorization code to the code field shown in Paperclip. Do not paste it into a task or chat.
-4. Wait for Paperclip to finish the connection. If the attempt expires or fails, start a new attempt; an open provider page alone does not establish that the credential was saved.
+2. Wait for ThinkingMach to prepare the sign-in link, then use **Sign in to Claude** to open it.
+3. Complete the provider sign-in, then return the authorization code to the code field shown in ThinkingMach. Do not paste it into a task or chat.
+4. Wait for ThinkingMach to finish the connection. If the attempt expires or fails, start a new attempt; an open provider page alone does not establish that the credential was saved.
 
 ## Assign the credential
 
@@ -105,13 +105,13 @@ When you connect a brand-new account this way, you also see **Allow all agents i
 
 If a task shows an authentication card, select **Fix connection** to repair the selected account without leaving the task. The account owner signs in again; the card explains when another owner must do it. After setup completes, the task resumes through normal admission. Reconnecting preserves the account's audience and agent access.
 
-If you are the responsible person and simply haven't connected your own Claude account yet, the task chat shows **AI connection needed** instead of a failure, with a card titled **Connect your Claude account**. Select **Connect Claude**, connect your own account inside the card, and the task resumes automatically. Paperclip never borrows a teammate's credential to fill the gap.
+If you are the responsible person and simply haven't connected your own Claude account yet, the task chat shows **AI connection needed** instead of a failure, with a card titled **Connect your Claude account**. Select **Connect Claude**, connect your own account inside the card, and the task resumes automatically. ThinkingMach never borrows a teammate's credential to fill the gap.
 
 ## Check your usage limits
 
 Before you hand an agent a long task, you can see how much of the provider's allowance is left. Open the saved account and find **Usage**, then select **Check usage**. This works for an Anthropic subscription. An API-key account shows *"Unavailable for this sign-in method."* instead of the button, because the provider has no single-key allowance to read.
 
-Paperclip reads the limits only when you ask. Opening the account, listing connections, and starting a run never trigger a check. Each limit window shows how much is used and when it resets, and is marked **Limit reached** or **Blocked** when the provider says so. **Overage** shows whether extra paid usage is available. Anything the provider leaves out shows as **Not reported**, never as zero. After a successful check, the button becomes **Refresh**.
+ThinkingMach reads the limits only when you ask. Opening the account, listing connections, and starting a run never trigger a check. Each limit window shows how much is used and when it resets, and is marked **Limit reached** or **Blocked** when the provider says so. **Overage** shows whether extra paid usage is available. Anything the provider leaves out shows as **Not reported**, never as zero. After a successful check, the button becomes **Refresh**.
 
 Some Claude subscription credentials are allowed to run models but not to read usage. In that case you see *"Usage access denied."* That is a limit of the stored sign-in, not a sign that your plan is exhausted, and signing in again for model access alone does not change it.
 
@@ -136,9 +136,9 @@ Then give the agent a short, cheap task:
 Reply with the single word: ready
 ```
 
-**What a successful reply does prove:** some Claude credential was accepted, the agent's runtime is compatible, and the permission checks above passed. Paperclip refuses a run outright when a binding is ineligible rather than quietly falling back to another account, so a run that completes under an explicit binding did use an authorized credential.
+**What a successful reply does prove:** some Claude credential was accepted, the agent's runtime is compatible, and the permission checks above passed. ThinkingMach refuses a run outright when a binding is ineligible rather than quietly falling back to another account, so a run that completes under an explicit binding did use an authorized credential.
 
-**What it does not prove:** *which* account paid for it. Paperclip records the provider, method, connection and responsible user internally when it resolves a credential, but those fields are not surfaced per run in the interface. If you need to confirm a specific account was billed, check usage on the provider's own dashboard for that account after the run. If the agent is set to use the responsible user's default, the reply tells you nothing about whose default was read.
+**What it does not prove:** *which* account paid for it. ThinkingMach records the provider, method, connection and responsible user internally when it resolves a credential, but those fields are not surfaced per run in the interface. If you need to confirm a specific account was billed, check usage on the provider's own dashboard for that account after the run. If the agent is set to use the responsible user's default, the reply tells you nothing about whose default was read.
 
 Watch the run rather than a status badge: a connection can show as connected and still fail at run time if the agent's runtime does not match.
 
@@ -154,16 +154,16 @@ Watch the run rather than a status badge: a connection can show as connected and
 | *"This credential is not shared with the responsible user"* | The connection is shared with named people and the responsible user is not among them | Add that person to the connection's audience, or have someone in the audience take responsibility for the work |
 | *"This connection is not permitted for this agent"* | The connection is not installed for that agent or company-wide | Install it for the agent on the connection's access settings |
 | **Sign in** is unavailable | No sign-in environment is offered on this deployment | Ask an administrator whether a sandbox sign-in environment can be enabled; otherwise use an API key |
-| Server-host sign-in never shows **Sign in to Claude**, or says *"The server restarted during sign-in. Start sign-in again."* | The `claude` CLI or Python 3 is missing on the Paperclip server host, or the server restarted mid-attempt | Install the missing tool on the host (the Docker image already has both), then select **Start sign-in again** |
+| Server-host sign-in never shows **Sign in to Claude**, or says *"The server restarted during sign-in. Start sign-in again."* | The `claude` CLI or Python 3 is missing on the ThinkingMach server host, or the server restarted mid-attempt | Install the missing tool on the host (the Docker image already has both), then select **Start sign-in again** |
 | *"Another sign-in is still open"* | A previous attempt has not expired | Finish or wait out the open attempt, then retry |
 | Status **expired** or **needs attention** | A subscription credential rotated, or the API key was revoked | Reconnect the account |
-| Runs fail with a provider quota error | Anthropic's plan or key limits, not a Paperclip limit | On a subscription, select **Check usage** on the saved account to see which window is exhausted and when it resets. Otherwise check usage with Anthropic |
+| Runs fail with a provider quota error | Anthropic's plan or key limits, not a ThinkingMach limit | On a subscription, select **Check usage** on the saved account to see which window is exhausted and when it resets. Otherwise check usage with Anthropic |
 
 Limitations: one connection is one provider account. This connector grants no tool access of any kind. Model choice and the agent's runtime are configured on the agent, not on the connection.
 
 ## Related guides
 
-- [Connector overview](https://paperclip.ing/product/connectors/anthropic/)
+- [Connector overview](https://thinkingmach.com/product/connectors/anthropic/)
 
 - [OpenAI](openai.md), [OpenRouter](openrouter.md), [Grok](xai.md) — the other model providers.
 - [Custom model providers](custom-model-providers.md) — compatible gateways, local endpoints, and Bedrock.

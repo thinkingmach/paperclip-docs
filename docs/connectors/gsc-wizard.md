@@ -18,14 +18,14 @@ Agents can read search performance for your sites through GSC Wizard — Google 
 1. Open **Connectors** and select **GSC Wizard**.
 2. Read the access line above the main button. It says who the connection belongs to and which agents can use it. To pick a different identity, narrow the agents, or switch method, select **Change**.
 3. Choose a method:
-   - **Sign in with GSC Wizard** — complete browser sign-in. Paperclip registers its client automatically.
+   - **Sign in with GSC Wizard** — complete browser sign-in. ThinkingMach registers its client automatically.
    - **Use a GSC Wizard MCP key** — create a key in GSC Wizard for the intended account, choosing read-only or read/write, and paste it into the **Your GSC Wizard key** field.
 
 ## Choose access
 
-Browser sign-in requests the `mcp:read` and `mcp:write` scopes. With a key, the permission you chose at creation is the ceiling; Paperclip cannot raise it later, so pick read-only if agents only need reports.
+Browser sign-in requests the `mcp:read` and `mcp:write` scopes. With a key, the permission you chose at creation is the ceiling; ThinkingMach cannot raise it later, so pick read-only if agents only need reports.
 
-Most tools read reports, but some can submit URLs for indexing or otherwise change your sites' indexing state. Those changes happen outside Paperclip and are hard to take back quickly. Set them to **Ask first** or **Off** on the **Permissions** tab, and leave the read actions **Allowed**. See [Set action permissions](action-permissions.md).
+Most tools read reports, but some can submit URLs for indexing or otherwise change your sites' indexing state. Those changes happen outside ThinkingMach and are hard to take back quickly. Set them to **Ask first** or **Off** on the **Permissions** tab, and leave the read actions **Allowed**. See [Set action permissions](action-permissions.md).
 
 Because one GSC Wizard account can hold several sites from several providers, ask agents to name the site and the date range in every query. That stops a report quietly coming from the wrong property.
 
@@ -58,4 +58,4 @@ Limitations: one GSC Wizard account per connection. A key's permission is fixed 
 
 ## Sources
 
-- [GSC Wizard definition](https://github.com/paperclipai/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions/gsc-wizard.json) — methods, scopes, key field, and warnings.
+- [GSC Wizard definition](https://github.com/thinkingmach/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions/gsc-wizard.json) — methods, scopes, key field, and warnings.

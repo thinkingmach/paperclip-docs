@@ -15,21 +15,21 @@ Agents can query the data you connected in Windsor.ai — advertising, analytics
 ## Before you connect
 
 - A Windsor.ai account with the data sources you need already linked. Link only the source accounts the task needs.
-- For browser sign-in, Paperclip must be reachable on a public HTTPS address. Windsor.ai rejects local HTTP callbacks; on a local instance, use an API key instead.
+- For browser sign-in, ThinkingMach must be reachable on a public HTTPS address. Windsor.ai rejects local HTTP callbacks; on a local instance, use an API key instead.
 
 ## Connect Windsor.ai
 
 1. Open **Connectors** and select **Windsor.ai**.
 2. Read the access line above the main button. It says who the connection belongs to and which agents can use it. To pick a different identity, narrow the agents, or switch method, select **Change**.
 3. Choose a method:
-   - **Sign in with Windsor.ai** — select **Continue to sign in** and complete browser sign-in. Paperclip registers its client automatically.
+   - **Sign in with Windsor.ai** — select **Continue to sign in** and complete browser sign-in. ThinkingMach registers its client automatically.
    - **Use a Windsor.ai API key** — create a key for the intended Windsor.ai organization and paste it into the **Your Windsor.ai key** field.
 
 ## Choose access
 
-Browser sign-in asks for the `create`, `delete`, and `offline_access` scopes. Windsor.ai requires the `delete` scope to open a session at all, even when you only want to read, so approving sign-in grants provider-level delete permission. If that is not acceptable for your account, do not approve it. Paperclip cannot raise or narrow an API key's permissions either.
+Browser sign-in asks for the `create`, `delete`, and `offline_access` scopes. Windsor.ai requires the `delete` scope to open a session at all, even when you only want to read, so approving sign-in grants provider-level delete permission. If that is not acceptable for your account, do not approve it. ThinkingMach cannot raise or narrow an API key's permissions either.
 
-Paperclip's action list is where you narrow things down:
+ThinkingMach's action list is where you narrow things down:
 
 | Action type | Suggested setting |
 | --- | --- |
@@ -69,4 +69,4 @@ Limitations: one Windsor.ai organization per connection. Sign-in always includes
 
 ## Sources
 
-- [Windsor.ai definition](https://github.com/paperclipai/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions/windsor-ai.json) — methods, scopes, callback requirement, key field, and warnings.
+- [Windsor.ai definition](https://github.com/thinkingmach/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions/windsor-ai.json) — methods, scopes, callback requirement, key field, and warnings.

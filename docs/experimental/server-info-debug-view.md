@@ -13,7 +13,7 @@ seo_description: Answer which commit a server is actually running from inside th
 ## Turn it on
 
 1. Go to **Settings → Experimental**.
-2. Turn on **Server Info Debug View** — *"Show a "Server" section in the account drawer with the current server restart time and running commit."* You'll find it in the **Paperclip Developer Mode** section further down the page.
+2. Turn on **Server Info Debug View** — *"Show a "Server" section in the account drawer with the current server restart time and running commit."* You'll find it in the **ThinkingMach Developer Mode** section further down the page.
 
 ## Using it
 

@@ -145,13 +145,13 @@ function themeInitScript(theme) {
 
 /**
  * Replacement pairs for host-specific paths that the server derives from the
- * throw-away instance: the scratch PAPERCLIP_HOME under os.tmpdir() (agent
+ * throw-away instance: the scratch THINKINGMACH_HOME under os.tmpdir() (agent
  * workspaces, skill folders), the seeded demo worktree, and the parent checkout
  * (bundled skills, run cwd). They render verbatim in Folder / Path / Working
  * directory / SOURCE rows as `/var/folders/kb/…/paperclip-docs-shots-home/…` and
  * `/private/tmp/pc-tag-1012`. They are rewritten to the locations a normal
  * install shows — `~/.paperclip/instances/default/…` (the default
- * PAPERCLIP_HOME + instance id) and `~/paperclip` — right before each shot.
+ * THINKINGMACH_HOME + instance id) and `~/paperclip` — right before each shot.
  * Only these exact prefixes are touched; ids and everything else stay real.
  */
 function envPathReplacements() {

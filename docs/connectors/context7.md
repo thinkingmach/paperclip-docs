@@ -14,7 +14,7 @@ Context7 is read-only and public. It does not see your code or repositories, and
 
 ## Before you connect
 
-Nothing. There is no account to create, no key to paste, and no sign-in. Paperclip connects to Context7's public hosted server at `https://mcp.context7.com/mcp` without a credential.
+Nothing. There is no account to create, no key to paste, and no sign-in. ThinkingMach connects to Context7's public hosted server at `https://mcp.context7.com/mcp` without a credential.
 
 Context7 offers API keys that raise rate limits and unlock private repositories. This connection does not use one, so you get the anonymous tier: public documentation only, with low rate limits.
 
@@ -62,5 +62,5 @@ Limitations: public documentation only. No API key, so rate limits are low and p
 
 ## Sources
 
-- [Context7 definition](https://github.com/paperclipai/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions/context7.json) — public method, server URL, and warnings.
-- [Catalog visibility](https://github.com/paperclipai/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions.ts) — Context7 is connectable and listed in the catalog; default action policy.
+- [Context7 definition](https://github.com/thinkingmach/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions/context7.json) — public method, server URL, and warnings.
+- [Catalog visibility](https://github.com/thinkingmach/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions.ts) — Context7 is connectable and listed in the catalog; default action policy.

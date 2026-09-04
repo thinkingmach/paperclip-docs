@@ -12,9 +12,9 @@ You can let agents work with Superagent, a security platform: review security fi
 
 ## Before you connect
 
-- A Superagent organization API key. In Superagent, open **Settings → API keys** and create a key just for Paperclip. Keys start with `sk_live_`.
+- A Superagent organization API key. In Superagent, open **Settings → API keys** and create a key just for ThinkingMach. Keys start with `sk_live_`.
 
-A separate key matters here. Superagent keys are not scoped: one key reaches everything in its organization, including permanently deleting findings and starting work that uses your organization's credits. A key used only by Paperclip can be revoked without breaking anything else.
+A separate key matters here. Superagent keys are not scoped: one key reaches everything in its organization, including permanently deleting findings and starting work that uses your organization's credits. A key used only by ThinkingMach can be revoked without breaking anything else.
 
 ## Connect Superagent
 
@@ -23,7 +23,7 @@ A separate key matters here. Superagent keys are not scoped: one key reaches eve
 3. Paste the key into the **Your Superagent key** field and select **Connect**.
 4. Open **Permissions** and review the action list before any agent runs unattended.
 
-API key is the only method. Paperclip stores the key as a secret and sends it to Superagent on each call; agents never see it.
+API key is the only method. ThinkingMach stores the key as a secret and sends it to Superagent on each call; agents never see it.
 
 ## Choose access
 
@@ -33,7 +33,7 @@ Every action starts as **Allowed**, so this step matters more than usual. Supera
 - **Permanent deletes.** Deleting a finding cannot be reversed.
 - **Changes to agent protection.** Some actions change rules or revoke credentials for agents Superagent protects.
 
-Paperclip classifies Superagent's actions conservatively to help. Only actions that list or get something, or that Superagent marks read-only, count as reads. Anything that deletes, removes, or revokes counts as destructive. Everything else counts as a write, even when the name sounds harmless — `triage_finding` and `restore_agent_builtin_rule` are writes because they start billable work or change policy.
+ThinkingMach classifies Superagent's actions conservatively to help. Only actions that list or get something, or that Superagent marks read-only, count as reads. Anything that deletes, removes, or revokes counts as destructive. Everything else counts as a write, even when the name sounds harmless — `triage_finding` and `restore_agent_builtin_rule` are writes because they start billable work or change policy.
 
 That makes the safe setup quick: set writes and destructive actions to **Ask first** (or **Off**) and leave reads **Allowed**. See [Set action permissions](action-permissions.md).
 
@@ -59,9 +59,9 @@ Compare the list with the findings view in Superagent.
 | Calls fail during a busy run | Superagent's rate limits | Wait and retry, or spread the work out |
 | **Needs attention** | The key was revoked | Create a new key and select **Reconnect** |
 
-Limitations: one Superagent organization per connection. There is no browser sign-in, and Paperclip cannot narrow what an issued key can reach — use action permissions for that.
+Limitations: one Superagent organization per connection. There is no browser sign-in, and ThinkingMach cannot narrow what an issued key can reach — use action permissions for that.
 
-To disconnect fully, revoke the key in Superagent, then remove the connection in Paperclip.
+To disconnect fully, revoke the key in Superagent, then remove the connection in ThinkingMach.
 
 ## Related guides
 
@@ -72,5 +72,5 @@ To disconnect fully, revoke the key in Superagent, then remove the connection in
 
 ## Sources
 
-- [Superagent definition](https://github.com/paperclipai/paperclip/blob/abbd88007f059dbadbd3f266febf264577b6ee78/packages/shared/src/app-definitions/superagent.json) — method, credential field, key guidance, and warnings.
-- [Tool connection service](https://github.com/paperclipai/paperclip/blob/abbd88007f059dbadbd3f266febf264577b6ee78/server/src/services/tool-access.ts) — Superagent risk classification.
+- [Superagent definition](https://github.com/thinkingmach/paperclip/blob/abbd88007f059dbadbd3f266febf264577b6ee78/packages/shared/src/app-definitions/superagent.json) — method, credential field, key guidance, and warnings.
+- [Tool connection service](https://github.com/thinkingmach/paperclip/blob/abbd88007f059dbadbd3f266febf264577b6ee78/server/src/services/tool-access.ts) — Superagent risk classification.

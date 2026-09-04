@@ -6,7 +6,7 @@ seo_description: Let agents look up contacts and Workspace directory profiles. R
 
 # Google People
 
-> **Warning:** **Google verification pending.** Paperclip has not yet completed Google app verification. You may see an unverified-app warning during authorization. If Google offers an **Advanced** option to continue to Paperclip, you can choose to proceed after reviewing the requested access. This option is not available for every account; Workspace administrator restrictions and other Google access requirements still apply. Contact [support@paperclip.ing](mailto:support@paperclip.ing) if you cannot connect.
+> **Warning:** **Google verification pending.** ThinkingMach has not yet completed Google app verification. You may see an unverified-app warning during authorization. If Google offers an **Advanced** option to continue to ThinkingMach, you can choose to proceed after reviewing the requested access. This option is not available for every account; Workspace administrator restrictions and other Google access requirements still apply. Contact [support@thinkingmach.com](mailto:support@thinkingmach.com) if you cannot connect.
 
 > **Note:** While verification is pending, the Google Workspace connectors and any saved Google accounts are temporarily hidden from the **Connectors** page. This hides them from the list only. Existing Google connections keep running with their access and permissions unchanged, and an agent that needs a Google service can still ask you for it with a connection card on its task.
 
@@ -20,13 +20,13 @@ This connector is read-only. There is no capability group that writes, so an age
 
 - A Google account with Developer Preview registration confirmed.
 - For directory search, a Google Workspace account. Directory availability depends on the Workspace account and its administrator's settings — a personal Google account has contacts but no organization directory.
-- Without Paperclip Cloud enrollment, your own Google OAuth client with the **People API** and **People MCP API** enabled. [Set up your own Google OAuth app](google-setup.md) is the complete procedure — do it before you start here.
+- Without ThinkingMach Cloud enrollment, your own Google OAuth client with the **People API** and **People MCP API** enabled. [Set up your own Google OAuth app](google-setup.md) is the complete procedure — do it before you start here.
 
 ## Connect Google People
 
 1. Open **Connectors** and select **Google People**.
 2. Read the access line above the main button. It says who the connection signs in as and which agents can use it. To pick a different identity, narrow the agents, or use another sign-in method, select **Change**.
-3. Paperclip uses **Connect with Paperclip** when your instance offers it. To use your own client instead, select **Use your own Google OAuth app** and supply the client ID and secret from [Set up your own Google OAuth app](google-setup.md).
+3. ThinkingMach uses **Connect with ThinkingMach** when your instance offers it. To use your own client instead, select **Use your own Google OAuth app** and supply the client ID and secret from [Set up your own Google OAuth app](google-setup.md).
 4. Complete Google's consent screen.
 
 There is one capability group, **Read contacts**, requesting `directory.readonly`, `userinfo.profile`, and `contacts.readonly`.
@@ -41,7 +41,7 @@ Two distinct sources of people, and it is worth knowing which one an answer came
 | The organization directory | Workspace colleagues, subject to your administrator's directory settings | `search-directory-people` |
 | Your own profile | The authorizing account's own profile | `get-user-profile` |
 
-Directory reach is Google's decision, not Paperclip's. A Workspace administrator can limit or disable directory sharing, in which case directory searches return little or nothing even though authorization succeeded.
+Directory reach is Google's decision, not ThinkingMach's. A Workspace administrator can limit or disable directory sharing, in which case directory searches return little or nothing even though authorization succeeded.
 
 > **Warning:** This connector returns personal data about real people — names, email addresses, and whatever else your directory exposes. Prefer **Just agents I pick** over **Any agent**, and give agents specific lookups rather than instructions that enumerate the directory.
 
@@ -67,9 +67,9 @@ If more than one person matches anyway, ask which source each result came from: 
 | Problem | Likely cause | Fix |
 | --- | --- | --- |
 | Google refuses before the consent screen | Developer Preview registration is incomplete | Finish registration and retry |
-| **Connect with Paperclip** is not offered | The instance is not enrolled with Paperclip Cloud, or Cloud is not advertising the People profile | Use your own Google OAuth app |
+| **Connect with ThinkingMach** is not offered | The instance is not enrolled with ThinkingMach Cloud, or Cloud is not advertising the People profile | Use your own Google OAuth app |
 | Directory searches return nothing, contacts work | The account is not a Workspace account, or an administrator has restricted directory sharing | Ask your Workspace administrator about directory visibility |
-| A colleague is missing from directory results | They are outside the shared directory scope your administrator configured | Nothing to fix in Paperclip |
+| A colleague is missing from directory results | They are outside the shared directory scope your administrator configured | Nothing to fix in ThinkingMach |
 | An agent cannot add or edit a contact | Expected — this connector is read-only | Do it in Google Contacts |
 | **Needs attention** | The Google token expired or was revoked | Select **Reconnect** |
 
@@ -77,7 +77,7 @@ Limitations: read-only in every group. One connection covers one Google account.
 
 ## Related guides
 
-- [Connector overview](https://paperclip.ing/product/connectors/google-people/)
+- [Connector overview](https://thinkingmach.com/product/connectors/google-people/)
 
 - [Google Workspace Search](google-workspace-search.md) — one read-only search across Gmail, Drive, Calendar, and Chat.
 - [How connector access works](access-model.md)

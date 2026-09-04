@@ -1,19 +1,19 @@
 ---
 paperclip_version: v2026.1023.0
 seo_title: Cursor Local Adapter
-seo_description: Run Cursor's Agent CLI on the Paperclip host, keeping chat sessions alive across heartbeats and emitting structured stream output in run views.
+seo_description: Run Cursor's Agent CLI on the ThinkingMach host, keeping chat sessions alive across heartbeats and emitting structured stream output in run views.
 ---
 
 # Cursor Local
 
-`cursor` runs Cursor's Agent CLI on the same machine as Paperclip. Use it when you want Cursor chat session resume across heartbeats and structured stream output in run logs. This page also covers the separate [Cursor route on Paperclip Runner](#cursor-on-paperclip-runner). Existing `cursor` agents keep using the CLI adapter until you change them.
+`cursor` runs Cursor's Agent CLI on the same machine as ThinkingMach. Use it when you want Cursor chat session resume across heartbeats and structured stream output in run logs. This page also covers the separate [Cursor route on ThinkingMach Runner](#cursor-on-paperclip-runner). Existing `cursor` agents keep using the CLI adapter until you change them.
 
 ---
 
 ## When To Use
 
 - You already use Cursor Agent CLI locally.
-- You want Paperclip to run Cursor with session resume (`--resume`) across heartbeats.
+- You want ThinkingMach to run Cursor with session resume (`--resume`) across heartbeats.
 - You want structured stream output (`--output-format stream-json`) in run logs.
 
 ## When Not To Use
@@ -97,16 +97,16 @@ grok, kimi-k2.5
 
 ---
 
-## Cursor On Paperclip Runner
+## Cursor On ThinkingMach Runner
 
-Choose this experimental route when you want the native Runner lifecycle and Paperclip task tools with Cursor. It uses the `paperclip_runner` adapter and a pinned ACP runtime, rather than the `agent` executable on your `PATH`.
+Choose this experimental route when you want the native Runner lifecycle and ThinkingMach task tools with Cursor. It uses the `paperclip_runner` adapter and a pinned ACP runtime, rather than the `agent` executable on your `PATH`.
 
 ### Prepare the execution host
 
-Run this under the same OS account that runs Paperclip, on the host where the agent executes:
+Run this under the same OS account that runs ThinkingMach, on the host where the agent executes:
 
 ```sh
-paperclipai runtime setup cursor
+thinkingmach runtime setup cursor
 ```
 
 The command downloads and verifies the pinned runtime without making model calls. It supports macOS ARM64, macOS x64, and Linux x64. Custom execution images need the matching runtime prepared too. See [Runtime commands](../cli/runtime.md).
@@ -115,8 +115,8 @@ Runtime installation does not authenticate Cursor. Supply `CURSOR_API_KEY` or `C
 
 ### Configure the agent
 
-1. Enable **Paperclip Runner** in Experimental settings if it is disabled on your instance.
-2. Choose **Paperclip Runner**, set **Harness** to **ACP agents**, and select **Cursor** as the **ACP agent**.
+1. Enable **ThinkingMach Runner** in Experimental settings if it is disabled on your instance.
+2. Choose **ThinkingMach Runner**, set **Harness** to **ACP agents**, and select **Cursor** as the **ACP agent**.
 3. Enter an explicit Cursor model ID; this route has no default model.
 4. Select **Cursor mode**, review the ACP permissions, and save.
 5. Use **Test Environment** to check readiness before assigning work.
@@ -146,19 +146,19 @@ Session mode is separate from `acpxPermissionMode` and the task's work mode. Cha
 
 ### Current limits
 
-- Cursor uses Paperclip's question tools for user input; do not assume every interactive Cursor CLI feature appears in Paperclip.
+- Cursor uses ThinkingMach's question tools for user input; do not assume every interactive Cursor CLI feature appears in ThinkingMach.
 - Native load restores a Runner-owned session. Provider-native fork and resume methods are unavailable, and live steering is unsupported; follow-ups use the controller queue.
 - Partial native counters may appear as diagnostic notices. They do not establish authoritative token totals or a per-run dollar cost.
-- The Runner rejects ambient MCP, hook, and plugin execution configuration. Connect allowed tools through Paperclip instead of relying on project discovery.
+- The Runner rejects ambient MCP, hook, and plugin execution configuration. Connect allowed tools through ThinkingMach instead of relying on project discovery.
 - Runtime verification establishes installation readiness. It does not prove model entitlement or successful paid execution.
 
-See [Paperclip Runner](paperclip-runner.md) for the feature defaults, provider choices, and permission modes.
+See [ThinkingMach Runner](paperclip-runner.md) for the feature defaults, provider choices, and permission modes.
 
 ---
 
 ## Next Steps
 
-- [Paperclip Runner](./paperclip-runner.md)
+- [ThinkingMach Runner](./paperclip-runner.md)
 - [Runtime Commands](../cli/runtime.md)
 - [Creating an Adapter](./creating-an-adapter.md)
 - [Adapter UI Parser Contract](./adapter-ui-parser.md)

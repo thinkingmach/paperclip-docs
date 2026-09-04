@@ -6,7 +6,7 @@ seo_description: Connect Honcho with an API key and workspace, give selected age
 
 # Honcho
 
-You can let agents recall and save conversation context in Honcho. Choose the workspace in Paperclip, then identify the peer or session in the task when that context matters.
+You can let agents recall and save conversation context in Honcho. Choose the workspace in ThinkingMach, then identify the peer or session in the task when that context matters.
 
 ## Before you connect
 
@@ -21,7 +21,7 @@ You can let agents recall and save conversation context in Honcho. Choose the wo
 3. Enter the **Honcho API key** and required **Honcho workspace**, then complete setup.
 4. Open **Permissions** and review the exposed actions and **Agent instructions**.
 
-Paperclip connects to `https://mcp.honcho.dev`. For tools that declare a `workspace_id` argument, Paperclip supplies your configured workspace rather than letting the agent replace it.
+ThinkingMach connects to `https://mcp.honcho.dev`. For tools that declare a `workspace_id` argument, ThinkingMach supplies your configured workspace rather than letting the agent replace it.
 
 ## Choose access
 
@@ -49,7 +49,7 @@ Give an eligible agent the workspace's intended peer and session context, and as
 | Retrieval returns the wrong context | Check the configured workspace and the peer or session named in the task. |
 | Calls fail | Check the key and its provider-side access. |
 
-Turning off the experimental setting leaves saved connections running and allows reconnecting. Paperclip does not create an automatic memory scope from an agent's identity or upload conversations in the background.
+Turning off the experimental setting leaves saved connections running and allows reconnecting. ThinkingMach does not create an automatic memory scope from an agent's identity or upload conversations in the background.
 
 ## Related guides
 
@@ -59,5 +59,5 @@ Turning off the experimental setting leaves saved connections running and allows
 
 ## Sources
 
-- [Honcho definition](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/packages/shared/src/app-definitions/honcho.json) — key, workspace field, endpoint, and default instructions.
-- [Connection instruction context](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/packages/shared/src/connection-instructions.ts) and [managed workspace arguments](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/server/src/services/honcho-connection.ts) — required configuration and managed workspace arguments.
+- [Honcho definition](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/packages/shared/src/app-definitions/honcho.json) — key, workspace field, endpoint, and default instructions.
+- [Connection instruction context](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/packages/shared/src/connection-instructions.ts) and [managed workspace arguments](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/server/src/services/honcho-connection.ts) — required configuration and managed workspace arguments.

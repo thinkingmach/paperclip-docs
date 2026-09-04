@@ -8,7 +8,7 @@ seo_description: An agent is a role, an AI system, a budget, and a set of wake-u
 
 An agent isn't just "an AI". It's a configuration — a specific role, with a specific AI system powering it, operating under a specific budget, with defined rules for when and how it wakes up and works.
 
-When you hire an agent, you're telling Paperclip: which AI system should run this agent, what role does it play in the company, and what constraints does it operate within. The AI itself (Claude, Codex, etc.) lives outside Paperclip. Paperclip is the management layer above it.
+When you hire an agent, you're telling ThinkingMach: which AI system should run this agent, what role does it play in the company, and what constraints does it operate within. The AI itself (Claude, Codex, etc.) lives outside ThinkingMach. ThinkingMach is the management layer above it.
 
 The CEO is always the first agent you create. It has a special role: reading the company goal, proposing a strategy, creating tasks, and delegating work to its reports. Nothing in your company moves until the CEO is running.
 
@@ -37,11 +37,11 @@ You'll need:
 
    ![The "Meet your next agent" dialog with the Agent name field](../../user-guides/screenshots/light/agents/new-agent-name-role.png)
 
-   There's no role to pick. The first agent in a company is always the **CEO**, and Paperclip sets that for you. The CEO reports directly to the board — to you. Agents you hire later start with a general role and report to the CEO; you can change both afterwards on each agent's **Harness / Runtime** page.
+   There's no role to pick. The first agent in a company is always the **CEO**, and ThinkingMach sets that for you. The CEO reports directly to the board — to you. Agents you hire later start with a general role and report to the CEO; you can change both afterwards on each agent's **Harness / Runtime** page.
 
 3. **Choose an adapter**
 
-   An adapter tells Paperclip how to run your agent. The dialog now asks **Choose an adapter**, with one card per adapter. Pick one and click **Configure agent**.
+   An adapter tells ThinkingMach how to run your agent. The dialog now asks **Choose an adapter**, with one card per adapter. Pick one and click **Configure agent**.
 
    ![Step 2 of the new agent dialog, "Choose an adapter", with a card for each available adapter](../../user-guides/screenshots/light/agents/adapter-type-dropdown.png)
 
@@ -51,7 +51,7 @@ You'll need:
 
    **Claude Code** runs a Claude Code agent directly on your Mac. The agent can work with files in its workspace, run terminal commands, write and edit code, and call Claude on your behalf.
 
-   This is the most capable and most commonly used adapter for Paperclip agents.
+   This is the most capable and most commonly used adapter for ThinkingMach agents.
 
    **Prerequisites:** Claude Code must be installed on your Mac. If you haven't installed it, follow the [Claude Code installation guide](https://docs.anthropic.com/en/docs/claude-code) — it's a separate Anthropic product. Come back here once it's installed.
 
@@ -67,7 +67,7 @@ You'll need:
 
    After the dialog closes, you land on a setup page with your agent's (still sleepy) character at the top and the steps down the left: **Connect**, **Configure**, and **Confirmation**.
 
-   On **Connect**, pick the **Environment** the agent runs in (the default is fine to start with), then connect Claude or OpenAI — either sign in with your subscription or provide an API key. Paperclip stores a key you enter as a secret, so it never sits in plain text in the agent's settings.
+   On **Connect**, pick the **Environment** the agent runs in (the default is fine to start with), then connect Claude or OpenAI — either sign in with your subscription or provide an API key. ThinkingMach stores a key you enter as a secret, so it never sits in plain text in the agent's settings.
 
 5. **Configure and test**
 
@@ -81,7 +81,7 @@ You'll need:
 
 6. **Finish setup**
 
-   Click **Finish setup**. Paperclip creates the agent and shows **Your agent is ready**, with the adapter, model, and environment it'll use.
+   Click **Finish setup**. ThinkingMach creates the agent and shows **Your agent is ready**, with the adapter, model, and environment it'll use.
 
    From here, click **Edit configuration** to open the agent's settings, or **Assign CEO a Task** (the button uses your agent's name) to give it its first job. You can also open the agent from the **Agents** list. You should see it with a status of **idle** — configured and ready, but it hasn't run a heartbeat yet.
 
@@ -109,7 +109,7 @@ You'll need:
 
    You can re-run the check any time. Open the agent, go to **Harness / Runtime**, and scroll to the **Test your agent** card at the bottom. Click **Run test** (or **Test again** if you've tested before).
 
-   Paperclip checks the runtime — for Claude Code, that Claude Code is installed and reachable and that your connection works — and waits for the model to respond.
+   ThinkingMach checks the runtime — for Claude Code, that Claude Code is installed and reachable and that your connection works — and waits for the model to respond.
 
    ![The Test your agent card showing Connection successful](../../user-guides/screenshots/light/agents/test-environment-success.png)
 
@@ -127,7 +127,7 @@ You'll need:
 
 The two most common causes:
 - The provider connection is wrong — double-check the API key you entered (no extra spaces) or sign in to your subscription again. On an existing agent, the key is set as `ANTHROPIC_API_KEY` or `OPENAI_API_KEY` under **Environment variables** on **Harness / Runtime**.
-- Claude Code isn't installed, or isn't at the path Paperclip expects — confirm you can open Claude Code from your Mac independently of Paperclip.
+- Claude Code isn't installed, or isn't at the path ThinkingMach expects — confirm you can open Claude Code from your Mac independently of ThinkingMach.
 
 **Agent shows "error" status after its first heartbeat**
 

@@ -19,7 +19,7 @@ Agents can work with your Airtable bases — finding records, reading fields, an
 2. Read the access line above the main button. It says who the connection signs in as and which agents can use it. To pick a different identity, narrow the agents, or use another sign-in method, select **Change**.
 3. Select **Continue to sign in** and complete browser sign-in, choosing what to share when Airtable asks.
 
-Paperclip registers its client with Airtable automatically, so there is nothing to set up in a developer console. Sign-in needs your Paperclip address to be HTTPS, or a local `localhost` address.
+ThinkingMach registers its client with Airtable automatically, so there is nothing to set up in a developer console. Sign-in needs your ThinkingMach address to be HTTPS, or a local `localhost` address.
 
 ### Use a personal access token instead
 
@@ -28,13 +28,13 @@ If browser sign-in does not suit you — for example, you want the connection's 
 1. Create a token at [airtable.com/create/tokens](https://airtable.com/create/tokens). Give it only the scopes and bases the actions you plan to allow actually need.
 2. Paste it into the **Your Airtable key** field and select **Connect**. Tokens start with `pat`.
 
-Paperclip stores the token as a secret and sends it to Airtable on each call; agents never see it. Both the token and the Airtable user's own role on each base limit what the connection can do, so a narrow token is a real boundary. An enterprise administrator may still need to allowlist MCP access.
+ThinkingMach stores the token as a secret and sends it to Airtable on each call; agents never see it. Both the token and the Airtable user's own role on each base limit what the connection can do, so a narrow token is a real boundary. An enterprise administrator may still need to allowlist MCP access.
 
 > **Tip:** Use a disposable or development base while you try out writes for the first time.
 
 ## Choose access
 
-Base and table reach comes from Airtable: what the authorizing account can open, plus whatever you selected at Airtable's authorization screen — or, with a personal access token, the scopes and bases you gave the token. Paperclip has no base picker of its own, so narrow it there or by authorizing with an account that belongs to fewer workspaces.
+Base and table reach comes from Airtable: what the authorizing account can open, plus whatever you selected at Airtable's authorization screen — or, with a personal access token, the scopes and bases you gave the token. ThinkingMach has no base picker of its own, so narrow it there or by authorizing with an account that belongs to fewer workspaces.
 
 Browser sign-in asks Airtable for `data.records:read`, `data.records:write`, `schema.bases:read`, `schema.bases:write`, `data.recordComments:read`, `data.recordComments:write`, and `workspacesAndBases:read`. That includes changing records and base schemas, so this is not a read-only connection unless you make it one on the **Permissions** tab.
 
@@ -68,11 +68,11 @@ Then open the connection's activity and confirm the Airtable calls are listed th
 | A personal access token connection cannot reach a base | The base was not added to the token, or the token lacks a scope | Edit the token in Airtable, or create a new one and reconnect |
 | **Needs attention** | The grant was revoked in Airtable, or the token was deleted | Select **Reconnect** |
 
-Limitations: one Airtable account or token per connection. No base or table filter inside Paperclip. Airtable's API rate limits apply, so large scans are slow.
+Limitations: one Airtable account or token per connection. No base or table filter inside ThinkingMach. Airtable's API rate limits apply, so large scans are slow.
 
 ## Related guides
 
-- [Connector overview](https://paperclip.ing/product/connectors/airtable/)
+- [Connector overview](https://thinkingmach.com/product/connectors/airtable/)
 
 - [Google Sheets](google-sheets.md) — for spreadsheet data, with a stricter scoping option.
 - [Set action permissions](action-permissions.md)

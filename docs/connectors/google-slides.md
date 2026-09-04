@@ -6,7 +6,7 @@ seo_description: Let agents read Google Slides presentations and optionally upda
 
 # Google Slides
 
-> **Warning:** **Google verification pending.** Paperclip has not yet completed Google app verification. You may see an unverified-app warning during authorization. If Google offers an **Advanced** option to continue to Paperclip, you can choose to proceed after reviewing the requested access. This option is not available for every account; Workspace administrator restrictions and other Google access requirements still apply. Contact [support@paperclip.ing](mailto:support@paperclip.ing) if you cannot connect.
+> **Warning:** **Google verification pending.** ThinkingMach has not yet completed Google app verification. You may see an unverified-app warning during authorization. If Google offers an **Advanced** option to continue to ThinkingMach, you can choose to proceed after reviewing the requested access. This option is not available for every account; Workspace administrator restrictions and other Google access requirements still apply. Contact [support@thinkingmach.com](mailto:support@thinkingmach.com) if you cannot connect.
 
 > **Note:** While verification is pending, the Google Workspace connectors and any saved Google accounts are temporarily hidden from the **Connectors** page. This hides them from the list only. Existing Google connections keep running with their access and permissions unchanged, and an agent that needs a Google service can still ask you for it with a connection card on its task.
 
@@ -17,7 +17,7 @@ Agents can read the slides and content of a Google Slides presentation, and on a
 ## Before you connect
 
 - A Google Workspace account that can already open the presentations you want agents to use, with Developer Preview registration confirmed.
-- Without Paperclip Cloud enrollment, your own Google OAuth client with the **Drive API**, **Slides API**, and **Slides MCP API** enabled. [Set up your own Google OAuth app](google-setup.md) is the complete procedure — do it before you start here.
+- Without ThinkingMach Cloud enrollment, your own Google OAuth client with the **Drive API**, **Slides API**, and **Slides MCP API** enabled. [Set up your own Google OAuth app](google-setup.md) is the complete procedure — do it before you start here.
 
 ## Pick a capability group
 
@@ -26,7 +26,7 @@ Agents can read the slides and content of a Google Slides presentation, and on a
 | **Read only** | Read presentation slides and content | `presentations.readonly` |
 | **Read & edit** | The above, plus update a presentation | `presentations` |
 
-Neither group asks for Google Drive access. The Slides scope alone is enough to read and edit presentations the account can open, by presentation ID. Connections made with an earlier version asked for more. If a **Connect with Paperclip** connection from before this change stops working, select **Reconnect** to sign in with the smaller set. A connection using your own OAuth app keeps its earlier grant until you reconnect it.
+Neither group asks for Google Drive access. The Slides scope alone is enough to read and edit presentations the account can open, by presentation ID. Connections made with an earlier version asked for more. If a **Connect with ThinkingMach** connection from before this change stops working, select **Reconnect** to sign in with the smaller set. A connection using your own OAuth app keeps its earlier grant until you reconnect it.
 
 The group is fixed for the life of the connection.
 
@@ -34,12 +34,12 @@ The group is fixed for the life of the connection.
 
 1. Open **Connectors** and select **Google Slides**.
 2. Read the access line above the main button. It says who the connection signs in as and which agents can use it. To pick a different identity, narrow the agents, or use another sign-in method, select **Change**.
-3. Check the capability group. Setup starts on the group that can make changes; to connect read-only, select **Change** and pick it under **What should Paperclip be able to do?**. Paperclip uses **Connect with Paperclip** when your instance offers it. To use your own client instead, select **Use your own Google OAuth app** and supply the client ID and secret from [Set up your own Google OAuth app](google-setup.md).
+3. Check the capability group. Setup starts on the group that can make changes; to connect read-only, select **Change** and pick it under **What should ThinkingMach be able to do?**. ThinkingMach uses **Connect with ThinkingMach** when your instance offers it. To use your own client instead, select **Use your own Google OAuth app** and supply the client ID and secret from [Set up your own Google OAuth app](google-setup.md).
 4. Complete Google's consent screen with the registered Workspace account.
 
 ## Choose access
 
-Presentation reach comes from Google: the connection can open what the authorizing account can open. There is no file picker in Paperclip.
+Presentation reach comes from Google: the connection can open what the authorizing account can open. There is no file picker in ThinkingMach.
 
 Reviewed operations:
 
@@ -77,7 +77,7 @@ If you want to confirm editing, do it on a copy rather than the deck someone is 
 | Problem | Likely cause | Fix |
 | --- | --- | --- |
 | Google refuses before the consent screen | Developer Preview registration is incomplete | Finish registration and retry |
-| **Connect with Paperclip** is not offered | The instance is not enrolled with Paperclip Cloud, or Cloud is not advertising the Slides profile | Use your own Google OAuth app |
+| **Connect with ThinkingMach** is not offered | The instance is not enrolled with ThinkingMach Cloud, or Cloud is not advertising the Slides profile | Use your own Google OAuth app |
 | A presentation cannot be found | It is not shared with the authorizing account | Share it in Google Drive; no reconnect needed |
 | `update-presentation` is missing | The connection was made with **Read only** | Make a connection with **Read & edit** |
 | An edit landed but looks wrong | The Slides API does not cover every layout and design feature | Adjust it in Google Slides |
@@ -87,7 +87,7 @@ Limitations: one connection covers one Google account. Creating a presentation i
 
 ## Related guides
 
-- [Connector overview](https://paperclip.ing/product/connectors/google-slides/)
+- [Connector overview](https://thinkingmach.com/product/connectors/google-slides/)
 
 - [Google Drive](google-drive.md) — find and create files.
 - [Google Docs](google-docs.md)

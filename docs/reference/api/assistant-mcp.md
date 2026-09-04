@@ -1,7 +1,7 @@
 ---
 paperclip_version: v2026.1023.0
 seo_title: Assistant MCP Protocol and Tools
-seo_description: Integrate an assistant as a consenting Paperclip user. Discover work and configuration tools, transfer task files, subscribe to events, and revoke access.
+seo_description: Integrate an assistant as a consenting ThinkingMach user. Discover work and configuration tools, transfer task files, subscribe to events, and revoke access.
 ---
 
 # Assistant MCP
@@ -17,7 +17,7 @@ Enable **Assistant connections (MCP)** in Experimental settings. The default is 
 Use the configured authentication public URL or set an origin explicitly:
 
 ```sh
-PAPERCLIP_PUBLIC_URL=https://YOUR-PAPERCLIP-HOST
+THINKINGMACH_PUBLIC_URL=https://YOUR-THINKINGMACH-HOST
 ```
 
 The origin cannot contain a path, embedded credentials, query parameters, or a fragment. HTTP is allowed only for localhost or loopback development. Private self-hosted deployments need a client that can reach the endpoint directly. Configure trusted proxies correctly at your deployment edge.
@@ -58,7 +58,7 @@ Client ID Metadata Documents and dynamic registration are supported for public c
 | `paperclip:configure` | Allowed agent, project, instruction, and skill mutations. |
 | `offline_access` | Refresh access without repeating browser consent for every session. |
 
-The consent page's **Write all of your Paperclip data** checkbox approves the requested mutation scopes together when the person's role permits them. A new consent flow is needed to expand scopes. Company permissions and domain rules can still refuse a call within a granted scope.
+The consent page's **Write all of your ThinkingMach data** checkbox approves the requested mutation scopes together when the person's role permits them. A new consent flow is needed to expand scopes. Company permissions and domain rules can still refuse a call within a granted scope.
 
 ## Discover the tools
 
@@ -75,7 +75,7 @@ The direct instance catalog contains 37 tools:
 | `paperclip_create_task`, `paperclip_add_comment`, `paperclip_update_task`, `paperclip_finish_task`, `paperclip_block_task` | Create, guide, or change work. Write scope. |
 | `paperclip_list_deliverables`, `paperclip_read_document`, `paperclip_list_document_revisions` | Retrieve saved results and document history. |
 | `paperclip_write_document`, `paperclip_register_deliverable`, `paperclip_update_deliverable` | Save documents and task deliverables. Write scope. |
-| `paperclip_pending_approvals` | Read pending approvals and their Paperclip decision links. |
+| `paperclip_pending_approvals` | Read pending approvals and their ThinkingMach decision links. |
 | `paperclip_get_agent`, `paperclip_read_agent_instructions`, `paperclip_list_agent_instruction_revisions` | Read the allowed agent configuration and instruction history. |
 | `paperclip_update_agent`, `paperclip_update_agent_instructions` | Change allowed agent settings and instructions. Configure scope. |
 | `paperclip_get_project`, `paperclip_list_project_repositories` | Read project settings and available repository choices. |
@@ -85,7 +85,7 @@ The direct instance catalog contains 37 tools:
 | `paperclip_get_upload_url`, `paperclip_get_download_url` | Transfer a task attachment. Upload requires write scope. |
 | `paperclip_search_api`, `paperclip_call_api` | Discover and invoke the same allowed operations. The selected operation's scope applies. |
 
-Agent changes can edit identity, reporting, skills, model, budget, and an existing AI connection binding. They do not change credentials, execution commands, or permission policies. Project operations do not create remote repositories. Review and approval decisions remain in Paperclip.
+Agent changes can edit identity, reporting, skills, model, budget, and an existing AI connection binding. They do not change credentials, execution commands, or permission policies. Project operations do not create remote repositories. Review and approval decisions remain in ThinkingMach.
 
 A hosted directory broker has a separate, smaller work-oriented tool catalog. Do not treat direct-instance configuration, transfer, or Events support as broker capabilities. Hosted deployment and public store or directory availability require separate validation; direct client configuration does not depend on a listing.
 
@@ -138,20 +138,20 @@ DELETE /api/mcp/connections/{id}
 
 The setup response provides the live gate, canonical server URL, and non-secret invitation. It does not grant access. The delete operation requires the configured browser origin and the grant's owner.
 
-Each item in the connections list carries `id`, `companyId`, `clientName`, `companyName`, `scopes`, `createdAt`, and `revokedAt`, plus a `user` object with the authorizing person's `name` and `image`. `user` is `null` when the person's name isn't available, and older servers omit it, so treat it as optional. The list still includes revoked grants (with `revokedAt` set); Paperclip's own pages filter those out and show only active connections.
+Each item in the connections list carries `id`, `companyId`, `clientName`, `companyName`, `scopes`, `createdAt`, and `revokedAt`, plus a `user` object with the authorizing person's `name` and `image`. `user` is `null` when the person's name isn't available, and older servers omit it, so treat it as optional. The list still includes revoked grants (with `revokedAt` set); ThinkingMach's own pages filter those out and show only active connections.
 
 ### Browser consent endpoints
 
-The consent pages in the Paperclip UI use these endpoints. They are listed so you can recognise them in logs; assistants don't call them.
+The consent pages in the ThinkingMach UI use these endpoints. They are listed so you can recognise them in logs; assistants don't call them.
 
 | Endpoint | Purpose |
 | --- | --- |
 | `GET /api/mcp/requests/{id}` | Describe a pending browser authorization request on the `/mcp-connect/{id}` page. |
-| `POST /api/mcp/requests/{id}/consent` | Approve or decline that request. Requires a signed-in user and the Paperclip browser origin. |
+| `POST /api/mcp/requests/{id}/consent` | Approve or decline that request. Requires a signed-in user and the ThinkingMach browser origin. |
 | `POST /api/mcp/requests/{id}/dot-pairing/preview` | Show which company and agent a one-use Dot pairing code would connect, without using the code. |
 | `POST /api/mcp/requests/{id}/dot-pairing` | Redeem a one-use Dot pairing code and connect that agent. |
 | `GET /api/mcp/device?user_code=...` | Describe a pending device authorization on the `/mcp-device` page. |
-| `POST /api/mcp/device/consent` | Approve or decline a device authorization by its user code. Requires a signed-in user and the Paperclip browser origin. |
+| `POST /api/mcp/device/consent` | Approve or decline a device authorization by its user code. Requires a signed-in user and the ThinkingMach browser origin. |
 
 The Dot endpoints are also available under `/api/dot-mcp/requests/{id}`, the dedicated alias Dot's connection page uses. See [External agents](../../experimental/external-agents.md) for the pairing flow.
 

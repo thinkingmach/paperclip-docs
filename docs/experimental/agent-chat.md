@@ -15,13 +15,13 @@ Not every conversation with an agent starts as a well-formed task. Sometimes you
 1. Go to **Settings → Experimental**.
 2. Turn on **Agent Chat**. It is experimental and off by default; enabling it adds persistent conversations with your agents.
 
-Like every flag on that page, it's instance-wide. On Paperclip Cloud this one may be managed for you, in which case it shows the **Managed by Paperclip Cloud** lock — see [If a toggle is locked](overview.md#if-a-toggle-is-locked).
+Like every flag on that page, it's instance-wide. On ThinkingMach Cloud this one may be managed for you, in which case it shows the **Managed by ThinkingMach Cloud** lock — see [If a toggle is locked](overview.md#if-a-toggle-is-locked).
 
 ## Opening a chat
 
 Once it's on, **Chat** leads the **Work** group in the streamlined sidebar. Your agents live in a separate rail beside the conversation, so you can switch chats without leaving the page. The older sidebar places Chat below Inbox instead.
 
-Click it and Paperclip takes you back to the last agent chat you had open in this company. If you haven't chatted with anyone yet, you land on a page asking *"Who would you like to talk to?"*, with a few of your agents to pick from and a **Browse all agents** link for the rest.
+Click it and ThinkingMach takes you back to the last agent chat you had open in this company. If you haven't chatted with anyone yet, you land on a page asking *"Who would you like to talk to?"*, with a few of your agents to pick from and a **Browse all agents** link for the rest.
 
 The chat area has its own sidebar, headed **Chat**, beside the conversation:
 
@@ -76,7 +76,7 @@ Turning **Agent Chat** off removes the **Chat** entry and stops new messages, bu
 - How well an agent breaks a conversation into tasks depends on the agent and its model. Read the tasks it creates before relying on them.
 - Results come back only for tasks a chat hands off after your instance is on a release with this behaviour. Tasks handed off earlier aren’t reported retroactively.
 
-Implementation reference: [session reset and handoff instructions](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/server/src/services/agent-conversations.ts), [completion reports](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/server/src/services/chat-completion-delivery.ts), [Chat navigation](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/components/Sidebar.tsx), [agent rail](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/components/AgentConversationsSidebar.tsx), and [agent task and artifact panels](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/components/chat/AgentWorkPanels.tsx).
+Implementation reference: [session reset and handoff instructions](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/server/src/services/agent-conversations.ts), [completion reports](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/server/src/services/chat-completion-delivery.ts), [Chat navigation](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/components/Sidebar.tsx), [agent rail](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/components/AgentConversationsSidebar.tsx), and [agent task and artifact panels](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/components/chat/AgentWorkPanels.tsx).
 
 ## Where to go next
 

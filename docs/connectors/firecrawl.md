@@ -20,7 +20,7 @@ Pick a method first, because they differ a lot in reach and cost:
 | **Sign in with Firecrawl** | A Firecrawl account and team | The full account tool set, including jobs that spend credits |
 | **Use a Firecrawl API key** | An API key for the right Firecrawl team | The full account tool set, for unattended or higher-limit use |
 
-For browser sign-in, Paperclip must be reached over HTTPS, or over a local `http://` loopback address when it runs on your own machine.
+For browser sign-in, ThinkingMach must be reached over HTTPS, or over a local `http://` loopback address when it runs on your own machine.
 
 ## Connect Firecrawl
 
@@ -28,10 +28,10 @@ For browser sign-in, Paperclip must be reached over HTTPS, or over a local `http
 2. Read the access line above the main button. It says who the connection belongs to and which agents can use it. Select **Change** to pick a different method, identity, or set of agents.
 3. Finish the method you chose:
    - **Try keyless access** — connect. There is nothing else to enter.
-   - **Sign in with Firecrawl** — sign in and choose the Firecrawl team whose usage should apply. Paperclip registers its client automatically and asks for the `firecrawl:global` and `offline_access` scopes.
+   - **Sign in with Firecrawl** — sign in and choose the Firecrawl team whose usage should apply. ThinkingMach registers its client automatically and asks for the `firecrawl:global` and `offline_access` scopes.
    - **Use a Firecrawl API key** — create a key for the intended team in Firecrawl, then paste it into the **Your Firecrawl key** field.
 
-Paperclip stores the key as a secret and sends it to Firecrawl as a Bearer header; agents never see it. Paperclip cannot give a key more permissions than Firecrawl did.
+ThinkingMach stores the key as a secret and sends it to Firecrawl as a Bearer header; agents never see it. ThinkingMach cannot give a key more permissions than Firecrawl did.
 
 ## Choose access
 
@@ -47,7 +47,7 @@ See [Set action permissions](action-permissions.md).
 ## Try it
 
 ```txt
-Use Firecrawl to scrape https://paperclip.ing and give me the page title and a two-sentence summary. Do not start a crawl.
+Use Firecrawl to scrape https://thinkingmach.com and give me the page title and a two-sentence summary. Do not start a crawl.
 ```
 
 A single scrape is cheap and easy to check against the page in your browser. If you use the action tester on the **Permissions** tab instead, open **More options**, fill in only the URL, and leave the nested optional settings untouched.
@@ -75,6 +75,6 @@ Limitations: one Firecrawl team per connection. The available actions are whatev
 
 ## Sources
 
-- [Firecrawl definition](https://github.com/paperclipai/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions/firecrawl.json) — methods, scopes, credential field, and warnings.
-- [Permission review](https://github.com/paperclipai/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/doc/connections/tool-method-permission-reviews.json) — keyless actions and credit-using jobs.
-- [Default action policy](https://github.com/paperclipai/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions.ts) — new connections reach all agents with actions Allowed.
+- [Firecrawl definition](https://github.com/thinkingmach/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions/firecrawl.json) — methods, scopes, credential field, and warnings.
+- [Permission review](https://github.com/thinkingmach/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/doc/connections/tool-method-permission-reviews.json) — keyless actions and credit-using jobs.
+- [Default action policy](https://github.com/thinkingmach/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions.ts) — new connections reach all agents with actions Allowed.

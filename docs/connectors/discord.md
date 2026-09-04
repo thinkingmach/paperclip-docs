@@ -1,11 +1,11 @@
 ---
 seo_title: Discord Connector
-seo_description: Let people start Paperclip work by mentioning an agent in Discord. Bot setup, required intent and permissions, routing, and fixing a silent bot.
+seo_description: Let people start ThinkingMach work by mentioning an agent in Discord. Bot setup, required intent and permissions, routing, and fixing a silent bot.
 ---
 
 # Discord
 
-People mention your agent in a Discord channel, and Paperclip starts work. Each root mention opens a Discord thread, and the reply comes back in that thread.
+People mention your agent in a Discord channel, and ThinkingMach starts work. Each root mention opens a Discord thread, and the reply comes back in that thread.
 
 One connection serves one Discord server and one agent.
 
@@ -32,9 +32,9 @@ The bot needs these permissions in at least one text channel:
 
 **View Channels**, **Send Messages**, **Create Public Threads**, **Send Messages in Threads**, **Read Message History**, **Add Reactions**, **Embed Links**, and **Attach Files**.
 
-Paperclip builds an install link with exactly these permissions during setup, scoped to the server ID you supplied, which is the least error-prone way to install it.
+ThinkingMach builds an install link with exactly these permissions during setup, scoped to the server ID you supplied, which is the least error-prone way to install it.
 
-### 3. Connect it in Paperclip
+### 3. Connect it in ThinkingMach
 
 1. Open **Connectors** and select **Discord**.
 2. On the **Access** step, choose the identity and which agents may use the connection.
@@ -43,19 +43,19 @@ Paperclip builds an install link with exactly these permissions during setup, sc
 
 ## How a conversation becomes work
 
-| In Discord | In Paperclip |
+| In Discord | In ThinkingMach |
 | --- | --- |
-| Someone mentions the bot in a channel | A task is created for the connected agent, and Paperclip opens a thread on that message |
+| Someone mentions the bot in a channel | A task is created for the connected agent, and ThinkingMach opens a thread on that message |
 | Replies inside the thread | Continue the same task |
 | A new root mention elsewhere | Starts a separate task and its own thread |
 
-The Paperclip task is authoritative. If a thread and the task ever disagree, the task is the record — useful to know when someone edits or deletes a Discord message mid-conversation.
+The ThinkingMach task is authoritative. If a thread and the task ever disagree, the task is the record — useful to know when someone edits or deletes a Discord message mid-conversation.
 
 ## Choose access
 
-Reach is decided in Discord, not Paperclip. The bot can see the channels its role can see on the one server you installed it on, and there is no channel picker in Paperclip. To limit where people can reach the agent, restrict the bot's role to specific channels in Discord's channel permissions.
+Reach is decided in Discord, not ThinkingMach. The bot can see the channels its role can see on the one server you installed it on, and there is no channel picker in ThinkingMach. To limit where people can reach the agent, restrict the bot's role to specific channels in Discord's channel permissions.
 
-Provider channel or repository access determines where a message can reach the integration; it does not by itself authorize agent work. Paperclip also checks the sender's linked identity and company membership. Linked users must be active non-viewer members. Unlinked senders depend on the connection's **Allow unlinked people** setting and any sponsor requirements. Review these controls before inviting people to use the agent.
+Provider channel or repository access determines where a message can reach the integration; it does not by itself authorize agent work. ThinkingMach also checks the sender's linked identity and company membership. Linked users must be active non-viewer members. Unlinked senders depend on the connection's **Allow unlinked people** setting and any sponsor requirements. Review these controls before inviting people to use the agent.
 
 The connection's identity and **Any agent** / **Just agents I pick** settings work as for any connector; see [How connector access works](access-model.md). Note that the answering agent is set on the connection itself.
 
@@ -63,7 +63,7 @@ The connection's identity and **Any agent** / **Just agents I pick** settings wo
 
 1. In a channel the bot can see, mention it with a short request: `@YourAgent hello, can you confirm you are connected?`
 2. Expect a thread to open on your message within a few moments.
-3. Confirm a matching task appears in Paperclip, assigned to the connected agent.
+3. Confirm a matching task appears in ThinkingMach, assigned to the connected agent.
 
 That exercises intent, permissions, routing, and task creation in one step, in a channel you control.
 
@@ -76,13 +76,13 @@ That exercises intent, permissions, routing, and task creation in one step, in a
 | Discord does not appear in **Connectors** | **Chat connectors** is off for the instance | Ask an administrator to enable it |
 | The bot shows online but never replies | The **Message Content** intent is not enabled | Enable it in the developer portal, then reconnect |
 | The bot replies in some channels but not others | Its role cannot see those channels, or cannot create threads there | Grant the listed permissions on the channel |
-| Setup is rejected for missing permissions | The bot lacks the required permissions in any text channel | Re-install with Paperclip's generated link |
+| Setup is rejected for missing permissions | The bot lacks the required permissions in any text channel | Re-install with ThinkingMach's generated link |
 | A mention creates no task | The mention was inside an existing thread rather than a root message, or the connection is unhealthy | Mention at channel level; check the connection's status |
 | The wrong agent answers | The answering agent is set on the connection | Change it on the connection |
 
 Limitations: one server and one agent per connection. Private channels the bot's role cannot see are unreachable.
 
-> **Note:** The documented way to start work is a root mention in a channel, and that is the path this page describes and the setup flow tests. Paperclip's Discord adapter does advertise direct-message support, but we have not verified that a direct message starts a task — do not build a workflow on it without trying it yourself first.
+> **Note:** The documented way to start work is a root mention in a channel, and that is the path this page describes and the setup flow tests. ThinkingMach's Discord adapter does advertise direct-message support, but we have not verified that a direct message starts a task — do not build a workflow on it without trying it yourself first.
 
 ## Related guides
 

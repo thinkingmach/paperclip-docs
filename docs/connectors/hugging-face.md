@@ -31,7 +31,7 @@ There are two ways in. Choose the one that matches what agents need to see.
 2. Read the access line above the main button. It says who the connection belongs to and which agents can use it. To pick a different identity, narrow the agents, or use another method, select **Change**.
 3. Choose your method:
    - **Use public Hugging Face Hub** connects straight away. There is nothing to sign in to.
-   - **Sign in with Hugging Face** opens browser sign-in. Paperclip registers its client automatically, so there is nothing to configure in a developer console.
+   - **Sign in with Hugging Face** opens browser sign-in. ThinkingMach registers its client automatically, so there is nothing to configure in a developer console.
 
 The public method is the shortest connector setup in the catalog, which makes it a good one to try first.
 
@@ -51,9 +51,9 @@ Two tiers of content, and the difference is worth stating:
 
 **The signed-in method** is where care is needed. Because most of the value here is public content, it is one of the lower-risk connectors to give an agent once its writes are switched off. The exception is an account with access to private organization repositories — that account's reach becomes the agent's.
 
-For a signed-in connection, Paperclip asks Hugging Face for the `read-mcp`, `read-repos`, `contribute-repos`, and `jobs` scopes. That covers reading, but also contributing to repositories and running jobs, so this is not a read-only connection by default. Read the action list on the **Permissions** tab and set anything that is not a read to **Ask first** or **Off** until you need it. See [Set action permissions](action-permissions.md).
+For a signed-in connection, ThinkingMach asks Hugging Face for the `read-mcp`, `read-repos`, `contribute-repos`, and `jobs` scopes. That covers reading, but also contributing to repositories and running jobs, so this is not a read-only connection by default. Read the action list on the **Permissions** tab and set anything that is not a read to **Ask first** or **Off** until you need it. See [Set action permissions](action-permissions.md).
 
-> **Note:** A signed-in connection targets the Hub's own tools, and Paperclip requests the endpoint with Gradio tooling switched off — so the interactive applications hosted on Spaces are not part of this connection's surface.
+> **Note:** A signed-in connection targets the Hub's own tools, and ThinkingMach requests the endpoint with Gradio tooling switched off — so the interactive applications hosted on Spaces are not part of this connection's surface.
 
 ## Try it
 
@@ -81,7 +81,7 @@ Limitations: discovery and metadata only. No inference, no hosting, no Spaces ap
 
 ## Related guides
 
-- [Connector overview](https://paperclip.ing/product/connectors/hugging-face/)
+- [Connector overview](https://thinkingmach.com/product/connectors/hugging-face/)
 
 - [Anthropic](anthropic.md), [OpenAI](openai.md), [OpenRouter](openrouter.md), [Grok](xai.md) — connections that actually run models.
 - [Set action permissions](action-permissions.md)

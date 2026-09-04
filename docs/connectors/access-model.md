@@ -6,7 +6,7 @@ seo_description: Which access controls apply depends on the kind of connector. T
 
 # How connector access works
 
-Connecting a service and letting an agent use it are not the same act. Paperclip separates them — but **how** it separates them depends on what kind of connector you are looking at. Start here.
+Connecting a service and letting an agent use it are not the same act. ThinkingMach separates them — but **how** it separates them depends on what kind of connector you are looking at. Start here.
 
 ## First: which kind of connector is this?
 
@@ -23,14 +23,14 @@ Four shapes, with genuinely different controls. Reading the wrong section is the
 
 ### The control channels do have
 
-Channels have no action switches, but they are not ungoverned. Each one has an **Access** tab with **External identity access**, and one toggle on it decides what happens when someone Paperclip does not recognize sends a message:
+Channels have no action switches, but they are not ungoverned. Each one has an **Access** tab with **External identity access**, and one toggle on it decides what happens when someone ThinkingMach does not recognize sends a message:
 
 | **Allow unlinked people** | Effect |
 | --- | --- |
-| **On** | The sender is a restricted guest. Their tasks run only with an isolated workspace and sandbox environment, and Paperclip refuses the request when that is unavailable. Guests cannot approve, hire, spend, manage access, or reassign agents |
-| **Off** | Only senders linked to a Paperclip person can start work |
+| **On** | The sender is a restricted guest. Their tasks run only with an isolated workspace and sandbox environment, and ThinkingMach refuses the request when that is unavailable. Guests cannot approve, hire, spend, manage access, or reassign agents |
+| **Off** | Only senders linked to a ThinkingMach person can start work |
 
-Linked identities act as their current Paperclip user, with that person's permissions.
+Linked identities act as their current ThinkingMach user, with that person's permissions.
 
 [iMessage Photon](imessage-photon.md) is the exception: it does not permit unlinked senders at all, so linking there is a required setup step rather than a policy choice.
 
@@ -54,13 +54,13 @@ A call has to clear all four gates. Holding the credential is not enough; being 
 
 The connection is the stored credential plus everything needed to reach the service: the transport, the server URL, and how it authenticates (`oauth`, `api_key`, or `none`). Tool connections use `mcp_remote`, `rest_api`, or `local_stdio`; the `chat_sdk` and `runtime_auth` transports belong to the channel and model shapes above, which is why the action gate does not apply to them.
 
-Each connection carries a company-scoped identity — a `uid` like `google-sheets/finance-sheet-1a2b3c4d` — that survives renaming. That identity is what the rest of Paperclip references, which is why renaming a connection in the UI never breaks a policy pointed at it.
+Each connection carries a company-scoped identity — a `uid` like `google-sheets/finance-sheet-1a2b3c4d` — that survives renaming. That identity is what the rest of ThinkingMach references, which is why renaming a connection in the UI never breaks a policy pointed at it.
 
 Secrets are never part of the connection record you can read back. Credential values are stored as secrets and referenced; the API returns metadata.
 
 ## The grant: who the credential belongs to
 
-A grant answers "whose account is this?". Paperclip supports three kinds. Available choices and UI labels depend on the connector and method; this table describes the data model, not three options offered by every setup screen:
+A grant answers "whose account is this?". ThinkingMach supports three kinds. Available choices and UI labels depend on the connector and method; this table describes the data model, not three options offered by every setup screen:
 
 | Setup choice | Grant kind | Credential policy | What it means |
 | --- | --- | --- | --- |
@@ -70,7 +70,7 @@ A grant answers "whose account is this?". Paperclip supports three kinds. Availa
 
 You do not have to answer this before you connect. Setup states the identity it will use in one line above the main button, and **Change** opens these choices. A new connection starts on the organization identity when the method allows it; a method that only supports personal or dedicated-agent access starts on one of those. When an agent asked for the connection from a task, setup starts on **Just me** and on that agent alone.
 
-Creating a personal connection is available to any active member. Creating an organization or dedicated-agent grant is a manager operation — Paperclip rejects the request with *"Only a connection manager can share this credential with the organization"* if you lack the permission, and it enforces that on the server rather than trusting the browser.
+Creating a personal connection is available to any active member. Creating an organization or dedicated-agent grant is a manager operation — ThinkingMach rejects the request with *"Only a connection manager can share this credential with the organization"* if you lack the permission, and it enforces that on the server rather than trusting the browser.
 
 AgentMail is a setup exception: its new key defaults to everyone in the company and only the selected inbox owner. Reusing a key retains its existing grants.
 
@@ -81,9 +81,9 @@ An organization grant has its own human audience, set on the connector's identit
 When you connect with a provider sign-in, the grant also records the OAuth scopes. Not every provider says what it actually granted, so the record notes where the list came from. If you read grants through the API, look under `providerTenant.oauth`:
 
 - `scopeSource: "provider"` — the provider stated these scopes when it issued the token.
-- `scopeSource: "requested_fallback"` — the provider said nothing, so the list is only what Paperclip asked for. Treat it as unknown, not as proof of a narrow grant.
-- `requestedScopes` — what Paperclip asked for on this grant.
-- `unrequestedScopes` — scopes the provider stated that Paperclip never asked for. Empty unless the provider reported more.
+- `scopeSource: "requested_fallback"` — the provider said nothing, so the list is only what ThinkingMach asked for. Treat it as unknown, not as proof of a narrow grant.
+- `requestedScopes` — what ThinkingMach asked for on this grant.
+- `unrequestedScopes` — scopes the provider stated that ThinkingMach never asked for. Empty unless the provider reported more.
 
 These fields are a record, not a control. A scope list does not decide which actions an agent may call — action permissions do, as described below. Grants made before this record existed keep their scope list without a source.
 
@@ -108,7 +108,7 @@ Guidance never grants access or removes an approval requirement. Turning it off 
 
 ## Action permission: which calls are allowed
 
-Once connected, Paperclip reads the service's action list and gives each entry one of three states:
+Once connected, ThinkingMach reads the service's action list and gives each entry one of three states:
 
 | State | Meaning in the UI |
 | --- | --- |
@@ -139,16 +139,16 @@ An agent calling an **Ask first** action does not get an error and does not get 
 You answer it from the **Review** tab on the connector, or the company-wide review queue, where it shows as **Waiting for your OK**. Three answers:
 
 - **Allowed once** — the call runs this time, and nothing else changes.
-- **Always allowed** — the call runs, and Paperclip creates a **trust rule** so matching calls stop asking.
+- **Always allowed** — the call runs, and ThinkingMach creates a **trust rule** so matching calls stop asking.
 - **Declined** — the call does not run.
 
 Trust rules are visible and revocable afterwards. [Answer a connector review request](review-requests.md) covers the flow from both sides.
 
 ## The one exception worth knowing
 
-Per-tool **Ask first** governs tool calls that go through Paperclip's tool gateway. It does not govern a shell.
+Per-tool **Ask first** governs tool calls that go through ThinkingMach's tool gateway. It does not govern a shell.
 
-When a GitHub connection is bound to an agent as a dedicated identity, that identity is also handed to the run's shell. Paperclip states this plainly at the moment you change a GitHub permission: *"Shell Git and gh use this account for the run and are not constrained by per-tool Ask-first controls."* An agent that can run `git push` or `gh pr merge` in its workspace is limited by what the GitHub account can do, not by the connector's action switches.
+When a GitHub connection is bound to an agent as a dedicated identity, that identity is also handed to the run's shell. ThinkingMach states this plainly at the moment you change a GitHub permission: *"Shell Git and gh use this account for the run and are not constrained by per-tool Ask-first controls."* An agent that can run `git push` or `gh pr merge` in its workspace is limited by what the GitHub account can do, not by the connector's action switches.
 
 This is not a general sandbox claim, and it is not a claim in the other direction either. Nothing about it says other connectors are sandboxed, and human approval of a tool call is a different thing from a code review on a pull request. [GitHub](github.md) has the detail.
 
@@ -168,6 +168,6 @@ Access decisions resolve at call time, not at setup time. The tool gateway holds
 
 ## Sources
 
-- [Connection setup](https://github.com/paperclipai/paperclip/blob/a6306ba606eb87c89b9ef0344e9fe8e0025580f9/ui/src/features/connections/ConnectionSetupFlow.tsx) — one-screen access choices and setup behavior.
-- [Remote MCP setup](https://github.com/paperclipai/paperclip/blob/a6306ba606eb87c89b9ef0344e9fe8e0025580f9/ui/src/features/connections/remote-mcp/RemoteMcpConnectionSetup.tsx) — provider-specific connection controls.
-- [Connection grant type](https://github.com/paperclipai/paperclip/blob/abbd88007f059dbadbd3f266febf264577b6ee78/packages/shared/src/types/tool-access.ts) — recorded OAuth scopes and their source.
+- [Connection setup](https://github.com/thinkingmach/paperclip/blob/a6306ba606eb87c89b9ef0344e9fe8e0025580f9/ui/src/features/connections/ConnectionSetupFlow.tsx) — one-screen access choices and setup behavior.
+- [Remote MCP setup](https://github.com/thinkingmach/paperclip/blob/a6306ba606eb87c89b9ef0344e9fe8e0025580f9/ui/src/features/connections/remote-mcp/RemoteMcpConnectionSetup.tsx) — provider-specific connection controls.
+- [Connection grant type](https://github.com/thinkingmach/paperclip/blob/abbd88007f059dbadbd3f266febf264577b6ee78/packages/shared/src/types/tool-access.ts) — recorded OAuth scopes and their source.

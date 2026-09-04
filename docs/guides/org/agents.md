@@ -6,11 +6,11 @@ seo_description: Hire agents, browse the agent list, and work the agent page —
 
 # Agents
 
-Agents are the AI employees that make up your Paperclip company. They're where the work actually happens: the CEO setting strategy, the engineer shipping code, the marketer drafting posts. Everything else in Paperclip — tasks, approvals, skills, budgets — exists to coordinate and govern what your agents do.
+Agents are the AI employees that make up your ThinkingMach company. They're where the work actually happens: the CEO setting strategy, the engineer shipping code, the marketer drafting posts. Everything else in ThinkingMach — tasks, approvals, skills, budgets — exists to coordinate and govern what your agents do.
 
-Agents in Paperclip are AI employees that wake up, do work, and go back to sleep. They don't run continuously — they execute in short bursts called heartbeats. Between heartbeats the agent is dormant: it consumes no budget, holds no context in memory, and takes no action. A heartbeat is triggered by something concrete (a schedule, an assignment, a review request, a manual invoke), the adapter brings the agent runtime online just long enough to make progress, and then the agent exits and the adapter records what happened.
+Agents in ThinkingMach are AI employees that wake up, do work, and go back to sleep. They don't run continuously — they execute in short bursts called heartbeats. Between heartbeats the agent is dormant: it consumes no budget, holds no context in memory, and takes no action. A heartbeat is triggered by something concrete (a schedule, an assignment, a review request, a manual invoke), the adapter brings the agent runtime online just long enough to make progress, and then the agent exits and the adapter records what happened.
 
-This guide walks through the entire agent surface in Paperclip: the list page you land on when you click **Agents**, the flow for hiring a new one, and every section of the agent's own page. If you're new to Paperclip, read this top to bottom. If you're here to change one specific thing — a model, an instruction file, a budget limit — jump to the matching section.
+This guide walks through the entire agent surface in ThinkingMach: the list page you land on when you click **Agents**, the flow for hiring a new one, and every section of the agent's own page. If you're new to ThinkingMach, read this top to bottom. If you're here to change one specific thing — a model, an instruction file, a budget limit — jump to the matching section.
 
 ---
 
@@ -28,7 +28,7 @@ Tabs across the top scope what you see:
 - **Active** — agents currently able to run; includes `active`, `running`, and `idle`
 - **Paused** — agents that are manually paused or paused by the budget system
 - **Error** — agents whose last heartbeat failed
-- **Built-in** — Paperclip's managed built-in agents (only shown when built-in agents are turned on for your instance)
+- **Built-in** — ThinkingMach's managed built-in agents (only shown when built-in agents are turned on for your instance)
 
 The tab you're on is part of the URL (`/agents/active`, `/agents/paused`, etc.), so you can bookmark a filter or share a link that lands on one.
 
@@ -68,7 +68,7 @@ The **New Agent** button lives in the top-right of the list page and opens the h
 
 ## Hiring a New Agent
 
-Paperclip has two paths for adding an agent to the company:
+ThinkingMach has two paths for adding an agent to the company:
 
 1. You (a board user) create one directly from **New Agent** on the agent list.
 2. An existing agent (typically the CEO or a manager) proposes a hire, which lands in your approval queue. See [Approvals](../day-to-day/approvals.md) for how that side works.
@@ -85,7 +85,7 @@ Type the new agent's name in **Agent name** (for example "Ada") and click **Choo
 
 ### Step 2: Adapter
 
-The dialog switches to **Choose an adapter** and asks how your agent should work. Pick one of the adapter cards — this decides which AI runtime powers the agent (Claude Code, Codex, OpenCode, a remote gateway, and so on). If you pick Paperclip Runner, a **Runner** dropdown appears so you can choose which runtime it drives.
+The dialog switches to **Choose an adapter** and asks how your agent should work. Pick one of the adapter cards — this decides which AI runtime powers the agent (Claude Code, Codex, OpenCode, a remote gateway, and so on). If you pick ThinkingMach Runner, a **Runner** dropdown appears so you can choose which runtime it drives.
 
 Click **Configure agent** to move on, or **Back** to change the name.
 
@@ -97,9 +97,9 @@ After the dialog, you land on a setup page with your agent's character and name 
 
 1. **Connect** — only for adapters that sign in to a model provider (Claude, Codex, Grok). Pick an **Environment** and connect your account.
 2. **Configure** — choose the **Runtime** options (the model, plus any adapter-specific fields like an API key) and the **Environment** the agent runs in. The **Test your agent** card at the bottom runs a quick check that your runtime and model can respond; click **Run test** before you finish.
-3. **Confirmation** — click **Finish setup**. Paperclip creates the agent and shows **Your agent is ready**, with buttons to **Edit configuration** or assign the new agent its first task.
+3. **Confirmation** — click **Finish setup**. ThinkingMach creates the agent and shows **Your agent is ready**, with buttons to **Edit configuration** or assign the new agent its first task.
 
-### What Paperclip fills in for you
+### What ThinkingMach fills in for you
 
 The setup flow keeps things short, so a few settings are chosen for you. You can change all of them afterwards on the agent's [Harness / Runtime](#harness-runtime) page:
 
@@ -110,11 +110,11 @@ The setup flow keeps things short, so a few settings are chosen for you. You can
 
 There's no budget field in the setup flow. Budgets are managed from **Audit → Budgets** — see [Budgets](#budgets) below.
 
-Skills aren't picked during setup either. Paperclip's own runtime skills are attached automatically; attach company skills from the agent's [Skills](#skills) page once it exists. See [Skills](./skills.md) for how the library works.
+Skills aren't picked during setup either. ThinkingMach's own runtime skills are attached automatically; attach company skills from the agent's [Skills](#skills) page once it exists. See [Skills](./skills.md) for how the library works.
 
 ### Setup checks before a new agent starts work
 
-A new agent doesn't take work the instant it's created. Paperclip first runs a short setup — it prepares anything the agent needs (including resources a [plugin](../../administration/plugins.md) looks after) and then tests the agent's saved runtime configuration. Tasks you assign during setup aren't lost: they wait in the queue and start as soon as the agent is ready.
+A new agent doesn't take work the instant it's created. ThinkingMach first runs a short setup — it prepares anything the agent needs (including resources a [plugin](../../administration/plugins.md) looks after) and then tests the agent's saved runtime configuration. Tasks you assign during setup aren't lost: they wait in the queue and start as soon as the agent is ready.
 
 While setup runs, a status line under the agent's name in its page header tells you where it's up to — **Preparing agent** or **Verifying agent** — with a short note that work stays queued. The same line appears later when you pause, resume, or terminate the agent: **Pausing agent**, **Resuming agent**, **Terminating agent**, or **Cleaning up agent**.
 
@@ -124,13 +124,13 @@ If a step fails, the badge turns red and the error appears beside a **Retry** bu
 
 ### Approvals when agents hire agents
 
-When *you* create an agent through **New Agent**, it's usually ready straight away. (If your organization requires approval for new agents, the confirmation step says **Agent submitted for approval** instead.) When an *agent* creates one — by calling Paperclip's hire API — the request goes into the approval queue instead, and the new agent sits in `pending_approval` status until you decide. The proposal summary shows the proposed agent's **Name**, **Role**, **Title**, **Icon**, **Capabilities**, **Adapter**, and any requested **Skills**. The monthly budget it's asking for and who it would report to aren't in the summary — open **See full request** to check them in the raw payload. Review it like any other approval: **Approve**, **Reject**, or **Request revision**. See [Approvals — Reviewing a Hire Request](../day-to-day/approvals.md#reviewing-a-hire-request) for details.
+When *you* create an agent through **New Agent**, it's usually ready straight away. (If your organization requires approval for new agents, the confirmation step says **Agent submitted for approval** instead.) When an *agent* creates one — by calling ThinkingMach's hire API — the request goes into the approval queue instead, and the new agent sits in `pending_approval` status until you decide. The proposal summary shows the proposed agent's **Name**, **Role**, **Title**, **Icon**, **Capabilities**, **Adapter**, and any requested **Skills**. The monthly budget it's asking for and who it would report to aren't in the summary — open **See full request** to check them in the raw payload. Review it like any other approval: **Approve**, **Reject**, or **Request revision**. See [Approvals — Reviewing a Hire Request](../day-to-day/approvals.md#reviewing-a-hire-request) for details.
 
 Agents that draft hires with the bundled `paperclip-create-agent` skill now write a short role description for the new agent — who it is and what it owns — instead of a long operating manual. Reporting line, capabilities, and skills go in their own fields of the request. Any company-specific instructions you asked for are kept. If you want more in the new agent's `AGENTS.md`, ask for it, or add it on the agent's [Instructions](#instructions) page after the hire.
 
 ### What a new agent can do out of the box
 
-A new agent can help set up its teammates straight away, without you adding grants by hand. When a standard agent is created — or when its hire is approved — Paperclip gives it these permission keys:
+A new agent can help set up its teammates straight away, without you adding grants by hand. When a standard agent is created — or when its hire is approved — ThinkingMach gives it these permission keys:
 
 - **Agents and skills:** `agents:configure`, `agents:suggest-changes`, `skills:create`, `skills:suggest-changes`
 - **Tools:** `tools:manage_connections`, `tools:manage_profiles`, `tools:view_audit`, `tools:use`, `tools:manage_runtime`
@@ -142,7 +142,7 @@ It can also hire other agents, through its `canCreateAgents` setting rather than
 A few things keep this in check:
 
 - **Its responsible user still bounds it.** Grants don't let an agent do anything the person it acts for couldn't do, and approval gates and protected-change checks still apply.
-- **Low-trust and built-in agents are left out.** Agents on the [low-trust review preset](../../administration/trust-and-low-trust-review.md) and Paperclip's managed built-in agents keep their narrower permissions.
+- **Low-trust and built-in agents are left out.** Agents on the [low-trust review preset](../../administration/trust-and-low-trust-review.md) and ThinkingMach's managed built-in agents keep their narrower permissions.
 - **Existing agents are unchanged.** The defaults apply to new agents only. Nothing is backfilled when you upgrade, and a grant you remove stays removed.
 
 See [Roles & Permissions](../../administration/roles-and-permissions.md#the-permission-keys) for what each key allows.
@@ -200,7 +200,7 @@ On the agent detail page, the character in the header reacts to what the agent i
 | Paused, terminated, or awaiting approval | Resting |
 | Anything else | Idle |
 
-The character animates and turns to follow your cursor. If your system is set to reduce motion, you see a still image instead. If the image can't load, Paperclip shows the agent's initials.
+The character animates and turns to follow your cursor. If your system is set to reduce motion, you see a still image instead. If the image can't load, ThinkingMach shows the agent's initials.
 
 > **Note:** There's no palette picker in the app yet. If you want to change an agent's character, send a new `appearance` value through the API — see [Agents API — Update Agent](../../reference/api/agents.md#update-agent).
 
@@ -208,7 +208,7 @@ The character animates and turns to follow your cursor. If your system is set to
 
 When you work with several agents in the same company, you can pick one as **your primary agent** — your personal go-to. It's a per-person choice: your teammates each pick their own, and your choice follows you across devices.
 
-You don't have to set it up. The first agent you create in a company becomes your primary automatically. To change it, open another agent's page and click **Set as my primary** under its name. If you already have a primary, Paperclip asks **Change your primary agent?** and shows both characters side by side before you confirm. Agents that are terminated or still awaiting approval can't be your primary.
+You don't have to set it up. The first agent you create in a company becomes your primary automatically. To change it, open another agent's page and click **Set as my primary** under its name. If you already have a primary, ThinkingMach asks **Change your primary agent?** and shows both characters side by side before you confirm. Agents that are terminated or still awaiting approval can't be your primary.
 
 Your primary agent gets a few small perks:
 
@@ -216,7 +216,7 @@ Your primary agent gets a few small perks:
 - It's listed **first** among the agents in your sidebar.
 - It's the **fallback** when there's no recent choice to go on. The new-task dialog pre-selects your most recently used assignee if you have one, and otherwise your primary agent. Opening **Chat** without a recent conversation takes you straight to a chat with your primary agent.
 
-Choosing a primary also makes sure you're a member of that agent, the same as joining it yourself. If your primary agent is later terminated or you leave it, the crown simply goes away — Paperclip doesn't pick a replacement for you, so set a new one whenever you like.
+Choosing a primary also makes sure you're a member of that agent, the same as joining it yourself. If your primary agent is later terminated or you leave it, the crown simply goes away — ThinkingMach doesn't pick a replacement for you, so set a new one whenever you like.
 
 ### Banners at the top of the page
 
@@ -243,7 +243,7 @@ This is worth checking after an instance import, which pauses every agent by def
 
 ### Latest Run
 
-At the top, Paperclip shows either the run in progress (labelled **Live Run**) or the most recent finished one (**Latest Run**), with its short run ID, status, the task it worked on, and how long ago it happened. Click it to open that run's detail.
+At the top, ThinkingMach shows either the run in progress (labelled **Live Run**) or the most recent finished one (**Latest Run**), with its short run ID, status, the task it worked on, and how long ago it happened. Click it to open that run's detail.
 
 ### The four summary cards
 
@@ -274,10 +274,10 @@ The **Instructions** page is where you edit what the agent *is* — its role des
 
 ### Managed vs external bundles
 
-Local adapters (Claude Code, Codex, Cursor, Gemini, OpenCode) support an **instructions bundle**: a folder of files that belongs to the agent. Paperclip can manage that folder for you (it owns the filesystem layout) or you can point it at an existing folder on disk. The two modes are:
+Local adapters (Claude Code, Codex, Cursor, Gemini, OpenCode) support an **instructions bundle**: a folder of files that belongs to the agent. ThinkingMach can manage that folder for you (it owns the filesystem layout) or you can point it at an existing folder on disk. The two modes are:
 
-- **Managed** — Paperclip keeps one folder per agent in its own storage. You edit it here, and the agent can add its own files to it. This is the mode that keeps agent files across tasks (see below).
-- **External** — you give Paperclip a `rootPath` on disk and it reads/writes the files there; useful when the instructions already live in a repo you want to keep canonical. External folders keep their existing behaviour and aren't treated as the agent's persistent personal folder.
+- **Managed** — ThinkingMach keeps one folder per agent in its own storage. You edit it here, and the agent can add its own files to it. This is the mode that keeps agent files across tasks (see below).
+- **External** — you give ThinkingMach a `rootPath` on disk and it reads/writes the files there; useful when the instructions already live in a repo you want to keep canonical. External folders keep their existing behaviour and aren't treated as the agent's persistent personal folder.
 
 The mode toggle and root path field sit at the top of the page. Changing them is a normal edit — the **Save changes** and **Discard** buttons at the bottom of the page light up as soon as something changes.
 
@@ -287,27 +287,27 @@ Every bundle has an **entry file**, usually `AGENTS.md`. That's the file the ada
 
 ### Agent files persist across tasks
 
-With a managed bundle, the folder on this page is the agent's single, current home directory. When a run starts, Paperclip gives the agent a private copy of that folder and points the `AGENT_HOME` environment variable at it. The agent reads its instructions there, and it can also create its own files and subfolders — notes, memory, reference material, even images or other binary files. Paperclip saves validated changes at turn boundaries: a warm native Codex session keeps the same writable copy between turns, while other sessions are collected after the provider stops. Only files the agent changed or deleted are synchronized back, so the next task starts from the saved folder.
+With a managed bundle, the folder on this page is the agent's single, current home directory. When a run starts, ThinkingMach gives the agent a private copy of that folder and points the `AGENT_HOME` environment variable at it. The agent reads its instructions there, and it can also create its own files and subfolders — notes, memory, reference material, even images or other binary files. ThinkingMach saves validated changes at turn boundaries: a warm native Codex session keeps the same writable copy between turns, while other sessions are collected after the provider stops. Only files the agent changed or deleted are synchronized back, so the next task starts from the saved folder.
 
 A few things are worth knowing:
 
 - **Task work stays separate.** The agent's folder lives outside the task's working directory. Deliverables still belong in the task workspace; the agent folder is for the agent's own working material, and it isn't part of the task's Git changes.
-- **There's no revision history.** Paperclip keeps the current files only. If two runs — or a run and your own edit in the browser — change the same file, the last completed synchronization wins, and the overwritten version can't be recovered from Paperclip. Files nobody touched are left alone, and new unrelated files survive. Temporary run copies are removed when the owning session stops; they aren't archives.
+- **There's no revision history.** ThinkingMach keeps the current files only. If two runs — or a run and your own edit in the browser — change the same file, the last completed synchronization wins, and the overwritten version can't be recovered from ThinkingMach. Files nobody touched are left alone, and new unrelated files survive. Temporary run copies are removed when the owning session stops; they aren't archives.
 - **Your edits are protected from stale saves.** If a file changed since you opened it, saving is refused and your unsaved draft is kept, so you can reload and reapply your change.
 - **Regular files persist.** Text and binary files are supported; symlinks and special files are not. The instruction entry must remain valid UTF-8 and no larger than 1 MiB.
 - **Storage has limits.** A folder holds up to 100,000 files and folders, 256 MiB per file, and 2 GiB in total. Going over never pauses the agent or fails its run. Instead, the run shows an **Agent storage warning**, none of that run's folder changes are saved, and the next run starts from the last saved folder. Remove or shrink files and the warning clears. If saving fails for another reason, the run shows **Agent file sync failed for this run**.
 - **Check the save result.** A successful task does not by itself prove that its agent-file changes were saved. Read the run's file-sync warning or receipt before relying on those changes in another task.
 - **Back up the filesystem too.** Agent files live on the instance's storage, not in the database, so a backup needs both. See [Keeping agent files in an instance backup](../../how-to/back-up-and-restore-a-company.md#keep-agent-files-in-your-instance-backup).
 
-Agents that existed before this change keep their files. Paperclip brings their current instructions into the folder the first time it's used.
+Agents that existed before this change keep their files. ThinkingMach brings their current instructions into the folder the first time it's used.
 
-Implementation reference: [runtime file instructions](https://github.com/paperclipai/paperclip/blob/a6306ba606eb87c89b9ef0344e9fe8e0025580f9/server/src/services/agent-instruction-working-copies.ts) and [file storage limits and synchronization](https://github.com/paperclipai/paperclip/blob/a6306ba606eb87c89b9ef0344e9fe8e0025580f9/server/src/services/agent-file-store.ts).
+Implementation reference: [runtime file instructions](https://github.com/thinkingmach/paperclip/blob/a6306ba606eb87c89b9ef0344e9fe8e0025580f9/server/src/services/agent-instruction-working-copies.ts) and [file storage limits and synchronization](https://github.com/thinkingmach/paperclip/blob/a6306ba606eb87c89b9ef0344e9fe8e0025580f9/server/src/services/agent-file-store.ts).
 
 **Who can change the files.** An agent can edit its own folder, but only within what its responsible user is currently allowed to change. Reading or editing *another* agent's files needs permission to configure that agent; being in the same company isn't enough. A [low-trust](../../administration/trust-and-low-trust-review.md) agent can't change its own instructions from ordinary work — the one exception is when its user asks it to, directly, in their own Agent Chat. See [Instruction edits from your own chat](../../administration/trust-and-low-trust-review.md#instruction-edits-from-your-own-chat).
 
 ### Recommended bundle structure: AGENTS / SOUL / HEARTBEAT / TOOLS
 
-Start small. Paperclip's runtime already tells every agent how to work inside Paperclip — checking out tasks, commenting, delegating, asking you questions — and installed skills and repository instructions carry the detailed procedures. So a new agent's `AGENTS.md` only needs to say who the agent is and what it's responsible for. Don't paste a generic Paperclip operating manual into it; that repeats what the agent already gets, and can contradict it.
+Start small. ThinkingMach's runtime already tells every agent how to work inside ThinkingMach — checking out tasks, commenting, delegating, asking you questions — and installed skills and repository instructions carry the detailed procedures. So a new agent's `AGENTS.md` only needs to say who the agent is and what it's responsible for. Don't paste a generic ThinkingMach operating manual into it; that repeats what the agent already gets, and can contradict it.
 
 As an agent takes on non-trivial strategic or operational work, you may want to split extra guidance across a few files and let the entry file point to them. A common convention is four files:
 
@@ -353,7 +353,7 @@ Think: *if we hired a new human into this role, what would we want them to inter
 
 #### Writing `HEARTBEAT.md`
 
-`HEARTBEAT.md` is a short checklist for agents that do the same thing every time they wake — a weekly metrics digest, a content-calendar check, a review of the open PR queue. Keep it to the steps that are specific to this role. You don't need to restate how to check out a task, comment, or wrap up a run; Paperclip supplies that guidance on every run.
+`HEARTBEAT.md` is a short checklist for agents that do the same thing every time they wake — a weekly metrics digest, a content-calendar check, a review of the open PR queue. Keep it to the steps that are specific to this role. You don't need to restate how to check out a task, comment, or wrap up a run; ThinkingMach supplies that guidance on every run.
 
 If a procedure is useful to more than one agent, it probably belongs in a [skill](./skills.md) instead.
 
@@ -371,15 +371,15 @@ Most agents need only a single `AGENTS.md` with a short role description. Reach 
 
 You can always start with a single file and split later — moving sections out of `AGENTS.md` into `SOUL.md` or `HEARTBEAT.md` is a normal refactor.
 
-#### How Paperclip seeds these files
+#### How ThinkingMach seeds these files
 
 Every new agent starts with a single, short `AGENTS.md`:
 
 - An agent with the **CEO** role gets a one-line role description: it leads company strategy, priorities, resource allocation, and coordination across the team.
-- Every other role gets a one-line placeholder saying it's an agent in a Paperclip company. Replace it with a sentence or two about the role.
+- Every other role gets a one-line placeholder saying it's an agent in a ThinkingMach company. Replace it with a sentence or two about the role.
 - Agents installed from the [Team Catalog](./team-catalog.md), and agents drafted by the `paperclip-create-agent` skill, also start with a short role description rather than a long operating manual.
 
-Existing agents keep whatever files they already have — Paperclip doesn't rewrite them. You can add `SOUL.md`, `HEARTBEAT.md`, `TOOLS.md`, or anything else with the **+** button in the file list; there's nothing special about those filenames beyond the convention, and the entry file is whatever you've set it to.
+Existing agents keep whatever files they already have — ThinkingMach doesn't rewrite them. You can add `SOUL.md`, `HEARTBEAT.md`, `TOOLS.md`, or anything else with the **+** button in the file list; there's nothing special about those filenames beyond the convention, and the entry file is whatever you've set it to.
 
 ### Editing files
 
@@ -409,7 +409,7 @@ The **Skills** page controls which company skills are attached to this specific 
 
 ### The header
 
-The top of the page shows how many library skills are on (for example, "3 of 12 enabled"), a pill saying how skills reach the agent — **Kept in workspace**, **Applied on next run**, or **Tracked only** (the adapter doesn't support skill management from Paperclip) — and a save indicator. On the right you'll find a **Search skills** box and a **Browse skills store** button that takes you to the company library.
+The top of the page shows how many library skills are on (for example, "3 of 12 enabled"), a pill saying how skills reach the agent — **Kept in workspace**, **Applied on next run**, or **Tracked only** (the adapter doesn't support skill management from ThinkingMach) — and a save indicator. On the right you'll find a **Search skills** box and a **Browse skills store** button that takes you to the company library.
 
 ### Sections on the page
 
@@ -417,7 +417,7 @@ Skills are grouped into sections, each with a count:
 
 1. **Enabled on this agent** — library skills this agent currently uses. Flip a row's toggle off to remove it.
 2. **Available from the library** — every other skill in the company library. Flip a row's toggle on to give it to this agent.
-3. **Automatic and detected skills (read-only)** — skills Paperclip applies automatically, plus skills that already exist on disk in the agent's workspace but weren't installed through Paperclip. Each row shows a lock icon instead of a toggle, with an origin and location hint so you can find the file. This section only appears when there's something to show, and you can collapse it.
+3. **Automatic and detected skills (read-only)** — skills ThinkingMach applies automatically, plus skills that already exist on disk in the agent's workspace but weren't installed through ThinkingMach. Each row shows a lock icon instead of a toggle, with an origin and location hint so you can find the file. This section only appears when there's something to show, and you can collapse it.
 
 ### Each skill row
 
@@ -429,11 +429,11 @@ Changes save automatically shortly after you stop toggling — you'll see **Savi
 
 ### When the adapter can't manage skills
 
-Some adapters (for example `openclaw_gateway`) don't let Paperclip manage skills. The page shows a banner explaining why, and the toggles are disabled. Manage skills in the adapter directly. The adapter in use is listed at the bottom of the page.
+Some adapters (for example `openclaw_gateway`) don't let ThinkingMach manage skills. The page shows a banner explaining why, and the toggles are disabled. Manage skills in the adapter directly. The adapter in use is listed at the bottom of the page.
 
 ### Warnings
 
-If the agent has a skill enabled that no longer exists in the company library, Paperclip shows an amber row saying it "is enabled but missing from the organization library", with a **Remove** button. Either re-import the skill, or click **Remove**.
+If the agent has a skill enabled that no longer exists in the company library, ThinkingMach shows an amber row saying it "is enabled but missing from the organization library", with a **Remove** button. Either re-import the skill, or click **Remove**.
 
 For a deeper discussion of what skills are, how to write good ones, and how they keep the agent's context small, see [Skills](./skills.md).
 
@@ -494,7 +494,7 @@ The rest of the **Runtime** section in the side menu covers what the agent can r
 
 The **Permissions / Trust** page sets how much the agent is trusted and what it's allowed to do:
 
-- **Trust** — the **Trust preset** decides how broadly the agent can read and act on Paperclip work. See [Trust and low-trust review](../../administration/trust-and-low-trust-review.md).
+- **Trust** — the **Trust preset** decides how broadly the agent can read and act on ThinkingMach work. See [Trust and low-trust review](../../administration/trust-and-low-trust-review.md).
 - **Permissions** — switches for **Can create new agents**, **Can create/import skills**, and **Can assign tasks**. Task assignment is switched on automatically for the CEO and for any agent that can create agents.
 
 These switches save as soon as you flip them.
@@ -505,7 +505,7 @@ These switches save as soon as you flip them.
 
 <a id="configuration-revisions"></a>
 
-Every time you save a change to this agent's configuration, Paperclip records a revision. The **Revisions** page lists them under **Configuration Revisions**, newest first. Each entry shows a short ID, when it was made, where the change came from, and which settings changed.
+Every time you save a change to this agent's configuration, ThinkingMach records a revision. The **Revisions** page lists them under **Configuration Revisions**, newest first. Each entry shows a short ID, when it was made, where the change came from, and which settings changed.
 
 Click **Restore** on any entry to put the agent back to that exact configuration. Restoring is itself saved as a new revision, so you can always undo an undo.
 
@@ -560,7 +560,7 @@ When a run is in flight, the transcript and log viewer stream in real time. The 
 
 - **Cancel** — interrupts a running or queued run. The run moves to `cancelled` status.
 - **Retry** — creates a new run with the same task context. Use when a run failed for a recoverable reason (transient network error, adapter glitch).
-- **Resume** — only appears when a run failed because the adapter process was lost. Paperclip re-wakes the agent and passes a `resumeFromRunId` so the next run can pick up instead of restarting.
+- **Resume** — only appears when a run failed because the adapter process was lost. ThinkingMach re-wakes the agent and passes a `resumeFromRunId` so the next run can pick up instead of restarting.
 
 ---
 
@@ -592,7 +592,7 @@ When a hard stop is hit, a **Budget Override** approval may be created for you t
 
 ### Agent-level vs company-level
 
-Agent budgets cap a single agent. Paperclip also tracks an organization-wide budget that sums across agents. See [Costs & budgets](../day-to-day/costs.md) for how the two interact, how API costs are computed, and how to tune budgets as a portfolio rather than one agent at a time.
+Agent budgets cap a single agent. ThinkingMach also tracks an organization-wide budget that sums across agents. See [Costs & budgets](../day-to-day/costs.md) for how the two interact, how API costs are computed, and how to tune budgets as a portfolio rather than one agent at a time.
 
 ---
 
@@ -600,7 +600,7 @@ Agent budgets cap a single agent. Paperclip also tracks an organization-wide bud
 
 <a id="keys"></a>
 
-An agent authenticates to the Paperclip API with a short-lived JWT for in-process runs. When the agent runs *outside* a managed heartbeat — for example a local CLI operator checking assignments, a CI job triggering a webhook, a remote adapter that needs a standing token — it uses a long-lived **API key** instead.
+An agent authenticates to the ThinkingMach API with a short-lived JWT for in-process runs. When the agent runs *outside* a managed heartbeat — for example a local CLI operator checking assignments, a CI job triggering a webhook, a remote adapter that needs a standing token — it uses a long-lived **API key** instead.
 
 API keys have their own page: open **API Keys** under **Governance** in the agent's side menu.
 
@@ -608,7 +608,7 @@ API keys have their own page: open **API Keys** under **Governance** in the agen
 
 1. Under **Create API Key**, type a name for the key (e.g. `production`, `ci`, `local-cli`). A clear name makes audits easier later.
 2. Click **Create**.
-3. Paperclip shows the full token in a banner: "API key created — copy it now, it will not be shown again." **Copy it now** — after you dismiss the banner, Paperclip only stores a hash and can never show it again.
+3. ThinkingMach shows the full token in a banner: "API key created — copy it now, it will not be shown again." **Copy it now** — after you dismiss the banner, ThinkingMach only stores a hash and can never show it again.
 
 The banner has a show/hide toggle so you can reveal the token to paste it, and a copy-to-clipboard button. When you're done, click **Dismiss**.
 
@@ -618,11 +618,11 @@ Every un-revoked key is listed under **Active Keys**, showing its name and creat
 
 ### Revoking a key
 
-Click **Revoke** next to any active key. The key moves to the **Revoked Keys** section at the bottom of the page and is immediately rejected by the Paperclip API. Revocation is permanent — revoked keys are never reused. To rotate a key, create a new one, swap it in wherever the old one is used, then revoke the old one.
+Click **Revoke** next to any active key. The key moves to the **Revoked Keys** section at the bottom of the page and is immediately rejected by the ThinkingMach API. Revocation is permanent — revoked keys are never reused. To rotate a key, create a new one, swap it in wherever the old one is used, then revoke the old one.
 
 ### Where keys flow
 
-An agent's API key is typically set as `PAPERCLIP_API_KEY` in the adapter's environment or in the operator's shell when running the agent locally. All Paperclip API requests use `Authorization: Bearer $PAPERCLIP_API_KEY`. For in-heartbeat calls by local adapters, the key is a short-lived run JWT auto-injected by Paperclip — you don't need a long-lived key at all. For remote adapters and manual CLI use, you do.
+An agent's API key is typically set as `THINKINGMACH_API_KEY` in the adapter's environment or in the operator's shell when running the agent locally. All ThinkingMach API requests use `Authorization: Bearer $THINKINGMACH_API_KEY`. For in-heartbeat calls by local adapters, the key is a short-lived run JWT auto-injected by ThinkingMach — you don't need a long-lived key at all. For remote adapters and manual CLI use, you do.
 
 > **Tip:** Revoke keys aggressively. It's cheaper to issue a new one than to wonder whether a forgotten key is floating around.
 
@@ -630,18 +630,18 @@ An agent's API key is typically set as `PAPERCLIP_API_KEY` in the adapter's envi
 
 ## How Agents Are Invoked — The Heartbeat Model
 
-This section collects the conceptual material you need to reason about what an agent *is* at runtime. If you've read other Paperclip guides you may have seen pieces of this; everything is gathered here so the agent surface above makes sense.
+This section collects the conceptual material you need to reason about what an agent *is* at runtime. If you've read other ThinkingMach guides you may have seen pieces of this; everything is gathered here so the agent surface above makes sense.
 
 ### Execution model
 
 Every heartbeat follows the same six-step arc:
 
 1. **Trigger** — something wakes the agent (schedule, assignment, review request, manual invoke). An @-mention isn't a trigger: to bring another agent in, assign the task or request a review.
-2. **Adapter invocation** — Paperclip calls the agent's configured adapter
+2. **Adapter invocation** — ThinkingMach calls the agent's configured adapter
 3. **Agent process** — the adapter spawns the agent runtime (e.g. Claude Code CLI)
-4. **Paperclip API calls** — the agent checks assignments, claims tasks, does work, updates status
+4. **ThinkingMach API calls** — the agent checks assignments, claims tasks, does work, updates status
 5. **Result capture** — adapter captures output, usage, costs, and session state
-6. **Run record** — Paperclip stores the run result for audit and debugging
+6. **Run record** — ThinkingMach stores the run result for audit and debugging
 
 Each of those steps corresponds to something visible in a run's detail view: the trigger shows up as the invocation source pill, the adapter invocation is the Invocation card, the agent process is the transcript and logs, the API calls appear in the touched-issues list, the result capture populates the metrics block, and the run record is the run itself.
 
@@ -651,23 +651,23 @@ Every agent has environment variables injected at runtime:
 
 | Variable | Description |
 |----------|-------------|
-| `PAPERCLIP_AGENT_ID` | The agent's unique ID |
-| `PAPERCLIP_COMPANY_ID` | The company the agent belongs to |
-| `PAPERCLIP_API_URL` | Base URL for the Paperclip API |
-| `PAPERCLIP_API_KEY` | Short-lived JWT for API authentication |
-| `PAPERCLIP_RUN_ID` | Current heartbeat run ID |
+| `THINKINGMACH_AGENT_ID` | The agent's unique ID |
+| `THINKINGMACH_COMPANY_ID` | The company the agent belongs to |
+| `THINKINGMACH_API_URL` | Base URL for the ThinkingMach API |
+| `THINKINGMACH_API_KEY` | Short-lived JWT for API authentication |
+| `THINKINGMACH_RUN_ID` | Current heartbeat run ID |
 
 Additional context variables are set when the wake has a specific trigger:
 
 | Variable | Description |
 |----------|-------------|
-| `PAPERCLIP_TASK_ID` | Issue that triggered this wake |
-| `PAPERCLIP_WAKE_REASON` | Why the agent was woken (e.g. `issue_assigned`, `issue_commented`) |
-| `PAPERCLIP_WAKE_COMMENT_ID` | Specific comment that triggered this wake |
-| `PAPERCLIP_APPROVAL_ID` | Approval that was resolved |
-| `PAPERCLIP_APPROVAL_STATUS` | Approval decision (`approved`, `rejected`) |
+| `THINKINGMACH_TASK_ID` | Issue that triggered this wake |
+| `THINKINGMACH_WAKE_REASON` | Why the agent was woken (e.g. `issue_assigned`, `issue_commented`) |
+| `THINKINGMACH_WAKE_COMMENT_ID` | Specific comment that triggered this wake |
+| `THINKINGMACH_APPROVAL_ID` | Approval that was resolved |
+| `THINKINGMACH_APPROVAL_STATUS` | Approval decision (`approved`, `rejected`) |
 
-These are exactly what you'll see in the Invocation card on any run — Paperclip redacts secrets (anything that looks like an API key, a bearer token, a password, or a JWT) before displaying them, but the structure is the same as what the agent actually received.
+These are exactly what you'll see in the Invocation card on any run — ThinkingMach redacts secrets (anything that looks like an API key, a bearer token, a password, or a JWT) before displaying them, but the structure is the same as what the agent actually received.
 
 ### Cryptographic identity
 
@@ -696,7 +696,7 @@ While an agent is going through setup, or is mid-pause or mid-resume, its status
 
 The status dot on every row and badge on the agent header reflect one of these values directly. The **Active** filter on the agent list expands to include `active`, `running`, and `idle`, because all three mean "this agent is healthy and doing (or ready to do) work". **Paused** and **Error** are their own filters for triage.
 
-**One thing to know about `paused`:** you can still assign work to a paused agent — staging a task for an agent you plan to resume later is a legitimate workflow, and the pause state is right there on screen so you know what you're doing. Other **agents** can't. When an agent tries to assign a task to a paused agent, Paperclip refuses it with `Cannot assign work to a paused agent. Assign an invokable agent, leave the issue unassigned, or escalate to a board operator instead.` Without that refusal, agent escalations to a paused manager would be accepted and then never run. See [Delegation → Guardrails on agent-to-agent delegation](./delegation.md#guardrails-on-agent-to-agent-delegation).
+**One thing to know about `paused`:** you can still assign work to a paused agent — staging a task for an agent you plan to resume later is a legitimate workflow, and the pause state is right there on screen so you know what you're doing. Other **agents** can't. When an agent tries to assign a task to a paused agent, ThinkingMach refuses it with `Cannot assign work to a paused agent. Assign an invokable agent, leave the issue unassigned, or escalate to a board operator instead.` Without that refusal, agent escalations to a paused manager would be accepted and then never run. See [Delegation → Guardrails on agent-to-agent delegation](./delegation.md#guardrails-on-agent-to-agent-delegation).
 
 ### Why this matters day-to-day
 
@@ -717,7 +717,7 @@ A few end-to-end recipes for things you'll do often.
 
 1. Open the agent and go to its **Instructions** page.
 2. Edit the entry file (usually `AGENTS.md`). Click **Save changes**.
-3. Click **Run now** in the header. Paperclip takes you straight to the new run.
+3. Click **Run now** in the header. ThinkingMach takes you straight to the new run.
 4. Watch the transcript stream. If the agent behaves as you want, you're done. If not, repeat.
 
 This loop is tight on purpose — changes apply on the next heartbeat, and manual invoke gives you that heartbeat on demand.

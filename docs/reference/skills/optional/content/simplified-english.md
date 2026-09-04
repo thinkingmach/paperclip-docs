@@ -26,8 +26,8 @@ This is an **optional** catalog skill — opt-in (install when you need it). For
 
 | Field | Value |
 |---|---|
-| Catalog id | `paperclipai:optional:content:simplified-english` |
-| Canonical key | `paperclipai/optional/content/simplified-english` |
+| Catalog id | `thinkingmach:optional:content:simplified-english` |
+| Canonical key | `thinkingmach/optional/content/simplified-english` |
 | Catalog path | `catalog/optional/content/simplified-english` |
 | Kind | `optional` |
 | Category | `content` |
@@ -41,7 +41,7 @@ This is an **optional** catalog skill — opt-in (install when you need it). For
 | Tags | `writing`, `communication`, `clarity`, `style` |
 | Files | 1 |
 | Content hash | `sha256:642321f40d51e0125df05c6fbace49aeb07ec30392058756909c259c9c5eac6a` |
-| Package | `@paperclipai/skills-catalog@0.3.1` |
+| Package | `@thinkingmach/skills-catalog@0.3.1` |
 
 ## File inventory
 
@@ -57,7 +57,7 @@ The block below is the complete, authoritative `SKILL.md` for this skill — the
 ---
 name: simplified-english
 description: Write user-facing comments, plans, and documents in ASD-STE100 Simplified Technical English — short, unambiguous sentences with approved words and one meaning each — so readers understand them the first time.
-key: paperclipai/optional/content/simplified-english
+key: thinkingmach/optional/content/simplified-english
 recommendedForRoles:
   - engineer
   - product

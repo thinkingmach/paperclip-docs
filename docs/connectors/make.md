@@ -25,16 +25,16 @@ If you plan to use a token instead of browser sign-in, you also need:
 1. Open **Connectors** and select **Make**.
 2. Read the access line above the main button. It says who the connection belongs to and which agents can use it. Select **Change** to pick a different identity, narrow the agents, or choose the token method.
 3. Connect with one of these methods:
-   - **Sign in with Make** — select **Continue to sign in** and complete browser sign-in. Paperclip registers its client automatically, so there is nothing to set up in a developer console.
+   - **Sign in with Make** — select **Continue to sign in** and complete browser sign-in. ThinkingMach registers its client automatically, so there is nothing to set up in a developer console.
    - **Use an MCP token** — enter your **Make zone host** (for example `eu2.make.com`) and paste the token into **Your Make key**.
 
-With a token, Paperclip builds the server address as `https://<zone>/mcp`. The zone must be a `make.com` host. The token is stored as a secret and sent as a Bearer header. Never put it in a URL.
+With a token, ThinkingMach builds the server address as `https://<zone>/mcp`. The zone must be a `make.com` host. The token is stored as a secret and sent as a Bearer header. Never put it in a URL.
 
 ## Choose access
 
 Reach depends on what Make allows the connected identity: which scenarios are exposed to MCP and, with a token, which scopes the token carries. Only give a token the scopes your scenarios actually need.
 
-A scenario can do anything it was built to do — send messages, update records, move money between systems. When an agent runs one, those effects are real. Paperclip lists each action Make exposes and starts them as **Allowed**, so review the list on the **Permissions** tab:
+A scenario can do anything it was built to do — send messages, update records, move money between systems. When an agent runs one, those effects are real. ThinkingMach lists each action Make exposes and starts them as **Allowed**, so review the list on the **Permissions** tab:
 
 - Keep reads, such as organization and team lookups, **Allowed**.
 - Set anything that runs a scenario or changes data to **Ask first**, or **Off** until you need it.
@@ -63,7 +63,7 @@ Compare the result with what you see in Make. That confirms the credential witho
 | A scenario ran unexpectedly | Its action was **Allowed** | Set it to **Ask first** on the **Permissions** tab |
 | **Needs attention** | The grant or token was revoked | Select **Reconnect** |
 
-Limitations: one Make identity per connection. Which scenarios are available is decided in Make, not in Paperclip.
+Limitations: one Make identity per connection. Which scenarios are available is decided in Make, not in ThinkingMach.
 
 ## Related guides
 
@@ -74,5 +74,5 @@ Limitations: one Make identity per connection. Which scenarios are available is 
 
 ## Sources
 
-- [Make definition](https://github.com/paperclipai/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions/make.json) — methods, labels, zone validation, and token placement.
-- [Catalog visibility](https://github.com/paperclipai/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions.ts) — Make is no longer hidden from the store; default action policy.
+- [Make definition](https://github.com/thinkingmach/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions/make.json) — methods, labels, zone validation, and token placement.
+- [Catalog visibility](https://github.com/thinkingmach/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions.ts) — Make is no longer hidden from the store; default action policy.

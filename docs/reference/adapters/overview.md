@@ -1,12 +1,12 @@
 ---
 paperclip_version: v2026.1023.0
 seo_title: Adapters Overview
-seo_description: Adapters connect Paperclip's control plane to the runtime that does the work. Start here to compare the options and pick one per agent you hire.
+seo_description: Adapters connect ThinkingMach's control plane to the runtime that does the work. Start here to compare the options and pick one per agent you hire.
 ---
 
 # Adapters Overview
 
-Adapters connect Paperclip's control plane to the runtime that actually does the work. Use this section when you need to choose an adapter, understand what Paperclip expects from one, or build a new adapter package.
+Adapters connect ThinkingMach's control plane to the runtime that actually does the work. Use this section when you need to choose an adapter, understand what ThinkingMach expects from one, or build a new adapter package.
 
 ---
 
@@ -20,7 +20,7 @@ Every adapter is responsible for the same core jobs:
 4. Validate the environment before a run starts.
 5. Optionally provide a custom UI transcript parser and skills sync behavior.
 
-> **Note:** Paperclip orchestrates agents. The adapter decides how the runtime starts, how it keeps state, and how its output is interpreted.
+> **Note:** ThinkingMach orchestrates agents. The adapter decides how the runtime starts, how it keeps state, and how its output is interpreted.
 
 ---
 
@@ -46,7 +46,7 @@ Every adapter is responsible for the same core jobs:
 
 If you are starting from scratch, the most common path is:
 
-1. Pick a local adapter if the agent runs on the same machine as Paperclip.
+1. Pick a local adapter if the agent runs on the same machine as ThinkingMach.
 2. Pick `process` if the runtime is just a command.
 3. Pick `http` if the runtime lives behind an API or webhook.
 4. Use an external adapter plugin when you want independent versioning and installation.
@@ -55,7 +55,7 @@ If you are starting from scratch, the most common path is:
 
 ## Built-In Adapters
 
-These adapters ship with Paperclip and are always available in the host:
+These adapters ship with ThinkingMach and are always available in the host:
 
 | Adapter | Type key | UI availability | Best for |
 |---|---|---|---|
@@ -67,7 +67,7 @@ These adapters ship with Paperclip and are always available in the host:
 | [Pi](./pi.md) | `pi_local` | Selectable | Pi CLI runs with its built-in tool set and provider/model routing. |
 | [Hermes](./hermes.md) | `hermes_local` | Selectable | Hermes Agent runs with persistent memory, 30+ tools, 80+ skills, and multi-provider routing. |
 | [Grok Local](./grok-local.md) | `grok_local` | Selectable | Grok Build CLI runs with `--resume` session continuity, streaming reasoning output, and skills staged into `.claude/skills`. |
-| [Paperclip Runner](./paperclip-runner.md) | `paperclip_runner` | Experimental; instance setting applies | Native run lifecycle, durable session recovery, and qualified Codex, OpenCode, Claude, Grok, Cursor, and Pi providers. |
+| [ThinkingMach Runner](./paperclip-runner.md) | `paperclip_runner` | Experimental; instance setting applies | Native run lifecycle, durable session recovery, and qualified Codex, OpenCode, Claude, Grok, Cursor, and Pi providers. |
 | [Kimi Code](./kimi-local.md) | `kimi_local` | Selectable | Kimi Code CLI runs on the shared ACP engine with headless-CLI fallback, session resume, and per-run skills injection. |
 | [OpenClaw Gateway](./openclaw-gateway.md) | `openclaw_gateway` | **Coming soon** (use OpenClaw invite flow) | Remote OpenClaw instances reached over the WebSocket gateway protocol. |
 | [Process](./process.md) | `process` | **Coming soon** (API / import only) | Shell commands, scripts, and custom local runtimes. |
@@ -77,11 +77,11 @@ These adapters ship with Paperclip and are always available in the host:
 
 ---
 
-## Native Paperclip Runner
+## Native ThinkingMach Runner
 
-Choose **Paperclip Runner** when you want the native run lifecycle and built-in task tools. Then pick its **Harness** — for **ACP agents**, choose the **ACP agent** too. Existing direct adapters keep their own paths; enabling the feature does not migrate them.
+Choose **ThinkingMach Runner** when you want the native run lifecycle and built-in task tools. Then pick its **Harness** — for **ACP agents**, choose the **ACP agent** too. Existing direct adapters keep their own paths; enabling the feature does not migrate them.
 
-The `enableNativeRunner` default is on for self-hosted instances and off for Cloud-managed instances. **ACP agents** now include qualified **Cursor** and **Pi** runtimes. Cursor uses a pinned runtime you prepare with `paperclipai runtime setup cursor`, an explicit model, and Agent, Plan, or Ask session mode; Pi uses `paperclipai runtime setup pi` and an explicit `provider/model` ID. Grok has a separately pinned native runtime. See [Paperclip Runner](paperclip-runner.md), [Cursor](cursor-local.md#cursor-on-paperclip-runner), and [Grok](grok-local.md#grok-build-on-paperclip-runner).
+The `enableNativeRunner` default is on for self-hosted instances and off for Cloud-managed instances. **ACP agents** now include qualified **Cursor** and **Pi** runtimes. Cursor uses a pinned runtime you prepare with `thinkingmach runtime setup cursor`, an explicit model, and Agent, Plan, or Ask session mode; Pi uses `thinkingmach runtime setup pi` and an explicit `provider/model` ID. Grok has a separately pinned native runtime. See [ThinkingMach Runner](paperclip-runner.md), [Cursor](cursor-local.md#cursor-on-paperclip-runner), and [Grok](grok-local.md#grok-build-on-paperclip-runner).
 
 ---
 
@@ -106,7 +106,7 @@ See:
 | `cwd` | The adapter's working directory. Most local adapters require an absolute path. |
 | `env` | Environment variables passed into the runtime. Secret refs are preferred for sensitive values. |
 | Session state | Lets an adapter resume the same conversation or command state on the next heartbeat. |
-| Skills | Adapter-specific logic for making Paperclip skills visible to the runtime. |
+| Skills | Adapter-specific logic for making ThinkingMach skills visible to the runtime. |
 | `testEnvironment()` | The adapter's readiness check. The UI uses it before you save or run the adapter. |
 | UI parser | Converts stdout into structured transcript entries for the run viewer. |
 
@@ -118,22 +118,22 @@ See:
 
 Want to watch an agent think while it works? How much live detail you get in a run's transcript comes down to which adapter you pick.
 
-Every adapter streams its stdout to the run log, and Paperclip renders it live as the agent works — even runs on sandbox execution targets, whose logs are tailed incrementally so you see them fill in. What differs is the *structure*: the richer the event stream an adapter emits, the more the transcript can show you beyond raw output.
+Every adapter streams its stdout to the run log, and ThinkingMach renders it live as the agent works — even runs on sandbox execution targets, whose logs are tailed incrementally so you see them fill in. What differs is the *structure*: the richer the event stream an adapter emits, the more the transcript can show you beyond raw output.
 
 Here are the rough tiers, richest first:
 
 - **ACP engine — full structured event stream.** When `claude_local`, `codex_local`, `gemini_local`, or `kimi_local` runs through the Agent Client Protocol — the default `engine: auto`, or a forced `engine: acp` — it emits a JSONL event for each meaningful moment: session identity, status (progress text plus context-window usage), assistant and thinking token deltas, tool-call title and status updates as calls progress, a result stop-reason summary, and errors. The transcript renders these as live-updating message, thinking, tool, and status blocks — and repeated tool-call status updates fold into a single tool card instead of stacking.
 - **CLI wrappers (`claude_local` / `codex_local` / `gemini_local` on `engine: cli`, plus `cursor`, `opencode_local`, …) — the CLI's own stream.** These parse each CLI's streaming JSON output: assistant text, tool calls and results, and a final usage/cost summary. You get as much detail as the CLI itself prints.
-- **Paperclip Runner — native lifecycle and structured activity.** The native route renders provider activity and Paperclip tools through its own transcript path. Capability and accounting support vary by provider; Cursor and native Grok do not supply authoritative per-run cost totals.
+- **ThinkingMach Runner — native lifecycle and structured activity.** The native route renders provider activity and ThinkingMach tools through its own transcript path. Capability and accounting support vary by provider; Cursor and native Grok do not supply authoritative per-run cost totals.
 - **Generic adapters (`process`, `http`) — plain output.** You see stdout and stderr lines with no structured transcript.
 
-If you're running sandbox workers, leave `engine` on `auto` so the adapter uses ACP when the sandbox provides Paperclip's bidirectional process session. A sandbox that only runs one-shot commands, and non-sandbox remote targets, fall back to the CLI lane. Sandbox run logs stream live either way, but the richer event stream makes the transcript and status line more useful while a remote run is in flight.
+If you're running sandbox workers, leave `engine` on `auto` so the adapter uses ACP when the sandbox provides ThinkingMach's bidirectional process session. A sandbox that only runs one-shot commands, and non-sandbox remote targets, fall back to the CLI lane. Sandbox run logs stream live either way, but the richer event stream makes the transcript and status line more useful while a remote run is in flight.
 
 ---
 
 ## Next Steps
 
-- [Paperclip Runner](./paperclip-runner.md)
+- [ThinkingMach Runner](./paperclip-runner.md)
 - [Claude Code](./claude-code.md)
 - [Codex](./codex.md)
 - [Gemini CLI](./gemini-cli.md)

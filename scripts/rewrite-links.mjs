@@ -25,7 +25,7 @@ const DOCS_DIR = path.join(REPO_ROOT, 'docs');
 // OLD absolute docs path -> NEW absolute docs path. Both rooted at REPO_ROOT.
 const OLD_TO_NEW = {
   // welcome
-  'docs/user-guides/guides/what-is-paperclip.md': 'docs/guides/welcome/what-is-paperclip.md',
+  'docs/user-guides/guides/what-is-thinkingmach.md': 'docs/guides/welcome/what-is-thinkingmach.md',
   'docs/user-guides/guides/key-concepts.md':      'docs/guides/welcome/key-concepts.md',
   'docs/user-guides/guides/glossary.md':          'docs/guides/welcome/glossary.md',
 

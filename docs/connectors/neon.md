@@ -10,7 +10,7 @@ Agents can work with your Neon serverless Postgres — managing projects and bra
 
 > **Warning:** Use a development project. Neon's hosted server grants broad project and database management, and Neon itself recommends it for development and testing. Review write and destructive actions before you connect anything holding production data.
 
-Write tools start enabled on this connector. They are governed by Paperclip's action settings, but the default is not read-only — you have to choose that.
+Write tools start enabled on this connector. They are governed by ThinkingMach's action settings, but the default is not read-only — you have to choose that.
 
 ## Before you connect
 
@@ -26,7 +26,7 @@ There are two ways to connect:
 | **Sign in with Neon** | Nothing to create. You approve access in the browser | The recommended route for most people |
 | **Use an API key** | A Neon API key you create yourself | When browser sign-in isn't suitable |
 
-Paperclip never falls back from one method to the other on its own. The method you pick is saved on the connection and reused whenever you reconnect.
+ThinkingMach never falls back from one method to the other on its own. The method you pick is saved on the connection and reused whenever you reconnect.
 
 ### Which key the API-key method wants
 
@@ -37,7 +37,7 @@ The **Your Neon key** field accepts keys starting `napi_...` or `neon_project_ke
 | **Project-scoped key** | One project, with Editor rights |
 | **Personal or organization key** | Every project that account or organization can access |
 
-Prefer a project-scoped key for one development project. Paperclip can't increase what an existing key is allowed to do — it only ever narrows.
+Prefer a project-scoped key for one development project. ThinkingMach can't increase what an existing key is allowed to do — it only ever narrows.
 
 ## Connect Neon
 
@@ -47,7 +47,7 @@ Prefer a project-scoped key for one development project. Paperclip can't increas
 4. Optionally select **Change** to reveal **Pin to project ID** and **Read-only mode**, then fill in either one. Neither is required — you can continue straight away with Neon's defaults.
 5. Finish setup. For browser sign-in, approve access in Neon; for the key method, paste the key and continue.
 
-Paperclip needs a public HTTPS origin, or a loopback HTTP origin such as `http://localhost:3100`, to complete browser sign-in. A plain HTTP tailnet hostname doesn't count as loopback — switch to HTTPS before you connect.
+ThinkingMach needs a public HTTPS origin, or a loopback HTTP origin such as `http://localhost:3100`, to complete browser sign-in. A plain HTTP tailnet hostname doesn't count as loopback — switch to HTTPS before you connect.
 
 ## Scope the connection
 
@@ -56,15 +56,15 @@ Paperclip needs a public HTTPS origin, or a loopback HTTP origin such as `http:/
 | **Pin to project ID** | Pin the connection to one development project. Lowercase letters, numbers, and hyphens, up to 64 characters |
 | **Read-only mode** | Turn it on unless an agent genuinely needs to change something. It limits SQL to `SELECT` queries and schema inspection |
 
-An invalid project ID is rejected before Paperclip ever contacts Neon, so a typo shows up right away.
+An invalid project ID is rejected before ThinkingMach ever contacts Neon, so a typo shows up right away.
 
-> **Note:** The project pin and read-only mode are passed to Neon's MCP server as request parameters — Neon enforces them, not Paperclip. The practical effect you'll see is a narrower set of projects or tools, but the enforcement boundary is the provider's. Paperclip's own control over what runs is the action settings.
+> **Note:** The project pin and read-only mode are passed to Neon's MCP server as request parameters — Neon enforces them, not ThinkingMach. The practical effect you'll see is a narrower set of projects or tools, but the enforcement boundary is the provider's. ThinkingMach's own control over what runs is the action settings.
 
 ## Choose access
 
-Project reach is whatever the Neon sign-in or key carries, narrowed by the project pin if you set one. Account, organization, and project permissions are Neon's, not Paperclip's.
+Project reach is whatever the Neon sign-in or key carries, narrowed by the project pin if you set one. Account, organization, and project permissions are Neon's, not ThinkingMach's.
 
-Write access here covers a lot of ground: creating and deleting projects and branches, managing roles, databases and computes, restoring snapshots, applying schema changes, and running SQL. Those changes aren't reversible from Paperclip.
+Write access here covers a lot of ground: creating and deleting projects and branches, managing roles, databases and computes, restoring snapshots, applying schema changes, and running SQL. Those changes aren't reversible from ThinkingMach.
 
 Every discovered action starts **Allowed**, including writes and destructive ones. After connecting, open the connection's **Permissions** screen and set deletion, branch reset, and compute changes to **Ask first** at minimum. See [Set action permissions](action-permissions.md).
 
@@ -87,13 +87,13 @@ Don't verify with a migration, a branch reset, or a write query.
 | Problem | Likely cause | Fix |
 | --- | --- | --- |
 | Setup rejects the project ID | It contains characters other than lowercase letters, numbers, and hyphens, or is longer than 64 characters | Copy the project ID from **Project settings → General** in the Neon Console |
-| Browser sign-in won't complete | Paperclip is served over plain HTTP on a non-loopback hostname | Use HTTPS, or a loopback origin such as `http://localhost:3100` |
+| Browser sign-in won't complete | ThinkingMach is served over plain HTTP on a non-loopback hostname | Use HTTPS, or a loopback origin such as `http://localhost:3100` |
 | The key works but a project isn't reachable | A project-scoped key covers a different project, or the account has no access | Use a key for the right project, or grant access in Neon |
 | Write tools are missing or SQL writes fail | **Read-only mode** is on, and Neon is honouring it | That's the recommended posture; turn it off only deliberately |
 | A change succeeded that you didn't expect | Write tools start enabled and the action was allowed | Turn on read-only mode, or set those actions to **Ask first** or **Off** |
 | **Needs attention** | The key was revoked or the sign-in expired | Select **Reconnect** |
 
-Limitations: the project pin and read-only mode are requests Neon honours, not Paperclip guarantees, and neither replaces using a development project. Paperclip can't roll back a database change — recovery is Neon's branches and snapshots.
+Limitations: the project pin and read-only mode are requests Neon honours, not ThinkingMach guarantees, and neither replaces using a development project. ThinkingMach can't roll back a database change — recovery is Neon's branches and snapshots.
 
 ## Related guides
 

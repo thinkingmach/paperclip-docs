@@ -8,18 +8,18 @@ seo_description: Give agents model access through OpenRouter with an API key. Ha
 
 An OpenRouter connection gives agents a credential that routes to many model providers through one account. It is model access, not a set of tools — there are no actions to permit.
 
-OpenRouter is API key only. There is no subscription sign-in for this provider, and Paperclip says so on the sign-in screen.
+OpenRouter is API key only. There is no subscription sign-in for this provider, and ThinkingMach says so on the sign-in screen.
 
 ## Before you connect
 
 - An OpenRouter account with credit or billing set up, and an API key from [OpenRouter keys](https://openrouter.ai/keys).
-- An agent that runs Claude, Codex, OpenCode, or Hermes. Paperclip Runner uses the same rules for its Codex, OpenCode, and ACP Claude providers.
+- An agent that runs Claude, Codex, OpenCode, or Hermes. ThinkingMach Runner uses the same rules for its Codex, OpenCode, and ACP Claude providers.
 - An upstream model ID supported by OpenRouter and your selected harness. OpenCode adds the `openrouter/` harness prefix; the other harnesses use the raw upstream ID.
 
 ## Connect OpenRouter
 
 1. Open **Connectors** and select **OpenRouter**.
-2. Paste the API key. Paperclip stores it as a secret and it is not readable afterwards.
+2. Paste the API key. ThinkingMach stores it as a secret and it is not readable afterwards.
 3. Optionally enter **Model IDs (comma separated)**, then choose the account audience and agent access before selecting **Connect**.
 
 Setup is a single screen with no separate access step. Once the account is saved, you change which people and agents may use it from the saved connection.
@@ -30,7 +30,7 @@ Select the named account in the agent's **Connection** selector and save. Routed
 
 Each run needs a responsible user who may use the credential, and the connection must be installed for that agent or company-wide. The account owner must remain an active company member. Selecting an account does not bypass those checks.
 
-Use the model ID shown by the selected connection. If you leave the connection's model list empty, Paperclip discovers choices from OpenRouter's public catalog and offers a refresh. You can also enter a provider ID yourself. For OpenCode, `anthropic/claude-sonnet-4.5` becomes `openrouter/anthropic/claude-sonnet-4.5`; Claude, Codex, and Hermes retain `anthropic/claude-sonnet-4.5`.
+Use the model ID shown by the selected connection. If you leave the connection's model list empty, ThinkingMach discovers choices from OpenRouter's public catalog and offers a refresh. You can also enter a provider ID yourself. For OpenCode, `anthropic/claude-sonnet-4.5` becomes `openrouter/anthropic/claude-sonnet-4.5`; Claude, Codex, and Hermes retain `anthropic/claude-sonnet-4.5`.
 
 Older OpenRouter accounts without routing metadata retain their OpenCode-only behavior and `openrouter/` model requirement. An existing responsible-user default for that older account can keep working; reconnecting does not silently convert it to a routed connection. Create a new connection when you need the expanded harness support.
 
@@ -44,9 +44,9 @@ If a task shows an authentication card, use **Fix connection** to replace the st
 
 ## Check your usage limits
 
-Before you hand an agent a long task, you can see how much of the provider's allowance is left. Open the saved account and find **Usage**, then select **Check usage**. For an OpenRouter key, Paperclip asks OpenRouter for the key's credit cap, how often it resets, and any daily cap on free models, when OpenRouter returns them.
+Before you hand an agent a long task, you can see how much of the provider's allowance is left. Open the saved account and find **Usage**, then select **Check usage**. For an OpenRouter key, ThinkingMach asks OpenRouter for the key's credit cap, how often it resets, and any daily cap on free models, when OpenRouter returns them.
 
-Paperclip reads the limits only when you ask. Opening the account, listing connections, and starting a run never trigger a check. Each limit window shows how much is used and when it resets, and is marked **Limit reached** or **Blocked** when the provider says so. **Overage** shows whether extra paid usage is available. Anything the provider leaves out shows as **Not reported**, never as zero. After a successful check, the button becomes **Refresh**.
+ThinkingMach reads the limits only when you ask. Opening the account, listing connections, and starting a run never trigger a check. Each limit window shows how much is used and when it resets, and is marked **Limit reached** or **Blocked** when the provider says so. **Overage** shows whether extra paid usage is available. Anything the provider leaves out shows as **Not reported**, never as zero. After a successful check, the button becomes **Refresh**.
 
 Checking is read-only. It does not move work to another account, stop runs at a limit, refresh the credential, or buy credit.
 
@@ -67,7 +67,7 @@ Reply with the single word: ready
 
 Run it on a compatible agent after noting the selected Connection and model. OpenCode uses the `openrouter/` prefix; other compatible harnesses use the upstream model ID.
 
-**A reply proves** an OpenRouter credential was accepted, the harness and selected model are compatible, and the checks above passed — Paperclip refuses an ineligible binding rather than falling back to another account. **It does not prove which OpenRouter account was charged**; Paperclip does not surface that attribution per run, so check the activity and credit balance in your OpenRouter account if you need to confirm it.
+**A reply proves** an OpenRouter credential was accepted, the harness and selected model are compatible, and the checks above passed — ThinkingMach refuses an ineligible binding rather than falling back to another account. **It does not prove which OpenRouter account was charged**; ThinkingMach does not surface that attribution per run, so check the activity and credit balance in your OpenRouter account if you need to confirm it.
 
 If it fails, change only one thing at a time — the model id is the most common cause.
 
@@ -89,7 +89,7 @@ Limitations: one connection is one OpenRouter account, and it grants no tool acc
 
 ## Related guides
 
-- [Connector overview](https://paperclip.ing/product/connectors/openrouter/)
+- [Connector overview](https://thinkingmach.com/product/connectors/openrouter/)
 
 - [Anthropic](anthropic.md), [OpenAI](openai.md), [Grok](xai.md) — the other model providers.
 - [Custom model providers](custom-model-providers.md)

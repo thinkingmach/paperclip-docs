@@ -1,14 +1,14 @@
 ---
 paperclip_version: v2026.1023.0
 seo_title: Costs and Budgets: Spend and Limits
-seo_description: Track API spend, subscription fees, and decision-model costs, and set budget limits Paperclip enforces automatically, from Audit's Costs and Budgets tabs.
+seo_description: Track API spend, subscription fees, and decision-model costs, and set budget limits ThinkingMach enforces automatically, from Audit's Costs and Budgets tabs.
 ---
 
 # Costs and Budgets
 
-> **Warning:** AI agents make real API calls that cost real money. Every time an agent works — every heartbeat, every task, every comment it reads and writes — it sends and receives text through a provider like Anthropic or OpenAI, which charges you per token (roughly per word). This isn't a Paperclip fee; it's a cost you pay directly to the AI provider. Read this guide before your agents start running in earnest.
+> **Warning:** AI agents make real API calls that cost real money. Every time an agent works — every heartbeat, every task, every comment it reads and writes — it sends and receives text through a provider like Anthropic or OpenAI, which charges you per token (roughly per word). This isn't a ThinkingMach fee; it's a cost you pay directly to the AI provider. Read this guide before your agents start running in earnest.
 
-Paperclip's budget system exists to make sure you're never surprised. You set limits, and the platform enforces them automatically — an agent won't spend a cent beyond what you allow.
+ThinkingMach's budget system exists to make sure you're never surprised. You set limits, and the platform enforces them automatically — an agent won't spend a cent beyond what you allow.
 
 All of this lives under **Audit** in the sidebar. The Audit page has five tabs — **Activity**, **Runs**, **Costs**, **Budgets**, and **Timeline** — and two of them are the subject of this guide:
 
@@ -23,27 +23,27 @@ This guide walks through each view, then folds in the core concepts around how c
 
 Every time an agent runs a heartbeat, it generates an API call. That call sends the agent's context (its identity, its tasks, the instructions it's working from) to the AI provider, and receives a response (the agent's reasoning and next actions). The provider charges based on the number of tokens — input tokens (what's sent) and output tokens (what comes back).
 
-Paperclip records every one of these calls: which agent made it, which model it used, how many tokens were used, and the exact dollar cost. These records are aggregated per agent per calendar month (resetting on the 1st of each UTC month).
+ThinkingMach records every one of these calls: which agent made it, which model it used, how many tokens were used, and the exact dollar cost. These records are aggregated per agent per calendar month (resetting on the 1st of each UTC month).
 
 > **Note:** A token is roughly equivalent to one word, though technically it's a fragment of text slightly smaller than that. A busy agent doing coding or writing work might process 100,000–500,000 tokens per month. At typical Anthropic pricing, that's roughly $3–$15 per month for a moderately active worker agent — but this varies significantly based on the model used and how much context each task requires.
 
 ### Why the dollars are lower than the token count suggests
 
-If you multiply an agent's token count by the provider's list price, you'll usually land somewhere above what Paperclip reports. That gap is normally prompt caching doing its job, not an error in the arithmetic.
+If you multiply an agent's token count by the provider's list price, you'll usually land somewhere above what ThinkingMach reports. That gap is normally prompt caching doing its job, not an error in the arithmetic.
 
 Agents re-send a lot of the same text on every heartbeat — their identity, their standing instructions, the task they're working on. Providers cache that repeated context and charge much less for a cached token than for a fresh one. You can see the split yourself in the per-model rows on the **Providers** view, where cached-input tokens are counted separately from input tokens.
 
-Paperclip records the **cache-adjusted** cost: what the provider actually billed after the cache discount, rather than an estimate derived from raw token counts. When an adapter reports a discounted amount separately, that discounted amount is the one that lands in the cost ledger, counts against your budgets, and rolls up into every total on the Costs tab. When an adapter reports only a single cost figure, Paperclip treats that figure as the billed amount.
+ThinkingMach records the **cache-adjusted** cost: what the provider actually billed after the cache discount, rather than an estimate derived from raw token counts. When an adapter reports a discounted amount separately, that discounted amount is the one that lands in the cost ledger, counts against your budgets, and rolls up into every total on the Costs tab. When an adapter reports only a single cost figure, ThinkingMach treats that figure as the billed amount.
 
 The practical rule: the dollars you see are billed dollars. A run with a large cached-input count and a small dollar figure is healthy — it means the agent's context is being reused instead of re-billed. If you want to reason about a run in detail, read the token columns and the dollar figure together rather than trying to derive one from the other.
 
 ### Estimated, unpriced, and still-being-counted costs
 
-Not every run arrives with a clean price tag. Paperclip tells you when a number is less than certain instead of quietly rounding it to a guess or to zero:
+Not every run arrives with a clean price tag. ThinkingMach tells you when a number is less than certain instead of quietly rounding it to a guess or to zero:
 
-- **Estimated** — the provider didn't report a price, but Paperclip knows the model's published rates and calculated one from the token counts. Rows built from these show an **Estimated** or **Partially estimated** badge; hover it to see how many charges were estimated. Your provider's bill may differ slightly.
-- **Unpriced** — the run used tokens but there's no reliable price at all. This happens, for example, when an agent's CLI points at an OpenAI-compatible endpoint other than OpenAI or OpenRouter: Paperclip won't assume OpenAI's prices for someone else's service. The tokens are kept, but the cost counts as unknown — never as `$0`.
-- **Awaiting accounting** — the run has finished, but its cost hasn't been recorded yet. Local CLI agents save their usage as they go, so even a run that crashes or times out part-way still gets its cost recorded once Paperclip catches up.
+- **Estimated** — the provider didn't report a price, but ThinkingMach knows the model's published rates and calculated one from the token counts. Rows built from these show an **Estimated** or **Partially estimated** badge; hover it to see how many charges were estimated. Your provider's bill may differ slightly.
+- **Unpriced** — the run used tokens but there's no reliable price at all. This happens, for example, when an agent's CLI points at an OpenAI-compatible endpoint other than OpenAI or OpenRouter: ThinkingMach won't assume OpenAI's prices for someone else's service. The tokens are kept, but the cost counts as unknown — never as `$0`.
+- **Awaiting accounting** — the run has finished, but its cost hasn't been recorded yet. Local CLI agents save their usage as they go, so even a run that crashes or times out part-way still gets its cost recorded once ThinkingMach catches up.
 
 When any of these affect the range you're looking at, a short, neutral line appears on the **Overview** just below the metric tiles — for example *3 run costs unavailable*. Treat the totals on the tab as **known** spend until that line goes away. It's information, not an error: most entries need nothing from you.
 
@@ -54,9 +54,9 @@ Click the line to see the affected entries, grouped by agent. Each agent's name 
 | **Cost unavailable** | The provider didn't supply a reliable price for this usage. | Nothing — no action is needed for a past entry. |
 | **Model not reported** | Tokens were recorded without a model, so there's nothing to price them against. | Pick an explicit model in the agent's configuration for future runs. Past runs aren't repriced. |
 | **Billing category unknown** | The run didn't say whether it was API or subscription billing. Any charges it recorded are still counted. | Select an AI connection in the agent's configuration so future runs can be identified. |
-| **Receiving usage** | The run has stopped and Paperclip is waiting for its final usage data. | Nothing — it's recorded automatically. You don't need to rerun the agent. |
-| **Final usage unavailable** | The run stopped without final usage data, so its cost stays unresolved for budget checks. | Nothing to retry. Paperclip still records a late receipt if one arrives; rerunning the agent won't recover it. |
-| **Ready to record** | Saved usage data is ready to be recorded. Paperclip retries on its own. | Click **Retry cost recording** to do it now. This only records costs — it never reruns the agent. |
+| **Receiving usage** | The run has stopped and ThinkingMach is waiting for its final usage data. | Nothing — it's recorded automatically. You don't need to rerun the agent. |
+| **Final usage unavailable** | The run stopped without final usage data, so its cost stays unresolved for budget checks. | Nothing to retry. ThinkingMach still records a late receipt if one arrives; rerunning the agent won't recover it. |
+| **Ready to record** | Saved usage data is ready to be recorded. ThinkingMach retries on its own. | Click **Retry cost recording** to do it now. This only records costs — it never reruns the agent. |
 
 If only billing categories are missing, the line reads like *2 billing types unknown* instead. The list shows the 25 most recent entries in each category; pick a shorter date range to see more. Board members with view-only access can read the list but can't retry recording.
 
@@ -64,7 +64,7 @@ Usage that isn't API or subscription billing — credits or fixed-price plans, f
 
 Unpriced and still-being-counted usage also matters for budgets — see [When spend is uncertain](#when-spend-is-uncertain).
 
-Beyond per-request inference costs, there are also **account-level** charges — monthly subscription fees, credit top-ups, invoice adjustments, refunds — that don't map to a single API call. Paperclip tracks those separately in the finance ledger so you can reconcile your actual provider invoices against what Paperclip thinks you spent.
+Beyond per-request inference costs, there are also **account-level** charges — monthly subscription fees, credit top-ups, invoice adjustments, refunds — that don't map to a single API call. ThinkingMach tracks those separately in the finance ledger so you can reconcile your actual provider invoices against what ThinkingMach thinks you spent.
 
 ---
 
@@ -84,7 +84,7 @@ Below the header is a strip of five **metric tiles**:
 - **Recorded charges** — the net of the account-level finance ledger across the range, with debits and credits listed underneath.
 - **Finance events** — the number of finance events recorded, plus the total estimated (non-invoice-authoritative) debits still open.
 
-If your finance ledger holds amounts in more than one currency, a note explains that the headline totals are US dollars only — other currencies are listed separately, and Paperclip never converts between them.
+If your finance ledger holds amounts in more than one currency, a note explains that the headline totals are US dollars only — other currencies are listed separately, and ThinkingMach never converts between them.
 
 These tiles reflect the selected date range, not an all-time total — with one exception: the monthly fee on **Subscriptions** is your *current* monthly commitment, whatever range you pick.
 
@@ -92,11 +92,11 @@ These tiles reflect the selected date range, not an all-time total — with one 
 
 If your agents run on a Claude, ChatGPT/Codex, or Grok subscription, those runs usually don't add a per-call charge — but you're still paying a monthly fee. The **Subscriptions** tile puts that fee beside your API spend so you can compare the two.
 
-Paperclip works out which subscription account each run used from the AI connection selected for it. Several agents or connections sharing one paid seat count **once**, so a $200 plan used by five agents shows as $200, not $1,000. Distinct seats stay separate, even inside the same workspace.
+ThinkingMach works out which subscription account each run used from the AI connection selected for it. Several agents or connections sharing one paid seat count **once**, so a $200 plan used by five agents shows as $200, not $1,000. Distinct seats stay separate, even inside the same workspace.
 
 The tile shows:
 
-- The monthly total, per currency (Paperclip never converts between currencies).
+- The monthly total, per currency (ThinkingMach never converts between currencies).
 - An **Estimated** or **Partially estimated** badge when the price came from a published list price rather than from you.
 - How many subscriptions are active, and how many prices are unknown. When some are unknown, the figure is labelled *Known monthly subtotal*.
 - A count of unconfirmed account identities, if any.
@@ -104,7 +104,7 @@ The tile shows:
 
 Click **View details** to see each account: its owner (or **Shared**), provider, and plan; its monthly price; the tokens it used in the range; and which agents used it. A price marked *Estimated · before tax* comes from the provider's published list price. Generic plans — OpenAI Pro, Claude Max without a tier, team or enterprise seats — don't identify a reliable price, so they show **Price unknown** until someone enters one.
 
-When you open the Costs tab, Paperclip checks your connected accounts in the background to pick up plan details. If that check fails, you'll see *Connected accounts could not be checked. Existing subscription estimates are still shown.* along with a **Retry account check** button.
+When you open the Costs tab, ThinkingMach checks your connected accounts in the background to pick up plan details. If that check fails, you'll see *Connected accounts could not be checked. Existing subscription estimates are still shown.* along with a **Retry account check** button.
 
 #### Enter your actual price
 
@@ -122,11 +122,11 @@ You can edit the price of your own personal accounts. Prices for shared accounts
 
 #### Link duplicate accounts
 
-Sometimes Paperclip can't confirm an account's identity — for example, some Claude setup tokens can't read profile details. An unconfirmed account doesn't get an automatic list-price estimate, so a credential change can't double-count your fee, and it may show up twice. If two entries are really the same subscription or seat, open one, choose the other under **Same subscription as another account?**, and click **Link accounts**. Paperclip then counts them once, combines their usage, and keeps the price of the account you chose in the list.
+Sometimes ThinkingMach can't confirm an account's identity — for example, some Claude setup tokens can't read profile details. An unconfirmed account doesn't get an automatic list-price estimate, so a credential change can't double-count your fee, and it may show up twice. If two entries are really the same subscription or seat, open one, choose the other under **Same subscription as another account?**, and click **Link accounts**. ThinkingMach then counts them once, combines their usage, and keeps the price of the account you chose in the list.
 
 #### What the fee doesn't include
 
-A subscription fee covers the whole provider account, including use outside Paperclip. It's kept separate from recorded charges and from agent budgets — it doesn't count against a budget or show up as a finance event. You only see fees for accounts you're allowed to see: your own personal accounts, shared accounts you manage, and shared accounts you're in the audience for. Token totals still cover all of the company's work.
+A subscription fee covers the whole provider account, including use outside ThinkingMach. It's kept separate from recorded charges and from agent budgets — it doesn't count against a budget or show up as a finance event. You only see fees for accounts you're allowed to see: your own personal accounts, shared accounts you manage, and shared accounts you're in the audience for. Token totals still cover all of the company's work.
 
 If a subscription account records extra usage charges (overage, for example) in the range, a line under the tiles says so: *Subscription accounts also have $X in recorded usage charges for this period, separate from monthly fees.*
 
@@ -147,7 +147,7 @@ On the left is the **By agent** card. Each agent that generated inference events
 - Token breakdown: `in <input+cached> (<cached> cached) · out <output>`.
 - Run-type breakdown: `runs: N api · N sub` — how many runs went through API-priced calls versus subscription-backed calls (see [Billers](#billers) below for the distinction).
 
-Charges that don't belong to any agent — for example, a [decision model](#decisions) request made by a background feature — appear in a **Paperclip services** row.
+Charges that don't belong to any agent — for example, a [decision model](#decisions) request made by a background feature — appear in a **ThinkingMach services** row.
 
 If an agent has a per-model breakdown available, a caret appears on the left of the row. Clicking the row expands it to show one line per `provider / model / billingType` combination with its share of that agent's spend, the cost, the token count, and which biller handled the call. This is the fastest way to see "why is this particular agent spending so much" — you can immediately tell whether it's one runaway model or a healthy mix.
 
@@ -163,7 +163,7 @@ Each row shows the user, how many **Runs** they account for, **Input** and **Out
 
 ### By project
 
-To the right of the agent breakdown is the **By project** card. Paperclip attributes run costs to a project when the run was triggered by an issue that belongs to that project. Each row shows the project name and its total attributed cost. Runs that didn't happen inside a project-linked issue appear as `Unattributed`.
+To the right of the agent breakdown is the **By project** card. ThinkingMach attributes run costs to a project when the run was triggered by an issue that belongs to that project. Each row shows the project name and its total attributed cost. Runs that didn't happen inside a project-linked issue appear as `Unattributed`.
 
 ### Active budget incidents (overview)
 
@@ -176,7 +176,7 @@ At the bottom of the overview is the **Finance ledger** card — the account-lev
 - **Debits** — account-level charges in the range, with the total event count.
 - **Credits** — refunds, offsets, and credit returns.
 - **Net** — debit minus credit for the period.
-- **Estimated** — debits that are not yet invoice-authoritative (for example, a Paperclip estimate of a subscription day that hasn't been reconciled with the provider's invoice yet).
+- **Estimated** — debits that are not yet invoice-authoritative (for example, a ThinkingMach estimate of a subscription day that hasn't been reconciled with the provider's invoice yet).
 
 The individual finance events are listed in the [Finance](#finance) view.
 
@@ -202,7 +202,7 @@ Selecting **All providers** renders a grid of provider cards (two per row on wid
 
 ### Quota windows
 
-When you've connected an Anthropic or OpenAI subscription in [AI connections](../../connectors/ai-usage.md), the Anthropic and OpenAI cards also show a **Subscription quota** section. Paperclip reads each connected subscription account separately, using that account's own stored sign-in — never whatever account happens to be logged in on the machine running Paperclip. You only see the accounts you're allowed to use.
+When you've connected an Anthropic or OpenAI subscription in [AI connections](../../connectors/ai-usage.md), the Anthropic and OpenAI cards also show a **Subscription quota** section. ThinkingMach reads each connected subscription account separately, using that account's own stored sign-in — never whatever account happens to be logged in on the machine running ThinkingMach. You only see the accounts you're allowed to use.
 
 Each account appears under its name. For each usage window the provider reports (e.g. a 5-hour window, or a weekly cap), you see:
 
@@ -210,11 +210,11 @@ Each account appears under its name. For each usage window the provider reports 
 - How much of the window you've consumed. If the provider doesn't report a percentage, you get **Usage not reported** instead of a bar.
 - When the window resets, when the provider says.
 
-If a read fails for a moment — say the provider is slow — Paperclip keeps showing the last good reading with *Showing the last available quota. Updates will resume automatically.* If there's nothing to fall back on, you'll see *Subscription quota is currently unavailable. Check usage with your provider.* If the account isn't connected, or its sign-in has expired, the section reads *Connect or reconnect a subscription in AI connections to view its quota.* Any old reading is cleared rather than shown as if it were current.
+If a read fails for a moment — say the provider is slow — ThinkingMach keeps showing the last good reading with *Showing the last available quota. Updates will resume automatically.* If there's nothing to fall back on, you'll see *Subscription quota is currently unavailable. Check usage with your provider.* If the account isn't connected, or its sign-in has expired, the section reads *Connect or reconnect a subscription in AI connections to view its quota.* Any old reading is cleared rather than shown as if it were current.
 
 ### Provider window spend
 
-Underneath the quota bars, Paperclip also shows **window spend** — what the provider cost you inside each active quota window. This is how you tell the difference between "I'm at 80% of my 5-hour cap because of one burst" and "I'm at 80% and it's evenly distributed".
+Underneath the quota bars, ThinkingMach also shows **window spend** — what the provider cost you inside each active quota window. This is how you tell the difference between "I'm at 80% of my 5-hour cap because of one burst" and "I'm at 80% and it's evenly distributed".
 
 ---
 
@@ -243,7 +243,7 @@ The Biller view is how you reconcile invoices. When the Anthropic invoice lands 
 
 ### Attribution
 
-Every cost event in Paperclip is tagged with both a provider (who did the inference) and a biller (who charges you). For simple setups the two are identical, and you can largely ignore the Billers view. For more complex setups — multiple accounts with the same provider, subscription-plus-API combinations, or a centralised gateway — the Billers view is how you keep the accounting clean.
+Every cost event in ThinkingMach is tagged with both a provider (who did the inference) and a biller (who charges you). For simple setups the two are identical, and you can largely ignore the Billers view. For more complex setups — multiple accounts with the same provider, subscription-plus-API combinations, or a centralised gateway — the Billers view is how you keep the accounting clean.
 
 ---
 
@@ -260,7 +260,7 @@ At the top of the view is the **Finance ledger** card with four metric tiles:
 - **Debits** — total debited dollars in the range, plus the count of events.
 - **Credits** — refunds, offsets, and credit returns.
 - **Net** — debit minus credit for the selected period.
-- **Estimated** — debits that Paperclip has estimated but are not yet invoice-authoritative. These are the events most likely to change as invoices arrive.
+- **Estimated** — debits that ThinkingMach has estimated but are not yet invoice-authoritative. These are the events most likely to change as invoices arrive.
 
 ### By biller
 
@@ -278,34 +278,34 @@ To the right of the timeline is the **Financial event mix** card. Instead of gro
 
 ### Estimated versus actual
 
-Paperclip separates estimated debits from authoritative ones because your provider's invoice is the source of truth. Until an invoice is reconciled, Paperclip's number for a subscription day is its best guess — typically derived from the plan price divided by the billing cycle length. Once the real invoice arrives and is imported, the estimated flag flips off and the number becomes authoritative.
+ThinkingMach separates estimated debits from authoritative ones because your provider's invoice is the source of truth. Until an invoice is reconciled, ThinkingMach's number for a subscription day is its best guess — typically derived from the plan price divided by the billing cycle length. Once the real invoice arrives and is imported, the estimated flag flips off and the number becomes authoritative.
 
 The **Estimated** metric at the top tells you, at a glance, how much of your finance ledger is still provisional. A small number means most of your ledger is invoice-backed; a large number means a lot of estimated spend is waiting for reconciliation.
 
 ### Other currencies
 
-The headline debit, credit, net, and estimated totals are in US dollars. If you've recorded charges in another currency, they're listed separately with their own currency — Paperclip doesn't apply exchange rates.
+The headline debit, credit, net, and estimated totals are in US dollars. If you've recorded charges in another currency, they're listed separately with their own currency — ThinkingMach doesn't apply exchange rates.
 
 ### Provider cost reports and invoices
 
 An operator can bring in the provider's own figures through the [accounting API](../../reference/api/costs.md#accounting):
 
-- **Provider cost reports** — daily totals pulled straight from your OpenAI or Anthropic organization. These overlap with invoices and with Paperclip's own run costs, so they're never added to your recorded charges. Instead, the Finance view shows them on their own line: *Provider API cost reports: $X. Report totals overlap invoices and run estimates and are shown separately from recorded charges.* Use that line as a cross-check.
+- **Provider cost reports** — daily totals pulled straight from your OpenAI or Anthropic organization. These overlap with invoices and with ThinkingMach's own run costs, so they're never added to your recorded charges. Instead, the Finance view shows them on their own line: *Provider API cost reports: $X. Report totals overlap invoices and run estimates and are shown separately from recorded charges.* Use that line as a cross-check.
 - **Invoices** — an imported invoice adds its lines to the finance ledger and can be compared line by line with the recorded charges, so you can spot and correct any difference.
 
 ---
 
 ## Decisions
 
-Some optional Paperclip features ask a small, fast model a quick question — "is this about billing?", "which team should take this?" — instead of waking a full agent. These are **decision model** requests, and the **Decisions** view lists them so you can see what they cost. (This is different from the [Decisions queue](./decisions.md), which collects calls a *human* needs to make.)
+Some optional ThinkingMach features ask a small, fast model a quick question — "is this about billing?", "which team should take this?" — instead of waking a full agent. These are **decision model** requests, and the **Decisions** view lists them so you can see what they cost. (This is different from the [Decisions queue](./decisions.md), which collects calls a *human* needs to make.)
 
 ### Set up a decision model
 
 Each company chooses one shared API connection to pay for these requests. New companies start unconfigured. You need permission to manage AI connections to set it up.
 
 1. Open **Company Settings → General** and find the **Decision model** section. If an instance admin has turned on **Experimental fast responses**, it's at the top of **Company Settings → Connections** instead.
-2. Pick an existing shared OpenAI or OpenRouter API connection, or click **Add connection** to create one. Paperclip uses GPT-6 Luna on OpenAI and Jev 1.13 on OpenRouter. Only company-shared API keys work here — not personal accounts, subscriptions, or custom endpoints.
-3. Leave **Enable decisions** on, and decide whether to keep **Allow company-sponsored background decisions** on. It starts on when you first set the model up. With it on, background features can charge the connection without a responsible person; those requests show up as **Paperclip services**. If you turn it off, it stays off when you later change connections.
+2. Pick an existing shared OpenAI or OpenRouter API connection, or click **Add connection** to create one. ThinkingMach uses GPT-6 Luna on OpenAI and Jev 1.13 on OpenRouter. Only company-shared API keys work here — not personal accounts, subscriptions, or custom endpoints.
+3. Leave **Enable decisions** on, and decide whether to keep **Allow company-sponsored background decisions** on. It starts on when you first set the model up. With it on, background features can charge the connection without a responsible person; those requests show up as **ThinkingMach services**. If you turn it off, it stays off when you later change connections.
 4. Click **Save decision model**.
 5. Click **Run test** to send a small, fixed sample question set. It makes a real API charge. The answers appear once and aren't saved; the usage is recorded.
 
@@ -316,12 +316,12 @@ Turning **Enable decisions** off stops new requests. It doesn't cancel or erase 
 Open **Audit → Costs → Decisions**, or click **View usage** in the Decision model settings. The view uses the same date range as the rest of the Costs tab and lists the most recent requests — up to 100 — with:
 
 - **When / feature** — when it started, and which feature asked (**Setup test** for the test button).
-- **Responsible** — the person it ran for, or **Paperclip services** for a background request.
+- **Responsible** — the person it ran for, or **ThinkingMach services** for a background request.
 - **Task** — a link to the task, when there is one you can see.
 - **Model**, **Status**, **Duration**, and **Tokens in / out**.
 - **Cost** — to a fraction of a cent, labelled **Reported** or **Estimated**, or **Unknown** when no reliable price exists.
 
-Paperclip doesn't keep the questions, inputs, or answers — only the metadata above.
+ThinkingMach doesn't keep the questions, inputs, or answers — only the metadata above.
 
 Decision requests count against your budgets like any other spend: the company budget, plus the agent and project budgets of the work they ran for. If a budget blocks a request, the test reports *The company or task budget prevents this request.* A request that times out leaves its cost unresolved, with the budget hold in place, until an operator settles it through the [accounting API](../../reference/api/costs.md#correct-a-charge).
 
@@ -337,11 +337,11 @@ The **Fast responses** view on the Costs tab lists those acknowledgements in the
 
 ![Audit page on the Budgets tab, showing the Budget control plane card and budget policy cards](../../user-guides/screenshots/light/costs/budgets.png)
 
-Open **Audit** in the sidebar and click the **Budgets** tab. This is where you configure the spend ceilings that protect your company. It's a peer of the Costs tab rather than part of it, and it doesn't use the date-range selector — budgets always work on their own windows. Think of it as the control plane for hard stops — the place where you decide, in dollars, how much any given scope is allowed to spend before Paperclip pulls the emergency brake.
+Open **Audit** in the sidebar and click the **Budgets** tab. This is where you configure the spend ceilings that protect your company. It's a peer of the Costs tab rather than part of it, and it doesn't use the date-range selector — budgets always work on their own windows. Think of it as the control plane for hard stops — the place where you decide, in dollars, how much any given scope is allowed to spend before ThinkingMach pulls the emergency brake.
 
 ### Budget Levels
 
-Paperclip operates two levels of budget protection that work together:
+ThinkingMach operates two levels of budget protection that work together:
 
 **Organization budget** — the total monthly ceiling for your entire company. All agents combined cannot spend more than this. Set it conservatively when starting out.
 
@@ -349,7 +349,7 @@ Paperclip operates two levels of budget protection that work together:
 
 A third scope, **project budget**, acts as a lifetime cap on an execution-bound project — useful for one-off work where you want to say "this project can never cost more than $200" regardless of the month. You set it from the project's own **Budget** tab.
 
-All budgets are displayed in dollars in the Paperclip UI.
+All budgets are displayed in dollars in the ThinkingMach UI.
 
 ### Budget control plane
 
@@ -364,7 +364,7 @@ If all four show zero, your budget posture is clean.
 
 ### What Happens When Limits Are Hit
 
-Paperclip enforces budgets automatically, in two stages:
+ThinkingMach enforces budgets automatically, in two stages:
 
 ```
 $0 ─────────────────────── 80% ──────── 100%
@@ -372,7 +372,7 @@ $0 ─────────────────────── 80% ─
                           Warning        Auto-paused
 ```
 
-**At 80%:** Paperclip records a warning so you can intervene before the hard stop. The warning doesn't pause the agent. In v2026.1023.0, though, its incident card still uses the hard-stop design: it offers **Keep paused** and **Raise budget & resume**, and says the scope is paused. The screenshots show the corrected amber warning card from [the fix](https://github.com/paperclipai/paperclip/pull/16201), which ships in a later release. Until then, trust the policy card's **Warning** badge: the warning itself doesn't pause the agent.
+**At 80%:** ThinkingMach records a warning so you can intervene before the hard stop. The warning doesn't pause the agent. In v2026.1023.0, though, its incident card still uses the hard-stop design: it offers **Keep paused** and **Raise budget & resume**, and says the scope is paused. The screenshots show the corrected amber warning card from [the fix](https://github.com/thinkingmach/paperclip/pull/16201), which ships in a later release. Until then, trust the policy card's **Warning** badge: the warning itself doesn't pause the agent.
 
 **At 100%:** The agent is automatically paused. No further heartbeats are triggered. The agent stops all activity until either you increase its budget or the calendar month resets.
 
@@ -380,10 +380,10 @@ An auto-paused agent doesn't lose its work — any tasks it had in progress rema
 
 ### When spend is uncertain
 
-A hard stop is only as good as the number behind it. So if a scope's spend can't be trusted yet, Paperclip holds new work for that scope even before it reaches 100%:
+A hard stop is only as good as the number behind it. So if a scope's spend can't be trusted yet, ThinkingMach holds new work for that scope even before it reaches 100%:
 
 - **A finished run is still waiting for its cost to be recorded.** New work waits until it's counted. This usually clears on its own within moments.
-- **There's unpriced usage in the budget window.** By default the scope stays blocked, because Paperclip can't tell how close to the limit you really are.
+- **There's unpriced usage in the budget window.** By default the scope stays blocked, because ThinkingMach can't tell how close to the limit you really are.
 
 The policy card explains which one is happening — for example *"2 completed runs await accounting."* or *"3 usage events are unpriced. Known spend excludes their unknown cost."*
 
@@ -417,7 +417,7 @@ Each policy card shows:
 - A **Budget (USD)** field with a **Set budget** or **Update budget** button. Setting the budget to `0` turns the policy off.
 - An **Advanced settings** section with two controls:
   - **Block new work when usage has no reliable price** — on by default. See [When spend is uncertain](#when-spend-is-uncertain).
-  - **Reserve per run (USD)** — an estimate Paperclip sets aside from the budget before each run starts, saved with **Update reservation**. It stops a burst of runs from all starting at once and together blowing past the cap. Zero (the default) turns it off. Each unfinished run holds its reservation. If what's held would push the scope over its cap, new runs wait until earlier ones finish. A reservation only controls when work can start — a run's real charge can still come in higher.
+  - **Reserve per run (USD)** — an estimate ThinkingMach sets aside from the budget before each run starts, saved with **Update reservation**. It stops a burst of runs from all starting at once and together blowing past the cap. Zero (the default) turns it off. Each unfinished run holds its reservation. If what's held would push the scope over its cap, new runs wait until earlier ones finish. A reservation only controls when work can start — a run's real charge can still come in higher.
 
 If no policies exist yet, a single empty-state card says so: "No budget policies yet. Set agent and project budgets from their detail pages, or use the existing organization monthly budget control." In practice, here's where each kind of policy starts:
 
@@ -514,7 +514,7 @@ For reference, here's what an agent's policy card on **Audit → Budgets** looks
 
 The **Month Spend** card on the dashboard shows what the company has spent this month and how that compares with the company budget (for example, `62% of $100.00 budget`). If any budget has been breached, a red banner above the cards counts the active incidents and paused agents.
 
-Check the card whenever you open Paperclip. Click it to jump to the Costs tab under Audit, where the **Overview** breaks spend down by agent and by project:
+Check the card whenever you open ThinkingMach. Click it to jump to the Costs tab under Audit, where the **Overview** breaks spend down by agent and by project:
 
 ![Overview on the Audit Costs tab, showing the date-range presets, the headline metric tiles, and the By agent breakdown](../../user-guides/screenshots/light/costs/costs-dashboard-overview.png)
 

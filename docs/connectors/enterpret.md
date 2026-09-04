@@ -27,16 +27,16 @@ Customer feedback often contains names, accounts, and other personal details. De
 2. Read the access line above the main button. It says who the connection signs in as and which agents can use it. Select **Change** to narrow the agents or to switch the method.
 3. Pick how to connect:
    - **Use an auth token** — paste the token into the **Your Enterpret key** field. This is the default method.
-   - **Sign in with Enterpret** — complete browser sign-in. Paperclip registers its client automatically, so there is nothing to set up in a developer console. This method connects your own account only.
+   - **Sign in with Enterpret** — complete browser sign-in. ThinkingMach registers its client automatically, so there is nothing to set up in a developer console. This method connects your own account only.
 4. Finish setup and open **Permissions** to check the action list.
 
-Paperclip stores the token as a secret and sends it to Enterpret on each call. Agents never see it.
+ThinkingMach stores the token as a secret and sends it to Enterpret on each call. Agents never see it.
 
 ## Choose access
 
 Almost every Enterpret action reads, and those start as **Allowed**. One does not:
 
-- **`run_graph_query` starts as Ask first.** It runs a graph query written by the agent. Enterpret labels it read-only, but Paperclip has not established that, so it treats the action as a write and asks a person before each call. Leave it there unless you are comfortable approving open-ended queries in bulk.
+- **`run_graph_query` starts as Ask first.** It runs a graph query written by the agent. Enterpret labels it read-only, but ThinkingMach has not established that, so it treats the action as a write and asks a person before each call. Leave it there unless you are comfortable approving open-ended queries in bulk.
 
 Two more things are worth knowing:
 
@@ -59,7 +59,7 @@ Open the cited records in Enterpret and confirm the quotes match.
 
 An auth token has an expiry date. Check it in Enterpret under **Settings → Enterpret MCP** and replace the token before it lapses: create a new one, then reconnect with it. See [Reauthorize, revoke, or disconnect](reauthorize-and-disconnect.md).
 
-For browser sign-in, revoking access in Enterpret may not take effect straight away — Enterpret can keep treating the token as valid for up to 24 hours. To stop Paperclip's access immediately, disconnect the connection in Paperclip.
+For browser sign-in, revoking access in Enterpret may not take effect straight away — Enterpret can keep treating the token as valid for up to 24 hours. To stop ThinkingMach's access immediately, disconnect the connection in ThinkingMach.
 
 ## Troubleshooting and limitations
 
@@ -68,7 +68,7 @@ For browser sign-in, revoking access in Enterpret may not take effect straight a
 | The token is rejected | It expired, was revoked, or was copied incompletely | Generate a new token under **Settings → Enterpret MCP** and reconnect |
 | Answers come from the wrong organization | The token belongs to a different Enterpret organization | Reconnect with a token from the right organization |
 | An agent is waiting on `run_graph_query` | It is on **Ask first** by default | Approve or decline the request — see [Answer a connector review request](review-requests.md) |
-| Sign-in shows more scopes than expected | Enterpret has reported broader scopes, including `mcp:write` and `email`, than Paperclip requests | Paperclip asks only for `mcp:read`; Enterpret is correcting the report. It does not grant this connector write actions |
+| Sign-in shows more scopes than expected | Enterpret has reported broader scopes, including `mcp:write` and `email`, than ThinkingMach requests | ThinkingMach asks only for `mcp:read`; Enterpret is correcting the report. It does not grant this connector write actions |
 | A new action does not appear as allowed | Actions Enterpret adds later are held for review | Select **Refresh actions** and review the new entries |
 | **Needs attention** | The token expired or the sign-in was revoked | Select **Reconnect** |
 
@@ -84,5 +84,5 @@ Limitations: one Enterpret organization per token connection. Browser sign-in is
 
 ## Sources
 
-- [Enterpret definition](https://github.com/paperclipai/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions/enterpret.json) — methods, labels, credential field, scopes, and warnings.
-- [App defaults](https://github.com/paperclipai/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions.ts) and [tool connection service](https://github.com/paperclipai/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/server/src/services/tool-access.ts) — Ask-first default for `run_graph_query` and held-back new actions.
+- [Enterpret definition](https://github.com/thinkingmach/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions/enterpret.json) — methods, labels, credential field, scopes, and warnings.
+- [App defaults](https://github.com/thinkingmach/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions.ts) and [tool connection service](https://github.com/thinkingmach/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/server/src/services/tool-access.ts) — Ask-first default for `run_graph_query` and held-back new actions.

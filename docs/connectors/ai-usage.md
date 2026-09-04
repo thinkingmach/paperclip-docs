@@ -6,7 +6,7 @@ seo_description: Read provider-reported allowances for Claude, OpenAI, Grok, and
 
 # Check AI account usage
 
-Before giving an agent a long task, check the allowance on the account it will use. Paperclip shows what the provider reports when you ask; it does not estimate a subscription balance from your task costs.
+Before giving an agent a long task, check the allowance on the account it will use. ThinkingMach shows what the provider reports when you ask; it does not estimate a subscription balance from your task costs.
 
 Usage checks and AI connection setup do not require an experimental setting.
 
@@ -34,17 +34,17 @@ Missing fields show **Not reported**, never zero. Grok may omit included-plan us
 
 **Overage** describes the provider's extra-usage state. **On · Availability unknown** means enabling overage alone has not established a funded usable balance. The observation timestamp tells you when the response was read.
 
-Checking usage does not refresh your credential, buy credit, change the account selected for a task, or stop an active run. It is a provider observation, separate from Paperclip budgets and per-run cost accounting.
+Checking usage does not refresh your credential, buy credit, change the account selected for a task, or stop an active run. It is a provider observation, separate from ThinkingMach budgets and per-run cost accounting.
 
 ## See quota on the Costs page
 
-The **Providers** tab on the [Costs page](../guides/day-to-day/costs.md#quota-windows) also shows a **Subscription quota** section for Anthropic and OpenAI subscription accounts. It lists each connected subscription account you're allowed to use, under its own name, and reads it with that account's stored credential — not a CLI login on the machine running Paperclip. Unlike **Check usage**, it refreshes on its own every few minutes while you're on the Providers tab.
+The **Providers** tab on the [Costs page](../guides/day-to-day/costs.md#quota-windows) also shows a **Subscription quota** section for Anthropic and OpenAI subscription accounts. It lists each connected subscription account you're allowed to use, under its own name, and reads it with that account's stored credential — not a CLI login on the machine running ThinkingMach. Unlike **Check usage**, it refreshes on its own every few minutes while you're on the Providers tab.
 
 If a refresh fails briefly, the last good reading stays on screen. If the account needs to be connected or reconnected, the reading is cleared and the section asks you to reconnect it here in AI connections.
 
 ## See what a subscription costs per month
 
-Usage checks tell you how much allowance is left; they don't tell you what the plan costs. For that, use the **Subscriptions** tile at the top of the [Costs page](../guides/day-to-day/costs.md#subscriptions). It lists the monthly fee for each subscription account your agents use, counts a shared seat once, and lets you enter the real price when Paperclip can only estimate it — or can't tell at all.
+Usage checks tell you how much allowance is left; they don't tell you what the plan costs. For that, use the **Subscriptions** tile at the top of the [Costs page](../guides/day-to-day/costs.md#subscriptions). It lists the monthly fee for each subscription account your agents use, counts a shared seat once, and lets you enter the real price when ThinkingMach can only estimate it — or can't tell at all.
 
 ## Repair sign-in from a task
 

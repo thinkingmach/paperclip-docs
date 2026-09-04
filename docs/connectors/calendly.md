@@ -15,7 +15,7 @@ Scheduling actions reach real people. A booking lands in someone's calendar and 
 ## Before you connect
 
 - A Calendly account. The connection works with whatever event types and calendars that account can reach.
-- A Paperclip address Calendly can send you back to after sign-in: an HTTPS address, or a local `http://` loopback address when you run Paperclip on your own machine.
+- A ThinkingMach address Calendly can send you back to after sign-in: an HTTPS address, or a local `http://` loopback address when you run ThinkingMach on your own machine.
 
 There is no API key option. Calendly's hosted server only accepts browser sign-in with an automatically registered client, so personal access tokens and hand-made OAuth clients do not work here.
 
@@ -25,11 +25,11 @@ There is no API key option. Calendly's hosted server only accepts browser sign-i
 2. Read the access line above the main button. It says who the connection belongs to and which agents can use it. To pick a different identity or narrow the agents, select **Change**.
 3. Select **Continue to Calendly** and approve access in Calendly's own consent screen.
 
-Paperclip registers its client with Calendly automatically, so there is nothing to set up in a developer console.
+ThinkingMach registers its client with Calendly automatically, so there is nothing to set up in a developer console.
 
 ## Choose access
 
-Paperclip asks Calendly for two scopes: `mcp:scheduling:read` and `mcp:scheduling:write`. Calendly offers them together as full access, which means the connection can do more than read even if you only want an agent to check availability.
+ThinkingMach asks Calendly for two scopes: `mcp:scheduling:read` and `mcp:scheduling:write`. Calendly offers them together as full access, which means the connection can do more than read even if you only want an agent to check availability.
 
 New connections start with every action **Allowed** for all agents. Before you hand this to an agent, open the **Permissions** tab and look at what Calendly actually published:
 
@@ -57,7 +57,7 @@ Compare the list with your Calendly dashboard. A matching list confirms the sign
 
 | Problem | Likely cause | Fix |
 | --- | --- | --- |
-| Sign-in fails or returns an error | Calendly could not reach the callback address, or the first registration attempt was refused | Make sure Paperclip is reached over HTTPS (or local loopback), then try signing in again |
+| Sign-in fails or returns an error | Calendly could not reach the callback address, or the first registration attempt was refused | Make sure ThinkingMach is reached over HTTPS (or local loopback), then try signing in again |
 | An event type is missing | It belongs to a different Calendly account or user | Connect with the account that owns it |
 | Times look off by hours | The agent used the wrong timezone | Ask it to state the timezone it is using before it proposes times |
 | An agent booked a meeting unexpectedly | A scheduling write was **Allowed** | Set booking actions to **Ask first** or **Off**, and cancel the booking in Calendly |
@@ -74,5 +74,5 @@ Limitations: one Calendly account per connection, and browser sign-in is the onl
 
 ## Sources
 
-- [Calendly definition](https://github.com/paperclipai/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions/calendly.json) — method, scopes, guidance, and warnings.
-- [Default action policy](https://github.com/paperclipai/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions.ts) — new connections reach all agents with actions Allowed.
+- [Calendly definition](https://github.com/thinkingmach/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions/calendly.json) — method, scopes, guidance, and warnings.
+- [Default action policy](https://github.com/thinkingmach/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions.ts) — new connections reach all agents with actions Allowed.

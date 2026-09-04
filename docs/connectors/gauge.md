@@ -20,8 +20,8 @@ Agents can work with your Gauge organization — checking how AI answer engines 
 1. Open **Connectors** and select **Gauge**.
 2. Read the access line above the main button. It says who the connection belongs to and which agents can use it. To pick a different identity, narrow the agents, or switch method, select **Change**.
 3. Choose a method:
-   - **Sign in with Gauge** — complete browser sign-in and choose the organization on Gauge's consent screen. Paperclip registers its client automatically, so there is nothing to set up in a developer console.
-   - **Use an API key** — in Gauge, open **Settings → Integrations → API Keys**, generate a key for Paperclip, and paste it into the **Your Gauge key** field.
+   - **Sign in with Gauge** — complete browser sign-in and choose the organization on Gauge's consent screen. ThinkingMach registers its client automatically, so there is nothing to set up in a developer console.
+   - **Use an API key** — in Gauge, open **Settings → Integrations → API Keys**, generate a key for ThinkingMach, and paste it into the **Your Gauge key** field.
 
 Both methods give the same **Read and write** capability: read AI visibility, SEO and traffic data, and run content workflows.
 
@@ -33,7 +33,7 @@ An API key works differently, and it is worth knowing before you pick it:
 
 - Gauge API keys are not scoped. A key reaches every tool in the organization that created it, including publishing.
 - Requests made with a key are attributed to the organization, not to a person.
-- Paperclip cannot narrow an existing key. Generate a separate key just for Paperclip so you can delete it on its own.
+- ThinkingMach cannot narrow an existing key. Generate a separate key just for ThinkingMach so you can delete it on its own.
 
 Write tools start enabled, so the action list on the **Permissions** tab is where you decide what agents may do. Reading visibility and keyword reports is low risk. Anything that publishes content should be **Ask first** at the very least, so a person sees each publish before it reaches your site. See [Set action permissions](action-permissions.md).
 
@@ -67,5 +67,5 @@ Limitations: one Gauge organization per connection. API keys cannot be narrowed.
 
 ## Sources
 
-- [Gauge definition](https://github.com/paperclipai/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions/gauge.json) — methods, scope, key field, capability, and warnings.
-- [Gallery copy](https://github.com/paperclipai/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/ui/src/lib/app-gallery-copy.ts) — catalog card text.
+- [Gauge definition](https://github.com/thinkingmach/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions/gauge.json) — methods, scope, key field, capability, and warnings.
+- [Gallery copy](https://github.com/thinkingmach/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/ui/src/lib/app-gallery-copy.ts) — catalog card text.

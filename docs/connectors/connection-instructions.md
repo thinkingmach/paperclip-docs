@@ -31,7 +31,7 @@ Open the agent's instructions and look for **From connections**. This read-only 
 
 The actual guidance depends on the task. The connection must be available to that agent and responsible person, with a current credential grant and at least one accessible tool. A tool requiring approval can still make the guidance available. Revoked access, disabled tools, or missing required connection configuration can withhold it.
 
-Edits apply to subsequent turns. A turn already running keeps the guidance it started with; Paperclip replaces an incompatible session when the saved guidance changes.
+Edits apply to subsequent turns. A turn already running keeps the guidance it started with; ThinkingMach replaces an incompatible session when the saved guidance changes.
 
 ## Write useful instructions
 
@@ -58,7 +58,7 @@ Saved instructions are a general connection capability. Custom and non-memory co
 }
 ```
 
-The current editor appears only for connections with explicit template metadata. It is not a universal text box on every custom server. Paperclip does not automatically trust a remote MCP server's initialization prose as connection instructions.
+The current editor appears only for connections with explicit template metadata. It is not a universal text box on every custom server. ThinkingMach does not automatically trust a remote MCP server's initialization prose as connection instructions.
 
 For a custom HTTP or process adapter, deliver the server-provided instruction snapshot alongside the agent's normal prompt and treat a changed snapshot as a session change. The [HTTP adapter](../reference/adapters/http.md#connection-instructions) and [Process adapter](../reference/adapters/process.md#connection-instructions) references describe exactly how the snapshot arrives.
 
@@ -71,6 +71,6 @@ For a custom HTTP or process adapter, deliver the server-provided instruction sn
 
 ## Sources
 
-- [Settings contract](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/packages/shared/src/connection-instructions.ts) — fields, text limit, defaults, and public configuration.
-- [Editor and agent view](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/features/connections/ConnectionInstructions.tsx) — labels, saving, reset, and notices.
-- [Authorized delivery](https://github.com/paperclipai/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/server/src/services/connection-instructions.ts) — task-dependent availability and instruction snapshots.
+- [Settings contract](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/packages/shared/src/connection-instructions.ts) — fields, text limit, defaults, and public configuration.
+- [Editor and agent view](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/ui/src/features/connections/ConnectionInstructions.tsx) — labels, saving, reset, and notices.
+- [Authorized delivery](https://github.com/thinkingmach/paperclip/blob/bba6a45f0d364cfd962ac59b3bdf2426a8222adb/server/src/services/connection-instructions.ts) — task-dependent availability and instruction snapshots.

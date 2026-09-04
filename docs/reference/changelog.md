@@ -1,14 +1,14 @@
 ---
 paperclip_version: v2026.1023.0
 seo_title: Documentation Changelog
-seo_description: What changed in these docs — pages added, rewritten, or expanded — with every documentation update. For product releases, see the Paperclip changelog.
+seo_description: What changed in these docs — pages added, rewritten, or expanded — with every documentation update. For product releases, see the ThinkingMach changelog.
 ---
 
 # Documentation Changelog
 
-What changed in **these docs** — pages added, rewritten, or expanded — with each documentation update. This is a changelog for the documentation itself, not for Paperclip the product.
+What changed in **these docs** — pages added, rewritten, or expanded — with each documentation update. This is a changelog for the documentation itself, not for ThinkingMach the product.
 
-The docs track Paperclip's [calendar-versioned](https://github.com/paperclipai/paperclip/releases) releases (`YYYY.MDD.P`), so each entry is tagged with the Paperclip release the docs were brought in line with. For the product's own release notes — the actual feature and fix history — see the [Paperclip releases page](https://github.com/paperclipai/paperclip/releases). To update your install, see [Update Paperclip](../how-to/update-paperclip.md).
+The docs track ThinkingMach's [calendar-versioned](https://github.com/thinkingmach/paperclip/releases) releases (`YYYY.MDD.P`), so each entry is tagged with the ThinkingMach release the docs were brought in line with. For the product's own release notes — the actual feature and fix history — see the [ThinkingMach releases page](https://github.com/thinkingmach/paperclip/releases). To update your install, see [Update ThinkingMach](../how-to/update-paperclip.md).
 
 ---
 
@@ -26,7 +26,7 @@ This release is about control over who sees what and what it costs. Tasks and pr
 - [External agents: OpenAI Dot](../experimental/external-agents.md) — invite your Dot from ChatGPT in as an agent with a pairing code. It keeps its own model, apps and memory.
 - [Agent cryptographic identity](../guides/org/agent-identity.md) — every agent gets a persistent Ed25519 keypair, so you can recognize its signatures across runs, renames and restarts.
 - [Agent complaints and suggestions](../administration/agent-commentary.md) — what agents can report about their tools and workflow, and where to read it.
-- [Runtime Commands](cli/runtime.md) — prepare a host to run Cursor or Pi on Paperclip Runner with `paperclipai runtime setup`.
+- [Runtime Commands](cli/runtime.md) — prepare a host to run Cursor or Pi on ThinkingMach Runner with `thinkingmach runtime setup`.
 - New connector guides: [Bitly](../connectors/bitly.md), [Calendly](../connectors/calendly.md), [Context7](../connectors/context7.md), [Enterpret](../connectors/enterpret.md), [Exa](../connectors/exa.md), [Firecrawl](../connectors/firecrawl.md), [Gauge](../connectors/gauge.md), [GSC Wizard](../connectors/gsc-wizard.md), [Make](../connectors/make.md), [Parallel Search](../connectors/parallel-search.md), [Superagent](../connectors/superagent.md), [Tavily](../connectors/tavily.md), [Telem.AI](../connectors/telem.md) and [Windsor.ai](../connectors/windsor-ai.md).
 
 **Updated pages**
@@ -37,7 +37,7 @@ This release is about control over who sees what and what it costs. Tasks and pr
 - [Agents](../guides/org/agents.md) — the setup checks a new agent passes before it starts work, your personal primary agent, and the agent's cryptographic identity.
 - [Slack](../connectors/slack.md) — automatic bot setup and install, the **Require at-mention** setting, and how people connect their own Slack accounts.
 - [Set up a review bot](../connectors/github-review-bot-setup.md), [Understanding review bots](../connectors/understanding-github-review-bots.md), [GitHub setup](../connectors/github-setup.md) and [GitHub](../connectors/github.md) — the simpler dedicated GitHub App setup.
-- [Paperclip Runner](adapters/paperclip-runner.md), [Cursor](adapters/cursor-local.md), [Codex](adapters/codex.md), [Pi](adapters/pi.md) and [Adapters overview](adapters/overview.md) — Cursor and Pi qualify on the Runner, the experimental OpenAI Dot provider, the Codex CLI version floor, and the **Harness** picker.
+- [ThinkingMach Runner](adapters/paperclip-runner.md), [Cursor](adapters/cursor-local.md), [Codex](adapters/codex.md), [Pi](adapters/pi.md) and [Adapters overview](adapters/overview.md) — Cursor and Pi qualify on the Runner, the experimental OpenAI Dot provider, the Codex CLI version floor, and the **Harness** picker.
 - [Assistant connections](../experimental/assistant-connections.md) and [Assistant MCP API](api/assistant-mcp.md) — more direct tools for work and configuration, plus the `paperclip:configure` scope.
 - [Artifacts](../guides/day-to-day/artifacts.md) — CSV files open as tables, and HTML reports open rendered in a locked-down sandbox.
 - [Plugin SDK](plugins/sdk.md) and [Plugins](../administration/plugins.md) — the agent lifecycle contract for plugin setup and status, idle drain before sleep, workspace acquisition and sync diagnostics, and how plugin items behave when the server can't be reached.
@@ -51,7 +51,7 @@ This release is about control over who sees what and what it costs. Tasks and pr
 <summary>Docs for v2026.1012.0 <span class="accordion-meta">October 12, 2026</span></summary>
 <div class="accordion-body">
 
-This release lets outside assistants join your team. Claude Code, Codex, OpenCode and other MCP clients can now sign in to Paperclip as you, then read, create and delegate work. Connections can also carry instructions that reach your agents automatically. The release has two breaking changes that operators should read before upgrading: workspace restore locks now use a new protocol, and stored tool grants are enforced exactly as written.
+This release lets outside assistants join your team. Claude Code, Codex, OpenCode and other MCP clients can now sign in to ThinkingMach as you, then read, create and delegate work. Connections can also carry instructions that reach your agents automatically. The release has two breaking changes that operators should read before upgrading: workspace restore locks now use a new protocol, and stored tool grants are enforced exactly as written.
 
 **New pages**
 
@@ -63,21 +63,21 @@ This release lets outside assistants join your team. Claude Code, Codex, OpenCod
 
 **Updated pages**
 
-- [Update Paperclip](../how-to/update-paperclip.md) — the restore-lock breaking change: stop every old server and worker before you upgrade or roll back, and clear away the legacy lock folders. Also: which migration in this release changes existing rows.
+- [Update ThinkingMach](../how-to/update-paperclip.md) — the restore-lock breaking change: stop every old server and worker before you upgrade or roll back, and clear away the legacy lock folders. Also: which migration in this release changes existing rows.
 - [Tool Gateway API](api/tool-gateway.md) and [Access model](../connectors/access-model.md) — stored grants are now enforced as written, and a grant with an unknown selector denies access. Check your custom grants after upgrading.
-- [HTTP adapter](adapters/http.md), [Process adapter](adapters/process.md) and [Creating an adapter](adapters/creating-an-adapter.md) — how custom adapters receive connection instructions, through `connectionInstructions` or `PAPERCLIP_CONNECTION_INSTRUCTIONS_FILE`.
+- [HTTP adapter](adapters/http.md), [Process adapter](adapters/process.md) and [Creating an adapter](adapters/creating-an-adapter.md) — how custom adapters receive connection instructions, through `connectionInstructions` or `THINKINGMACH_CONNECTION_INSTRUCTIONS_FILE`.
 - [Agents](../guides/org/agents.md), [Agents API](api/agents.md), [Delegation](../guides/org/delegation.md) and [Team catalog](../guides/org/team-catalog.md) — much shorter default instructions for new companies and hires, and the default configuration grants new agents now receive.
 - [Skills](../guides/org/skills.md), [Skills Reference](skills.md) and [Write a company skill](../how-to/write-a-company-skill.md) — agents can update company skills with the `update_skill` tool, which uses version checks and safe retries.
 - [MCP aggregators](../connectors/mcp-aggregators.md), [Composio](../connectors/composio.md), [Arcade](../connectors/arcade.md) and the [connector catalog](../connectors.md) — accounts you already connected upstream show up in one Apps catalog, grouped with your native accounts. AgentMail is now a default connection, and [Asana](../connectors/asana.md) signs in again.
 - [Agent Chat](../experimental/agent-chat.md), [Chat-Style Tasks](../experimental/task-chat.md) and [Issues](../guides/day-to-day/issues.md) — Chat leads the navigation, an optional combined Inbox and task list, the rebuilt **New task** dialog, and the "Model at capacity" and "Model unavailable" recovery cards.
-- [Claude Code](adapters/claude-code.md), [Codex](adapters/codex.md), [OpenCode](adapters/opencode.md), [Paperclip Runner](adapters/paperclip-runner.md) and [Agent adapters](../guides/org/agent-adapters.md) — Claude Sonnet 5.5, GPT-6.1 Sol, refreshed harness pins, the supported range for remote Codex, and Codex runs that survive server restarts.
+- [Claude Code](adapters/claude-code.md), [Codex](adapters/codex.md), [OpenCode](adapters/opencode.md), [ThinkingMach Runner](adapters/paperclip-runner.md) and [Agent adapters](../guides/org/agent-adapters.md) — Claude Sonnet 5.5, GPT-6.1 Sol, refreshed harness pins, the supported range for remote Codex, and Codex runs that survive server restarts.
 - [Anthropic](../connectors/anthropic.md), [OpenAI](../connectors/openai.md), [xAI](../connectors/xai.md) and [OpenRouter](../connectors/openrouter.md) — reconnect an unavailable account in place from agent settings, and check usage.
 - [Trust & Low-Trust Review](../administration/trust-and-low-trust-review.md) — low-trust agents can take self-assigned work inside their scope, accept work from a person who messages them or assigns them a task directly, and update their own `AGENTS.md` when you ask from their chat.
 - Smaller updates: [Settings](../administration/settings.md), [Experimental overview](../experimental/overview.md), [Task watchdogs](../guides/projects-workflow/task-watchdogs.md) (the new 5- and 15-minute silence thresholds), [Docker](deploy/docker.md), [Sandbox Providers](adapters/sandbox-providers.md) (exe.dev **Source VM**), [Plugin SDK](plugins/sdk.md) (AI connection routers), [Artifacts](../guides/day-to-day/artifacts.md), [Work Modes](../guides/day-to-day/work-modes.md), the memory connector guides, and [Verify and troubleshoot](../connectors/verify-and-troubleshoot.md).
 
 **Screenshots and interface refresh**
 
-Every screenshot was recaptured from Paperclip v2026.1012.0, in light and dark. Some screens moved in this release, so the guides that show them were updated to match:
+Every screenshot was recaptured from ThinkingMach v2026.1012.0, in light and dark. Some screens moved in this release, so the guides that show them were updated to match:
 
 - [Costs and Budgets](../guides/day-to-day/costs.md), [Activity Log](../guides/day-to-day/activity-log.md), [Work Timeline](../guides/day-to-day/work-timeline.md) and [Set a monthly budget](../how-to/set-monthly-budget.md): costs, budgets, runs and the timeline now live under **Audit**. Set agent budgets from the CLI or API, and project budgets from the project's **Budget** tab.
 - [Agents](../guides/org/agents.md), [Your first agent](../guides/getting-started/your-first-agent.md), [Watching agents work](../guides/getting-started/watching-agents-work.md) and [Org Structure](../guides/org/org-structure.md): the agent page's side menu, including **Overview** and **Harness / Runtime**. Also the two-step **New agent** dialog, **Run now**, and the org chart as a view on the Agents page.
@@ -98,7 +98,7 @@ This release lets agents carry more with them: their own files that persist acro
 - [Browser Use Cloud](../connectors/browser-use-cloud.md) — give agents a governed browser, follow along from the task's browser tabs, take over the page yourself, and see what each session cost.
 - [Memory connectors](../connectors/memory-connectors.md), with guides for [Cognee](../connectors/cognee.md), [Honcho](../connectors/honcho.md), [Supermemory](../connectors/supermemory.md), and [Zep](../connectors/zep.md) — five experimental long-term memory providers behind the default-off **Memory connectors** setting, and how to choose between them.
 - [Agent Chat](../experimental/agent-chat.md) — one ongoing conversation per agent, with its own sidebar and landing page, tasks that report back to the chat when they finish, and approvals you can answer in the conversation.
-- [Paperclip Runner](adapters/paperclip-runner.md) — the native runner: which providers it runs, Grok Build included, its permission modes, and the governed `search_api` and `call_api` tools it now enables by default.
+- [ThinkingMach Runner](adapters/paperclip-runner.md) — the native runner: which providers it runs, Grok Build included, its permission modes, and the governed `search_api` and `call_api` tools it now enables by default.
 
 **Updated pages**
 
@@ -108,10 +108,10 @@ This release lets agents carry more with them: their own files that persist acro
 - [Your first connector](../connectors/first-connector.md) and the connector guides — setup is now one screen. It states who the connection signs in as and which agents can use it, and **Change** adjusts either. The MCP aggregators ([Zapier](../connectors/zapier.md), [Arcade](../connectors/arcade.md), [Composio](../connectors/composio.md), [Executor](../connectors/executor.md)) no longer need an experimental setting.
 - [Slack](../connectors/slack.md) and [Wire Slack and Discord notifications](../how-to/wire-slack-discord-notifications.md) — replies you post on the board reach the Slack thread. Agents also get their Slack tools during ordinary tasks and routines.
 - [GitHub](../connectors/github.md), [Linear](../connectors/linear.md), [Hugging Face](../connectors/hugging-face.md), and the Google connector guides — the GitHub Code Review Bot gets its own card, Linear gets browser sign-in, and Hugging Face's scopes are corrected. The Google guides cover the smaller scopes Google connectors now request, and that those connectors are temporarily hidden from the Connections page.
-- [Settings](../administration/settings.md), [Command Palette](../guides/day-to-day/command-palette.md), and [Instance Admin API](api/instance-admin.md) — keyboard shortcuts are always on, and the instance toggle, profile preference, and `/api/auth/preferences` routes are gone. `PAPERCLIP_HIDDEN_SETTINGS` also accepts a wildcard with named exceptions.
+- [Settings](../administration/settings.md), [Command Palette](../guides/day-to-day/command-palette.md), and [Instance Admin API](api/instance-admin.md) — keyboard shortcuts are always on, and the instance toggle, profile preference, and `/api/auth/preferences` routes are gone. `THINKINGMACH_HIDDEN_SETTINGS` also accepts a wildcard with named exceptions.
 - [Artifacts](../guides/day-to-day/artifacts.md), [Chat-Style Tasks](../experimental/task-chat.md), and [Work Modes](../guides/day-to-day/work-modes.md) — rich artifact cards with previews, the per-message model and effort picker, and Markdown and text attachments that open in task tabs.
-- [Grok](adapters/grok-local.md), [Claude Code](adapters/claude-code.md), [Codex](adapters/codex.md), [OpenCode](adapters/opencode.md), and the other adapter pages — Grok Build on Paperclip Runner, refreshed model catalogs and harness pins, and `CODEX_API_KEY` for Codex's ACP engine.
-- [Environment Variables](deploy/environment-variables.md) — Runner API tool and capture limits, workspace snapshot timeouts, and the corrected `PAPERCLIP_CLOUD_CONNECTOR_*` names.
+- [Grok](adapters/grok-local.md), [Claude Code](adapters/claude-code.md), [Codex](adapters/codex.md), [OpenCode](adapters/opencode.md), and the other adapter pages — Grok Build on ThinkingMach Runner, refreshed model catalogs and harness pins, and `CODEX_API_KEY` for Codex's ACP engine.
+- [Environment Variables](deploy/environment-variables.md) — Runner API tool and capture limits, workspace snapshot timeouts, and the corrected `THINKINGMACH_CLOUD_CONNECTOR_*` names.
 - Smaller updates: [Trust & Low-Trust Review](../administration/trust-and-low-trust-review.md), [Members & Access](../guides/org/members-and-access.md), [Routines](../guides/projects-workflow/routines.md), [Sandbox Providers](adapters/sandbox-providers.md), [Plugin SDK](plugins/sdk.md), [Connection Intents API](api/connection-intents.md), [Company Skill Policy](api/company-skill-policy.md), and [The connections Command](cli/connections.md).
 
 </div>
@@ -125,7 +125,7 @@ This release brings agent characters, a rebuilt Slack setup, safe routine webhoo
 
 **New pages**
 
-- [Connect apps through an MCP aggregator](../connectors/mcp-aggregators.md) — reach many apps through Arcade, Composio, Executor, or Zapier: how to turn the experimental setting on, which provider to pick, and what Paperclip governs versus what the aggregator governs.
+- [Connect apps through an MCP aggregator](../connectors/mcp-aggregators.md) — reach many apps through Arcade, Composio, Executor, or Zapier: how to turn the experimental setting on, which provider to pick, and what ThinkingMach governs versus what the aggregator governs.
 - Connector guides published since v2026.916.1: [Arcade](../connectors/arcade.md), [Composio](../connectors/composio.md), [Executor](../connectors/executor.md), [Fireflies](../connectors/fireflies.md), [Railway](../connectors/railway.md), and [You.com](../connectors/youcom.md).
 
 **Updated pages**
@@ -135,7 +135,7 @@ This release brings agent characters, a rebuilt Slack setup, safe routine webhoo
 - [Slack](../connectors/slack.md) — the seven-step setup wizard, linking your Slack account, communication guidance that follows Slack conversations into tasks, and downloading the agent's avatar for the bot.
 - [Routines](../guides/projects-workflow/routines.md), [Create a Daily Routine](../how-to/create-a-daily-routine.md), and [Routines API](api/routines.md) — the trigger wizard for schedules and webhooks, one-time credentials, test deliveries, the warning when a webhook URL may not be publicly reachable, and a routine's runs listed inside the routine. The webhook signature headers for `hmac_sha256` and `github_hmac` are also corrected.
 - [Issues](../guides/day-to-day/issues.md), [Chat-Style Tasks](../experimental/task-chat.md), and [Skills](../guides/org/skills.md) — answering a question or approval while the agent is still working, skills an agent creates from a finished task, and the first-task onboarding skill. Chat-Style Tasks is now described as the default, with the Classic Task Interface as the legacy toggle.
-- [Tool Gateway API](api/tool-gateway.md) and [Providers Paperclip recognizes but does not list](../connectors/recognized-providers.md) — the legacy Composio broker and its per-toolkit services routes are gone. Old connections are refused with `422 composio_broker_retired` and need to be recreated as Composio MCP connections.
+- [Tool Gateway API](api/tool-gateway.md) and [Providers ThinkingMach recognizes but does not list](../connectors/recognized-providers.md) — the legacy Composio broker and its per-toolkit services routes are gone. Old connections are refused with `422 composio_broker_retired` and need to be recreated as Composio MCP connections.
 - [Zapier](../connectors/zapier.md), [Arcade](../connectors/arcade.md), [Composio](../connectors/composio.md), and [Executor](../connectors/executor.md) — all four are now hidden until an administrator turns on the experimental **MCP aggregators** setting.
 - [Sandbox Providers](adapters/sandbox-providers.md) — the new CreateOS provider and its configuration fields.
 - [Plugins](../administration/plugins.md) and [Plugin SDK](plugins/sdk.md) — shipping prebuilt plugins inside a custom image's distribution catalog, and the `appShellOverlay` slot that wraps the whole app.
@@ -148,7 +148,7 @@ This release brings agent characters, a rebuilt Slack setup, safe routine webhoo
 <summary>Docs for v2026.916.1 <span class="accordion-meta">September 21, 2026</span></summary>
 <div class="accordion-body">
 
-A patch release: the task conversation's send button no longer starts out disabled while Paperclip checks whether the task is paused. The docs already described the composer working normally, so no page needed correcting. This entry also rounds up the pages published since v2026.916.0.
+A patch release: the task conversation's send button no longer starts out disabled while ThinkingMach checks whether the task is paused. The docs already described the composer working normally, so no page needed correcting. This entry also rounds up the pages published since v2026.916.0.
 
 **New pages**
 
@@ -173,19 +173,19 @@ A patch release: the task conversation's send button no longer starts out disabl
 
 - [Connection Intents API](api/connection-intents.md) — how an agent asks a person to hook up a service it can't reach: the connection card that lands in the task thread, the `requested` → `connected` lifecycle, and the split between the runtime tools an agent calls and the board routes the person answers.
 - [The connections Command](cli/connections.md) — `connections search` and `connections request`, how an agent discovers a connectable service and raises the intent to connect it from inside a running heartbeat.
-- [The managed-agent Command](cli/managed-agent.md) — provision and qualify a locked-down Anthropic managed agent and environment, then save the company profile Paperclip reads when it dispatches work to it.
-- [The test-drive Command](cli/test-drive.md) — one command spins up an isolated local instance with a ready-made company and CEO agent, seeds the provider credential, and opens the dashboard, so you can try Paperclip without wiring anything up.
+- [The managed-agent Command](cli/managed-agent.md) — provision and qualify a locked-down Anthropic managed agent and environment, then save the company profile ThinkingMach reads when it dispatches work to it.
+- [The test-drive Command](cli/test-drive.md) — one command spins up an isolated local instance with a ready-made company and CEO agent, seeds the provider credential, and opens the dashboard, so you can try ThinkingMach without wiring anything up.
 
 **Updated pages**
 
 - [Roles & Permissions](../administration/roles-and-permissions.md) and [Company Administration](../administration/company.md) — the four everyday `tools:*` keys (`manage_connections`, `manage_runtime`, `use`, and `admin`) now ride along with the Owner and Admin roles by default; `tools:view_audit` and `tools:manage_profiles` stay explicit-grant-only, and `tools:admin` is not a superset, so it doesn't imply the other three.
-- [Connect an Agent to GitHub](../how-to/connect-agent-to-github.md) — a new **Option C: managed GitHub connection** through Connectors, where Paperclip resolves a per-run credential you never mint or rotate, authors commits as the connected GitHub identity automatically, fails closed rather than falling back to a PAT, and keeps the linked PR's status in sync over the connection's webhook.
+- [Connect an Agent to GitHub](../how-to/connect-agent-to-github.md) — a new **Option C: managed GitHub connection** through Connectors, where ThinkingMach resolves a per-run credential you never mint or rotate, authors commits as the connected GitHub identity automatically, fails closed rather than falling back to a PAT, and keeps the linked PR's status in sync over the connection's webhook.
 - [Agents API](api/agents.md) — a new **Managed and Remote Agent Profiles** section (board-only, company-scoped, upsert by `profileKey`); every serialized agent now redacts plaintext `adapterConfig.env` values as `***REDACTED***` while `secret_ref` bindings pass through; plus a route to rediscover your own active setup-token login session.
 - [Tool Gateway API](api/tool-gateway.md) — an agent can now authorize its own connection with `start-authorization` (kick off an OAuth flow) and `token` (mint a short-lived upstream credential) under `/api/agents/me/connections/...`, both scoped to its active run.
 - [Instance Admin API](api/instance-admin.md) — documents the instance-settings read/patch routes with their cloud-managed floors, and the task-drain endpoints that pause new work for a clean wind-down.
 - [Plugin SDK](plugins/sdk.md) — two new capability-gated context clients: `ctx.access` (company members and invites) and `ctx.authorization` (grants, policy summaries, and the authorization audit trail), plus login-PTY and duplex-channel streaming for environment-driver workers.
-- [Environment Variables](deploy/environment-variables.md) — a new **Paperclip ID Connector** block for the Gmail/Workspace OAuth broker (`PAPERCLIP_ID_CONNECTOR_BASE_URL`, `_ENVIRONMENT`, `_INSTANCE_ID`, and the sign/seal private keys), and the HTTP adapter's `PAPERCLIP_HTTP_ADAPTER_PRIVATE_ENDPOINT_ALLOWLIST`.
-- [Codex Adapter](adapters/codex.md) — the default model is now the concrete `gpt-5.6-sol` (the bare `gpt-5.6` alias is rewritten automatically), Fast mode via `fastMode`, `modelReasoningEffort` tiers, and interactive sandbox device login backed by a company-scoped credential cache you can disable with `PAPERCLIP_CODEX_AUTH_CACHE`.
+- [Environment Variables](deploy/environment-variables.md) — a new **ThinkingMach ID Connector** block for the Gmail/Workspace OAuth broker (`THINKINGMACH_ID_CONNECTOR_BASE_URL`, `_ENVIRONMENT`, `_INSTANCE_ID`, and the sign/seal private keys), and the HTTP adapter's `THINKINGMACH_HTTP_ADAPTER_PRIVATE_ENDPOINT_ALLOWLIST`.
+- [Codex Adapter](adapters/codex.md) — the default model is now the concrete `gpt-5.6-sol` (the bare `gpt-5.6` alias is rewritten automatically), Fast mode via `fastMode`, `modelReasoningEffort` tiers, and interactive sandbox device login backed by a company-scoped credential cache you can disable with `THINKINGMACH_CODEX_AUTH_CACHE`.
 - [Claude Code Adapter](adapters/claude-code.md) — Claude Fable 5.1 support with a Claude Code `2.1.251` CLI floor that fails fast as `claude_cli_version_incompatible`, and graceful `--effort` degradation on older CLIs.
 - [Grok Local Adapter](adapters/grok-local.md) — subscription (SuperGrok) authentication through a per-company `GROK_HOME` and a sandbox device-login flow, alongside the existing `XAI_API_KEY` metered mode.
 - [HTTP Adapter](adapters/http.md) — an SSRF guard that checks every request at the socket boundary with pinned DNS, blocks private, loopback, and link-local origins by default, and only reaches a private origin when it exactly matches the allowlist.
@@ -206,14 +206,14 @@ A patch release: the task conversation's send button no longer starts out disabl
 **Updated pages**
 
 - [Adapters Overview](adapters/overview.md) — Kimi Code added to the built-in adapter tables and the ACP engine tier.
-- [Environment Variables](deploy/environment-variables.md) — new deployment settings: `PAPERCLIP_WORKSPACE_REAPER_COOLDOWN_DAYS` (how long a terminal workspace waits before it's archived), opt-in Sentry error monitoring via `SENTRY_DSN`, and the operator controls `PAPERCLIP_HIDDEN_SETTINGS` and `PAPERCLIP_SETTING_DEFAULTS`.
-- [Instance Settings](../administration/settings.md) — a new section for operators hosting Paperclip for others: hiding settings surfaces by key and overriding setting defaults, neither of which is ever persisted.
+- [Environment Variables](deploy/environment-variables.md) — new deployment settings: `THINKINGMACH_WORKSPACE_REAPER_COOLDOWN_DAYS` (how long a terminal workspace waits before it's archived), opt-in Sentry error monitoring via `SENTRY_DSN`, and the operator controls `THINKINGMACH_HIDDEN_SETTINGS` and `THINKINGMACH_SETTING_DEFAULTS`.
+- [Instance Settings](../administration/settings.md) — a new section for operators hosting ThinkingMach for others: hiding settings surfaces by key and overriding setting defaults, neither of which is ever persisted.
 - [Company Administration](../administration/company.md), [Members & Access](../guides/org/members-and-access.md), and [Roles & Permissions](../administration/roles-and-permissions.md) — settings are now one shared navigation, Invites moved into a tab of the Members page, and the company brand color and per-company attachment size limit were removed.
 - [Grok Local Adapter](adapters/grok-local.md) — `permissionMode` no longer defaults to `dontAsk`; when unset no permission-mode flag is passed, and `--always-approve` is the unattended policy.
 - [First company](../guides/getting-started/your-first-company.md) and the [five-minute path](../guides/getting-started/five-minute-path.md) — onboarding is rebuilt around a single-card wizard that opens on creating your agent; the separate mission step is gone and you set the goal afterward.
 - [Task Watchdogs](../guides/projects-workflow/task-watchdogs.md), [Auto-Create Recovery Tasks](../experimental/auto-create-recovery-tasks.md), and [Issues](../guides/day-to-day/issues.md) — silent-run detection now only surfaces a UI level rather than creating issues, comments, or wakes; stranded-task recovery hands off to a board-owned action instead of taking work over; and automatic run-summary comments carry only the final output, never agent thinking.
 - [Authentication API](api/authentication.md) — an invalid agent token now returns a `401` naming the cause instead of falling through to an anonymous actor.
-- [Companies API](api/companies.md) and [Cases API](api/cases.md) — `brandColor` removed from the company shape and branding routes; the attachment cap is the deployment-level `PAPERCLIP_ATTACHMENT_MAX_BYTES`, not a per-company field.
+- [Companies API](api/companies.md) and [Cases API](api/cases.md) — `brandColor` removed from the company shape and branding routes; the attachment cap is the deployment-level `THINKINGMACH_ATTACHMENT_MAX_BYTES`, not a per-company field.
 - The CLI [installation](cli/installation.md) and [setup](cli/setup-commands.md) pages, [local development](deploy/local-development.md), the [Modal adapter](adapters/modal.md), and several guides now state the raised **Node.js 24.11.0** floor.
 
 </div>
@@ -225,7 +225,7 @@ A patch release: the task conversation's send button no longer starts out disabl
 
 **Updated pages**
 
-- [CLI Setup Commands](cli/setup-commands.md) — after `onboard` installs the background service, it now hands you off to the running instance: it waits for the port the service actually bound, prints the dashboard URL, and opens it in your browser. Headless runs print the URL, and `PAPERCLIP_NO_BROWSER=1` opts out of the browser launch.
+- [CLI Setup Commands](cli/setup-commands.md) — after `onboard` installs the background service, it now hands you off to the running instance: it waits for the port the service actually bound, prints the dashboard URL, and opens it in your browser. Headless runs print the URL, and `THINKINGMACH_NO_BROWSER=1` opts out of the browser launch.
 
 </div>
 </details>
@@ -241,7 +241,7 @@ A patch release: the task conversation's send button no longer starts out disabl
 **Updated pages**
 
 - [Workspaces](../guides/projects-workflow/workspaces.md) — exposing a workspace's dev server as an HTTPS preview on your tailnet, opt-in per service, and what that looks like from the board.
-- [Update Paperclip](../how-to/update-paperclip.md) and [CLI installation](cli/installation.md) — the four release channels (`stable`, `beta`, `nightly`, `canary`) and the new `paperclipai channels` command that shows which one your install follows.
+- [Update ThinkingMach](../how-to/update-paperclip.md) and [CLI installation](cli/installation.md) — the four release channels (`stable`, `beta`, `nightly`, `canary`) and the new `thinkingmach channels` command that shows which one your install follows.
 - [Export & Import](../guides/power/export-import.md) — large packages now upload in resumable parts, so an interrupted import picks up from the parts it already has instead of starting over.
 - [Companies API](api/companies.md) — the chunked import-transfer routes (`/api/companies/import/transfers`) that back resumable imports.
 - [Secrets API](api/secrets.md) — the agent-callable secret catalog route for picking a secret to reference without exposing full metadata.
@@ -265,7 +265,7 @@ A patch release: the task conversation's send button no longer starts out disabl
 - [Status Cards API](api/status-cards.md) — the shared status-card board: creating cards, the compiled query, summary writes and revisions, refresh policy, and the agent-authoring limits.
 - [Status Cards](../experimental/status-cards.md) — the experimental board itself: writing the one message that drives a card, reading the tiles, the five card states, what counts as a change, and what it costs.
 - [Chat-Style Tasks](../experimental/task-chat.md) — the experimental task page as a live conversation: bubbles, folding turns, inline tool calls and diffs, the three-mode composer, and the resizable side pane.
-- [`service` CLI](cli/service.md) — installing, starting, and inspecting Paperclip as a background service.
+- [`service` CLI](cli/service.md) — installing, starting, and inspecting ThinkingMach as a background service.
 - [Status Card Query skill](skills/bundled/paperclip-operations/status-card-query.md) — the bundled skill that teaches an agent to manage status cards.
 - [Simplified English skill](skills/optional/content/simplified-english.md) and [Prepare MCP Integration skill](skills/optional/software-development/prepare-mcp-integration.md) — two new optional catalog skills.
 
@@ -276,7 +276,7 @@ A patch release: the task conversation's send button no longer starts out disabl
 - [Activity Log API](api/activity.md) — the audit feed of agent actions, its two-tier access model, and CSV export. `/audit` has merged into the single Activity page.
 - [Plugin SDK](plugins/sdk.md) — responding to interactions and approvals, and the rules for handling adapter-authored `command` operations and re-validating `cwd` before executing.
 - [Back up and restore a company](../how-to/back-up-and-restore-a-company.md) — what the bundle deliberately leaves behind, uploading the zip instead of inline JSON, and running large imports as a background job.
-- [Update Paperclip](../how-to/update-paperclip.md) — rewritten around checking before you commit, switching channels, rolling back, and the pre-update backup.
+- [Update ThinkingMach](../how-to/update-paperclip.md) — rewritten around checking before you commit, switching channels, rolling back, and the pre-update backup.
 - [Cloud CLI](cli/cloud.md) — the cloud-upstream commands are retired; the page now points at what replaced them.
 - [Issues API](api/issues.md), [Attention API](api/attention.md), [Environment Variables](deploy/environment-variables.md), [CLI installation](cli/installation.md), [Export & import](../guides/power/export-import.md), [Sandbox providers](adapters/sandbox-providers.md), [Skills reference](skills.md), and [Issues](../guides/day-to-day/issues.md) — brought in line with the release.
 
@@ -301,7 +301,7 @@ A patch release: the task conversation's send button no longer starts out disabl
 
 - [Secrets API](api/secrets.md) and [Agents API](api/agents.md) — documented run-bound agent secret access (`GET /api/agents/me/secrets/:key/value`).
 - [Local Agents (ACPX)](adapters/acpx-local.md) — native Windows execution (no Bash wrapper).
-- [Environment Variables](deploy/environment-variables.md) — `PAPERCLIP_*` binding pass-through and opt-outs.
+- [Environment Variables](deploy/environment-variables.md) — `THINKINGMACH_*` binding pass-through and opt-outs.
 - [Codex Adapter](adapters/codex.md) — the narrower `CODEX_HOME` sandbox-sync allowlist.
 - [Plugin SDK](plugins/sdk.md) — environment-sync exports and the `onEnvironmentSyncIn` / `onEnvironmentSyncOut` hooks.
 - [`company` CLI](cli/company.md) — the `export --force` flag.
@@ -445,7 +445,7 @@ A patch release: the task conversation's send button no longer starts out disabl
 
 **New pages**
 
-- [Develop a plugin locally](../how-to/develop-a-plugin-locally.md) — a walkthrough of `paperclipai plugin init`, local-path install, the dev watcher, and reload.
+- [Develop a plugin locally](../how-to/develop-a-plugin-locally.md) — a walkthrough of `thinkingmach plugin init`, local-path install, the dev watcher, and reload.
 - [Blocked Inbox](../guides/day-to-day/blocked-inbox.md) — the Blocked Inbox tab, chip variants, filters, sort, and triage.
 
 **Updated pages**
@@ -460,4 +460,4 @@ A patch release: the task conversation's send button no longer starts out disabl
 
 ---
 
-_This changelog begins at v2026.513.0, the first release tracked in this repo. For the product's full feature and fix history, see the [Paperclip releases page](https://github.com/paperclipai/paperclip/releases)._
+_This changelog begins at v2026.513.0, the first release tracked in this repo. For the product's full feature and fix history, see the [ThinkingMach releases page](https://github.com/thinkingmach/paperclip/releases)._

@@ -1,16 +1,16 @@
 ---
 paperclip_version: v2026.1023.0
-seo_title: Paperclip Connectors
-seo_description: Every service Paperclip can connect, grouped by what it is for, with the access model, action permissions, and a setup guide behind each one.
+seo_title: ThinkingMach Connectors
+seo_description: Every service ThinkingMach can connect, grouped by what it is for, with the access model, action permissions, and a setup guide behind each one.
 ---
 
 # Connectors
 
-A **connector** is a saved connection to an outside service: a Gmail mailbox, a GitHub organization, a Notion workspace, a PostHog project. You set one up once, decide who and what it is for, and Paperclip carries that decision into every run.
+A **connector** is a saved connection to an outside service: a Gmail mailbox, a GitHub organization, a Notion workspace, a PostHog project. You set one up once, decide who and what it is for, and ThinkingMach carries that decision into every run.
 
-> **Note:** These guides cover the connector model in Paperclip **v2026.1023.0**. Available methods depend on your installed version, instance configuration, and provider approval. A catalog listing does not by itself establish that provider sign-in is available.
+> **Note:** These guides cover the connector model in ThinkingMach **v2026.1023.0**. Available methods depend on your installed version, instance configuration, and provider approval. A catalog listing does not by itself establish that provider sign-in is available.
 
-> **Warning:** **Google verification pending.** Paperclip has not yet completed Google app verification. You may see an unverified-app warning during authorization. If Google offers an **Advanced** option to continue to Paperclip, you can choose to proceed after reviewing the requested access. This option is not available for every account; Workspace administrator restrictions and other Google access requirements still apply. Contact [support@paperclip.ing](mailto:support@paperclip.ing) if you cannot connect.
+> **Warning:** **Google verification pending.** ThinkingMach has not yet completed Google app verification. You may see an unverified-app warning during authorization. If Google offers an **Advanced** option to continue to ThinkingMach, you can choose to proceed after reviewing the requested access. This option is not available for every account; Workspace administrator restrictions and other Google access requirements still apply. Contact [support@thinkingmach.com](mailto:support@thinkingmach.com) if you cannot connect.
 
 > **Note:** While Google verification is pending, the nine Google Workspace connectors and any saved Google accounts are temporarily hidden from the **Connectors** page. Only the list changes: existing Google connections keep running with their access and permissions, and an agent that needs a Google service can still ask you for it with a connection card on its task.
 
@@ -21,13 +21,13 @@ A **connector** is a saved connection to an outside service: a Gmail mailbox, a 
 
 ## What you can connect
 
-The **Connectors** list holds three kinds of connection. They look alike — each one is a credential Paperclip stores for you — but you set them up differently and different people use them.
+The **Connectors** list holds three kinds of connection. They look alike — each one is a credential ThinkingMach stores for you — but you set them up differently and different people use them.
 
 **App integrations** let agents work with information and actions inside an app you already use: read a Notion page, open a Linear issue, look at a Sentry error, search a Drive folder. Setup ends in a list of individual actions you switch on or off. The agent starts the work.
 
-**Model providers** supply the credential Paperclip uses to run models. Setup ends in a stored key or subscription, and there is no action list, because nothing here is a tool an agent can call. Paperclip uses it on the agent's behalf whenever the agent thinks. If you have ever wondered why your Anthropic connection has no permissions to set, this is why.
+**Model providers** supply the credential ThinkingMach uses to run models. Setup ends in a stored key or subscription, and there is no action list, because nothing here is a tool an agent can call. ThinkingMach uses it on the agent's behalf whenever the agent thinks. If you have ever wondered why your Anthropic connection has no permissions to set, this is why.
 
-**Chat channels — Experimental** let people talk to your agents from a messaging app. An administrator must enable **Chat connectors**, which is off by default. Setup connects a provider app or bot to Paperclip; eligible messages can start or continue agent tasks.
+**Chat channels — Experimental** let people talk to your agents from a messaging app. An administrator must enable **Chat connectors**, which is off by default. Setup connects a provider app or bot to ThinkingMach; eligible messages can start or continue agent tasks.
 
 One service can do more than one of these. Slack offers an app integration and an experimental chat channel, configured separately with separate credentials. Google Chat is an app integration: agents read and post in it, but people cannot use it to talk to an agent. GitHub has two entries: **GitHub** for repository tools under Developer tools, and **GitHub Code Review Bot** for the experimental review bot under chat channels. The review bot has its own experimental setting, **GitHub review bots**, separate from **Chat connectors**.
 
@@ -37,20 +37,20 @@ Every row in the catalog lists the methods that connector supports. The names me
 
 | Method | What it means |
 | --- | --- |
-| Connect with Paperclip | Paperclip holds the OAuth client and you approve access in the provider's own consent screen. Offered only on instances enrolled with Paperclip Cloud. |
-| Sign in with the provider | Paperclip registers itself with the provider's authorization server at connect time, then you approve access there. Nothing to create first. |
-| Your own OAuth app | You register an OAuth client with the provider and add Paperclip's callback URI before connecting. Use this when the provider does not support automatic registration, or when you want the client to be yours. |
-| API key | You generate a key or token in the provider's console and paste it into Paperclip. |
+| Connect with ThinkingMach | ThinkingMach holds the OAuth client and you approve access in the provider's own consent screen. Offered only on instances enrolled with ThinkingMach Cloud. |
+| Sign in with the provider | ThinkingMach registers itself with the provider's authorization server at connect time, then you approve access there. Nothing to create first. |
+| Your own OAuth app | You register an OAuth client with the provider and add ThinkingMach's callback URI before connecting. Use this when the provider does not support automatic registration, or when you want the client to be yours. |
+| API key | You generate a key or token in the provider's console and paste it into ThinkingMach. |
 | Provider app registration | You create an app or bot in the provider's developer console, give it the documented permissions and events, and connect its credentials. Provider-specific channel guides describe exceptions, such as managed inboxes. |
 | No credential | Nothing to sign in to. You identify the target — a store domain, a generated URL, a shared file — and that is the whole setup. |
 
-Which methods you actually see depends on your instance. **Connect with Paperclip** is hidden unless your instance is enrolled with Paperclip Cloud and Cloud advertises a profile for that connector. Every chat channel is behind the **Chat connectors** instance setting, which is off by default, except the GitHub Code Review Bot, which has its own **GitHub review bots** setting, also off by default. AgentMail is not: its email inboxes are available on every instance. The [memory providers](#memory-experimental) are behind a separate **Memory connectors** setting, also off by default. Each connector page lists its own prerequisites.
+Which methods you actually see depends on your instance. **Connect with ThinkingMach** is hidden unless your instance is enrolled with ThinkingMach Cloud and Cloud advertises a profile for that connector. Every chat channel is behind the **Chat connectors** instance setting, which is off by default, except the GitHub Code Review Bot, which has its own **GitHub review bots** setting, also off by default. AgentMail is not: its email inboxes are available on every instance. The [memory providers](#memory-experimental) are behind a separate **Memory connectors** setting, also off by default. Each connector page lists its own prerequisites.
 
 ### What setup looks like
 
-Connecting a catalog app is one screen. Paperclip picks the recommended method for you and asks only for what proves who you are: a provider sign-in, a key, or an address. A catalog card that says **Add key** means you will paste a key; every other card says **Connect**.
+Connecting a catalog app is one screen. ThinkingMach picks the recommended method for you and asks only for what proves who you are: a provider sign-in, a key, or an address. A catalog card that says **Add key** means you will paste a key; every other card says **Connect**.
 
-Above the main button, one line states the access Paperclip will use, such as *"Connects for everyone in your organization, available to all agents."* When an agent asked for the connection from a task, it reads *"available to the agent that asked for it"* instead. Select **Change** to pick a different identity, narrow the agents, or choose another method or capability; everything there can also be changed afterwards. Individual actions are set on the **Permissions** tab once you are connected — see [Set action permissions](connectors/action-permissions.md).
+Above the main button, one line states the access ThinkingMach will use, such as *"Connects for everyone in your organization, available to all agents."* When an agent asked for the connection from a task, it reads *"available to the agent that asked for it"* instead. Select **Change** to pick a different identity, narrow the agents, or choose another method or capability; everything there can also be changed afterwards. Individual actions are set on the **Permissions** tab once you are connected — see [Set action permissions](connectors/action-permissions.md).
 
 ## The catalog
 
@@ -60,15 +60,15 @@ Find an app and open its setup guide.
 
 | Connector | What you can do | Connection methods |
 | --- | --- | --- |
-| [Gmail](connectors/gmail.md) | Google's email service. Agents search and read mail, and on a draft connection create drafts for you to review in Gmail. Sending, deleting, and relabelling mail are never enabled. | Connect with Paperclip · Your own OAuth app |
-| [Google Calendar](connectors/google-calendar.md) | Google's calendar. Agents read calendars, and on a write connection create and change events. | Connect with Paperclip · Your own OAuth app |
-| [Google Chat](connectors/google-chat.md) | Google Workspace's team messaging. Agents search and read conversations, and on a write connection post messages. This is an agent tool, not a way for people to talk to an agent. | Connect with Paperclip · Your own OAuth app |
-| [Google Docs](connectors/google-docs.md) | Google's word processor. Agents read documents, and on a write connection edit them. | Connect with Paperclip · Your own OAuth app |
-| [Google Drive](connectors/google-drive.md) | Google's file storage. Agents search and read files, and on a write connection create and copy them. | Connect with Paperclip · Your own OAuth app |
-| [Google People](connectors/google-people.md) | The contacts and directory behind a Google account. Agents look up people and profiles. Read-only; there is no write connection. | Connect with Paperclip · Your own OAuth app |
-| [Google Sheets](connectors/google-sheets.md) | Google's spreadsheets. Agents read sheets, and on a write connection update them. A third path shares individual spreadsheets with a Paperclip robot account instead of connecting a Google identity at all. | Connect with Paperclip · Your own OAuth app · No credential |
-| [Google Slides](connectors/google-slides.md) | Google's presentations. Agents read decks, and on a write connection edit them. | Connect with Paperclip · Your own OAuth app |
-| [Google Workspace Search](connectors/google-workspace-search.md) | One read-only search that spans Gmail, Drive, Calendar, and Chat in a single Google account. Use it when an agent needs to find something without knowing which app holds it. | Connect with Paperclip · Your own OAuth app |
+| [Gmail](connectors/gmail.md) | Google's email service. Agents search and read mail, and on a draft connection create drafts for you to review in Gmail. Sending, deleting, and relabelling mail are never enabled. | Connect with ThinkingMach · Your own OAuth app |
+| [Google Calendar](connectors/google-calendar.md) | Google's calendar. Agents read calendars, and on a write connection create and change events. | Connect with ThinkingMach · Your own OAuth app |
+| [Google Chat](connectors/google-chat.md) | Google Workspace's team messaging. Agents search and read conversations, and on a write connection post messages. This is an agent tool, not a way for people to talk to an agent. | Connect with ThinkingMach · Your own OAuth app |
+| [Google Docs](connectors/google-docs.md) | Google's word processor. Agents read documents, and on a write connection edit them. | Connect with ThinkingMach · Your own OAuth app |
+| [Google Drive](connectors/google-drive.md) | Google's file storage. Agents search and read files, and on a write connection create and copy them. | Connect with ThinkingMach · Your own OAuth app |
+| [Google People](connectors/google-people.md) | The contacts and directory behind a Google account. Agents look up people and profiles. Read-only; there is no write connection. | Connect with ThinkingMach · Your own OAuth app |
+| [Google Sheets](connectors/google-sheets.md) | Google's spreadsheets. Agents read sheets, and on a write connection update them. A third path shares individual spreadsheets with a ThinkingMach robot account instead of connecting a Google identity at all. | Connect with ThinkingMach · Your own OAuth app · No credential |
+| [Google Slides](connectors/google-slides.md) | Google's presentations. Agents read decks, and on a write connection edit them. | Connect with ThinkingMach · Your own OAuth app |
+| [Google Workspace Search](connectors/google-workspace-search.md) | One read-only search that spans Gmail, Drive, Calendar, and Chat in a single Google account. Use it when an agent needs to find something without knowing which app holds it. | Connect with ThinkingMach · Your own OAuth app |
 
 > **Note:** Google app verification is pending. See [Google setup requirements](connectors/google-setup.md) for unverified-app warnings, account restrictions, and the separate Developer Preview prerequisites.
 
@@ -77,7 +77,7 @@ Find an app and open its setup guide.
 | Connector | What you can do | Connection methods |
 | --- | --- | --- |
 | [Arcade](connectors/arcade.md) | Tool gateway combining the tools you select from several servers behind one URL. Agents use the exposed tools; authentication follows your gateway settings. Setup is unverified. | Gateway URL · Browser sign-in or token/headers |
-| [Asana](connectors/asana.md) | Work management for team projects, tasks, and goals. Agents work with the projects and tasks the authorizing Asana account can reach. | Connect with Paperclip · Your own OAuth app |
+| [Asana](connectors/asana.md) | Work management for team projects, tasks, and goals. Agents work with the projects and tasks the authorizing Asana account can reach. | Connect with ThinkingMach · Your own OAuth app |
 | [Calendly](connectors/calendly.md) | Scheduling links and bookings. Agents review event types and availability, and where you allow it, use Calendly's scheduling actions. The sign-in grants read and write together, so set booking actions to **Ask first**. | Sign in with Calendly |
 | [Composio](connectors/composio.md) | App discovery and execution through Composio Connect or a configured session. Upstream app authorization happens in Composio; broad execution actions need separate review. Setup is unverified. | Composio Connect sign-in · Configured session URL and headers |
 | [Executor](connectors/executor.md) | One remote endpoint for configured integrations. Agents use its exposed actions within Executor's upstream policies. Setup is unverified. | Deployment URL · Browser sign-in or token/headers |
@@ -86,13 +86,13 @@ Find an app and open its setup guide.
 | [Linear](connectors/linear.md) | Issue tracking for product and engineering teams. Agents create, update, and read issues across whatever the authorizing Linear account can reach. A Read-only API key gives a read-only connection. | Sign in with Linear · API key |
 | [Make](connectors/make.md) | Automation scenarios you expose to MCP in Make. Agents look up organizations and teams and run scenarios; set scenario runs to **Ask first**. | Sign in with Make · MCP token |
 | [Miro](connectors/miro.md) | Shared online whiteboards for diagrams, planning, and workshops. Agents work with the boards your Miro account can reach. | Sign in with Miro |
-| [Notion](connectors/notion.md) | Workspace for notes, documents, and databases. Agents read and update content accessible to the Notion account you authorize. Paperclip does not add a page-level filter. | Sign in with Notion |
+| [Notion](connectors/notion.md) | Workspace for notes, documents, and databases. Agents read and update content accessible to the Notion account you authorize. ThinkingMach does not add a page-level filter. | Sign in with Notion |
 | [Todoist](connectors/todoist.md) | Task lists for individuals and small teams. Agents work with the tasks and projects in your Todoist account. | Sign in with Todoist |
 | [Zapier](connectors/zapier.md) | Automation service that wires thousands of apps together. You choose the actions in Zapier and paste one generated URL, so the agent gets the actions you put in it. Treat that URL as a secret — its token is part of the address. | Generated MCP URL |
 
 ### MCP aggregators
 
-Services that connect to many apps for you and hand them to Paperclip through one MCP server. Use one for an app that has no native connector here. See [Connect apps through an MCP aggregator](connectors/mcp-aggregators.md) for setup and for how an agent asks you to pick one.
+Services that connect to many apps for you and hand them to ThinkingMach through one MCP server. Use one for an app that has no native connector here. See [Connect apps through an MCP aggregator](connectors/mcp-aggregators.md) for setup and for how an agent asks you to pick one.
 
 | Connector | What you can do | Connection methods |
 | --- | --- | --- |
@@ -105,7 +105,7 @@ Services that connect to many apps for you and hand them to Paperclip through on
 
 | Connector | What you can do | Connection methods |
 | --- | --- | --- |
-| [AgentMail](connectors/agentmail.md) | Email inboxes built for software agents. Gives an agent its own inbox and turns each email conversation into a Paperclip task. Available on every instance; no experimental setting needed. | API key |
+| [AgentMail](connectors/agentmail.md) | Email inboxes built for software agents. Gives an agent its own inbox and turns each email conversation into a ThinkingMach task. Available on every instance; no experimental setting needed. | API key |
 | [Resend](connectors/resend.md) | Transactional email delivery for developers. Agents work with the sending domains and delivery records of the Resend team you sign in to. The grant is full access, including sending and deletion, so set actions deliberately. | Sign in with Resend |
 | [Slack](connectors/slack.md) | Team messaging. As an app integration, agents read and post within the authorizing account's access. Its separate **experimental** chat channel lets people work with one agent from Slack. | Agent-tool setup: see compatibility notice · Provider app registration for chat |
 
@@ -116,7 +116,7 @@ Services that connect to many apps for you and hand them to Paperclip through on
 | [Browser Use Cloud](connectors/browser-use-cloud.md) | Run browser tasks in Browser Use Cloud, open a live browser session from the task, and reuse a browser profile. | API key |
 | [Cloudflare](connectors/cloudflare.md) | DNS, CDN, and edge compute. Agents work with the account your Cloudflare sign-in can reach. | Sign in with Cloudflare · API key |
 | [Context7](connectors/context7.md) | Up-to-date public library documentation and code examples. Read-only and keyless; anonymous rate limits apply, and private repositories are out of reach. | No credential |
-| [GitHub](connectors/github.md) | Code hosting and review. Agents use repository tools with the connected credential's permissions. See the guide for setup and shell-access boundaries. The pull-request review bot is its own entry, **GitHub Code Review Bot**, under [Chat channels](#chat-channels). | Connect with Paperclip · API key |
+| [GitHub](connectors/github.md) | Code hosting and review. Agents use repository tools with the connected credential's permissions. See the guide for setup and shell-access boundaries. The pull-request review bot is its own entry, **GitHub Code Review Bot**, under [Chat channels](#chat-channels). | Connect with ThinkingMach · API key |
 | [Netlify](connectors/netlify.md) | Hosting and deploys for web front ends. Agents work with the teams and sites your Netlify account can reach. | Sign in with Netlify |
 | [PagerDuty](connectors/pagerduty.md) | On-call scheduling and incident response. Agents work with the incidents, services, and schedules your token can reach. Choose the US or EU service region when you connect. | API key |
 | [Postman](connectors/postman.md) | API development and testing workspace. Agents work with the collections and APIs your Postman account can reach. Choose a toolset: Minimal, Code, or Full. Minimal is not read-only; set action permissions separately. | Sign in with Postman · API key |
@@ -168,7 +168,7 @@ Services whose subject matter is machine learning, plus the web search and page-
 | [Firecrawl](connectors/firecrawl.md) | Search, scrape, and parse public web pages. Keyless access offers three read actions; an account adds crawl and research jobs that spend team credits. | Try keyless access · Sign in with Firecrawl · API key |
 | [Hugging Face](connectors/hugging-face.md) | Public hub for open machine-learning models, datasets, and demos. Agents search models, datasets, and documentation. The public Hub method needs no account or key, which makes it the shortest connector to try first; sign-in adds private repositories plus repository and job access, so switch its writes off while you learn. | No credential (public Hub) · Sign in with Hugging Face |
 | [Parallel Search](connectors/parallel-search.md) | Public web search and page extraction through Parallel's keyless server. Two read-only actions; no account or key. | No credential |
-| [Tavily](connectors/tavily.md) | Web search and page extraction using your Tavily account's credits. Read-only. Sign-in needs a public HTTPS Paperclip address. | Sign in with Tavily |
+| [Tavily](connectors/tavily.md) | Web search and page extraction using your Tavily account's credits. Read-only. Sign-in needs a public HTTPS ThinkingMach address. | Sign in with Tavily |
 | [Telem.AI](connectors/telem.md) | Web search and page reading across many search providers with one API key. Optional routing, tier, and provider lists. Usage bills to your Telem account. | API key |
 | [You.com](connectors/youcom.md) | Hosted web intelligence. The free profile has a reduced read-only tool set; provider limits apply. Setup is unverified. | Sign in with You.com · API key · No credential (free profile) |
 
@@ -183,14 +183,14 @@ Long-term memory services that agents can store to and recall from across runs. 
 | [Mem0](connectors/mem0.md) | Hosted long-term memory for AI applications. Agents store and recall facts across runs in your Mem0 project. | API key |
 | [Zep](connectors/zep.md) | Retrieve temporal graph memory and authorized business context. Needs a Zep project with Memory MCP enabled; project API keys do not work here. | Sign in with Zep |
 | [Supermemory](connectors/supermemory.md) | Search and save shared memories, documents, and profiles. You choose which spaces the connection may use. | Sign in with Supermemory |
-| [Cognee](connectors/cognee.md) | Build and recall shared graph memory from documents and conversations, using your Cognee Cloud tenant. It runs Cognee's MCP client on Paperclip's runtime host, so a public deployment needs a trusted MCP runtime host. | API key |
+| [Cognee](connectors/cognee.md) | Build and recall shared graph memory from documents and conversations, using your Cognee Cloud tenant. It runs Cognee's MCP client on ThinkingMach's runtime host, so a public deployment needs a trusted MCP runtime host. | API key |
 | [Honcho](connectors/honcho.md) | Remember conversations and retrieve context about peers. | API key |
 
 See [Memory connectors](connectors/memory-connectors.md) for the experimental gate, provider differences, and what is shared through a connection.
 
 ### Model providers
 
-These hold the credential Paperclip uses to run models. They publish no actions and appear in no permission list. See [Agent adapters](guides/org/agent-adapters.md) for which adapter uses which provider.
+These hold the credential ThinkingMach uses to run models. They publish no actions and appear in no permission list. See [Agent adapters](guides/org/agent-adapters.md) for which adapter uses which provider.
 
 | Connector | What you can do | Connection methods |
 | --- | --- | --- |
@@ -200,18 +200,18 @@ These hold the credential Paperclip uses to run models. They publish no actions 
 | [Grok](connectors/xai.md) | Run xAI's Grok models. | Grok subscription · API key |
 | [Custom model providers](connectors/custom-model-providers.md) | Use a compatible custom or local endpoint through a supported agent harness. Compatibility depends on the API route. | API key · Endpoint URL |
 
-[Check AI usage](connectors/ai-usage.md) explains provider-supported usage snapshots and reconnect messages. These credentials are separate from [assistant connections (MCP)](experimental/assistant-connections.md), which let an external assistant sign in as a person and work with Paperclip.
+[Check AI usage](connectors/ai-usage.md) explains provider-supported usage snapshots and reconnect messages. These credentials are separate from [assistant connections (MCP)](experimental/assistant-connections.md), which let an external assistant sign in as a person and work with ThinkingMach.
 
 <span id="chat-channels"></span>
 
 ### Chat channels — Experimental
 
-These give people a place to talk to an agent. They require an administrator to enable **Chat connectors** in the instance's experimental settings; the setting is off by default. The GitHub Code Review Bot is the exception: it has its own **GitHub review bots** setting, also off by default. Setup registers an app or bot with the provider and points it at a Paperclip webhook; one connection carries one agent.
+These give people a place to talk to an agent. They require an administrator to enable **Chat connectors** in the instance's experimental settings; the setting is off by default. The GitHub Code Review Bot is the exception: it has its own **GitHub review bots** setting, also off by default. Setup registers an app or bot with the provider and points it at a ThinkingMach webhook; one connection carries one agent.
 
 | Connector | What you can do | Connection methods |
 | --- | --- | --- |
 | [GitHub Code Review Bot](connectors/github-review-bot-setup.md) | Have an agent review pull requests and answer mentions in GitHub under its own App identity. Choose the agent, then GitHub creates and installs the App for you. Needs the separate **GitHub review bots** setting. | Provider app registration |
-| [Discord](connectors/discord.md) | Mention the agent in a server channel and Paperclip opens a thread, keeping it tied to one task. | Provider app registration |
+| [Discord](connectors/discord.md) | Mention the agent in a server channel and ThinkingMach opens a thread, keeping it tied to one task. | Provider app registration |
 | [iMessage Photon](connectors/imessage-photon.md) | Message the agent from Apple Messages through a Photon Cloud project. Shared Pro lines carry direct messages; a dedicated line also carries groups you enable. | Provider app registration |
 | [Microsoft Teams](connectors/microsoft-teams.md) | Message the agent in a chat, a team channel, or a group chat. Needs a work or school Microsoft 365 organization; personal Teams accounts cannot complete the setup. | Provider app registration |
 | [Slack](connectors/slack.md) | Message the agent directly, or mention it in a channel to start a task from that thread. Set up separately from the Slack agent tool on the same page. | Provider app registration |
@@ -221,7 +221,7 @@ These give people a place to talk to an agent. They require an administrator to 
 
 The catalog above describes the documented connectors for this release. If the service you want is not in it, these are the paths that exist.
 
-**Check your own instance first.** Your installed version may offer a different catalog, and the methods it offers you depend on whether the instance is enrolled with Paperclip Cloud and whether chat channels are switched on. What **Connectors** shows you is authoritative; this page is not.
+**Check your own instance first.** Your installed version may offer a different catalog, and the methods it offers you depend on whether the instance is enrolled with ThinkingMach Cloud and whether chat channels are switched on. What **Connectors** shows you is authoritative; this page is not.
 
 **Connect it as a custom server.** If the service publishes its own remote MCP server, you can connect it directly without waiting for a catalog entry. It gets the same identity, grant, agent-selection, and per-action controls as a catalog connector. See [Connect a custom MCP server](connectors/custom-mcp-servers.md) for the compatibility requirements and the two ways to supply a URL.
 
@@ -229,7 +229,7 @@ The catalog above describes the documented connectors for this release. If the s
 
 **Give the agent a workspace instead.** Some work does not need a connector at all. Anything an agent can do with a shell and a CLI belongs in an execution workspace — see [Connect an agent to a GitHub repo](how-to/connect-agent-to-github.md) for the pattern, and [Add an MCP server to an agent](how-to/add-mcp-server-to-agent.md) for the adapter-level route.
 
-**If the provider gates access.** A few providers review and approve MCP clients before an independently registered one will work. Nothing you do in Paperclip changes that, and the approval has to come from the provider. [Providers Paperclip recognizes but does not list](connectors/recognized-providers.md) names the ones in this snapshot and what each is waiting on.
+**If the provider gates access.** A few providers review and approve MCP clients before an independently registered one will work. Nothing you do in ThinkingMach changes that, and the approval has to come from the provider. [Providers ThinkingMach recognizes but does not list](connectors/recognized-providers.md) names the ones in this snapshot and what each is waiting on.
 
 ## What a connection does not grant
 
@@ -237,7 +237,7 @@ Two things surprise people, and both are worth knowing before you connect anythi
 
 **A connector is not a permission.** Connecting Notion does not let every agent edit your Notion. The connection holds the credential; a separate set of choices decides which humans it belongs to, which agents may use it, and which individual actions those agents may call. [How connector access works](connectors/access-model.md) is the short version, and [Set action permissions](connectors/action-permissions.md) is the control itself.
 
-**Most action lists come from the provider, not from Paperclip.** For a connector that talks to a provider-hosted server, the provider publishes the tools. Paperclip reads that list, classifies each entry as read, write, or destructive, and lets you set each one to **Allowed**, **Ask first**, or **Off**. When the provider changes its server, your list changes with it — so the authoritative list of what a connector can do is the one in your own instance, not the one on its page here.
+**Most action lists come from the provider, not from ThinkingMach.** For a connector that talks to a provider-hosted server, the provider publishes the tools. ThinkingMach reads that list, classifies each entry as read, write, or destructive, and lets you set each one to **Allowed**, **Ask first**, or **Off**. When the provider changes its server, your list changes with it — so the authoritative list of what a connector can do is the one in your own instance, not the one on its page here.
 
 ## Shared guides
 
@@ -258,7 +258,7 @@ Use these guides for the controls your connector exposes. Action permissions and
 ## Related
 
 - [Tool Gateway](reference/api/tool-gateway.md) — what sits between an agent's tool call and the outside service.
-- [Providers Paperclip recognizes but does not list](connectors/recognized-providers.md) — the withheld and provider-gated inventory in this snapshot.
+- [Providers ThinkingMach recognizes but does not list](connectors/recognized-providers.md) — the withheld and provider-gated inventory in this snapshot.
 - [Add an MCP server to an agent](how-to/add-mcp-server-to-agent.md) — the adapter-level path, which is separate from connectors.
 - [Connect an agent to a GitHub repo](how-to/connect-agent-to-github.md) — git and `gh` inside a workspace, which is not the same thing as the GitHub connector.
 - [Connections v3 (Apps)](experimental/connections-apps.md) — the storage and authorization foundation these connectors are built on.

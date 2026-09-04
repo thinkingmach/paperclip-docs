@@ -9,7 +9,7 @@ _Regenerated from scratch each run by `/sync-docs` (nightly mode). Reflects the 
 
 ## Applied this run
 
-**Nothing drafted.** Every doc-relevant change in this window belongs to the already-deferred streamlined-UI/onboarding/connections cluster (see below), is quarantined, or is already documented. The auto-merge tier is empty: the `.env.example` additions in this window (`PAPERCLIP_ID_CONNECTOR_*`, `PAPERCLIP_HTTP_ADAPTER_PRIVATE_ENDPOINT_ALLOWLIST`) are all already present in `docs/reference/deploy/environment-variables.md` from prior runs. Drift is all false positives (re-confirmed this run). No reconciliation candidates.
+**Nothing drafted.** Every doc-relevant change in this window belongs to the already-deferred streamlined-UI/onboarding/connections cluster (see below), is quarantined, or is already documented. The auto-merge tier is empty: the `.env.example` additions in this window (`THINKINGMACH_ID_CONNECTOR_*`, `THINKINGMACH_HTTP_ADAPTER_PRIVATE_ENDPOINT_ALLOWLIST`) are all already present in `docs/reference/deploy/environment-variables.md` from prior runs. Drift is all false positives (re-confirmed this run). No reconciliation candidates.
 
 `main` was already merged into `nightly` at run start (no new hotfix has landed on `main` since #122, "Add unlisted hosted beta guide and FAQ"). Ancestry intact — no realign needed.
 
@@ -42,8 +42,8 @@ Behavioural removal to reconcile on the follow-up (not a nightly drift item, it 
 
 14 records, every one a re-confirmed false positive (spot-checked against current master this run):
 
-- **env-var `PAPERCLIP_WORKSPACE_GIT_SCAN_*` (high, 4)** — `CONCURRENCY`, `QUEUE_CAPACITY`, `TIMEOUT_MS`, `CACHE_TTL_MS`. Present (commented) in `.env.example` and read by the workspace-git scan scheduler.
-- **env-var `PAPERCLIP_ID_CONNECTOR_*` (high, 5)** — `BASE_URL`, `ENVIRONMENT`, `INSTANCE_ID`, `SIGN_PRIVATE_KEY`, `SEAL_PRIVATE_KEY`. Present (commented) in `.env.example` + the cloud-connector service. Not reverted, so no reconciliation needed.
+- **env-var `THINKINGMACH_WORKSPACE_GIT_SCAN_*` (high, 4)** — `CONCURRENCY`, `QUEUE_CAPACITY`, `TIMEOUT_MS`, `CACHE_TTL_MS`. Present (commented) in `.env.example` and read by the workspace-git scan scheduler.
+- **env-var `THINKINGMACH_ID_CONNECTOR_*` (high, 5)** — `BASE_URL`, `ENVIRONMENT`, `INSTANCE_ID`, `SIGN_PRIVATE_KEY`, `SEAL_PRIVATE_KEY`. Present (commented) in `.env.example` + the cloud-connector service. Not reverted, so no reconciliation needed.
 - **rest-route companies `import/transfers` (medium, 5)** — `POST/PUT/GET/POST/POST /api/companies/import/transfers…`. All registered in `server/src/routes/companies.ts` via `COMPANY_IMPORT_TRANSFERS_ROUTE_PATH` (confirmed present this run).
 
 > Note: the `env-var-missing` class keeps re-flagging vars that live in `.env.example` under grouped/prefixed **commented** blocks the drift scanner can't match line-for-line. Candidate check-drift refinement, not a docs bug.

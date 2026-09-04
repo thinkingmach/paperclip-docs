@@ -13,7 +13,7 @@ Agents can search the public web and extract the content of pages through Tavily
 ## Before you connect
 
 - A Tavily account with an API key and some usage allowance. You do not paste the key — sign-in picks it for you — but searches draw on that key's credits.
-- A public HTTPS address for your Paperclip instance. Tavily refuses to send you back to a local `http://` address after sign-in, so a Paperclip running only on your own machine cannot complete this setup.
+- A public HTTPS address for your ThinkingMach instance. Tavily refuses to send you back to a local `http://` address after sign-in, so a ThinkingMach running only on your own machine cannot complete this setup.
 
 ## Connect Tavily
 
@@ -21,7 +21,7 @@ Agents can search the public web and extract the content of pages through Tavily
 2. Read the access line above the main button. It says who the connection belongs to and which agents can use it. To pick a different identity or narrow the agents, select **Change**.
 3. Select **Continue to Tavily** and approve access in Tavily's consent screen.
 
-Paperclip registers its client with Tavily automatically and asks for the `openid` and `offline_access` scopes. There is nothing to configure in a developer console.
+ThinkingMach registers its client with Tavily automatically and asks for the `openid` and `offline_access` scopes. There is nothing to configure in a developer console.
 
 > **Note:** Tavily also documents putting an API key in the server address. Do not use that route; sign-in keeps the key out of the URL.
 
@@ -48,8 +48,8 @@ Open the links. Results you can check confirm the sign-in and the agent's permis
 
 | Problem | Likely cause | Fix |
 | --- | --- | --- |
-| Sign-in is refused before it starts | Paperclip is reached over local HTTP | Use a public HTTPS address for Paperclip, then connect again |
-| A search fails with a session or request error | Tavily's session expired | Ask the agent to retry; Paperclip starts a new session but does not replay the failed call on its own |
+| Sign-in is refused before it starts | ThinkingMach is reached over local HTTP | Use a public HTTPS address for ThinkingMach, then connect again |
+| A search fails with a session or request error | Tavily's session expired | Ask the agent to retry; ThinkingMach starts a new session but does not replay the failed call on its own |
 | Usage comes from an unexpected key | Tavily chose a default key at sign-in | Create an `mcp_auth_default` key in Tavily and reconnect |
 | Searches stop working | The key's credits ran out | Top up in Tavily |
 | **Needs attention** | The grant was revoked or expired | Select **Reconnect** |
@@ -66,5 +66,5 @@ Limitations: one Tavily account per connection, browser sign-in only, and public
 
 ## Sources
 
-- [Tavily definition](https://github.com/paperclipai/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions/tavily.json) — method, scopes, HTTPS callback rule, and key selection warning.
-- [Permission review](https://github.com/paperclipai/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/doc/connections/tool-method-permission-reviews.json) — read-only action surface.
+- [Tavily definition](https://github.com/thinkingmach/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/packages/shared/src/app-definitions/tavily.json) — method, scopes, HTTPS callback rule, and key selection warning.
+- [Permission review](https://github.com/thinkingmach/paperclip/blob/1b4c803816e82b0265c8422e1a804327a7ed8c54/doc/connections/tool-method-permission-reviews.json) — read-only action surface.
