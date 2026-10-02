@@ -35,7 +35,7 @@
     "screenshots:refresh:all": "node scripts/screenshots/run.mjs --all"
   },
   "devDependencies": {
-    "@playwright/test": "^1.62.1",
+    "@playwright/test": "^1.64.0",
     "esbuild": "^0.28.2"
   },
   "dependencies": {

@@ -73,8 +73,6 @@ Limitations: the action surface is whatever the Zapier server exposes, and Think
 
 ## Related guides
 
-- [Connector overview](https://thinkingmach.com/product/connectors/zapier/)
-
 - [Connect your own MCP server](custom-mcp-servers.md) — for a server you run yourself.
 - [Set action permissions](action-permissions.md)
 - [How connector access works](access-model.md)
