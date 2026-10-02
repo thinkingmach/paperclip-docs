@@ -78,8 +78,6 @@ Limitations: one Stripe account and one mode per connection. ThinkingMach cannot
 
 ## Related guides
 
-- [Connector overview](https://thinkingmach.com/product/connectors/stripe/)
-
 - [Shopify](shopify.md) — storefront commerce, with different boundaries.
 - [Set action permissions](action-permissions.md)
 - [Answer a connector review request](review-requests.md)

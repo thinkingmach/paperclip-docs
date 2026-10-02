@@ -60,8 +60,6 @@ Limitations: this guide covers Atlassian Cloud. ThinkingMach does not add a proj
 
 ## Related guides
 
-- [Connector overview](https://thinkingmach.com/product/connectors/jira/)
-
 - [Linear](linear.md), [Asana](asana.md), [Todoist](todoist.md) — other work tracking connectors.
 - [Use separate accounts for people and agents](separate-accounts.md)
 - [Set action permissions](action-permissions.md)

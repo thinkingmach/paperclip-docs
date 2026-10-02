@@ -72,8 +72,6 @@ Limitations: one Airtable account or token per connection. No base or table filt
 
 ## Related guides
 
-- [Connector overview](https://thinkingmach.com/product/connectors/airtable/)
-
 - [Google Sheets](google-sheets.md) — for spreadsheet data, with a stricter scoping option.
 - [Set action permissions](action-permissions.md)
 - [How connector access works](access-model.md)

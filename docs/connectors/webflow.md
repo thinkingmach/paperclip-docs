@@ -74,8 +74,6 @@ Limitations: one Webflow account per connection. No site filter inside ThinkingM
 
 ## Related guides
 
-- [Connector overview](https://thinkingmach.com/product/connectors/webflow/)
-
 - [Wix](wix.md) — another website platform connector.
 - [Set action permissions](action-permissions.md)
 - [How connector access works](access-model.md)
