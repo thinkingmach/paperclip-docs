@@ -96,8 +96,6 @@ Limitations: one project per connection, always. ThinkingMach cannot roll back a
 
 ## Related guides
 
-- [Connector overview](https://thinkingmach.com/product/connectors/supabase/)
-
 - [ClickHouse](clickhouse.md) — another database connector.
 - [Set action permissions](action-permissions.md)
 - [How connector access works](access-model.md)

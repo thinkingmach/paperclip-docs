@@ -1,5 +1,4 @@
 ---
-paperclip_version: v2026.1001.0
 seo_title: Composio Connector
 seo_description: Connect Composio Connect or a configured session URL. Understand app authorization, aggregator permissions, and unverified setup steps.
 ---
@@ -10,7 +9,6 @@ Composio lets agents discover and use apps through Composio Connect. App authori
 
 ## Before you connect
 
-- The experimental **MCP aggregators** setting turned on. It is off by default, and until an administrator turns it on, Composio does not appear in **Connectors**. See [MCP aggregators](mcp-aggregators.md#turn-them-on-first).
 - A Composio account and access to the apps you intend to authorize.
 - For an externally configured session, its URL and required headers from its owner.
 
@@ -50,8 +48,6 @@ Ask an eligible agent to discover a read-only lookup in an app you have authoriz
 The connector's reach depends on upstream accounts and the selected endpoint. Removing an agent's ThinkingMach access does not delete those upstream authorizations.
 
 ## Related guides
-
-- [Connector overview](https://thinkingmach.com/product/connectors/composio/)
 
 - [How connector access works](access-model.md)
 - [Set action permissions](action-permissions.md)

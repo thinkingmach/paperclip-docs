@@ -53,8 +53,6 @@ The connector does not grant access to meetings the account cannot reach. Provid
 
 ## Related guides
 
-- [Connector overview](https://thinkingmach.com/product/connectors/fireflies/)
-
 - [How connector access works](access-model.md)
 - [Set action permissions](action-permissions.md)
 - [Verify and troubleshoot](verify-and-troubleshoot.md)

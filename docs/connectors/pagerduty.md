@@ -80,8 +80,6 @@ Limitations: one account and one region per connection. No service or team filte
 
 ## Related guides
 
-- [Connector overview](https://thinkingmach.com/product/connectors/pagerduty/)
-
 - [Sentry](sentry.md) — error tracking, often used alongside incident response.
 - [Set action permissions](action-permissions.md)
 - [Answer a connector review request](review-requests.md)

@@ -152,8 +152,6 @@ The managed repository-tool path depends on Cloud enrollment. The chat/review-bo
 
 ## Related guides
 
-- [Connector overview](https://thinkingmach.com/product/connectors/github/)
-
 - [Understanding GitHub PR review bots](understanding-github-review-bots.md)
 - [Set up a GitHub review bot](github-review-bot-setup.md)
 

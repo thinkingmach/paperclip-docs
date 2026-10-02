@@ -74,8 +74,6 @@ Limitations: one Cloudflare credential per connection. No zone filter inside Thi
 
 ## Related guides
 
-- [Connector overview](https://thinkingmach.com/product/connectors/cloudflare/)
-
 - [Netlify](netlify.md) — another hosting and deployment connector.
 - [Set action permissions](action-permissions.md)
 - [Answer a connector review request](review-requests.md)

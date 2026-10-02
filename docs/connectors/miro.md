@@ -60,8 +60,6 @@ Limitations: one Miro account per connection. No board filter inside ThinkingMac
 
 ## Related guides
 
-- [Connector overview](https://thinkingmach.com/product/connectors/miro/)
-
 - [Set action permissions](action-permissions.md)
 - [How connector access works](access-model.md)
 - [Verify a connector and fix a broken one](verify-and-troubleshoot.md)

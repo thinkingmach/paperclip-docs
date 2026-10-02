@@ -58,8 +58,6 @@ Live compatibility remains unverified. ThinkingMach's available actions and boun
 
 ## Related guides
 
-- [Connector overview](https://thinkingmach.com/product/connectors/railway/)
-
 - [How connector access works](access-model.md)
 - [Set action permissions](action-permissions.md)
 - [Verify and troubleshoot](verify-and-troubleshoot.md)

@@ -1,5 +1,4 @@
 ---
-paperclip_version: v2026.1001.0
 seo_title: Arcade Connector
 seo_description: Connect tools selected in an Arcade gateway, choose agent access, and check authentication and action permissions. Setup is unverified.
 ---
@@ -10,7 +9,6 @@ Arcade gives agents access to the tools selected in your Arcade gateway. The gat
 
 ## Before you connect
 
-- The experimental **MCP aggregators** setting turned on. It is off by default, and until an administrator turns it on, Arcade does not appear in **Connectors**. See [MCP aggregators](mcp-aggregators.md#turn-them-on-first).
 - An Arcade account and a gateway with the tools you want to expose.
 - The gateway URL and the authentication mode chosen by its owner.
 
@@ -49,8 +47,6 @@ Ask an eligible agent to perform one read-only lookup that your gateway exposes.
 The available tools depend on the gateway. A successful connection does not prove every upstream app is authorized.
 
 ## Related guides
-
-- [Connector overview](https://thinkingmach.com/product/connectors/arcade/)
 
 - [How connector access works](access-model.md)
 - [Set action permissions](action-permissions.md)

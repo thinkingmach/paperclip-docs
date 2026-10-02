@@ -1,5 +1,4 @@
 ---
-paperclip_version: v2026.1001.0
 seo_title: Executor Connector
 seo_description: Connect a hosted Executor endpoint and govern its exposed actions. Includes upstream policy boundaries and explicitly unverified setup.
 ---
@@ -10,7 +9,6 @@ Executor puts one endpoint in front of configured integrations. ThinkingMach con
 
 ## Before you connect
 
-- The experimental **MCP aggregators** setting turned on. It is off by default, and until an administrator turns it on, Executor does not appear in **Connectors**. See [MCP aggregators](mcp-aggregators.md#turn-them-on-first).
 - An Executor deployment with the integrations and connections you intend to expose.
 - A reachable remote endpoint URL and its required authentication details.
 
@@ -52,8 +50,6 @@ Ask an eligible agent to perform one read-only lookup from an integration you co
 Executor deployment versions can expose different interfaces. This page does not promise a fixed tool list or compatibility with every deployment version.
 
 ## Related guides
-
-- [Connector overview](https://thinkingmach.com/product/connectors/executor/)
 
 - [How connector access works](access-model.md)
 - [Set action permissions](action-permissions.md)
