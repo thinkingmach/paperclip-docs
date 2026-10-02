@@ -151,8 +151,6 @@ Limitations: one connection is one xAI account, and it grants no tool access. Th
 
 ## Related guides
 
-- [Connector overview](https://thinkingmach.com/product/connectors/xai/)
-
 - [Anthropic](anthropic.md), [OpenAI](openai.md), [OpenRouter](openrouter.md) — the other model providers.
 - [Custom model providers](custom-model-providers.md) — compatible gateways, local endpoints, and Bedrock.
 - [Check AI account usage](ai-usage.md)

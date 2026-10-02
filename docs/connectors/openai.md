@@ -157,8 +157,6 @@ Limitations: one connection is one provider account, and it grants no tool acces
 
 ## Related guides
 
-- [Connector overview](https://thinkingmach.com/product/connectors/openai/)
-
 - [Anthropic](anthropic.md), [OpenRouter](openrouter.md), [Grok](xai.md) — the other model providers.
 - [Custom model providers](custom-model-providers.md) — compatible gateways, local endpoints, and Bedrock.
 - [Check AI account usage](ai-usage.md)
