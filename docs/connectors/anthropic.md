@@ -158,8 +158,6 @@ Limitations: one connection is one provider account. This connector grants no to
 
 ## Related guides
 
-- [Connector overview](https://thinkingmach.com/product/connectors/anthropic/)
-
 - [OpenAI](openai.md), [OpenRouter](openrouter.md), [Grok](xai.md) — the other model providers.
 - [Check AI account usage](ai-usage.md)
 - [How connector access works](access-model.md)

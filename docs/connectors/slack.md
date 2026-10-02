@@ -10,7 +10,7 @@ Slack gives your team a way to work with an agent without leaving the conversati
 
 There are two separate Slack connections in ThinkingMach, with separate credentials. For most teams, **Chat with an agent** is the one you want.
 
-> **Warning:** Slack is available, but it is not yet fully functional. Follow-up fixes are planned. The chat route is behind an experimental setting, and the separate agent-tool route has known compatibility limitations. Review both sections before relying on Slack for production work.
+> **Warning:** Slack is available, but it is not yet fully functional. Follow-up fixes are planned. Review the agent-tool limitations below before relying on it for production work; the separate chat-channel route is experimental.
 
 ## Which do you want?
 
@@ -133,21 +133,21 @@ On the **Access** tab, **Your Slack search access** lets each linked person auth
 
 ## Slack as an agent tool
 
-This route connects an agent to Slack's own hosted MCP server, using a personal Slack authorization instead of a bot.
+An agent uses a Slack workspace credential to search messages, read channel lists, and post — on its own initiative, inside its own task.
 
 If what you want is an agent that reads and posts in Slack, the chat connection above already gives its agent governed Slack tools. You don't need this route as well for that.
 
 ### Agent-tool compatibility notice
 
-**The Slack agent-tool route is available but has known compatibility limitations in v2026.1001.0.** That release still configures OAuth endpoints and scopes that differ from Slack's current hosted MCP requirements. A successful bot installation does not verify an MCP connection.
+**The Slack agent-tool route is available but has known compatibility limitations in v2026.916.0.** That release configures OAuth endpoints and scopes that differ from Slack's current hosted MCP requirements. A successful bot installation does not verify an MCP connection.
 
-Slack MCP requires a registered internal or marketplace-published app, user-token OAuth endpoints, and the user scopes for the intended tools. See [Slack's MCP authentication requirements](https://docs.slack.dev/ai/slack-mcp-server/).
+Slack MCP requires a registered internal or marketplace-published app, user-token OAuth endpoints, and the user scopes for the intended tools. See [Slack's MCP authentication requirements](https://docs.slack.dev/ai/slack-mcp-server/). Bot-token setup is for the separate chat-channel path below.
 
 Wait for a release with verified Slack MCP compatibility, or contact [support@thinkingmach.com](mailto:support@thinkingmach.com) before attempting this route. The access notes below explain the intended tool behavior; they are not a record of successful setup on this release.
 
 ### Access and actions
 
-Channel reach is Slack's decision: the authorized token sees what its scopes and the workspace allow, and private channels require the authorizing user to be a member. ThinkingMach does not have a channel picker on this route, so narrow access on the Slack side.
+Channel reach is Slack's decision: the authorized token sees what its scopes and the workspace allow, and private channels require the authorizing user or bot to be a member. ThinkingMach does not have a channel picker, so narrow access on the Slack side.
 
 Slack's server supplies the action list. Posting is classified as a write, so leave it on **Ask first** unless you want an agent posting to a shared workspace unprompted. Open the connection's **Permissions** tab for the live list. See [Set action permissions](action-permissions.md).
 
@@ -160,6 +160,54 @@ Search Slack for the most recent message mentioning "deploy" and tell me which c
 A read confirms the credential without putting a message in front of colleagues.
 
 > **Note:** Illustrative task, not a recorded test result.
+
+---
+
+## Slack as a channel
+
+People mention the agent in a channel or send it a direct message, and ThinkingMach creates a task. Replies come back in the thread.
+
+### Before you connect
+
+- **Chat connectors** must be switched on for the instance. It is an experimental setting, off by default, enabled by an instance administrator under experimental settings.
+- A publicly reachable HTTPS address for the instance. Slack delivers events by calling ThinkingMach; this route does not use Slack's socket mode.
+- Permission to create and install a Slack app in the workspace.
+- The agent that will answer.
+
+### Connect it
+
+1. Open **Connectors**, select **Slack**, then **Chat with an agent**.
+2. On the **Access** step, choose the identity and which agents may use the connection.
+3. ThinkingMach generates a **Slack app manifest** containing exactly the scopes, events, and request URL this route needs. Copy it.
+4. At [Slack API apps](https://api.slack.com/apps), create an app **from the manifest** rather than configuring scopes by hand, then install it in the workspace.
+5. Back in ThinkingMach, paste the **Bot User OAuth Token** (it starts with `xoxb-`) and the **Signing Secret**.
+6. Choose the agent that will answer, and finish.
+
+Use the generated manifest. It is the supported configuration, and hand-picking scopes is the most common reason a channel setup half-works.
+
+> **Danger:** The bot token and signing secret are full credentials for the app. Paste them only into ThinkingMach. If either leaks, rotate it in Slack and reconnect.
+
+### How a conversation becomes work
+
+| In Slack | In ThinkingMach |
+| --- | --- |
+| Someone mentions the agent in a channel | One task per new mentioned thread |
+| Someone sends the agent a direct message | The agent replies in the DM |
+| The conversation continues in the thread | It continues on the same task |
+
+ThinkingMach acknowledges with a reaction so people can see a message was picked up before the agent has finished thinking.
+
+### Access
+
+Provider channel or repository access determines where a message can reach the integration; it does not by itself authorize agent work. ThinkingMach also checks the sender's linked identity and company membership. Linked users must be active non-viewer members. Unlinked senders depend on the connection's **Allow unlinked people** setting and any sponsor requirements. Review these controls before inviting people to use the agent.
+
+### Try it
+
+1. Invite the app to a private channel you control.
+2. Mention it: `@YourAgent hello, can you confirm you are connected?`
+3. Expect a reaction, then a threaded reply, and a matching task in ThinkingMach.
+
+> **Note:** Procedure, not a recorded test result. Use a private channel for the first attempt.
 
 ---
 
@@ -180,6 +228,12 @@ A read confirms the credential without putting a message in front of colleagues.
 | Signature verification failures | The signing secret does not match the installed app | Copy the current signing secret and reconnect |
 | Agent-tool route: "Slack MCP access is disabled for this app" | MCP access is switched off in the Slack app's settings; signing in doesn't turn it on | Ask the Slack app owner to enable MCP access, then refresh the connection |
 | The tool route asks for a client ID and secret | Expected — Slack requires your own OAuth app on this route | Register the app in Slack's console |
+| Slack refuses to install the app | The workspace restricts app installation or requires approval | Ask a workspace administrator |
+| The channel app is installed but silent | Slack cannot reach the instance, or the app was not created from ThinkingMach's manifest | Confirm the public HTTPS address, then recreate the app from the manifest |
+| A mention in a channel does nothing | The app is not a member of that channel | Invite it to the channel |
+| Private channel content is missing on the tool route | The authorizing identity is not a member | Add it to the channel in Slack |
+| Signature verification failures | The signing secret does not match the installed app | Copy the current signing secret and reconnect |
+| Connecting the channel did not give agents Slack actions | The two routes are independent | Set up the tool connection as well |
 
 ## Limitations
 
@@ -190,8 +244,6 @@ A read confirms the credential without putting a message in front of colleagues.
 - Removing the connection in ThinkingMach does not uninstall the Slack app. The app and its bot stay in your workspace until you remove them in Slack.
 
 ## Related guides
-
-- [Connector overview](https://thinkingmach.com/product/connectors/slack/)
 
 - [Discord](discord.md), [Microsoft Teams](microsoft-teams.md), [Telegram](telegram.md) — other conversation channels.
 - [GitHub](github.md) — the other mixed-purpose connector, with the same tool-versus-channel split.

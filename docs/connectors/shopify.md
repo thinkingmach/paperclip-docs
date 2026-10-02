@@ -78,8 +78,6 @@ Limitations: one store per connection, public storefront only, no Admin API. Sho
 
 ## Related guides
 
-- [Connector overview](https://thinkingmach.com/product/connectors/shopify/)
-
 - [Stripe](stripe.md) — payments data, with its own boundaries.
 - [Set action permissions](action-permissions.md)
 - [How connector access works](access-model.md)

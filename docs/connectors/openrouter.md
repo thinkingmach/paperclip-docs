@@ -93,8 +93,6 @@ Limitations: one connection is one OpenRouter account, and it grants no tool acc
 
 ## Related guides
 
-- [Connector overview](https://thinkingmach.com/product/connectors/openrouter/)
-
 - [Anthropic](anthropic.md), [OpenAI](openai.md), [Grok](xai.md) — the other model providers.
 - [Check AI account usage](ai-usage.md)
 - [How connector access works](access-model.md)

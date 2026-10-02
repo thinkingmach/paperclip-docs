@@ -154,8 +154,6 @@ Limitations: one connection is one provider account, and it grants no tool acces
 
 ## Related guides
 
-- [Connector overview](https://thinkingmach.com/product/connectors/openai/)
-
 - [Anthropic](anthropic.md), [OpenRouter](openrouter.md), [Grok](xai.md) — the other model providers.
 - [Check AI account usage](ai-usage.md)
 - [How connector access works](access-model.md)
